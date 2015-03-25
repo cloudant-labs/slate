@@ -5,9 +5,9 @@ using [Apache Lucene](http://lucene.apache.org/).
 This capability provides several benefits, including:
 
 -	Full Text Indexing (FTI)
--	Arbitrary queries
+-	Simple 'ad hoc' queries across multiple fields, without restrictions
 
-This guide describes the featutes, and explains how to use them.
+This guide describes the features, and explains how to use them.
 
 ### Overview
 
@@ -78,7 +78,7 @@ curl -X POST -H "Content-Type: application/json" \
 <div id="step04"></div>
 #### 4. Query for the document
 
-> Example command to query for a document that matches text precisely:
+> Example command to query for a document that has a field containing the text "Frodo", using a case-insensitive match:
 
 ```http
 POST /dbname/_find HTTP/1.1
@@ -106,12 +106,138 @@ curl -X POST -H "Content-Type: application/json" \
   -d '{"selector":{"$or": [{"type":"Orc"}, {"height": {"$lt":4.5}}]}'
 ```
 
-### Working with real data
+### Index Creation Parameters
+
+> Example index creation request
+
+```json
+{
+  "type": "text",
+  "name": "my-index",
+  "ddoc": "my-index-design-doc",
+  "w": "2",
+  "index": {
+    "default_field": {
+      "enabled": true,
+      "analyzer": "german"
+    }
+    "selector": {}
+    "fields": [
+      {"name": "married", "type": "boolean"},
+      {"name": "lastname", "type": "string"},
+      {"name": "year-of-birth", "type": "number"}
+    ]
+  }
+}
+```
+
+While it is generally recommended that you create a single text index with the default values there
+are a few useful index attributes that can be modified.
+
+For text indexes, `type` should be set to `text`.
+
+The `name` and `ddoc` attributes are for grouping indexes into design documents and allowing them to be referred to by a
+custom string value. If no values are supplied for these fields, they are automatically
+populated with a hash value. If you create multiple text indexes in a database, with
+the same `ddoc` value, you need to
+know at least the `ddoc` value as well as the `name` value.
+Creating multiple indexes with the same `ddoc` value places them into the
+same design document. Generally, you should put each text index into its own design document.
+
+The `w` value affects the consistency of the index creation operation. In general use, you
+shouldn't have to worry about this, but if you create test or example scripts that attempt to use
+the index immediately after use, it can be useful to set this to `3`, so that a complete quorum is
+used for the creation. It does not affect anything other than index creation.
+
+The `index` field contains settings specific to text indexes.
+
+The `default_field` value affects how the index for handling the `$text` operator is created. In
+almost all cases this should be left enabled. Do this by setting the value to `true`,
+or simply not including the enabled field.
+
+The `analyzer` key in the `default_field` can be used to choose how to analyze text included
+in the index. See the [Cloudant Search documentation](./api.html#analyzers) for alternative analyzers.
+You might choose to use an alternative analyzer when documents are indexed in languages other than English,
+or when you have other special requirements for the analyser such as matching email addresses.
+
+The `selector` field can be used to limit the index to a specific set of documents that match
+a query. It uses the same syntax used for selectors in queries. This can be used if your application
+requires different documents to be indexed in different ways, or if some documents should not be indexed at all.
+If you only need to distinguish documents by type, it is easier to use one index and add the type to the search query.
+
+The `fields` array contains a list of fields that should be indexed for each document. If you
+know that an index queries only on specific fields, then this can be used to limit
+the size of the index. Each field must also specify a type to be indexed. The acceptable
+types are `"boolean"` , `"string"`, and `"number"`.
+
+<!-- An explanation of what these types mean can be found in the implementation notes. -->
+
+### Query Parameters
+
+> Example using all available query parameters
+
+```json
+{
+  "selector": {
+    "query": "here"
+  },
+  "fields": [
+    "_id",
+    "_rev",
+    "foo",
+    "bar"
+  ],
+  "sort": [
+    {
+      "bar:number": "asc"
+    },
+    {
+      "foo:string": "asc"
+    }
+  ],
+  "bookmark": "opaque string",
+  "limit": 10,
+  "skip": 0
+}
+```
+
+The format of the `selector` field is as described in the [Cloudant Query documentation](./api.html#cloudant-query) with the
+exception of the new `$text` operator. This operator applies to all strings found in the
+document. In the selector, it must be placed at the very top level. It is invalid to place this
+operator in the context of a field name.
+
+The `fields` array is a list of fields that should be returned for each document. The provided
+field names can use dotted notation to access subfields.
+
+<!-- Array elements can be accessed using integers indexes. -->
+
+The `sort` field contains a list of field name and direction pairs. For field names in text search sorts, it is
+sometimes necessary for a field type to be specified, as shown in the example. If possible, an
+attempt is made to discover the field type based on the selector. In ambiguous cases the field type must
+be provided explicitly.
+
+<!-- You can discover the reason for this type specification in the
+implementation notes below. -->
+
+<aside class="warning">
+The sorting order is undefined when fields contain different data types. This is an important difference between text and view indexes. Sorting behavior for fields with different data types might change in future versions.
+</aside>
+
+The `bookmark` field is used for paging through result sets. Every query returns an opaque
+string under the `bookmark` key that can then be passed back in a query to get the next page of
+results. If any part of the query other than `bookmark` changes between requests, the results are
+undefined.
+
+The `limit` and `skip` values are exactly as you would expect. While `skip` exists, it is not
+intended to be used for paging. The reason is that the `bookmark` feature
+is more efficient.
+
+### Example: Movies Demo Database
 
 > Obtaining a copy of the Cloudant Query movie database:
 
 ```http
-POST /_replicate HTTP/1.1
+POST /_replicator HTTP/1.1
 Host: user.cloudant.com
 Content-Type: application/json
 
@@ -124,7 +250,7 @@ Content-Type: application/json
 ```
 
 ```shell
-curl 'https://<user:password>@<user>.cloudant.com/_replicate' \
+curl 'https://<user:password>@<user>.cloudant.com/_replicator' \
   -X POST \
   -H 'Content-Type: application/json' \
   -d '{
@@ -182,7 +308,6 @@ curl 'https://<user:password>@<user>.cloudant.com/my-movies-demo/_index' \
 ```
 
 Before we can search the content, we must index it. We do this by creating a text index for the documents.
-<aside class="notice">We do not index any specific field, we do not need to provide and index name, and the index type is `text`.</aside>
 
 <div></div>
 
@@ -229,7 +354,7 @@ curl -X POST -H "Content-Type: application/json" \
 }
 ```
 
-The most obvious difference in the results you get when using FTI is the inclusion of a large `bookmark` field. The reason is that text indexes are different to view-based indexes. To work with the results obtained from an FTI query, you must supply the `bookmark` value as part of the request body. Without the `bookmark`, the FTI query system cannot know exactly what search you performed to obtain the original result set.
+The most obvious difference in the results you get when using FTI is the inclusion of a large `bookmark` field. The reason is that text indexes are different to view-based indexes. For more flexibility when working with the results obtained from an FTI query, you can supply the `bookmark` value as part of the request body. Using the `bookmark` enables you to specify which page of results you require.
 
 <aside class="warning">The actual `bookmark` value is very long, so the examples here are truncated for reasons of clarity.</aside>
 
@@ -325,136 +450,20 @@ curl -X POST -H "Content-Type: application/json" \
 
 #### The $text operator
 
-The `$text` operator has full access to the Lucene query syntax. The resulting query is `AND`'ed with the rest of the
-selector. For more information on the available Lucene syntax, have a look at the (Cloudant Search documentation)[http://docs.cloudant.com/api.html#search].
+The `$text` operator is based on a Lucene search with a standard analyzer. This means the operator is not case sensitive, and matches on any words.
 
-### Other Query Parameters
+<aside class="note">The `$text` operator does not support full Lucene syntax, such as wildcards, fuzzy matches, or proximity detection.
+For more information on the available Lucene syntax, have a look at the [Cloudant Search documentation](./api.html#search).</aside>
 
-> Example using all available query parameters
+The resulting query is `AND`'ed with the rest of the selector.
 
-```json
-{
-  "selector": {
-    "query": "here"
-  },
-  "fields": [
-    "_id",
-    "_rev",
-    "foo",
-    "bar"
-  ],
-  "sort": [
-    {
-      "bar:number": "asc"
-    },
-    {
-      "foo:string": "asc"
-    }
-  ],
-  "bookmark": "opaque string",
-  "limit": 10,
-  "skip": 0
-}
-```
+NEED AN EXAMPLE HERE.
 
-The format of the `selector` field is described in the (Cloudant Query documentation)[http://docs.cloudant.com/api.html#cloudant-query] with the
-exception of the new `$text` operator. This operator applies to all strings found in the
-document. In the selector, it must be placed at the very top level. It is invalid to place this
-operator in the context of a field name.
+### Other information
 
-The `fields` array is a list of fields that should be returned for each document. The provided
-field names can use dotted notation to access subfields as well. Array elements can be accessed
-using integers indexes.
+The basic premise for FTI is that a document is "expanded" into a list of key/value pairs that are indexed by Lucene. This allows us to make use of Lucene's search syntax as a basis for the query capability.
 
-The `sort` field contains a list of field name and direction pairs. For field names in text search sorts it is
-sometimes necessary that a field type is specified as shown in the example. If possible we'll
-attempt to discover the field type based on the selector but in ambiguous cases we require it to
-be provided explicitly. You can discover the reason for this type specification in the
-implementation notes below.
-
-<aside class="warning">
-The sorting order is undefined when fields contain different data types. This is an important difference between text and view indexes. Sorting behavior for fields with different data types might change in future versions.
-</aside>
-
-The `bookmark` field is used for paging through result sets. Every query will return an opaque
-string under the `bookmark` key that can then be passed back in a query to get the next page of
-results. If any part of the query other than `bookmark` changes between requests, the results are
-undefined.
-
-The `limit` and `skip` values are exactly as you would expect. While `skip` exists, it is not
-intended to be used for paging as the implementation is much less efficient than using the
-`bookmark` feature.
-
-### Index Creation Parameters
-
-> Example index creation request
-
-```json
-{
-  "type": "text",
-  "name": "my-index",
-  "ddoc": "my-index-design-doc",
-  "w": "2",
-  "index": {
-    "default_field": {
-      "enabled": true,
-      "analyzer": "german"
-    }
-    "selector": {}
-    "fields": [
-      {"name": "married", "type": "boolean"},
-      {"name": "lastname", "type": "string"},
-      {"name": "year-of-birth", "type": "number"}
-    ]
-  }
-}
-```
-
-While it is generally recommended that you create a single text index with the default values there
-are a few useful index attributes that can be modified.
-
-For text indexes, `type` should obviously be set to `text`.
-
-The `name` and `ddoc` attributes are for grouping indexes into design documents and allowing them to be referred to by a
-custom string value. If no values are supplied for these fields, they are automatically
-populated with a hash value. If you create multiple text indexes in a database, you will need to
-know at least the `ddoc` value as well as the `name` value if you create multiple text indexes with
-the same `ddoc` value. Creating multiple indexes with the same `ddoc` value places them into the
-same design document. Generally, you should put each text index into its own design document.
-
-The `w` value affects the consistency of the index creation operation. In general use, you
-shouldn't have to worry about this, but if you create test or example scripts that attempt to use
-the index immediately after use, it can be useful to set this to `3`, so that a complete quorum is
-used for the creation. It does not affect anything other than index creation.
-
-The `index` field contains settings specific to text indexes.
-
-The `defualt_field` value affects how the index for handling the `$text` operator is created. In
-almost all cases this should be left enabled by either not including the enabled field or setting
-it to true.
-
-The `analyzer` key in the `default_field` can be used to choose how to analyze text included
-in the index. You can reference the Cloudant Search documentation)[http://docs.cloudant.com/api.html#analyzers] for alternative analyzers.
-This would most often be changed when documents are indexed in languages other than English or when you have other special requirements for the analyser, e.g. matching email addresses.
-
-The `selector` field can be used to limit the index to a specific set of documents that match
-a query. It uses the same syntax used for selectors in queries. This can be used if your application
-requires different documents to be indexed in different ways or if some documents should not be indexed at all.
-If you only need to separate documents by type, it is easier to use one index and add the type to the search query.
-
-The `fields` array can contain a list of fields that should be indexed for each document. If you
-know that an index will only ever need to query on specific fields, then this can be used to limit
-the size of the index. Each field must also specify a type that will be indexed. The acceptable
-types are `"boolean"` , `"string"`, and `"number"`. An explanation of what these types mean
-can be found in the implementation notes.
-
-
-### Implementation Notes
-
-The basic premise for text indexes is that a document is "exploded" into a list of key/value pairs
-that are indexed by Lucene. This allows us to make use of Lucene's query operation by
-translating from the Mongo-like selector syntax to Lucene's search syntax.
-
+<!--
 #### Document "Explosion"
 
 > Example document to be indexed
@@ -696,6 +705,15 @@ contents.[].type:string     "shirt"
 contents.[].type:string     "socks"
 ```
 
+-->
+
+While supporting enhanced searches, this technique does have certain limitations.
+
+For example, it might not always be clear whether content for an expanded document came from individual elements or an array.
+
+The query mechanism resolves this by preferring to return 'false positive' results. In other words, if a match would have be found as a result of searching for either an individual element, or an element from an array, then the match is considered to have succeeded.
+
+<!--
 As the astute observer will have noticed there are a number of queries that are not directly
 answerable using the given scheme described above. A good example would be searching
 using the `$elemMatch` operator which applies to objects in arrays. Given that we erase array
@@ -711,7 +729,9 @@ always ensure that queries don't have false *negatives* at the expense of filter
 With the post-lookup filtering, searching for large red shirts is possible by
 returning both documents from the index and discarding the dresser document.
 
-### Selector Translation
+-->
+
+#### Selector Translation
 
 > Example query to be translated
 
@@ -719,19 +739,16 @@ returning both documents from the index and discarding the dresser document.
 {"age": {"$gt": 5}}
 ```
 
-> Lucene query
+> Corresponding Lucene query
 
 ```
 (age_3anumber:{5 TO Infinity])
 ```
 
-Lucene does not understand Cloudant's JSON based query syntax out of the box, so we have
-to translate between the two formats. We translate from Cloudant's JSON selector syntax to
-the Lucene query parser syntax.
+A standard Lucene search expression would not necessarily fully 'understand' Cloudant's JSON based query syntax. Therefore, a translation between the two formats takes place.
 
-Here we can see the straighforward translation. We note that this translates to English as, "age
-as a number greater than five and less than or equal to infinity". The _3a is an example of the
-fieldname escaping we mentioned earlier.
+In the example given, the JSON query approximates to the English phrase: "match if the age expressed
+as a number is greater than five and less than or equal to infinity". The Lucene query corresponds to that phrase, where the text `_3a` within the fieldname corresponds to the `age:number` field, and is an example of the document content expansion mentioned earlier.
 
 #### A more complex example
 
@@ -750,53 +767,47 @@ fieldname escaping we mentioned earlier.
 }
 ```
 
-> Lucene query for age > 5
+> Corresponding Lucene query<br/>(the '#' comment is not valid Lucene syntax, but helps explain the query construction):
 
 ```
 (
+# Search for age > 5
 (age_3anumber:{5 TO Infinity])
-```
-
-> Lucene query for documents containing the twitter field
-
-```
+# Search for documents containing the twitter field
 (($fieldnames:twitter_3a*) OR ($fieldnames:twitter_2e*))
-```
-
-> Lucene query for type = starch
-
-```
+# Search for type = starch
 (
 ((type_3astring:starch) OR (type_2e_5b_5d_3astring:starch))
-```
-
-> Lucene query for type = protein
-
-```
+# Search for type = protein
 ((type_3astring:protein) OR (type_2e_5b_5d_3astring:protein))
 )
 )
 ```
 
-Here there are a couple interesting things to note. First, for the `{"$exists":true}` query we
-get a two clause OR query for the `twitter` field that ends in `_3a*` and `_2e*`. This clause is
-searching the `$fieldnames` field for entries that contain either `twitter.*` or `twitter:*` . The
-reason for this is so that we can match when the value is an array or object. This is implemented
-as two phrases instead of a single `twitter*` query to ensure that we don't accidentally match
-a field names `twitter_handle` or similar.
+This example illustrates some important points.
 
-The last of the three main clauses is bit more complicated yet. The `$in` operator has some
-special semantics for array values that we inherited from MongoDB's documented behavor.
-Namely, that `$in` applies to the value **OR** any of the values contained in an array named by the
-given field. Thus, in our example both `"type":"starch"` **AND** `"type":["protein"]` would
-match the exampe argument to `$in` . By now we can see that `type_3astring` translates to
-`type:string`, where as the second `type_2e_5b_5d_3astring` translatse to `type`.
-`[]:string` which is an example of how we leverage our decimated array indexing.
+In the `{"$exists":true}` JSON query,
+we use a two clause `OR` query for the `twitter` field, ending in `_3a*` and `_2e*`. This clause
+searches the `$fieldnames` field for entries that contain either `twitter.*` or `twitter:*`. The
+reason is to match when the value is an array _or_ an object. Implementing
+this as two phrases instead of a single `twitter*` query prevents an accidental match
+with a field name such as `twitter_handle` or similar.
 
+The last of the three main clauses, where we search for `starch` or `protein`, is more complicated.
+The `$in` operator has some
+special semantics for array values that are inherited from MongoDB's documented behavior.
+In particular, the `$in` operator applies to the value **OR** any of the values contained in an array named by the
+given field. In our example, this means that both `"type":"starch"` **AND** `"type":["protein"]` would
+match the example argument to `$in`.
+We saw earlier that `type_3astring` translates to
+`type:string`. The second `type_2e_5b_5d_3astring` phrase translates to `type.[]:string`,
+which is an example of the expanded array indexing.
+
+<!--
 It should be noted that the current system of tranlsating to Lucene's QueryParser syntax is
 actually bit of a weak link in our system. This is due to the requirement that we match the
 escaping semantics of the QueryParser exactly so that values are passed through Lucene's
 analyzers correctly. A future improvement will be to upgrade the Cloudant Search infrastructure
 to accept a JSON description of the query that will then be directly translated into Lucene's
 query objects rathern than having to serialize through the QueryParser syntax.
-
+-->
