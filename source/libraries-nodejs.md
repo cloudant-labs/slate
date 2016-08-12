@@ -1,9 +1,11 @@
 ---
 title: Cloudant Documentation - Node.js
-jupyter_kernel: javascript
+thebe:
+  kernel_name: javascript
+  codemirror_mode_name: javascript
 
 language_tabs:
-#  - http 
+#  - http
 #  - shell: curl
 #  - javascript: node.js
 #  - python
@@ -19,4 +21,3 @@ includes:
   - libraries/nodejs
 
 ---
-

@@ -34,7 +34,7 @@ In the Context managers section we will see how to simplify this process through
 
 # Use Cloudant to create a Cloudant client using account
 from cloudant.client import Cloudant
-client = Cloudant(USERNAME, PASSWORD, account=ACCOUNT_NAME) #replace with your account details
+client = Cloudant('docs-playground', 'docs-playground', account='docs-playground') #replace with your account details
 # or using url
 # client = Cloudant(USERNAME, PASSWORD, url='https://acct.cloudant.com')
 
@@ -47,16 +47,17 @@ print 'Username: {0}'.format(session['userCtx']['name'])
 print 'Databases: {0}'.format(client.all_dbs())
 
 # Disconnect from the server
-client.disconnect()
+# client.disconnect()
 </pre>
 
 
-Databases
+### Databases
 
 Once a connection is established you can then create a database, open an existing database, or delete a database. The following examples assume a client connection has already been established.
 
-Creating a database
+#### Creating a database
 
+<pre class="thebe">
 # Create a database using an initialized client
 # The result is a new CloudantDatabase or CouchDatabase based on the client
 my_database = client.create_database('my_database')
@@ -64,22 +65,32 @@ my_database = client.create_database('my_database')
 # You can check that the database exists
 if my_database.exists():
     print 'SUCCESS!!'
-Opening a database
+</pre>
+
+
+#### Opening a database
 
 Opening an existing database is done by supplying the name of an existing database to the client. Since the Cloudant and CouchDB classes are sub-classes of dict, this can be accomplished through standard Python dict notation.
 
+<pre class="thebe">
 # Open an existing database
 my_database = client['my_database']
-Deleting a database
+</pre>
 
+#### Deleting a database
+
+<pre class="thebe">
 # Delete a database using an initialized client
 client.delete_database('my_database')
-Documents
+</pre>
+
+### Documents
 
 Working with documents using this library is handled through the use of Document objects and Database API methods. A document context manager is also provided to simplify the process. This is discussed later in the Context managers section. The examples that follow demonstrate how to create, read, update, and delete a document. These examples assume that either a CloudantDatabase or a CouchDatabase object already exists.
 
-Creating a document
+#### Creating a document
 
+<pre class="thebe">
 # Create document content data
 data = {
     '_id': 'julia30', # Setting _id is optional
@@ -94,23 +105,32 @@ my_document = my_database.create_document(data)
 # Check that the document exists in the database
 if my_document.exists():
     print 'SUCCESS!!'
-Retrieving a document
+</pre>
+
+#### Retrieving a document
 
 Accessing a document from a database is done by supplying the document identifier of an existing document to either a CloudantDatabase or a CouchDatabase object. Since the CloudantDatabase and CouchDatabase classes are sub-classes of dict, this is accomplished through standard dict notation.
 
+<pre class="thebe">
 my_document = my_database['julia30']
 
 # Display the document
 print my_document
-Retrieve all documents
+</pre>
+
+#### Retrieve all documents
 
 You can also iterate over a CloudantDatabase or a CouchDatabase object to retrieve all documents in a database.
 
+<pre class="thebe">
 # Get all of the documents from my_database
 for document in my_database:
     print document
-Update a document
+</pre>
 
+#### Update a document
+
+<pre class="thebe">
 # First retrieve the document
 my_document = my_database['julia30']
 
@@ -121,17 +141,23 @@ my_document['age'] = 6
 
 # You must save the document in order to update it on the database
 my_document.save()
-Delete a document
+</pre>
 
+#### Delete a document
+
+<pre class="thebe">
 # First retrieve the document
 my_document = my_database['julia30']
 
 # Delete the document
 my_document.delete()
-Dealing with results
+</pre>
+
+### Dealing with results
 
 If you want to get Pythonic with your returned data content, we've added a Result class that provides a key accessible, sliceable, and iterable interface to result collections. To use it, construct a Result object passing in a reference to a raw data callable such as the all_docs method from a database object or a view object itself, which happens to be defined as callable and then access the data as you would using standard Python key access, slicing, and iteration techniques. The following set of examples illustrate Result key access, slicing and iteration over a result collection in action. It assumes that either a CloudantDatabase or a CouchDatabase object already exists.
 
+<pre class="thebe">
 from cloudant.result import Result, ResultByKey
 
 # Retrieve Result wrapped document content.
@@ -164,10 +190,13 @@ result = result_collection[100: ]               # result is after the 100th
 # Iterate over the result collection
 for result in result_collection:
     print result
-Context managers
+</pre>
+
+### Context managers
 
 Now that we've gone through the basics, let's take a look at how to simplify the process of connection, database acquisition, and document management through the use of Python with blocks and this library's context managers. Handling your business using with blocks saves you from having to connect and disconnect your client as well as saves you from having to perform a lot of fetch and save operations as the context managers handle these operations for you. This example uses the cloudant context helper to illustrate the process but identical functionality exists for CouchDB through the couchdb and couchdb_admin_party context helpers.
 
+<pre class="thebe">
 # cloudant context helper
 from cloudant import cloudant
 
@@ -210,12 +239,16 @@ with cloudant(USERNAME, PASSWORD, account=ACCOUNT_NAME) as client:
     client.delete_database('my_database')
 
     print 'Databases: {0}'.format(client.all_dbs())
-Endpoint access
+</pre>
+
+
+### Endpoint access
 
 If for some reason you need to call a Cloudant/CouchDB endpoint directly rather using the API you can still benefit from the Cloudant/CouchDB client's authentication and session usage by directly accessing its underlying Requests session object.
 
 Access the session object using the r_session attribute on your client object. From there, use the session to make requests as the user the client is set up with. The following example shows a GET to the _all_docs endpoint, but obviously you can use this for any HTTP request to the Cloudant/CouchDB server. This example assumes that either a Cloudant or a CouchDB client object already exists.
 
+<pre class="thebe">
 # Define the end point and parameters
 end_point = '{0}/{1}'.format(client.cloudant_url, 'my_database/_all_docs')
 params = {'include_docs': 'true'}
@@ -225,3 +258,4 @@ response = client.r_session.get(end_point, params=params)
 
 # Display the response content
 print response.json()
+</pre>

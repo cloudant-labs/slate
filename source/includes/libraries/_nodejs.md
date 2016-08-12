@@ -29,8 +29,8 @@ Initialize your Cloudant connection by supplying your *account* and *password*, 
 // Load the Cloudant library.
 var Cloudant = require('cloudant');
 
-var username = 'nodejs'; // Set this to your own account
-var password = 'your password'; // Set this to your own password
+var username = 'docs-playground'; // Set this to your own account
+var password = 'docs-playground'; // Set this to your own password
 
 // Initialize the library with the account.
 var cloudant = Cloudant({account:username, password:password});
@@ -246,4 +246,3 @@ To obtain PouchDB, and for setup details, refer to <a href="http://pouchdb.com/"
 </td>
 </tr>
 </table>
-
