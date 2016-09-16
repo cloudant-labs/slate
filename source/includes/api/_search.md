@@ -263,7 +263,7 @@ Stop words are words that do not get indexed. You define them within a design do
 > [Example test of the `keyword` analyzer](try.html#requestType=analyzers&predefinedQuery=keyword)
 
 ```shell
-curl 'https://<account>.cloudant.com/_search_analyze' -H 'Content-Type: application/json'
+curl 'https://$ACCOUNT.cloudant.com/_search_analyze' -H 'Content-Type: application/json'
   -d '{"analyzer":"keyword", "text":"ablanks@renovations.com"}'
 ```
 
@@ -287,7 +287,7 @@ Content-Type: application/json
 > [Example test of the `standard` analyzer](try.html#requestType=analyzers&predefinedQuery=standard)
 
 ```shell
-curl 'https://<account>.cloudant.com/_search_analyze' -H 'Content-Type: application/json'
+curl 'https://$ACCOUNT.cloudant.com/_search_analyze' -H 'Content-Type: application/json'
   -d '{"analyzer":"standard", "text":"ablanks@renovations.com"}'
 ```
 
@@ -314,13 +314,12 @@ You can test the results of analyzer tokenization by posting sample data to the 
 ### Queries
 
 ```shell
-curl https://$USERNAME.cloudant.com/$DATABASE/_design/$DESIGN_ID/_search/$INDEX_NAME?q=$QUERY \
-     -u $USERNAME
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DESIGN_ID/_search/$INDEX_NAME?q=$QUERY \
 ```
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+".cloudant.com");
 var db = account.use($DATABASE);
 
 db.search($DESIGN_ID, $SEARCH_INDEX, {
@@ -332,7 +331,7 @@ db.search($DESIGN_ID, $SEARCH_INDEX, {
 });
 ```
 
-Once you've got an index written, you can query it with a `GET` request to `https://$USERNAME.cloudant.com/$DATABASE/_design/$DESIGN_ID/_search/$INDEX_NAME`. Specify your search query in the `query` query parameter.
+Once you've got an index written, you can query it with a `GET` request to `https://<account>.cloudant.com/<database>/_design/<deign_id>/_search/<index_name>`. Specify your search query in the `query` query parameter.
 
 #### Query Parameters
 
@@ -377,11 +376,11 @@ Argument | Description | Optional | Type | Supported Values
 ```http
 POST /db/_design/ddoc/_search/searchname HTTP/1.1
 Content-Type: application/json
-Host: account.cloudant.com
+Host: <account>.cloudant.com
 ```
 
 ```shell
-curl 'https://account.cloudant.com/db/_design/ddoc/_search/searchname' -X POST -H 'Content-Type: application/json' -d @search.json
+curl 'https://$ACCOUNT.cloudant.com/db/_design/ddoc/_search/searchname' -X POST -H 'Content-Type: application/json' -d @search.json
 ```
 
 ```json
@@ -747,7 +746,7 @@ GET /<DATABASE>/_design/<DDOC>/_search_info/<INDEX> HTTP/1.1
 
 ```shell
 curl "https://$ACCOUNT.cloudant.com/$DATABASE/$DESIGN_DOCUMENT/_search_info/$INDEX" \
-     -X GET -u "$USERNAME:$PASSWORD"
+     -X GET -u "$ACCOUNT:$PASSWORD"
 ```
 
 To retrieve information about a search index, you can send a `GET` request to the `_search_info`

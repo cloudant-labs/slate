@@ -430,7 +430,6 @@ curl "https://$ACCOUNT.cloudant.com/$DATABASE/$DESIGN_ID/_list/$LIST_FUNCTION/$M
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$ACCOUNT+".cloudant.com");
 var db = account.use($DATABASE);
 
 db.view_with_list($DESIGN_ID, $MAPREDUCE_INDEX, $LIST_FUNCTION, function (err, body, headers) {
@@ -451,7 +450,7 @@ For web and mobile applications, consider whether any computations done in a lis
 List functions require two arguments: `head` and `req`.
 
 When you define a list function,
-you use it by making a `GET` request to `https://<username>.cloudant.com/<databases>/<design_id>/_list/<list_function>/<mapreduce_index>`.
+you use it by making a `GET` request to `https://<account>.cloudant.com/<databases>/<design_id>/_list/<list_function>/<mapreduce_index>`.
 In this request:
 
 * `<list_function>` is the name of list function you defined.
@@ -615,8 +614,8 @@ Here's how to query update handlers:
 
 Method | URL
 -------|------
-POST | `https://<username>.cloudant.com/<database>/<design_id>/_update>/<update_handler>`
-PUT | `https://<username>.cloudant.com/<database>/<design_id>/_update>/<update_handler>/<document_id>`
+POST | `https://<account>.cloudant.com/<database>/<design_id>/_update>/<update_handler>`
+PUT | `https://<account>.cloudant.com/<database>/<design_id>/_update>/<update_handler>/<document_id>`
 
 Where `<design_id>` is the `_id` of the document defining the update handler, `$UPDATE_HANDLER` is the name of the update handler, and `<document_id>` is the `_id` of the document you want the handler to, well, handle.
 

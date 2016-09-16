@@ -210,7 +210,7 @@ GET /_api/v2/backup/task HTTP/1.1
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/_api/v2/backup/task \
+curl https://$ACCOUNT.cloudant.com/_api/v2/backup/task \
      -X GET
 ```
 
@@ -221,7 +221,7 @@ GET /_api/v2/backup/task?format=mapping HTTP/1.1
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/_api/v2/backup/task?format=mapping \
+curl https://$ACCOUNT.cloudant.com/_api/v2/backup/task?format=mapping \
      -X GET
 ```
 
@@ -237,19 +237,19 @@ You can specify the format used in the response by using the `format` parameter.
 {
   "rows": [
     {
-      "username": "$USERNAME",
+      "username": "$ACCOUNT",
       "task": "backup-0d0b0cf1b0ea42179f9c082ddc5e07cb",
       "source_db": "backmeup",
       "latest_completion": null
     },
     {
-      "username": "$USERNAME",
+      "username": "$ACCOUNT",
       "task": "backup-d0ea6e8218074699a562af543db66615",
       "source_db": "backuptest",
       "latest_completion": "2016-01-17T05:57:44+00:00"
     },
     {
-      "username": "$USERNAME",
+      "username": "$ACCOUNT",
       "task": "backup-24cd8359b94640be85b7d4071921e781",
       "source_db": "taskdb",
       "latest_completion": "2016-01-17T00:01:04+00:00"
@@ -263,8 +263,8 @@ You can request this format directly by using the `...backup/task?format=list` p
 The response contains a simple list of the backup tasks defined for the user.
 
 For example, you might request a list format response using either of the following commands:
-	`https://$USERNAME.cloudant.com/_api/v2/backup/task`
-	`https://$USERNAME.cloudant.com/_api/v2/backup/task?format=list`
+	`https://<account>.cloudant.com/_api/v2/backup/task`
+	`https://<account>.cloudant.com/_api/v2/backup/task?format=list`
 
 <div></div>
 
@@ -273,19 +273,19 @@ For example, you might request a list format response using either of the follow
 ```
 {
   "backmeup": {
-    "username": "$USERNAME",
+    "username": "$ACCOUNT",
     "task": "backup-0d0b0cf1b0ea42179f9c082ddc5e07cb",
     "source_db": "backmeup",
     "latest_completion": null
   },
   "backuptest": {
-    "username": "$USERNAME",
+    "username": "$ACCOUNT",
     "task": "backup-d0ea6e8218074699a562af543db66615",
     "source_db": "backuptest",
     "latest_completion": "2016-01-17T05:57:44+00:00"
   },
   "taskdb": {
-    "username": "$USERNAME",
+    "username": "$ACCOUNT",
     "task": "backup-24cd8359b94640be85b7d4071921e781",
     "source_db": "taskdb",
     "latest_completion": "2016-01-17T00:01:04+00:00"
@@ -297,7 +297,7 @@ A more comprehensive response is available in the mapping format.
 You can request this format directly by using the `...backup/task?format=mapping` parameter.
 
 For example, you might request a mapping format response using the following command:
-`https://$USERNAME.cloudant.com/_api/v2/backup/task?format=mapping`
+`https://<account>.cloudant.com/_api/v2/backup/task?format=mapping`
 
 <div></div>
 
@@ -310,7 +310,7 @@ GET /_api/v2/backup/task?databases=backuptest,taskdb HTTP/1.1
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/_api/v2/backup/task?databases=backuptest,taskdb \
+curl https://$ACCOUNT.cloudant.com/_api/v2/backup/task?databases=backuptest,taskdb \
      -X GET
 ```
 
@@ -320,13 +320,13 @@ curl https://$USERNAME.cloudant.com/_api/v2/backup/task?databases=backuptest,tas
 {
   "rows": [
     {
-      "username": "$USERNAME",
+      "username": "$ACCOUNT",
       "task": "backup-d0ea6e8218074699a562af543db66615",
       "source_db": "backuptest",
       "latest_completion": "2016-01-17T05:57:44+00:00"
     },
     {
-      "username": "$USERNAME",
+      "username": "$ACCOUNT",
       "task": "backup-24cd8359b94640be85b7d4071921e781",
       "source_db": "taskdb",
       "latest_completion": "2016-01-17T00:01:04+00:00"
@@ -352,7 +352,7 @@ GET /_api/v2/backup/monitor/$TASKNAME/$DOCID?include_docs=true HTTP/1.1
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/_api/v2/backup/monitor/$TASKNAME/$DOCID?include_docs=true \
+curl https://$ACCOUNT.cloudant.com/_api/v2/backup/monitor/$TASKNAME/$DOCID?include_docs=true \
      -X GET
 ```
 
@@ -376,7 +376,7 @@ Content-Type: application/json
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/_api/v2/backup/restore/document --data=@RESTORE.json \
+curl https://$ACCOUNT.cloudant.com/_api/v2/backup/restore/document --data=@RESTORE.json \
      -X POS \
      -H "Content-Type: application/json" \
      -d "$JSON"

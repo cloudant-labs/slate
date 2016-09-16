@@ -36,8 +36,8 @@ The status of each replication task can be seen in the "All Replications" sectio
 
 ```json
 {
-  "source": "https://myfirstaccount.cloudant.com/a",
-  "target": "https://mysecondaccount.cloudant.com/b"
+  "source": "https://<account1>.cloudant.com/a",
+  "target": "https://<account2>.cloudant.com/b"
 }
 ```
 
@@ -154,7 +154,7 @@ Two-way replication can be continuous in one or both of the directions by settin
 > Monitoring a replication process
 
 ```shell
-curl 'https://myaccount.cloudant.com/_replicator/weekly_backup'
+curl 'https://<account>.cloudant.com/_replicator/weekly_backup'
 ```
 
 ```http
@@ -218,7 +218,7 @@ Replication isn’t just for Cloudant-to-Cloudant data transfer. Cloudant’s re
 ```
 var db = new PouchDB("myfirstdatabase");
 
-var URL = "https://u:p@username.cloudant.com/my_database");
+var URL = "https://<account>..cloudant.com/<my_database>");
 
 db.sync(URL, { live: true });
 ```
@@ -230,7 +230,7 @@ db.sync(URL, { live: true });
 > Example javascript to enable replication using CloudantSync
 
 ```
-URI uri = new URI("https://u:p@username.cloudant.com/my_database");
+URI uri = new URI("https://<account>.cloudant.com/my_database");
 Datastore ds = manager.openDatastore("my_datastore");
 
 // Replicate from the local to remote database

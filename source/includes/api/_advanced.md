@@ -235,7 +235,7 @@ account.request({
 
 Given a list of document revisions, returns the document revisions that do not exist in the database.
 
-### POST /$DB/_revs_diff
+### POST /$DATABASE/_revs_diff
 
 > Example request
 

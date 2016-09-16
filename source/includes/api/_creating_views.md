@@ -254,7 +254,7 @@ Content-Type: application/json
 ```
 
 ```shell
-curl -X PUT https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/_design/training --data-binary @view.def
+curl -X PUT https://$ACCOUNT.cloudant.com/$DATABASE/_design/training --data-binary @view.def
 # where the design document is stored in the file `view.def`
 ```
 
@@ -306,7 +306,7 @@ Content-Type: application/json
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/$DATABASE/_design/$DESIGNDOCUMENT/_view/by_title?limit=5 \
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DESIGNDOCUMENT/_view/by_title?limit=5 \
      -H "Content-Type: application/json"
 ```
 
@@ -444,7 +444,7 @@ Content-Type: application/json
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/$DATABASE/_design/$DESIGNDOCUMENT/_view/by_title?limit=5&descending=true \
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DESIGNDOCUMENT/_view/by_title?limit=5&descending=true \
      -H "Content-Type: application/json"
 ```
 
@@ -529,7 +529,7 @@ Content-Type: application/json
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/$DATABASE/_design/$DESIGNDOCUMENT/_view/by_ingredient?startkey="alpha"&endkey="beta" \
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DESIGNDOCUMENT/_view/by_ingredient?startkey="alpha"&endkey="beta" \
      -H "Content-Type: application/json"
 ```
 
@@ -601,7 +601,7 @@ Content-Type: application/json
 ```
 
 ```shell
-curl -X POST "https://$ACCOUNT.cloudant.com/$DB/_design/$DESIGN_DOC/_view/$VIEWNAME" -d @request.json
+curl -X POST "https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DESIGN_DOC/_view/$VIEWNAME" -d @request.json
 ```
 
 ```json
@@ -793,12 +793,12 @@ You could use the same approach for view indexes.
 > Example request:
 
 ```http
-POST /$DB/_design/$DESIGNDOC/_view/$VIEW HTTP/1.1
+POST /$DATABASE/_design/$DESIGNDOC/_view/$VIEW HTTP/1.1
 Content-Type: application/json
 ```
 
 ```shell
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DB/_design/$DESIGNDOC/_view/$VIEW -H 'Content-Type: application/json' -d @request-body.json
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DESIGNDOC/_view/$VIEW -H 'Content-Type: application/json' -d @request-body.json
 # where request-body.json is a file containing the following JSON data:
 ```
 

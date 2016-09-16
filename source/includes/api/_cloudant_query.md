@@ -26,7 +26,7 @@ You can create an index with one of two types:
 
 #### Creating a "type=json" index
 
-To create a JSON index in the database $DB, make a `POST` request to `/$DB/_index` with a JSON object describing the index in the request body. The `type` field of the JSON object has to be set to `"json"`.
+To create a JSON index in the database $DATABASE, make a `POST` request to `/$DATABASE/_index` with a JSON object describing the index in the request body. The `type` field of the JSON object has to be set to `"json"`.
 
 ##### Request Body format
 
@@ -1974,24 +1974,24 @@ The sample database contains approximately 3,000 documents, and is just under 1 
 
 ```http
 POST /_replicator HTTP/1.1
-Host: user.cloudant.com
+Host: <account>.cloudant.com
 Content-Type: application/json
 
 {
   "source": "https://examples.cloudant.com/query-movies",
-  "target": "https://<user:password>@<user>.cloudant.com/my-movies",
+  "target": "https://<account>.cloudant.com/my-movies",
   "create_target": true,
   "use_checkpoints": false
 }
 ```
 
 ```shell
-curl 'https://<user:password>@<user>.cloudant.com/_replicator' \
+curl 'https://<account>.cloudant.com/_replicator' \
   -X POST \
   -H 'Content-Type: application/json' \
   -d '{
     "source": "https://examples.cloudant.com/query-movies",
-    "target": "https://<user:password>@<user>.cloudant.com/my-movies",
+    "target": "https://<account>.cloudant.com/my-movies",
     "create_target": true,
     "use_checkpoints": false
 }'
@@ -2014,7 +2014,7 @@ Before we can search the content, we must index it. We do this by creating a tex
 
 ```http
 POST /my-movies/_index HTTP/1.1
-Host: user.cloudant.com
+Host: <account>.cloudant.com
 Content-Type: application/json
 
 {
@@ -2024,7 +2024,7 @@ Content-Type: application/json
 ```
 
 ```shell
-curl 'https://<user:password>@<user>.cloudant.com/my-movies/_index' \
+curl 'https://<account>.cloudant.com/my-movies/_index' \
   -X POST \
   -H 'Content-Type: application/json' \
   -d '{"index": {}, "type": "text"}'
@@ -2051,7 +2051,7 @@ Using the `bookmark` enables you to specify which page of results you require.
 
 ```http
 POST /my-movies/_find HTTP/1.1
-Host: user.cloudant.com
+Host: <account>.cloudant.com
 Content-Type: application/json
 
 {
@@ -2063,7 +2063,7 @@ Content-Type: application/json
 
 ```shell
 curl -X POST -H "Content-Type: application/json" \
-        https://<user:password>@<user>.cloudant.com/my-movies/_find \
+        https://<account>.cloudant.com/my-movies/_find \
         -d '{"selector": {"Person_name":"Zoe Saldana"}}'
 ```
 
@@ -2096,7 +2096,7 @@ curl -X POST -H "Content-Type: application/json" \
 
 ```http
 POST /my-movies/_find HTTP/1.1
-Host: user.cloudant.com
+Host: <account>.cloudant.com
 Content-Type: application/json
 
 {
@@ -2109,7 +2109,7 @@ Content-Type: application/json
 
 ```shell
 curl -X POST -H "Content-Type: application/json" \
-        https://<user:password>@<user>.cloudant.com/my-movies/_find \
+        https://<account>.cloudant.com/my-movies/_find \
         -d '{"selector": {"Person_name":"Robert De Niro", "Movie_year": 1978}}'
 ```
 
@@ -2139,7 +2139,7 @@ curl -X POST -H "Content-Type: application/json" \
 
 ```http
 POST /my-movies/_find HTTP/1.1
-Host: user.cloudant.com
+Host: <account>.cloudant.com
 Content-Type: application/json
 
 {
@@ -2154,7 +2154,7 @@ Content-Type: application/json
 
 ```shell
 curl -X POST -H "Content-Type: application/json" \
-        https://<user:password>@<user>.cloudant.com/my-movies/_find \
+        https://<account>.cloudant.com/my-movies/_find \
         -d '{"selector": {"Person_name":"Robert De Niro", "Movie_year": { "$in": [1974, 2009]}}}'
 ```
 

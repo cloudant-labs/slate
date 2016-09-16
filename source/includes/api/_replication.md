@@ -85,7 +85,7 @@ The names of the source and target databases do not have to be the same.
 > Example instructions for creating a replication document:
 
 ```shell
-curl -X PUT https://$USERNAME:$PASSWORD@USERNAME.cloudant.com/_replicator/replication-doc -H 'Content-Type: application/json' -d @replication-document.json
+curl -X PUT https://$ACCOUNT.cloudant.com/_replicator/replication-doc -H 'Content-Type: application/json' -d @replication-document.json
 #assuming replication-document.json is a json file with the following content:
 ```
 
@@ -98,8 +98,8 @@ Content-Type: application/json
 
 ```json
 {
-  "source": "https://$USERNAME1:$PASSWORD1@$USERNAME1.cloudant.com/$DATABASE1",
-  "target": "https://$USERNAME2:$PASSWORD2@$USERNAME2.cloudant.com/$DATABASE2",
+  "source": "https://<account1>.cloudant.com/<database1>",
+  "target": "https://<account2>.cloudant.com/<database2>",
   "create_target": true,
   "continuous": true
 }
@@ -111,7 +111,7 @@ To start a replication, [add a replication document](#replication-document-forma
 
 ####(Optional) Creating a replication to two Bluemix environments
 
-You can replicate a Cloudant database to multiple Bluemix environments. When you set up the replication job for each environment, the source database and target database names you provide must use this format, `https://$USERNAME:$PASSWORD@$REMOTE_USERNAME.cloudant.com/$DATABASE_NAME`. You create the database name, `$DATABASE_NAME`, and add it to the URL format. Do not copy the `URL` field from the `VCAP_SERVICES` environment variable. 
+You can replicate a Cloudant database to multiple Bluemix environments. When you set up the replication job for each environment, the source database and target database names you provide must use this format, `https://<account>.cloudant.com/<database>`. You create the database name, `<database>`, and add it to the URL format. Do not copy the `URL` field from the `VCAP_SERVICES` environment variable. 
 
 #### Monitoring a replication
 
@@ -183,7 +183,7 @@ account.request({
     "missing_revisions_found": 17833,
     "progress": 3,
     "revisions_checked": 17833,
-    "source": "http://username.cloudant.com/db/",
+    "source": "http://<account>.cloudant.com/db/",
     "source_seq": 551202,
     "started_on": 1316229471,
     "target": "test_db",
@@ -193,7 +193,7 @@ account.request({
 ]
 ```
 
-To monitor replicators currently in process, make a `GET` request to `https://<username>.cloudant.com/_active_tasks`.
+To monitor replicators currently in process, make a `GET` request to `https://<account>.cloudant.com/_active_tasks`.
 This returns any active tasks, including replications. To filter for replications, look for documents with `"type": "replication"`.
 
 If you monitor the `_active_tasks` and find that the state of a replication is not changing,
@@ -238,8 +238,8 @@ Content-Type: application/json
 
 ```json
 {
-  "source": "http://$ACCOUNT.cloudant.com/example-database",
-  "target": "http://$ACCOUNT.example.org/example-target-database"
+  "source": "http://<account>.cloudant.com/example-database",
+  "target": "http://<account>.example.org/example-target-database"
 }
 ```
 
@@ -514,7 +514,7 @@ Requesting cancellation of a replication that does not exist results in a 404 er
 > Example instructions for starting a replication:
 
 ```shell
-$ curl -H 'Content-Type: application/json' -X POST 'http://<account>.cloudant.com/_replicate' -d @replication-doc.json
+$ curl -H 'Content-Type: application/json' -X POST 'http://$ACCOUNT.cloudant.com/_replicate' -d @replication-doc.json
 #the file replication-doc.json describes the intended replication.
 ```
 

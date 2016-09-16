@@ -289,12 +289,12 @@ but also the `startkey` and `endkey` parameter values.
 > Example request to return all recipes, where the key for the view matches either "clear apple juice" or "lemonade":
 
 ```http
-POST /$DB/_design/$DDOC/_view/$VIEWNAME HTTP/1.1
+POST /$DATABASE/_design/$DESIGN_DOC/_view/$VIEWNAME HTTP/1.1
 Content-Type: application/json
 ```
 
 ```shell
-curl -X POST "https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DB/_design/$DDOC/_view/$VIEWNAME" -d @request.json
+curl -X POST "https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DDOC/_view/$VIEWNAME" -d @request.json
 ```
 
 ```json
@@ -453,12 +453,12 @@ However,
 > Example request:
 
 ```http
-POST /$DB/_design/$DESIGNDOC/_view/$VIEW HTTP/1.1
+POST /<database>/_design/<design_doc>/_view/<view> HTTP/1.1
 Content-Type: application/json
 ```
 
 ```shell
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DB/_design/$DESIGNDOC/_view/$VIEW -H 'Content-Type: application/json' -d @request-body.json
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DESIGN_DOC/_view/$VIEW -H 'Content-Type: application/json' -d @request-body.json
 # where request-body.json is a file containing the following JSON data:
 ```
 
@@ -540,6 +540,6 @@ curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DB/_design/$DESIGNDOC/_
 }
 ```
 
-To send several view queries in one request, use a `POST` request to `/$DB/_design/$DESIGNDOC/_view/$VIEW`. The request body is a JSON object containing only the `queries` field. It holds an array of query objects with fields for the parameters of the query. The field names and their meaning are the same as the query parameters of a regular view request.
+To send several view queries in one request, use a `POST` request to `/<database>/_design/<design_doc>/_view/<view>`. The request body is a JSON object containing only the `queries` field. It holds an array of query objects with fields for the parameters of the query. The field names and their meaning are the same as the query parameters of a regular view request.
 
 The JSON object returned in the response contains only the `results` field, which holds an array of result objects - one for each query. Each result object contains the same fields as the response to a regular view request.

@@ -13,7 +13,7 @@ Since this is a task-focused tutorial, it covers only what is essential to accom
 > Obtaining and formatting a list of active tasks:
 
 ```
-curl 'https://username:password@username.cloudant.com/_active_tasks' | jq '.'
+curl 'https://$ACCOUNT.cloudant.com/_active_tasks' | jq '.'
 ```
 
 To get all active tasks and format the output nicely, call your account using `curl`,
@@ -27,13 +27,13 @@ This makes it easier to get all replication documents, or the details of just on
 > Finding all view indexing tasks, by filtering for the `indexer` type:
 
 ```
-curl -s 'https://username:password@username.cloudant.com/_active_tasks' | jq '.[] | select(.type=="indexer")'
+curl -s 'https://$ACCOUNT.cloudant.com/_active_tasks' | jq '.[] | select(.type=="indexer")'
 ```
 
 > Finding all search indexing tasks, by filtering for the `search_indexer` type:
 
 ```
-curl -s 'https://username:password@username.cloudant.com/_active_tasks' | jq '.[] | select(.type=="search_indexer")'
+curl -s 'https://$ACCOUNT.cloudant.com/_active_tasks' | jq '.[] | select(.type=="search_indexer")'
 ```
 
 > Sample result after searching for view indexing tasks:
@@ -85,7 +85,7 @@ You should assume that these factors might combine to produce considerable inacc
 > Finding all replication tasks, by filtering for the `replication` type:
 
 ```
-curl -s 'https://username:password@username.cloudant.com/_active_tasks' | jq '.[] | select(.type=="replication")'
+curl -s 'https://$ACCOUNT.cloudant.com/_active_tasks' | jq '.[] | select(.type=="replication")'
 ```
 
 > Finding a specific replication task, by filtering for a known document identity:

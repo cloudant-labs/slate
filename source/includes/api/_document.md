@@ -86,7 +86,7 @@ Content-Type: application/json
 ```
 
 ```shell
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE \
+curl https://$ACCOUNT.cloudant.com/$DATABASE \
      -X POST \
      -H "Content-Type: application/json" \
      -d "$JSON"
@@ -94,7 +94,7 @@ curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE \
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+".cloudant.com");
 var db = account.use($DATABASE);
 
 db.insert($JSON, function (err, body, headers) {
@@ -116,7 +116,7 @@ db.insert($JSON, function (err, body, headers) {
 }
 ```
 
-To create a document, make a POST request with the document's JSON content to `https://$USERNAME.cloudant.com/$DATABASE`.
+To create a document, make a POST request with the document's JSON content to `https://<account>.cloudant.com/<database>`.
 
 <div></div>
 

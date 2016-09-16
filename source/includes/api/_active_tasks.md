@@ -18,7 +18,7 @@ curl https://$ACCOUNT.cloudant.com/_active_tasks \
 
 ```javascript
 var nano = require('nano');
-var account = nano('https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com');
+var account = nano('https://$ACCOUNT.cloudant.com');
 
 account.request({
   path: '_active_tasks'

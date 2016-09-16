@@ -133,7 +133,7 @@ Relation | Description
 ```shell
 curl \
   -H "Content-Type: application/json" \
-  -u "$USERNAME:$PASSWORD" \
+  -u "$ACCOUNT:$PASSWORD" \
   'http://$ACCOUNT.cloudant.com/$DATABASE/$DESIGN_ID/_geo/$INDEX_NAME\
   ?radius=100\
   &lat=0\
@@ -143,7 +143,7 @@ curl \
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+".cloudant.com");
 
 account.request({
   db: $DATABASE,
@@ -170,7 +170,7 @@ Specifying `lat`, `lon`, and `radius` creates a circle centered at that latitude
 ```shell
 curl 
   -H "Content-Type: application/json" \
-  -u "$USERNAME:$PASSWORD" \
+  -u "$ACCOUNT:$PASSWORD" \
   "http://$ACCOUNT.cloudant.com/$DATABASE/$DESIGN_ID/_geo/$INDEX_NAME\
   ?lat=0\
   &lon=0\

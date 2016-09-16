@@ -97,7 +97,7 @@ This example shows how to:
 
 ```
 # save base URL and the content type in shell variables
-$ url='https://<username>:<password>@<username>.cloudant.com'
+$ url='https://<account>.cloudant.com'
 $ ct='Content-Type: application-json'
 ```
 
@@ -387,7 +387,7 @@ or to a time when the cluster is less busy.
 ```json
 {
   "source": {
-    "url": "https://user:pass@example.com/db",
+    "url": "https://<account>@example.com/db",
     "headers": {
       "x-cloudant-io-priority": "low"
     }

@@ -23,11 +23,11 @@ There are four basic steps to work with FTI:
 
 ```http
 PUT /dbname HTTP/1.1
-Host: user.cloudant.com
+Host: <account>.cloudant.com
 ```
 
 ```shell
-curl -X PUT https://user.cloudant.com/dbname
+curl -X PUT https://$ACCOUNT.cloudant.com/dbname
 ```
 
 <div id="step02"></div>
@@ -38,7 +38,7 @@ curl -X PUT https://user.cloudant.com/dbname
 ```http
 POST /dbname/_index HTTP/1.1
 Content-Type: application/json
-Host: user.cloudant.com
+Host: <account>.cloudant.com
 
 {
   "index": {},
@@ -48,7 +48,7 @@ Host: user.cloudant.com
 
 ```shell
 curl -X POST -H "Content-Type: application/json" \
-  https://user.cloudant.com/dbname/_index \
+  https://<account>$ACCOUNT.cloudant.com/dbname/_index \
   -d '{"index":{}, "type": "text"}'
 ```
 
@@ -60,7 +60,7 @@ curl -X POST -H "Content-Type: application/json" \
 ```http
 POST /dbname HTTP/1.1
 Content-Type: application/json
-Host: user.cloudant.com
+Host: <account>.cloudant.com
 
 {
   "character":"Frodo Baggins",
@@ -71,7 +71,7 @@ Host: user.cloudant.com
 
 ```shell
 curl -X POST -H "Content-Type: application/json" \
-  https://user.cloudant.com/dbname \
+  https://$ACCOUNT.cloudant.com/dbname \
   -d '{"character":"Frodo Baggins", "type": "Hobbit", "height":4}'
 ```
 
@@ -82,7 +82,7 @@ curl -X POST -H "Content-Type: application/json" \
 
 ```http
 POST /dbname/_find HTTP/1.1
-HOST: user.cloudant.com
+HOST: account.cloudant.com
 Content-Type: application/json
 
 {
@@ -94,7 +94,7 @@ Content-Type: application/json
 
 ```shell
 curl -X POST -H "Content-Type: application/json" \
-  https://user.cloudant.com/dbname/_find \
+  https://$ACCOUNT.cloudant.com/dbname/_find \
   -d '{"selector":{"$text": "Frodo"}}'
 ```
 
@@ -102,7 +102,7 @@ curl -X POST -H "Content-Type: application/json" \
 
 ```shell
 curl -X POST -H "Content-Type: application/json" \
-  https://user.cloudant.com/dbname/_find \
+  https://$ACCOUNT.cloudant.com/dbname/_find \
   -d '{"selector":{"$or": [{"type":"Orc"}, {"height": {"$lt":4.5}}]}'
 ```
 
@@ -236,24 +236,24 @@ is more efficient.
 
 ```http
 POST /_replicator HTTP/1.1
-Host: user.cloudant.com
+Host: <account>.cloudant.com
 Content-Type: application/json
 
 {
   "source": "https://examples.cloudant.com/movies-demo",
-  "target": "https://<user:password>@<user>.cloudant.com/my-movies-demo",
+  "target": "https://<account>.cloudant.com/my-movies-demo",
   "create_target": true,
   "use_checkpoints": false
 }
 ```
 
 ```shell
-curl 'https://<user:password>@<user>.cloudant.com/_replicator' \
+curl 'https://$ACCOUNT.cloudant.com/_replicator' \
   -X POST \
   -H 'Content-Type: application/json' \
   -d '{
     "source": "https://examples.cloudant.com/movies-demo",
-    "target": "https://<user:password>@<user>.cloudant.com/my-movies-demo",
+    "target": "https://$ACCOUNT.cloudant.com/my-movies-demo",
     "create_target": true,
     "use_checkpoints": false
 }'
@@ -281,7 +281,7 @@ The sample database contains approximately 3,000 documents, and is just under 1 
 
 ```http
 POST /my-movies-demo/_index HTTP/1.1
-Host: user.cloudant.com
+Host: <account>.cloudant.com
 Content-Type: application/json
 
 {
@@ -291,7 +291,7 @@ Content-Type: application/json
 ```
 
 ```shell
-curl 'https://<user:password>@<user>.cloudant.com/my-movies-demo/_index' \
+curl 'https://$ACCOUNT.cloudant.com/my-movies-demo/_index' \
   -X POST \
   -H 'Content-Type: application/json' \
   -d '{"index": {}, "type": "text"}'
@@ -313,7 +313,7 @@ Before we can search the content, we must index it. We do this by creating a tex
 
 ```http
 POST /my-movies-demo/_find HTTP/1.1
-Host: user.cloudant.com
+Host: <account>.cloudant.com
 Content-Type: application/json
 
 {
@@ -325,7 +325,7 @@ Content-Type: application/json
 
 ```shell
 curl -X POST -H "Content-Type: application/json" \
-        https://<user:password>@<user>.cloudant.com/my-movies-demo/_find \
+        https://$ACCOUNT.cloudant.com/my-movies-demo/_find \
         -d '{"selector": {"Person_name":"Zoe Saldana"}}'
 ```
 
@@ -362,7 +362,7 @@ The most obvious difference in the results you get when using FTI is the inclusi
 
 ```http
 POST /my-movies-demo/_find HTTP/1.1
-Host: user.cloudant.com
+Host: <account>.cloudant.com
 Content-Type: application/json
 
 {
@@ -375,7 +375,7 @@ Content-Type: application/json
 
 ```shell
 curl -X POST -H "Content-Type: application/json" \
-        https://<user:password>@<user>.cloudant.com/my-movies-demo/_find \
+        https://$ACCOUNT.cloudant.com/my-movies-demo/_find \
         -d '{"selector": {"Person_name":"Robert De Niro", "Movie_year": 1978}}'
 ```
 
@@ -405,7 +405,7 @@ curl -X POST -H "Content-Type: application/json" \
 
 ```http
 POST /my-movies-demo/_find HTTP/1.1
-Host: user.cloudant.com
+Host: <account>.cloudant.com
 Content-Type: application/json
 
 {
@@ -420,7 +420,7 @@ Content-Type: application/json
 
 ```shell
 curl -X POST -H "Content-Type: application/json" \
-        https://<user:password>@<user>.cloudant.com/my-movies-demo/_find \
+        https://$ACCOUNT>.cloudant.com/my-movies-demo/_find \
         -d '{"selector": {"Person_name":"Robert De Niro", "Movie_year": { "$in": [1974, 2009]}}}'
 ```
 

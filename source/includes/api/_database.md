@@ -9,17 +9,17 @@ All documents must be contained in a database.
 > Create a database
 
 ```http
-PUT /$DATABASE HTTP/1.1
-HOST: $ACCOUNT.cloudant.com
+PUT /<database> HTTP/1.1
+HOST: <account>.cloudant.com
 ```
 
 ```shell
-curl https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE -X PUT
+curl https://$ACCOUNT.cloudant.com/$DATABASE -X PUT
 ```
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+".cloudant.com");
 
 account.db.create($DATABASE, function (err, body, headers) {
   if (!err) {
@@ -28,7 +28,7 @@ account.db.create($DATABASE, function (err, body, headers) {
 });
 ```
 
-To create a database, make a PUT request to `https://$USERNAME.cloudant.com/$DATABASE`.
+To create a database, make a PUT request to `https://<account>.cloudant.com/<database>`.
 
 The database name must start with a lowercase letter and contain only the following characters:
 
@@ -80,13 +80,12 @@ GET /$DATABASE HTTP/1.1
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/$DATABASE \
-     -u $USERNAME
+curl https://$ACCOUNT.cloudant.com/$DATABASE \
 ```
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+".cloudant.com");
 
 account.db.get($DATABASE, function (err, body, headers) {
   if (!err) {
@@ -95,7 +94,7 @@ account.db.get($DATABASE, function (err, body, headers) {
 });
 ```
 
-Making a GET request against `https://$USERNAME.cloudant.com/$DATABASE` returns details about the database,
+Making a GET request against `https://<account>.cloudant.com/<database>` returns details about the database,
 such as how many documents it contains.
 
 <div></div>
@@ -149,13 +148,12 @@ GET /_all_dbs HTTP/1.1
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/_all_dbs \
-     -u $USERNAME
+curl https://$ACCOUNT.cloudant.com/_all_dbs \
 ```
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+".cloudant.com");
 
 account.db.list(function (err, body, headers) {
   if (!err) {
@@ -165,7 +163,7 @@ account.db.list(function (err, body, headers) {
 ```
 
 To list all the databases in an account,
-make a GET request against `https://$USERNAME.cloudant.com/_all_dbs`.
+make a GET request against `https://<account>.cloudant.com/_all_dbs`.
 
 <div></div>
 
@@ -192,12 +190,12 @@ GET /_all_docs HTTP/1.1
 ```
 
 ```shell
-curl https://%USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/_all_docs
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_all_docs
 ```
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+".cloudant.com");
 var db = account.use($DATABASE);
 
 db.list(function (err, body, headers) {
@@ -214,10 +212,10 @@ GET /_all_docs?keys=["somekey","someotherkey"] HTTP/1.1
 ```
 
 ```shell
-curl https://%USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/_all_docs?keys=["somekey","someotherkey"]
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_all_docs?keys=["somekey","someotherkey"]
 ```
 
-To list all the documents in a database, make a GET request against `https://$USERNAME.cloudant.com/$DATABASE/_all_docs`.
+To list all the documents in a database, make a GET request against `https://<account>.cloudant.com/<database>/_all_docs`.
 
 The `_all_docs` endpoint accepts these query arguments:
 
@@ -287,13 +285,12 @@ GET /$DATABASE/_changes HTTP/1.1
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/$DATABASE/_changes \
-     -u $USERNAME
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_changes \
 ```
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+".cloudant.com");
 
 account.db.changes($DATABASE, function (err, body, headers) {
   if (!err) {
@@ -302,7 +299,7 @@ account.db.changes($DATABASE, function (err, body, headers) {
 });
 ```
 
-Making a GET request against `https://$USERNAME.cloudant.com/$DATABASE/_changes` returns a list of changes made to documents in the database,
+Making a GET request against `https://<account>.cloudant.com/<database>/_changes` returns a list of changes made to documents in the database,
 including insertions,
 updates,
 and deletions.
@@ -453,13 +450,13 @@ Each line in the continuous response is either empty or a JSON object representi
 > Example of `POST`ing to the `_changes` endpoint
 
 ```http
-POST /$DB/_changes HTTP/1.1
-Host: $USERNAME.cloudant.com
+POST /<database>/_changes HTTP/1.1
+Host: <account>.cloudant.com
 Content-Type: application/json
 ```
 
 ```shell
-curl -X POST "https://$USERNAME.cloudant.com/$DB/_changes" -d @request.json
+curl -X POST "https://$ACCOUNT.cloudant.com/$DATABASE/_changes" -d @request.json
 ```
 
 ```json
@@ -475,19 +472,18 @@ Instead of `GET`, you can also use `POST` to query the changes feed. The only di
 > Example request to delete a Cloudant database:
 
 ```http
-DELETE /$DATABASE HTTP/1.1
-Host: $USERNAME.cloudant.com
+DELETE /<database> HTTP/1.1
+Host: <account>.cloudant.com
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/$DATABASE \
+curl https://$ACCOUNT.cloudant.com/$DATABASE \
      -X DELETE \
-     -u $USERNAME
 ```
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+".cloudant.com");
 
 account.db.destroy($DATABASE, function (err, body, headers) {
   if (!err) {
@@ -496,7 +492,7 @@ account.db.destroy($DATABASE, function (err, body, headers) {
 });
 ```
 
-To delete a databases and its contents, make a DELETE request to `https://$USERNAME.cloudant.com/$DATABASE`.
+To delete a databases and its contents, make a DELETE request to `https://<account>.cloudant.com/<database>`.
 
 <aside class="warning" role="complementary" aria-label="deletecheck">There is no additional check to ensure that you really intended to delete the database ("Are you sure?").</aside>
 
