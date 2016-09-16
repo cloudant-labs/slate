@@ -10,7 +10,7 @@ Design documents are used to [build indexes](#indexes), [validate updates](#upda
 
 ### Creating or updating a design document
 
--   **Method**: `PUT /$DATABASE/_design/design-doc`
+-   **Method**: `PUT /$DATABASE/_design/DESIGN_DOC`
 -   **Request**: JSON of the design document information
 -   **Response**: JSON status
 -   **Roles permitted**: \_admin
@@ -70,7 +70,7 @@ Destination: /recipes/_design/recipelist
 ```
 
 ```shell
-curl "https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/recipes/_design/recipes" \
+curl "https://$ACCOUNT.cloudant.com/recipes/_design/recipes" \
      -X COPY \
      -H 'Content-Type: application/json' \
      -H 'Destination: /recipes/_design/recipelist'
@@ -128,7 +128,7 @@ Destination: recipes/_design/recipelist
 ```
 
 ```shell
-curl "https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/recipes/_design/recipes?rev=1-e23b9e942c19e9fb10ff1fde2e50e0f5" \
+curl "https://$ACCOUNT.cloudant.com/recipes/_design/recipes?rev=1-e23b9e942c19e9fb10ff1fde2e50e0f5" \
      -X COPY \
      -H 'Content-Type: application/json' \
      -H 'Destination: /recipes/_design/recipelist'
@@ -153,7 +153,7 @@ Destination: recipes/_design/recipelist?rev=1-9c65296036141e575d32ba9c034dd3ee
 ```
 
 ```shell
-curl "https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/recipes/_design/recipes" \
+curl "https://$ACCOUNT.cloudant.com/recipes/_design/recipes" \
      -X COPY \
      -H 'Content-Type: application/json' \
      -H 'Destination: /recipes/_design/recipelist?rev=1-9c65296036141e575d32ba9c034dd3ee'
@@ -183,7 +183,7 @@ DELETE /recipes/_design/recipes?rev=2-ac58d589b37d01c00f45a4418c5a15a8 HTTP/1.1
 ```
 
 ```shell
-curl "https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/recipes/_design/recipes?rev=2-ac58d589b37d01c00f45a4418c5a15a8" \
+curl "https://$ACCOUNT.cloudant.com/recipes/_design/recipes?rev=2-ac58d589b37d01c00f45a4418c5a15a8" \
      -X DELETE
 ```
 
@@ -426,12 +426,11 @@ GET /$DATABASE/$DESIGN_ID/_list/$LIST_FUNCTION/$MAPREDUCE_INDEX HTTP/1.1
 
 ```shell
 curl "https://$ACCOUNT.cloudant.com/$DATABASE/$DESIGN_ID/_list/$LIST_FUNCTION/$MAPREDUCE_INDEX" \
-     -u "$USERNAME:$PASSWORD"
 ```
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+".cloudant.com");
 var db = account.use($DATABASE);
 
 db.view_with_list($DESIGN_ID, $MAPREDUCE_INDEX, $LIST_FUNCTION, function (err, body, headers) {
@@ -452,11 +451,11 @@ For web and mobile applications, consider whether any computations done in a lis
 List functions require two arguments: `head` and `req`.
 
 When you define a list function,
-you use it by making a `GET` request to `https://$USERNAME.cloudant.com/$DATABASE/$DESIGN_ID/_list/$LIST_FUNCTION/$MAPREDUCE_INDEX`.
+you use it by making a `GET` request to `https://<username>.cloudant.com/<databases>/<design_id>/_list/<list_function>/<mapreduce_index>`.
 In this request:
 
-* `$LIST_FUNCTION` is the name of list function you defined.
-* `$MAPREDUCE_INDEX` is the name of the index providing the query results you want to format.
+* `<list_function>` is the name of list function you defined.
+* `<mapreduce_index>` is the name of the index providing the query results you want to format.
 
 The other parameters are the same query parameters described [here](cloudant_query.html#query-parameters).
 
@@ -515,18 +514,17 @@ function (doc, req) {
 > Example query:
 
 ```http
-GET /$DATABASE/$DESIGN_ID/_show/$SHOW_FUNCTION/$DOCUMENT_ID HTTP/1.1
-Host: $USERNAME.cloudant.com
+GET /<database>/<design_id>/_show/<show_function>/<document_id http>/1.1
+Host: <account>.cloudant.com
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/$DATABASE/$DESIGN_ID/_show/$SHOW_FUNCTION/$DOCUMENT_ID \
-     -u $USERNAME
+curl https://$ACCOUNT.cloudant.com/$DATABASE/$DESIGN_ID/_show/$SHOW_FUNCTION/$DOCUMENT_ID \
 ```
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+".cloudant.com");
 var db = account.use($DATABASE);
 
 db.show($DESIGN_ID, $SHOW_FUNCTION, $DOCUMENT_ID, function (err, body) {
@@ -545,8 +543,8 @@ For web and mobile applications, consider whether any computations done in a sho
 
 Show functions receive two arguments: `doc`, and [req](#req). `doc` is the document requested by the show function.
 
-When you have defined a show function, you query it with a `GET` request to `https://$USERNAME.cloudant.com/$DATABASE/$DESIGN_ID/_show/$SHOW_FUNCTION/$DOCUMENT_ID`,
-where `$SHOW_FUNCTION` is the name of the function that is applied to the document that has `$DESIGN_ID` as its `_id`.
+When you have defined a show function, you query it with a `GET` request to `https://<account>.cloudant.com/<database>/<design_id>/_show/<show_function>/<document_id>`,
+where `<show_function>` is the name of the function that is applied to the document that has `<design_id>` as its `_id`.
 
 ### Update Handlers
 
@@ -582,7 +580,7 @@ function(doc, req){
 > Example query:
 
 ```http
-POST /$DATABASE/$DESIGN_ID/_update/$UPDATE_HANDLER HTTP/1.1
+POST /<database>/<design_id>/_update/<update_handler http>/1.1
 Content-Type: application/json
 ```
 
@@ -590,13 +588,12 @@ Content-Type: application/json
 curl "https://$ACCOUNT.cloudant.com/$DATABASE/$DESIGN_ID/_update/$UPDATE_HANDLER" \
      -X POST \
      -H 'Content-Type: application/json' \
-     -u "$USERNAME:$PASSWORD"
      -d "$JSON"
 ```
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+".cloudant.com");
 var db = account.use($DATABASE);
 
 db.atomic($DESIGN_ID, $UPDATE_HANDLER, $DOCUMENT_ID, $JSON, function (err, body) {
@@ -618,10 +615,10 @@ Here's how to query update handlers:
 
 Method | URL
 -------|------
-POST | `https://$USERNAME.cloudant.com/$DATABASE/$DESIGN_ID/_update/$UPDATE_HANDLER`
-PUT | `https://$USERNAME.cloudant.com/$DATABASE/$DESIGN_ID/_update/$UPDATE_HANDLER/$DOCUMENT_ID`
+POST | `https://<username>.cloudant.com/<database>/<design_id>/_update>/<update_handler>`
+PUT | `https://<username>.cloudant.com/<database>/<design_id>/_update>/<update_handler>/<document_id>`
 
-Where `$DESIGN_ID` is the `_id` of the document defining the update handler, `$UPDATE_HANDLER` is the name of the update handler, and `$DOCUMENT_ID` is the `_id` of the document you want the handler to, well, handle.
+Where `<design_id>` is the `_id` of the document defining the update handler, `$UPDATE_HANDLER` is the name of the update handler, and `<document_id>` is the `_id` of the document you want the handler to, well, handle.
 
 ### Filter Functions
 
@@ -686,12 +683,11 @@ More details about the `req` parameter are available [here](#req).
 > Example query:
 
 ```http
-GET /$DATABASE/_changes?filter=$DESIGN_ID/$FILTER_FUNCTION HTTP/1.1
+GET /<database>/_changes?filter=<design_id>/<filter_function http>/1.1
 ```
 
 ```shell
 curl "https://$ACCOUNT.cloudant.com/$DATABASE/_changes?filter=$DESIGN_ID/$FILTER_FUNCTION" \
-     -u "$USERNAME:$PASSWORD"
 ```
 
 To apply a filter function to the changes feed,
@@ -703,12 +699,11 @@ providing the name of the filter to use.
 > Using the `req` argument:
 
 ```http
-GET /$DATABASE/_changes?filter=$DESIGN_ID/$FILTER_FUNCTION&status=new HTTP/1.1
+GET /<database>/_changes?filter=<design_id>/<filter_function&status=new http>/1.1
 ```
 
 ```shell
 curl "https://$ACCOUNT.cloudant.com/$DATABASE/_changes?filter=$DESIGN_ID/$FILTER_FUNCTION&status=new" \
-     -u "$USERNAME:$PASSWORD"
 ```
 
 > Example filter function that uses the `req` argument:
@@ -783,7 +778,6 @@ GET /recipes/_design/recipesdd/_info HTTP/1.1
 
 ```shell
 curl "https://$ACCOUNT.cloudant.com/recipes/_design/recipesdd/_info" \
-     -u "$USERNAME:$PASSWORD"
 ```
 
 > Example JSON structure response:
@@ -833,8 +827,7 @@ GET /foundbite/_design/app/_search_info/description HTTP/1.1
 ```
 
 ```shell
-curl "https://$USERNAME.cloudant.com/foundbite/_design/app/_search_info/description" \
-     -u "$USERNAME:$PASSWORD"
+curl "https://$ACCOUNT.cloudant.com/foundbite/_design/app/_search_info/description" \
 ```
 
 > Example JSON structure response:

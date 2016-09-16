@@ -157,12 +157,11 @@ The basic algorithm used by Cloudant Geo is [R\*\_tree](http://en.wikipedia.org/
 
 ```http
 GET /crimes/_design/geodd/_geo_info/geoidx HTTP/1.1
-Host: $USERNAME.cloudant.com
+Host: <account>.cloudant.com
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/crimes/_design/geodd/_geo_info/geoidx \
-     -u $USERNAME
+curl https://$ACCOUNT.cloudant.com/crimes/_design/geodd/_geo_info/geoidx \
 ```
 
 > Example JSON structure response:

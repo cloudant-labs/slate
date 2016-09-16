@@ -118,7 +118,7 @@ You can replicate a Cloudant database to multiple Bluemix environments. When you
 > Example instructions for monitoring a replication:
 
 ```shell
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/_active_tasks
+curl https://$ACCOUNT.cloudant.com/_active_tasks
 ```
 
 ```http
@@ -127,7 +127,7 @@ GET /_active_tasks HTTP/1.1
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+".cloudant.com");
 
 account.request({
   path: '_active_tasks'
@@ -193,7 +193,7 @@ account.request({
 ]
 ```
 
-To monitor replicators currently in process, make a `GET` request to `https://$USERNAME.cloudant.com/_active_tasks`.
+To monitor replicators currently in process, make a `GET` request to `https://<username>.cloudant.com/_active_tasks`.
 This returns any active tasks, including replications. To filter for replications, look for documents with `"type": "replication"`.
 
 If you monitor the `_active_tasks` and find that the state of a replication is not changing,
@@ -214,7 +214,7 @@ DELETE /_replicator/replication-doc?rev=1-... HTTP/1.1
 ```
 
 ```shell
-curl -X DELETE https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/_replicator/replication-doc?rev=1-...
+curl -X DELETE https://$ACCOUNT.cloudant.com/_replicator/replication-doc?rev=1-...
 ```
 
 To cancel a replication, simply [delete its replication document](document.html#document-delete) from the `_replicator` database.
@@ -226,7 +226,7 @@ If the replication is in an [`error` state](advanced_replication.html#replicatio
 > Example instructions for starting a replication:
 
 ```shell
-curl -H 'Content-Type: application/json' -X POST "https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/_replicate" -d @replication-doc.json
+curl -H 'Content-Type: application/json' -X POST "https://$ACCOUNT.cloudant.com/_replicate" -d @replication-doc.json
 #with the file replication-doc.json containing the required replication.
 ```
 
@@ -238,8 +238,8 @@ Content-Type: application/json
 
 ```json
 {
-  "source": "http://$USERNAME:$PASSWORD@username.cloudant.com/example-database",
-  "target": "http://$USERNAME2:$PASSWORD2@example.org/example-target-database"
+  "source": "http://$ACCOUNT.cloudant.com/example-database",
+  "target": "http://$ACCOUNT.example.org/example-target-database"
 }
 ```
 
@@ -301,8 +301,8 @@ Content-Type: application/json
 Accept: application/json
 
 {
-   "source" : "http://user:pass@example.com/db",
-   "target" : "http://user:pass@user.cloudant.com/db",
+   "source" : "http://<account>.example.com/db",
+   "target" : "http://<account>.cloudant.com/db",
 }
 ```
 
@@ -311,7 +311,7 @@ Accept: application/json
 ```json
 {
    "error" : "db_not_found"
-   "reason" : "could not open http://username.cloudant.com/ol1ka/",
+   "reason" : "could not open http://<account>.cloudant.com/ol1ka/",
 }
 ```
 
@@ -333,14 +333,14 @@ In all cases, the requested databases in the `source` and `target` specification
 > Example request to create a target database and replicate onto it:
 
 ```
-POST http://username.cloudant.com/_replicate
+POST http://<account>.cloudant.com/_replicate
 Content-Type: application/json
 Accept: application/json
 
 {
    "create_target" : true
-   "source" : "http://user:pass@example.com/db",
-   "target" : "http://user:pass@user.cloudant.com/db",
+   "source" : "http://<account>.example.com/db",
+   "target" : "http://<account>.cloudant.com/db",
 }
 ```
 
@@ -353,7 +353,7 @@ The `create_target` field is not destructive. If the database already exists, th
 > Example instructions for canceling a replication:
 
 ```shell
-curl -H 'Content-Type: application/json' -X POST 'https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/_replicate HTTP/1.1' -d @replication-doc.json
+curl -H 'Content-Type: application/json' -X POST 'https://$ACCOUNT.cloudant.com/_replicate HTTP/1.1' -d @replication-doc.json
 #the file replication-doc.json has the following content:
 ```
 
@@ -366,8 +366,8 @@ Content-Type: application/json
 
 ```json
 {
-  "source": "https://username:password@username.cloudant.com/example-database",
-  "target": "https://username:password@example.org/example-database",
+  "source": "https://<account>.cloudant.com/example-database",
+  "target": "https://<account>.example.org/example-database",
   "cancel": true
 }
 ```
@@ -389,8 +389,8 @@ Content-Type: application/json
 Accept: application/json
 
 {
-   "source" : "http://user:pass@user.cloudant.com/recipes",
-   "target" : "http://user:pass@user.cloudant.com/recipes2",
+   "source" : "http://<account>.cloudant.com/recipes",
+   "target" : "http://<account>.cloudant.com/recipes2",
 }
 ```
 
@@ -446,7 +446,7 @@ The structure of the response includes details about the replication status:
 > Example instructions for enabling continuous replication:
 
 ```shell
-curl -H 'Content-Type: application/json' -X POST http://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/_replicate -d @replication-doc.json
+curl -H 'Content-Type: application/json' -X POST http://$ACCOUNT.cloudant.com/_replicate -d @replication-doc.json
 # where the file replication-doc.json indicates that the replication should be continuous
 ```
 
@@ -459,8 +459,8 @@ Content-Type: application/json
 
 ```json
 {
-  "source": "http://username:password@example.com/foo", 
-  "target": "http://username:password@username.cloudant.com/bar", 
+  "source": "http://<account>.example.com/foo", 
+  "target": "http://<account>.cloudant.com/bar", 
   "continuous": true
 }
 ```
@@ -484,8 +484,8 @@ Database accesses are counted as part of the work performed by a multi-tenant da
 
 ```json
 {
-   "source" : "http://user:pass@example.com/db",
-   "target" : "http://user:pass@user.cloudant.com/db",
+   "source" : "http://<account>.example.com/db",
+   "target" : "http://<account>.cloudant.com/db",
    "create_target" : true,
    "continuous" : true
 }
@@ -498,8 +498,8 @@ Database accesses are counted as part of the work performed by a multi-tenant da
     "cancel" : true,
     "continuous" : true
     "create_target" : true,
-    "source" : "http://user:pass@example.com/db",
-    "target" : "http://user:pass@user.cloudant.com/db",
+    "source" : "http://<account>.example.com/db",
+    "target" : "http://<account>.cloudant.com/db",
 }
 ```
 
@@ -514,7 +514,7 @@ Requesting cancellation of a replication that does not exist results in a 404 er
 > Example instructions for starting a replication:
 
 ```shell
-$ curl -H 'Content-Type: application/json' -X POST 'http://username.cloudant.com/_replicate' -d @replication-doc.json
+$ curl -H 'Content-Type: application/json' -X POST 'http://<account>.cloudant.com/_replicate' -d @replication-doc.json
 #the file replication-doc.json describes the intended replication.
 ```
 
@@ -527,8 +527,8 @@ Content-Type: application/json
 
 ```json
 {
-  "source": "https://username:password@example.com/foo", 
-  "target": "https://username:password@username.cloudant.com/bar", 
+  "source": "https://<account>.example.com/foo", 
+  "target": "https://<account>.cloudant.com/bar", 
   "create_target": true, 
   "continuous": true
 }
@@ -546,7 +546,7 @@ Content-Type: application/json
 > Example instructions for canceling the replication:
 
 ```shell
-curl -H 'Content-Type: application/json' -X POST http://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/_replicate -d @replication-doc.json
+curl -H 'Content-Type: application/json' -X POST http://$ACCOUNT.cloudant.com/_replicate -d @replication-doc.json
 # where the file replication-doc.json specifies the replication task to be canceled.
 ```
 

@@ -13,8 +13,7 @@ GET /_active_tasks HTTP/1.1
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/_active_tasks \
-     -u $USERNAME
+curl https://$ACCOUNT.cloudant.com/_active_tasks \
 ```
 
 ```javascript

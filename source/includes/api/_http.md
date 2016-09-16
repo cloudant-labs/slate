@@ -22,7 +22,7 @@ The supported HTTP request headers include:
 
 ```http
 GET /recipes HTTP/1.1
-Host: username.cloudant.com
+Host: <account>.cloudant.com
 Accept: */*
 ```
 
@@ -46,7 +46,7 @@ For the majority of requests the definition should be for JSON data (`applicatio
 
 ```http
 GET /recipes HTTP/1.1
-Host: username.cloudant.com
+Host: <account>.cloudant.com
 Accept: application/json
 ```
 
@@ -79,12 +79,12 @@ The use of the `Content-type` on a request is highly recommended.
 # create gzipped document
 echo '{"foo":"bar"}' | gzip >doc.gzip
 # create the document in the database
-curl https://example.cloudant.com/db/doc -X PUT -T doc.gzip -H 'Content-Encoding: gzip'
+curl https://$ACCOUNT.cloudant.com/db/doc -X PUT -T doc.gzip -H 'Content-Encoding: gzip'
 ```
 
 ```http
 PUT /db/doc HTTP/1.1
-HOST: example.cloudant.com
+HOST: <account>.cloudant.com
 Content-Encoding: gzip
 ```
 

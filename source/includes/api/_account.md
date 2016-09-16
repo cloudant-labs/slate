@@ -12,11 +12,11 @@ If you don't yet have an account, [sign up](https://cloudant.com/sign-up/).
 
 ```http
 GET / HTTP/1.1
-HOST: $USERNAME.cloudant.com
+HOST: <account>.cloudant.com
 ```
 
 ```shell
-curl -u $USERNAME https://$USERNAME.cloudant.com
+curl $ACCOUNT https://$ACCOUNT.cloudant.com
 ```
 
 ```python
@@ -30,7 +30,7 @@ print ping.status_code
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com");
+var account = nano("https://$ACCOUNT.cloudant.com");
 
 account.request(function (err, body) {
   if (!err) {
@@ -39,4 +39,4 @@ account.request(function (err, body) {
 });
 ```
 
-To see if your Cloudant account is accessible, make a `GET` against `https://$USERNAME.cloudant.com`. If you misspelled your account name, you might get a [503 'service unavailable' error](#503).
+To see if your Cloudant account is accessible, make a `GET` against `https://<account>.cloudant.com`. If you misspelled your account name, you might get a [503 'service unavailable' error](#503).

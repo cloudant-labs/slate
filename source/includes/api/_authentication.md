@@ -18,18 +18,18 @@ you should prefer Cookie authentication where possible.</aside>
 > Example of providing basic authentication credentials in a request:
 
 ```http
-GET /db/document HTTP/1.1
+GET /database/document HTTP/1.1
 Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
 ```
 
 ```shell
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com
+curl https://$ACCOUNT.cloudant.com
 ```
 
 ```python
 import cloudant
 
-url = "https://{0}:{1}@{0}.cloudant.com".format(USERNAME, PASSWORD)
+url = "https://{0}:{1}@{0}.cloudant.com".format(ACCOUNT)
 account = cloudant.Account(url)
 ping = account.get()
 print ping.status_code
@@ -38,7 +38,7 @@ print ping.status_code
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com");
+var account = nano("https://$ACCOUNT.cloudant.com");
 
 account.request(function (err, body) {
   if (!err) {
@@ -75,16 +75,16 @@ name=YourUserName&password=YourPassword
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/_session \
+curl https://$ACCOUNT.cloudant.com/_session \
      -X POST \
      -c /path/to/cookiefile
-     -d "name=$USERNAME&password=$PASSWORD"
+     -d "name=$ACCOUNT"
 ```
 
 ```python
 import cloudant
 
-account = cloudant.Account(USERNAME)
+account = cloudant.Account(ACCOUNT)
 login = account.login(USERNAME, PASSWORD)
 print login.status_code
 # 200
@@ -98,15 +98,15 @@ print all_dbs.status_code
 
 ```javascript
 var nano = require('nano');
-var cloudant = nano("https://"+$USERNAME+".cloudant.com");
+var cloudant = nano("https://"+$ACCOUNT+".cloudant.com");
 var cookies = {}
 
-cloudant.auth($USERNAME, $PASSWORD, function (err, body, headers) {
+cloudant.auth($ACCOUNT, function (err, body, headers) {
   if (!err) {
-    cookies[$USERNAME] = headers['set-cookie'];
+    cookies[$ACCOUNT] = headers['set-cookie'];
     cloudant = nano({
-      url: "https://"+$USERNAME+".cloudant.com",
-      cookie: cookies[$USERNAME] 
+      url: "https://"+$ACCOUNT+".cloudant.com",
+      cookie: cookies[$ACCOUNT] 
     });
 
     // ping to ensure we're logged in
@@ -142,7 +142,7 @@ x-couch-request-id: a638431d
 ```json
 {
   "ok": true,
-  "name": "kimstebel",
+  "name": "johnsmith",
   "roles": []
 }
 ```
@@ -162,7 +162,7 @@ Accept: application/json
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/_session \
+curl https://$ACCOUNT.cloudant.com/_session \
      -X GET \
      -b /path/to/cookiefile
 ```
@@ -203,7 +203,7 @@ Accept: application/json
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/_session \
+curl https://$ACCOUNT.cloudant.com/_session \
      -X DELETE \
      -b /path/to/cookiefile
 ```

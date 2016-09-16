@@ -8,7 +8,7 @@ These endpoints provide information about the state of the cluster, details abou
 
 ```http
 GET / HTTP/1.1
-HOST: $ACCOUNT.cloudant.com
+HOST: <account>.cloudant.com
 ```
 
 ```shell
@@ -17,7 +17,7 @@ curl https://$ACCOUNT.cloudant.com/
 
 ```javascript
 var nano = require('nano');
-var account = nano('https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com');
+var account = nano('https://$ACCOUNT.cloudant.com');
 
 account.request({
   path: '/'
@@ -56,13 +56,12 @@ GET /_db_updates HTTP/1.1
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/_db_updates \
-     -u $USERNAME
+curl https://$ACCOUNT.cloudant.com/_db_updates \
 ```
 
 ```javascript
 var nano = require('nano');
-var account = nano('https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com');
+var account = nano('https://$ACCOUNT.cloudant.com');
 
 account.request({
   path: '_db_updates'
@@ -80,7 +79,7 @@ account.request({
   "results": [{
     "dbname": "$DATABASE_NAME",
     "type": "created",
-    "account": "$USERNAME",
+    "account": "$ACCOUNT",
     "seq": "673-g1AAAAJAeJyN0Et..."
   }],
   "last_seq": "673-g1AAAAJAeJyN0Et..."
@@ -101,22 +100,21 @@ since | Start the results from changes immediately after the specified sequence 
 timeout | Number of milliseconds to wait for data in a `longpoll` or `continuous` feed before terminating the response. If both `heartbeat` and `timeout` are suppled, `heartbeat` supersedes `timeout`. | yes | numeric |  | 
 descending | Whether results should be returned in descending order, i.e. the latest event first. By default, the oldest event is returned first. | yes | boolean | false | 
 
-### GET /$DB/_shards
+### GET /$DATABASE/_shards
 
 > Example request
 
 ```http
-GET /$DATABASE/_shards HTTP/1.1
+GET /<database>/_shards HTTP/1.1
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/$DATABASE/_shards \
-     -u $USERNAME
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_shards \
 ```
 
 ```javascript
 var nano = require('nano');
-var account = nano('https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com');
+var account = nano('https://$ACCOUNT.cloudant.com');
 
 account.request({
   database: $DATABASE,
@@ -181,19 +179,18 @@ Returns informations about the shards in the cluster, specifically what nodes co
 
 The response's `shards` field contains an object whose keys are the hash value range constituting each shard, while each value is the array of nodes containing that a copy of that shard.
 
-### GET /$DB/_missing_revs
+### GET /$DATABASE/_missing_revs
 
 > Example request
 
 ```http
-GET /$DATABASE/_missing_revs
+GET /<database/_missing_revs
 Content-Type: application/json
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/$DATABASE/_missing_revs \
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_missing_revs \
      -X POST \
-     -u "$USERNAME:$PASSWORD" \
      -H "Content-Type: application/json" \
      -d @request-body.json
 # where the file request-body.json contains the following:
@@ -201,7 +198,7 @@ curl https://$USERNAME.cloudant.com/$DATABASE/_missing_revs \
 
 ```javascript
 var nano = require('nano');
-var account = nano('https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com');
+var account = nano('https://$ACCOUNT.cloudant.com');
 
 account.request({
   database: $DATABASE,
@@ -247,15 +244,14 @@ POST /$DATABASE/_revs_diff HTTP/1.1
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/$DATABASE/_revs_diff \
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_revs_diff \
      -X POST \
-     -u $USERNAME \
      -d "$JSON"
 ```
 
 ```javascript
 var nano = require('nano');
-var account = nano('https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com');
+var account = nano('https://$ACCOUNT.cloudant.com');
 
 account.request({
   database: $DATABASE,
@@ -299,13 +295,13 @@ account.request({
 
 Given a set of document/revision IDs, returns the subset of those that do not correspond to revisions stored in the database.
 
-### GET /$DB/_revs_limit
+### GET /$DATABASE/_revs_limit
 
 > Example request
 
 ```javascript
 var nano = require('nano');
-var account = nano('https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com');
+var account = nano('https://$ACCOUNT.cloudant.com');
 
 account.request({
   path: '_revs_limit'
@@ -317,13 +313,12 @@ account.request({
 ```
 
 ```http
-GET /$DATABASE/_revs_limit HTTP/1.1
+GET /<database>/_revs_limit HTTP/1.1
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/$DATABASE/_revs_limit \
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_revs_limit \
      -X GET \
-     -u "$USERNAME:$PASSWORD"
 ```
 
 > Example response:
@@ -336,24 +331,23 @@ Gets the number of past revisions of a document that Cloudant stores information
 
 <aside class="warning" role="complementary" aria-label="tombstones1">Although the documents associated with past revisions are automatically removed, "tombstones" remain with the `_rev` value for that revision. If a document has more revisions than the value of `_revs_limit`, Cloudant deletes the tombstones of the oldest revisions.</aside>
 
-### PUT /$DB/_revs_limit
+### PUT /$DATABASE/_revs_limit
 
 > Example request
 
 ```http
-PUT /$DB/_revs_limit HTTP/1.1
+PUT /$DATABASE/_revs_limit HTTP/1.1
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/_revs_limit \
-     -u $USERNAME \
+curl https://$ACCOUNT.cloudant.com/_revs_limit \
      -X PUT \
      -d 1000
 ```
 
 ```javascript
 var nano = require('nano');
-var account = nano('https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com');
+var account = nano('https://$ACCOUNT.cloudant.com');
 
 account.request({
   path: '_revs_limit',
@@ -391,13 +385,12 @@ GET /_membership HTTP/1.1
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/_membership \
-     -u $USERNAME
+curl https://$ACCOUNT.cloudant.com/_membership \
 ```
 
 ```javascript
 var nano = require('nano');
-var account = nano('https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com');
+var account = nano('https://$ACCOUNT.cloudant.com');
 
 account.request({
   path: '_membership'
@@ -446,13 +439,12 @@ GET /_uuids HTTP/1.1
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/_uuids \
-     -u $USERNAME
+curl https://$ACCOUNT.cloudant.com/_uuids \ 
 ```
 
 ```javascript
 var nano = require('nano');
-var account = nano('https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com');
+var account = nano('https://$ACCOUNT.cloudant.com');
 
 account.request({
   path: '_uuids'
@@ -480,13 +472,12 @@ GET /_uuids?count=5 HTTP/1.1
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/_uuids?count=5 \
-     -u $USERNAME
+curl https://$ACCOUNT.cloudant.com/_uuids?count=5 \
 ```
 
 ```javascript
 var nano = require('nano');
-var account = nano('https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com');
+var account = nano('https://$ACCOUNT.cloudant.com');
 
 account.request({
   path: '_uuids?count=5'

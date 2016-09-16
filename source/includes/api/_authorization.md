@@ -23,17 +23,16 @@ The credentials you use to log in to the dashboard automatically have `_admin` p
 > Example request to determine permissions:
 
 ```http
-GET /_api/v2/db/$DATABASE/_security HTTP/1.1
+GET /_api/v2/db/<database>/_security HTTP/1.1
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/_api/v2/db/$DATABASE/_security \
-     -u $USERNAME
+curl https://$ACCOUNT.cloudant.com/_api/v2/db/$DATABASE/_security \
 ```
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+".cloudant.com");
 
 account.request({
   db: $DATABASE,
@@ -45,7 +44,7 @@ account.request({
 });
 ```
 
-To see who has permissions to read, write, and manage the database, make a GET request against `https://$USERNAME.cloudant.com/_api/v2/db/$DATABASE/_security`.
+To see who has permissions to read, write, and manage the database, make a GET request against `https://<account>.cloudant.com/_api/v2/db/<database>/_security`.
 
 <div></div>
 
@@ -81,12 +80,12 @@ In the example response, for instance, `nobody` has `_reader` permissions, makin
 > Modification request:
 
 ```http
-PUT /_api/v2/db/$DATABASE/_security HTTP/1.1
+PUT /_api/v2/db/<database>/_security HTTP/1.1
 Content-Type: application/json
 ```
 
 ```shell
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/_api/v2/db/$DATABASE/_security \
+curl https://$ACCOUNT.cloudant.com/_api/v2/db/$DATABASE/_security \
      -X PUT \
      -H "Content-Type: application/json" \
      -d "$JSON"
@@ -94,7 +93,7 @@ curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/_api/v2/db/$DATABASE/_se
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+".cloudant.com");
 
 account.request({
   db: $DATABASE,
@@ -128,7 +127,7 @@ account.request({
 }
 ```
 
-To modify who has permissions to read, write, and manage a database, make a PUT request against `https://$USERNAME.cloudant.com/_api/v2/db/$DB/_security`. To see what roles you can assign, see [Roles](#roles).
+To modify who has permissions to read, write, and manage a database, make a PUT request against `https://<username>.cloudant.com/_api/v2/db/<database>/_security`. To see what roles you can assign, see [Roles](#roles).
 
 The request object's `cloudant` field contains an object whose keys are usernames with permissions to interact with the database. The `nobody` username indicates what rights are available to unauthenticated users -- that is, anybody. In the example request, for instance, `nobody` has `_reader` permissions, making the database publicly readable.
 
@@ -182,12 +181,12 @@ POST https://<username>.cloudant.com/_api/v2/api_keys HTTP/1.1
 ```
 
 ```shell
-curl -X POST https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/_api/v2/api_keys
+curl -X POST https://$ACCOUNT.cloudant.com/_api/v2/api_keys
 ```
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://$USERNAME:$PASSWORD@cloudant.com");
+var account = nano("https://$ACCOUNT@cloudant.com");
 
 account.request({
   db: '_api',
@@ -265,7 +264,7 @@ Content-Type: application/json
 ```
 
 ```shell
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/_security \
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_security \
 -X PUT \
 -H "Content-Type: application/json" \
 -d '{

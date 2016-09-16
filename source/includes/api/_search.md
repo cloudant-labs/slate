@@ -715,7 +715,7 @@ Authorization: ...
 ```
 
 ```shell
-curl "https://$user:$password@$account.cloudant.com/movies/_design/searches/_search/movies?q=movie_name:Azazel&highlight_fields=\[\"movie_name\"\]&highlight_pre_tag=\"<b>\"&highlight_post_tag=\"</b>\"&highlights_size=30&highlights_number=2
+curl "https://$ACCOUNT.cloudant.com/movies/_design/searches/_search/movies?q=movie_name:Azazel&highlight_fields=\[\"movie_name\"\]&highlight_pre_tag=\"<b>\"&highlight_post_tag=\"</b>\"&highlights_size=30&highlights_number=2
 ```
 
 > Search result with highlights
@@ -746,7 +746,7 @@ GET /<DATABASE>/_design/<DDOC>/_search_info/<INDEX> HTTP/1.1
 ```
 
 ```shell
-curl "https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DDOC/_search_info/$INDEX" \
+curl "https://$ACCOUNT.cloudant.com/$DATABASE/$DESIGN_DOCUMENT/_search_info/$INDEX" \
      -X GET -u "$USERNAME:$PASSWORD"
 ```
 

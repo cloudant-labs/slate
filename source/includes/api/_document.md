@@ -139,16 +139,16 @@ The response is a JSON document containing the ID of the created document, the r
 > Reading a document:
 
 ```http
-GET /$DATABASE/$DOCUMENT_ID HTTP/1.1
+GET /<database>/<document_id> HTTP/1.1
 ```
 
 ```shell
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/$DOCUMENT_ID
+curl https://$ACCOUNT.cloudant.com/$DATABASE/$DOCUMENT_ID
 ```
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$ACCOUNT".cloudant.com");
 var db = account.use($DATABASE);
 
 db.get($JSON._id, function (err, body, headers) {
@@ -158,7 +158,7 @@ db.get($JSON._id, function (err, body, headers) {
 });
 ```
 
-To retrieve a document, make a GET request to `https://$USERNAME.cloudant.com/$DATABASE/$DOCUMENT_ID`.
+To retrieve a document, make a GET request to `https://<account>.cloudant.com/<database>/<document_id>`.
 If you do not know the `_id` for a particular document,
 you can [query the database](database.html#get-documents) for all documents.
 
@@ -212,12 +212,12 @@ To fetch many documents at once, [query the database](database.html#get-document
 > Updating a document
 
 ```http
-PUT /$DATABASE/$DOCUMENT_ID HTTP/1.1
+PUT /<database>/<document_id> HTTP/1.1
 ```
 
 ```shell
 // make sure $JSON contains the correct `_rev` value!
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/$DOCUMENT_ID \
+curl https://$ACCOUNT.cloudant.com/$DATABASE/$DOCUMENT_ID \
      -X PUT \
      -H "Content-Type: application/json" \
      -d "$JSON"
@@ -225,7 +225,7 @@ curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/$DOCUMENT_ID \
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+".cloudant.com");
 var db = account.use($DATABASE);
 
 // make sure $JSON contains the correct `_rev` value!
@@ -252,7 +252,7 @@ db.insert($JSON, $JSON._id, function (err, body, headers) {
 }
 ```
 
-To update (or create) a document, make a PUT request with the updated JSON content *and* the latest `_rev` value (not needed for creating new documents) to `https://$USERNAME.cloudant.com/$DATABASE/$DOCUMENT_ID`.
+To update (or create) a document, make a PUT request with the updated JSON content *and* the latest `_rev` value (not needed for creating new documents) to `https://<account>.cloudant.com/<database>/<document_id>`.
 
 <aside class="warning" role="complementary" aria-label="uselatestrev1">If you fail to provide the latest `_rev`, Cloudant responds with a [409 error](http.html#409).
 This error prevents you overwriting data changed by other processes. If the write quorum cannot be met, a [`202` response](http.html#202) is returned.</aside>
@@ -282,17 +282,17 @@ The response contains the ID and the new revision of the document or an error me
 > Delete request
 
 ```http
-DELETE /$DATABASE/$DOCUMENT_ID?rev=$REV HTTP/1.1
+DELETE /<database>/<document_id>?rev=<rev> HTTP/1.1
 ```
 
 ```shell
 // make sure $JSON contains the correct `_rev` value!
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/$DOCUMENT_ID?rev=$REV -X DELETE
+curl https://$ACCOUNT.cloudant.com/$DATABASE/$DOCUMENT_ID?rev=$REV -X DELETE
 ```
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+".cloudant.com");
 var db = account.use($DATABASE);
 
 // make sure $JSON contains the correct `_rev` value!
@@ -313,7 +313,7 @@ db.destroy($JSON._id, $REV, function (err, body, headers) {
 }
 ```
 
-To delete a document, make a DELETE request with the document's latest `_rev` in the querystring, to `https://$USERNAME.cloudant.com/$DATABASE/$DOCUMENT_ID`.
+To delete a document, make a DELETE request with the document's latest `_rev` in the querystring, to `https://<account>.cloudant.com/<database>/<document_id>`.
 
 The response contains the ID and the new revision of the document or an error message in case the update failed.
 
@@ -490,17 +490,17 @@ The bulk document API allows you to create and update multiple documents at the 
 > Request to update/create/delete multiple documents:
 
 ```http
-POST /$DATABASE/_bulk_docs HTTP/1.1
+POST /<database>/_bulk_docs HTTP/1.1
 Content-Type: application/json
 ```
 
 ```shell
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/_bulk_docs -X POST -H "Content-Type: application/json" -d "$JSON"
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_bulk_docs -X POST -H "Content-Type: application/json" -d "$JSON"
 ```
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com");
+var account = nano("https://$ACCOUNT.cloudant.com");
 var db = account.use($DATABASE);
 
 db.bulk($JSON, function (err, body) {
@@ -721,12 +721,12 @@ The content and structure of the returned JSON depends on the transaction semant
 > Example request to perform bulk update:
 
 ``` http
-POST /test/_bulk_docs HTTP/1.1
+POST /<test>/_bulk_docs HTTP/1.1
 Accept: application/json
 ```
 
 ``` shell
-curl -X POST "https://$USERNAME.cloudant.com/$DATABASE/_bulk_docs" -d @request.json
+curl -X POST "https://$ACCOUNT.cloudant.com/$DATABASE/_bulk_docs" -d @request.json
 ```
 
 > Example JSON to bulk update documents:

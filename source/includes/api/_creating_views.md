@@ -550,7 +550,7 @@ Content-Type: application/json
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/$DATABASE/_design/$DESIGNDOCUMENT/_view/by_ingredient?descending=true&startkey="beta"&endkey="alpha" \
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DESIGN_DOCUMENT/_view/by_ingredient?descending=true&startkey="beta"&endkey="alpha" \
      -H "Content-Type: application/json"
 ```
 
@@ -584,7 +584,7 @@ Content-Type: application/json
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/$DATABASE/_design/$DESIGNDOCUMENT/_view/by_ingredient?descending=true&startkey="egg"&endkey="carrots" \
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DESIGN_DOCUMENT/_view/by_ingredient?descending=true&startkey="egg"&endkey="carrots" \
      -H "Content-Type: application/json"
 ```
 
@@ -596,12 +596,12 @@ but also the `startkey` and `endkey` parameter values.
 > Example request to return all recipes, where the key for the view matches either "claret" or "clear apple juice":
 
 ```http
-POST /$DB/_design/$DDOC/_view/$VIEWNAME HTTP/1.1
+POST /$DATABASE/_design/$DESIGN_DOC/_view/$VIEWNAME HTTP/1.1
 Content-Type: application/json
 ```
 
 ```shell
-curl -X POST "https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DB/_design/$DDOC/_view/$VIEWNAME" -d @request.json
+curl -X POST "https://$ACCOUNT.cloudant.com/$DB/_design/$DESIGN_DOC/_view/$VIEWNAME" -d @request.json
 ```
 
 ```json
@@ -666,7 +666,7 @@ Content-Type: application/json
 ```
 
 ```shell
-curl "https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DB/_design/$DDOC/_view/by_ingredient?include_docs=true"
+curl "https://$ACCOUNT.cloudant.com/$DATABASE/$DESIGN_DOC/_view/by_ingredient?include_docs=true"
      -X POST \
      -H "Content-Type: application/json" \
      -d "{ "keys" : [ "claret", "clear apple juice" ] }"
@@ -880,6 +880,6 @@ curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DB/_design/$DESIGNDOC/_
 }
 ```
 
-To send several view queries in one request, use a `POST` request to `/$DB/_design/$DESIGNDOC/_view/$VIEW`. The request body is a JSON object containing only the `queries` field. It holds an array of query objects with fields for the parameters of the query. The field names and their meaning are the same as the query parameters of a regular view request.
+To send several view queries in one request, use a `POST` request to `/$DATABASE/_design/$DESIGN_DOC/_view/$VIEW`. The request body is a JSON object containing only the `queries` field. It holds an array of query objects with fields for the parameters of the query. The field names and their meaning are the same as the query parameters of a regular view request.
 
 The JSON object returned in the response contains only the `results` field, which holds an array of result objects - one for each query. Each result object contains the same fields as the response to a regular view request.

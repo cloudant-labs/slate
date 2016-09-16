@@ -320,7 +320,7 @@ When you make a `GET` request to `/db/_index`, you get a list of all indexes use
 ### Deleting an index
 
 -   **Method**: `DELETE`
--   **URL Path**: `/$db/_index/$designdoc/$type/$name` where $db is the name of the database, $designdoc is the ID of the design document, $type is the type of the index (for example "json"),
+-   **URL Path**: `/$database/_index/$designdoc/$type/$name` where $database is the name of the database, $designdoc is the ID of the design document, $type is the type of the index (for example "json"),
 and $name is the name of the index.
 -   **Response Body**: JSON object indicating successful deletion of the index, or describing any error encountered.
 -   **Request Body**: None
