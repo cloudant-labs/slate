@@ -74,7 +74,7 @@ When you configure the `Q` value, remember the following recommendations.
 
 #####`Q` example
 
-Database | Docs | Avg Doc Size | Read/sec | Write/sec | # Views | Doc to view/read ratio | Q value 
+Database | Docs | Avg Doc Size | Read/sec | Write/sec | # Views | Doc to view/read ratio | `Q` value 
 ---------|------|--------------|----------|-----------|---------|------------------------|---------
 Activities | 240m | 1k | 150 | 25 | 5 | 0.5 | 16-24
 Users | 24m | 2k | 150 | 25 | 4 | 0.1 | 8-12 
@@ -105,7 +105,7 @@ For many databases, you do not need to adjust the default shard value. However, 
 
 Unfortunately, there is no exact formula to determine what the optimal unique shard count is for a database in Cloudant. Due to the multiple variables in a production database, the *best* shard count is most often determined through experimentation. However, consider these recommendations when you select the unique shard count for larger databases.
 
-1.	Use a value of `Q that will result in shards that are less than 20GB in size. 
+1.	Use a value of `Q` that will result in shards that are less than 20GB in size. 
 2.	For larger databases, it is important to factor the number of nodes in the cluster into this equation. If you make the unique shard count divisible by the node count, it ensures that each node in the cluster has the same number of shards as the database, and ensures a better balance of data.
 
 As an illustration, let’s consider a cluster of 6 nodes, where you expect your database to grow to 500GB in size. When creating the database, the value for `Q` must be set to 30. This method satisfies the following conditions.
