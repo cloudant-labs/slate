@@ -112,3 +112,13 @@ is available [here](https://github.com/cloudant/objective-cloudant).
 
 The library is an early release version.
 As such it does not currently have complete Cloudant API coverage.
+
+### Apache Spark
+
+[spark-cloudant](https://github.com/cloudant-labs/spark-cloudant) is the official Cloudant library for Apache Spark.
+
+The spark-cloudant library is already loaded into the [IBM Bluemix Apache Spark-as-a-Service](https://console.ng.bluemix.net/catalog/services/apache-spark/) offering.
+It can be used with any stand-alone Spark cluster.
+
+See the [project information](https://github.com/cloudant-labs/spark-cloudant)
+and [Spark Packages](https://spark-packages.org/package/cloudant-labs/spark-cloudant) for more details.

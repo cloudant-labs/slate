@@ -325,7 +325,11 @@ Argument&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Description | S
 `since` | Start the results from changes _after_ the specified sequence identifier. In other words, using `since` excludes from the list all changes up to and including the specified sequence identifier. If `since` is 0 (the default), or omitted, the request returns all changes. If it is `now`, only changes made after the time of the request will be emitted. | sequence identifier or `now` | 0 | 
 `style` | Specifies how many revisions are returned in the changes array. The default, `main_only`, only returns the current "winning" revision; `all_docs` returns all leaf revisions, including conflicts and deleted former conflicts. | `main_only`, `all_docs` | `main_only` | 
 `timeout` | Number of milliseconds to wait for data before terminating the response. If heartbeat supersedes timeout if both are supplied. | any positive number | |
+`doc_ids` | To be used only when `filter` is set to `_doc_ids`. Filters the feed so that only changes to the specified documents are sent. <br>**Note**: The `doc_ids` parameter only works with versions of Cloudant that are compatible with CouchDB 2.0. See [API: GET / documentation](https://docs.cloudant.com/advanced.html#get-/) for more information. | A JSON array of document IDs | |
+
+<!--
 `doc_ids` | To be used only when `filter` is set to `_doc_ids`. Filters the feed so that only changes to the specified documents are sent. | A JSON array of document IDs | |
+-->
 
 <aside class="warning" role="complementary" aria-label="includedocsperformance2">Note that using `include_docs=true` might have [performance implications](creating_views.html#include_docs_caveat).</aside>
 
@@ -347,10 +351,13 @@ the format of the report entries reflects the continuous nature of the changes,
 while ensuring validity of the JSON output.
 
 The `filter` parameter designates a pre-defined [filter function](design_documents.html#filter-functions) to apply to the changes feed.
-Additionally, there are built in filters available:
+Additionally, there is a built-in filter available:
 
+<!--
  * `_doc_ids`: This filter accepts only changes for documents whose ID is specified in the `doc_ids` parameter.
- * `_design`: The _design filter accepts only changes to design documents.
+-->
+
+ * `_design`: The `_design` filter accepts only changes to design documents.
 
 <div id="changes_responses"></div>
 
@@ -444,7 +451,7 @@ Each line in the continuous response is either empty or a JSON object representi
 
 #### POST
 
-> `POST`ing to the `_changes` endpoint
+> Example of `POST`ing to the `_changes` endpoint
 
 ```http
 POST /$DB/_changes HTTP/1.1
@@ -458,7 +465,7 @@ curl -X POST "https://$USERNAME.cloudant.com/$DB/_changes" -d @request.json
 
 ```json
 {
-  "doc_ids": [ "foo" ]
+  "limit": 10
 }
 ```
 

@@ -216,6 +216,12 @@ A list of the error codes returned by Cloudant and generic descriptions of the r
 
     When sending documents in bulk, the bulk load operation failed.
 
+<div id="429"></div>
+
+-   `429 - Too Many Requests`
+
+    The user has sent too many requests in a given amount of time. More information is available in the corresponding [RFC 6585](https://tools.ietf.org/html/rfc6585#page-3).
+
 -   `500 - Internal Server Error`
 
     The request was invalid, either because the supplied JSON was invalid, or invalid information was supplied as part of the request.

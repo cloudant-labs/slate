@@ -41,12 +41,67 @@ Field&nbsp;Name | Required | Description
 `continuous` | no | Continuously syncs state from the `source` to the `target`, only stopping when deleted.
 `create_target` | no | A value of `true` tells the replicator to create the `target` database if it does not exist.
 `doc_ids` | no | Array of document IDs; if given, only these documents are replicated.
-`filter` | no | Name of a [filter function](design_documents.html#filter-functions) that can choose which documents get replicated.
+`filter` | no | Name of a [filter function](design_documents.html#filter-functions), defined in a design document. The filter function determines which documents get replicated. Note that using the `selector` option provides performance benefits compared with using the `filter` option. You should use the `selector` option where possible.
 `proxy` | no | Proxy server URL.
-`query_params` | no | Object containing properties that are passed to the [filter function](design_documents.html#filter-functions).
+`selector` | no | Provide a simple filter to select the documents that are included in the replication. Using the `selector` option provides performance benefits compared with using the `filter` option. More information about `selector` is available [here](replication.html#selector-field).
 `since_seq` | no | Sequence from which the replication should start. More information about `since_seq` is available [here](replication.html#since-seq-field).
 <div id="checkpoints">`use_checkpoints`</div> | no | Indicate whether to create checkpoints. Checkpoints greatly reduce the time and resources needed for repeated replications. Setting this to `false` removes the requirement for write access to the `source` database. Defaults to `true`.
 `user_ctx` | no | An object containing the username and optionally an array of roles, for example: `"user_ctx": {"name": "jane", "roles": ["admin"]} `. This is needed for the replication to show up in the output of `/_active_tasks`.
+
+<div id="selector-field"></div>
+
+#### The `selector` field
+
+If you do not want to replicate the entire contents of a database,
+you can specify a simple filter in the `selector` field.
+The filter takes the form of a [Cloudant Query](cloudant_query.html) selector object.
+
+Using a selector object provides performance benefits when compared with using a
+[filter function](design_documents.html#filter-functions).
+You should use the `selector` option where possible.
+
+> Example `selector` object in a replication document:
+
+```
+{
+	"source": "https://$USERNAME1:$PASSWORD1@$USERNAME1.cloudant.com/$DATABASE1",
+	"target": "https://$USERNAME2:$PASSWORD2@$USERNAME2.cloudant.com/$DATABASE2",
+	"selector": {
+		"_id": {
+			"$gte": "d2"
+		}
+	},
+	"continuous": true
+}
+```
+
+The selector object identifies a field (such as `_id` in the example),
+and an expression (such as `"$gte": "d2"`) that must be true for that field
+in order for the selector to allow the document to be replicated.
+In the example,
+only documents that have a `_id` field with a value greater than or equal to `"d2"` are replicated.
+
+<div></div>
+
+> Example error response if the selector is not valid:
+
+```
+{
+	"error": "bad request",
+	"reason": "<details of the problem>"
+}
+```
+
+If there is a problem with the request,
+an HTTP [`400`](http.html#400) error is returned,
+with more details about the problem in the `"reason"` field of the response.
+The reason might be one of:
+
+-	The Cloudant Query selector object is missing.
+-	The selector object is not valid JSON.
+-	The selector object does not describe a valid Cloudant Query.
+
+More information about using a `selector` object is available in the [Apache CouchDB documentation](http://docs.couchdb.org/en/2.0.0/api/database/changes.html#selector).
 
 <div id="since-seq-field"></div>
 

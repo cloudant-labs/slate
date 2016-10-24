@@ -7,11 +7,11 @@ Cloudant's scalable JSON data store has several querying mechanisms, all of whic
 -	MapReduce views are indexes into the dataset with key value pairs stored in a BTree for efficient retrieval by key or range of keys
 -	Search Indexes are constructed using Apache Lucene to allow free-text search, faceting and complex ad-hoc queries
 
-Cloudant's [search indexes](search.html) and [MapReduce views](using_views.html) are configured by adding Design Documents to a database. Design Documents are JSON documents which contain the instructions on how the view or index is to be built. Let's take a simple example. Assume we have a document like this:
-
 <div></div>
 
-```json
+> A simple data document
+
+``` json
 {
   "_id": "23966717-5A6F-E581-AF79-BB55D6BBB613",
   "_rev": "1-96daf2e7c7c0c277d0a63c49b57919bc",
@@ -21,13 +21,13 @@ Cloudant's [search indexes](search.html) and [MapReduce views](using_views.html)
 }
 ```
 
-<div></div>
+Cloudant's [search indexes](search.html) and [MapReduce views](using_views.html) are configured by adding Design Documents to a database. Design Documents are JSON documents which contain the instructions on how the view or index is to be built. Let's take a simple example. Assume we have a simple collection of data documents, similar to the provided example.
 
-... where the data includes a name, a body, and a timestamp. We want to create a MapReduce view to sort our documents by timestamp.
-
-We can do this by creating a Map function like this:
+Each data document includes a name, a body, and a timestamp. We want to create a [MapReduce view](using_views.html) to sort our documents by timestamp.
 
 <div></div>
+
+> Example map function returning a document's timestamp field, if present.
 
 ```
 function(doc) {
@@ -37,29 +37,35 @@ function(doc) {
 }
 ```
 
-<div></div>
+We can do this by creating a Map function like the provided example.
 
 The function emits the document's timestamp so that we can use it as the key to the index; as we are not interested in the value in the index, `null` is emitted. The effect is to provide a time-ordered index into the document set.
 
-We are going to call this view "`by_ts`" and put it into a Design Document called "`fetch`", like so:
-
 <div></div>
+
+> Design document that uses a map function to define a view
 
 ```json
 {
-  "_id": "_design/fetch",
-  "views": {
-    "by_ts": {
-      "map": "function(doc) {\n  if (doc.ts) {\n    emit( doc.ts, null);\n  }\n}"
-    }
-  },
-  "language": "javascript"
+	"_id": "_design/fetch",
+	"views": {
+		"by_ts": {
+			"map": "function(doc) {
+				if (doc.ts) {
+					emit( doc.ts, null);
+				}
+			}"
+		}
+	},
+	"language": "javascript"
 }
 ```
 
-<div></div>
+We are going to call this view "`by_ts`" and put it into a Design Document called "`fetch`", like the provided example.
 
 The result is that our map code has been turned into a JSON-compatible string, and included in a Design Document.
+
+<div></div>
 
 Once the Design Document is saved, Cloudant triggers server-side processes to build the `fetch/by_ts` view. It does this by iterating over every document in the database, and sending each one to the Javascript map function. The function returns the emitted key/value pair. As the iteration continues, each key/value pair is stored in a B-Tree index. After the index is built for the first time, subsequent re-indexing is performed only against new and updated documents. Deleted documents are de-indexed. This time-saving process is known as *incremental MapReduce*, as shown in the following diagram:
 
@@ -84,27 +90,31 @@ If MapReduce views must be altered independently of each other, place their defi
 
 ### Managing changes to a design document
 
-Imagine at some point in the future we decide to change the design of our view. Now, instead of returning the actual timestamp result, we are only interested in the count of how many documents match the criteria. To achieve this, the map function remains the same, but we now use a *reduce* of "`_count`". The effect is that our design document becomes:
-
-<div></div>
+> Example design document that uses a reduce function
 
 ```json
 {
-  "_id": "_design/fetch",
-  "_rev": "2-a2324c9e74a76d2a16179c56f5315dba",
-  "views": {
-    "by_ts": {
-      "map": "function(doc) {\n  if (doc.ts) {\n    emit( doc.ts, null);\n  }\n}",
-      "reduce": "_count"
-    }
-  },
-  "language": "javascript"
+	"_id": "_design/fetch",
+	"_rev": "2-a2324c9e74a76d2a16179c56f5315dba",
+	"views": {
+		"by_ts": {
+			"map": "function(doc) {
+				if (doc.ts) {
+					emit( doc.ts, null);
+				}
+			}",
+			"reduce": "_count"
+		}
+	},
+	"language": "javascript"
 }
 ```
 
+Imagine at some point in the future we decide to change the design of our view. Now, instead of returning the actual timestamp result, we are only interested in the count of how many documents match the criteria. To achieve this, the map function remains the same, but we now use a *reduce* of "`_count`". The effect is that our design document looks like the provided example.
+
 <div></div>
 
-When this document is saved, Cloudant completely invalidates the old index and begins building the new index from scratch, iterating over every document in turn. As with the original build, the time taken depends on how many documents are in the database, and blocks incoming queries on that view until it is complete.
+When this design document is saved, Cloudant completely invalidates the old index and begins building the new index from scratch, iterating over every document in turn. As with the original build, the time taken depends on how many documents are in the database, and blocks incoming queries on that view until it is complete.
 
 But there's a problem...
 
@@ -146,50 +156,49 @@ The procedure to switch to the new view is this:
 
 ### Move and Switch tooling
 
-There is a command-line Node.js script that automates the 'move and switch' procedure, called '`couchmigrate`'. It can be installed with:
-
-<div></div>
+> Command to install node.js `couchmigrate` script
 
 ```
 npm install -g couchmigrate
 ```
+
+There is a command-line Node.js script that automates the 'move and switch' procedure, called '`couchmigrate`'. It can be installed with:
+
 <div></div>
 
-To use it, first define the URL of our CouchDB/Cloudant instance by setting an environment variable called `COUCH_URL`, for example:
-  
-<div></div>
+> Defining the URL of the a Cloudant instance.
 
 ```
 export COUCH_URL=http://127.0.0.1:5984
 ```
 
+To use the script, first define the URL of our CouchDB/Cloudant instance by setting an environment variable called `COUCH_URL`.
+  
 <div></div>
 
-This URL can be HTTP or HTTPS, and can include authentication credentials, as in this example protected Cloudant account:
-
-<div></div>
+> Defining the URL of the a Cloudant instance with authentication credentials
 
 ```
 export COUCH_URL=https://myusername:mypassword@myhost.cloudant.com
 ```
 
-<div></div>
-
-Assuming we have a design document in JSON format, stored in a file, we can then run the command:
+This URL can be HTTP or HTTPS, and can include authentication credentials.
 
 <div></div>
+
+> Running the `couchmigrate` command
 
 ```
 couchmigrate --db mydb --dd /path/to/my/dd.json
 ```
 
-<div></div>
+Assuming we have a design document in JSON format, stored in a file, we can then run the migrate command.
 
-where '`db`' specifies the name of the database to change and `'dd`' specifies the path to our Design Document file.
+`db` specifies the name of the database to change and `dd` specifies the path to our Design Document file.
 
 The script coordinates the 'move and switch' procedure, waiting until the view is built before returning. If the incoming design document is the same as the incumbent one, then the script returns almost immediately.
 
-Source code here: [https://github.com/glynnbird/couchmigrate](https://github.com/glynnbird/couchmigrate)
+The source code for the script is available here: [https://github.com/glynnbird/couchmigrate](https://github.com/glynnbird/couchmigrate) .
 
 <div id="stale"></div>
 ### The '`stale`' parameter

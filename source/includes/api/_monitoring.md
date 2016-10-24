@@ -47,7 +47,7 @@ The fields are described in the following table:
 Field | Meaning
 ------|--------
 `ADMIN_USER` | The account name. Must have administrative privileges.
-`END_POINT` | The [aspect](monitoring.html#monitoring_endpoints) of the cluster you want to monitor.
+`END_POINT` | The [aspect](monitoring.html#monitoring-endpoints) of the cluster you want to monitor.
 `CLUSTER` | The cluster you are interested in.
 
 #### Results format

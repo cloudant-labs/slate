@@ -720,9 +720,13 @@ The content and structure of the returned JSON depends on the transaction semant
 
 > Example request to perform bulk update:
 
-```
+``` http
 POST /test/_bulk_docs HTTP/1.1
 Accept: application/json
+```
+
+``` shell
+curl -X POST "https://$USERNAME.cloudant.com/$DATABASE/_bulk_docs" -d @request.json
 ```
 
 > Example JSON to bulk update documents:

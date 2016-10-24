@@ -213,6 +213,8 @@ Replication isn’t just for Cloudant-to-Cloudant data transfer. Cloudant’s re
 
 #### PouchDB
 
+> Example javascript to enable replication using PouchDB
+
 ```
 var db = new PouchDB("myfirstdatabase");
 
@@ -224,6 +226,8 @@ db.sync(URL, { live: true });
 [PouchDB](http://pouchdb.com/) is an open-source, in-browser database that allows data to be replicated between the browser and Cloudant, and vice-versa. Having the data stored in a web browser on the client side allows web applications to function even without an internet connection. PouchDB can sync any changed data to and from Cloudant when a internet connection is present. Setting up replication from the client side requires a few lines of Javascript.
 
 #### CloudantSync
+
+> Example javascript to enable replication using CloudantSync
 
 ```
 URI uri = new URI("https://u:p@username.cloudant.com/my_database");

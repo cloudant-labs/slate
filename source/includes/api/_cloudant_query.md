@@ -24,24 +24,9 @@ You can create an index with one of two types:
 -	`"type": "json"`
 -	`"type": "text"`
 
+<div></div>
+
 #### Creating a "type=json" index
-
-To create a JSON index in the database $DB, make a `POST` request to `/$DB/_index` with a JSON object describing the index in the request body. The `type` field of the JSON object has to be set to `"json"`.
-
-##### Request Body format
-
--   **index**:
-    -   **fields**: A JSON array of field names following the [sort syntax](#sort-syntax). Nested fields are also allowed, e.g. `"person.name"`.
--   **ddoc (optional)**: Name of the design document in which the index will be created. By default, each index will be created in its own design document. Indexes can be grouped into design documents for efficiency. However, a change to one index in a design document will invalidate all other indexes in the same document.
--   **type (optional)**: Can be ``"json"`` or ``"text"``. Defaults to json. Geospatial indexes will be supported in the future.
--   **name (optional)**: Name of the index. If no name is provided, a name will be generated automatically.
-
-##### Return Codes
-
-Code | Description
------|------------
-200 | Index has been created successfully or already existed
-400 | Bad request: the request body does not have the specified format
 
 > Example of creating a new index for the field called `foo`:
 
@@ -68,7 +53,65 @@ Content-Type: application/json
 }
 ```
 
+To create a JSON index in the database $DB, make a `POST` request to `/$DB/_index` with a JSON object describing the index in the request body. The `type` field of the JSON object has to be set to `"json"`.
+
+##### Request Body format
+
+-   **index**:
+    -   **fields**: A JSON array of field names following the [sort syntax](#sort-syntax). Nested fields are also allowed, e.g. `"person.name"`.
+-   **ddoc (optional)**: Name of the design document in which the index will be created. By default, each index will be created in its own design document. Indexes can be grouped into design documents for efficiency. However, a change to one index in a design document will invalidate all other indexes in the same document.
+-   **type (optional)**: Can be ``"json"`` or ``"text"``. Defaults to json. Geospatial indexes will be supported in the future.
+-   **name (optional)**: Name of the index. If no name is provided, a name will be generated automatically.
+
+##### Return Codes
+
+Code | Description
+-----|------------
+200 | Index has been created successfully or already existed
+400 | Bad request: the request body does not have the specified format
+
+<div></div>
+
 #### Creating a "type=text" index
+
+> Simple example index creation request
+
+```json
+{
+	"index": {
+		"fields": [
+			{
+				"name": "Movie_name",
+				"type": "string"
+			}
+		]
+	},
+	"name": "Movie_name-text",
+	"type": "text"
+}
+```
+
+> More complex example index creation request
+
+```json
+{
+  "type": "text",
+  "name": "my-index",
+  "ddoc": "my-index-design-doc",
+  "index": {
+    "default_field": {
+      "enabled": true,
+      "analyzer": "german"
+    }
+    "selector": {},
+    "fields": [
+      {"name": "married", "type": "boolean"},
+      {"name": "lastname", "type": "string"},
+      {"name": "year-of-birth", "type": "number"}
+    ]
+  }
+}
+```
 
 While it is generally recommended that you create a single text index with the default values,
 there are a few useful index attributes that can be modified.
@@ -97,28 +140,6 @@ used for the creation. It does not affect anything other than index creation.
 
 For more details on how text indexes work,
 see the [note about `text` indexes](cloudant_query.html#note-about-text-indexes).
-
-> Example index creation request
-
-```json
-{
-  "type": "text",
-  "name": "my-index",
-  "ddoc": "my-index-design-doc",
-  "index": {
-    "default_field": {
-      "enabled": true,
-      "analyzer": "german"
-    }
-    "selector": {},
-    "fields": [
-      {"name": "married", "type": "boolean"},
-      {"name": "lastname", "type": "string"},
-      {"name": "year-of-birth", "type": "number"}
-    ]
-  }
-}
-```
 
 <div></div>
 

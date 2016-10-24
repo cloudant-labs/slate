@@ -305,6 +305,11 @@ Accept: application/json
 Content-Type: application/json
 ```
 
+```shell
+curl https://$USERNAME.cloudant.com/$DATABASE/_design/$DESIGNDOCUMENT/_view/by_title?limit=5 \
+     -H "Content-Type: application/json"
+```
+
 > Example response:
 
 ```json
@@ -438,6 +443,11 @@ Accept: application/json
 Content-Type: application/json
 ```
 
+```shell
+curl https://$USERNAME.cloudant.com/$DATABASE/_design/$DESIGNDOCUMENT/_view/by_title?limit=5&descending=true \
+     -H "Content-Type: application/json"
+```
+
 > Example response:
 
 ```json
@@ -513,9 +523,14 @@ You can reverse the order of the returned view information by setting the `desce
 > Example of querying using `startkey` and `endkey` query arguments:
 
 ```http
-GET /recipes/_design/recipes/_view/by_ingredient?startkey=%22alpha%22&endkey=%22beta%22 HTTP/1.1
+GET /recipes/_design/recipes/_view/by_ingredient?startkey="alpha"&endkey="beta" HTTP/1.1
 Accept: application/json
 Content-Type: application/json
+```
+
+```shell
+curl https://$USERNAME.cloudant.com/$DATABASE/_design/$DESIGNDOCUMENT/_view/by_ingredient?startkey="alpha"&endkey="beta" \
+     -H "Content-Type: application/json"
 ```
 
 The `startkey` and `endkey` query arguments can be used to specify the range of values to be displayed when querying the view.
@@ -526,12 +541,17 @@ This means that it is possible to have empty view results because the sorting an
 
 <div></div>
 
-> Reversing the order of start and end key will not yield any results:
+> Reversing the order of start and end key might not yield any results:
 
 ```http
-GET /recipes/_design/recipes/_view/by_ingredient?descending=true&startkey=%22beta%22&endkey=%22alpha%22 HTTP/1.1
+GET /recipes/_design/recipes/_view/by_ingredient?descending=true&startkey="beta"&endkey="alpha" HTTP/1.1
 Accept: application/json
 Content-Type: application/json
+```
+
+```shell
+curl https://$USERNAME.cloudant.com/$DATABASE/_design/$DESIGNDOCUMENT/_view/by_ingredient?descending=true&startkey="beta"&endkey="alpha" \
+     -H "Content-Type: application/json"
 ```
 
 For example,
@@ -558,9 +578,14 @@ Therefore the `endkey` of "beta" is seen before the `startkey` of "alpha", resul
 > Example of <i>correct</i> filtering and reversing the order of output by using the `descending` query argument, and reversing the `startkey` and `endkey` query arguments:
 
 ```http
-GET /recipes/_design/recipes/_view/by_ingredient?descending=true&startkey=%22egg%22&endkey=%22carrots%22 HTTP/1.1
+GET /recipes/_design/recipes/_view/by_ingredient?descending=true&startkey="egg"&endkey="carrots" HTTP/1.1
 Accept: application/json
 Content-Type: application/json
+```
+
+```shell
+curl https://$USERNAME.cloudant.com/$DATABASE/_design/$DESIGNDOCUMENT/_view/by_ingredient?descending=true&startkey="egg"&endkey="carrots" \
+     -H "Content-Type: application/json"
 ```
 
 The solution is to reverse not just the sort order,

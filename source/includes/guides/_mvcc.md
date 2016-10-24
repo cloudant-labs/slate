@@ -160,16 +160,18 @@ In this example, you create a document similar to the example provided, and upda
 
 #### Delete old revisions
 
-Then to delete the old revisions, send a DELETE request to the URLs with the revisions we want to delete.
+To delete an old revisions,
+send a `DELETE` request to the URLs with the revision we want to delete.
 
-> example requests to delete old revisions
-
-```http
-DELETE http://$USERNAME.cloudant.com/products/$_ID?rev=2-61ae00e029d4f5edd2981841243ded13
-```
+> Example request to delete old revision
 
 ```http
-DELETE http://$USERNAME.cloudant.com/products/$_ID?rev=2-f796915a291b37254f6df8f6f3389121
+DELETE https://$USERNAME.cloudant.com/products/$_ID?rev=2-61ae00e029d4f5edd2981841243ded13
 ```
 
-After this, conflicts are resolved and you can verify this by getting the document again with the conflicts parameter set to true.
+```shell
+curl "https://$USERNAME.cloudant.com/products/$_ID?rev=2-f796915a291b37254f6df8f6f3389121" -X DELETE
+```
+
+After this, conflicts are resolved.
+You can verify this by `GET`ting the document again with the `conflicts` parameter set to `true`.

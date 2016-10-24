@@ -162,6 +162,5 @@ In the `phase` field, the value indicates the stage that compaction has reached:
 #### Specific response fields for indexing tasks
 
 -   **design\_document**: The design document containing the view or index function or functions.
--   **total\_changes**: Total number of unindexed changes from when the MVCC snapshot was opened.
+-   **total\_changes**: The number of unindexed changes to process. This count includes deleted documents, though these are automatically skipped by the indexer.
 -   **changes\_done**: Number of document revisions processed by this task. A document can have one or more revisions.
-

@@ -10,7 +10,6 @@ env:
 notifications:
   email:
     - adrian.warman@uk.ibm.com
-    - kim@cloudant.com
     - lbboe@us.ibm.com
   on_success: always
 before_install:

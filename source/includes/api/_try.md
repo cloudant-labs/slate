@@ -11,13 +11,15 @@
     var requestTypes = {
       analyzers: {
         queries: {
-          'email-address': {query: '{\n  "analyzer": "email",\n  "text":"Jane\'s email address is jane.smith@example.com."\n}'},
+          'classic': {query: '{\n  "analyzer":"classic",\n  "text":"The brown fox jumps over the lazy dog, then emails a classic analyzer result to the lazy@dog.com address."\n}' },
+          'email-address': {query: '{\n  "analyzer": "email",\n  "text":"The fox jumps over the lazy dog, then emails a message to the lazy@dog.com address."\n}'},
           'english': {query: '{\n  "analyzer": "english",\n  "text":"Peter Piper picked a peck of pickled peppers. A peck of pickled peppers Peter Piper picked. If Peter Piper picked a peck of pickled peppers. Where’s the peck of pickled peppers Peter Piper picked?"\n}'},
           'german': {query: '{\n  "analyzer": "german",\n  "text":"Fischers Fritz fischt frische Fische, frische Fische fischt Fischers Fritz."\n}'},
-          'default': 'email-address',
-          'keyword': {query: '{\n  "analyzer":"keyword",\n  "text":"ablanks@renovations.com"\n}' },
-          'standard': {query: '{\n  "analyzer":"standard",\n  "text":"ablanks@renovations.com"\n}' },
-          'whitespace': {query: '{\n  "analyzer":"whitespace",\n  "text":"Jane\'s email address is jane.smith@example.com."\n}' }
+          'default': 'standard',
+          'keyword': {query: '{\n  "analyzer":"keyword",\n  "text":"The quick fox runs away from the lazy dog, then emails a keyword analyzer result to the lazy@dog.com address."\n}' },
+          'simple': {query: '{\n  "analyzer":"simple",\n  "text":"The fox runs past the lazy dog, then emails a simple analyzer result to the lazy@dog.com address."\n}' },
+          'standard': {query: '{\n  "analyzer":"standard",\n  "text":"The quick brown fox jumps over the lazy dog, then emails a video to the lazy@dog.com address."\n}' },
+          'whitespace': {query: '{\n  "analyzer":"whitespace",\n  "text":"The rare arctic fox jumps over the lazy dog, then emails a whitespace analyzer result to the lazy@dog.com address."\n}' }
         },
         form: $('form.analyzers'),
         queryInput: $('form.analyzers .query'),
@@ -399,11 +401,13 @@ You can try out requests and obtain output results in the code column. We have p
   <form action="#" class="analyzers">
     <label for="predefined3">Predefined queries</label>
     <select id="predefined3" name="predefined3" class="predefined">
-      <option selected="selected" value="email-address">Email address analyzer</option>
+      <option value="classic">Classic analyzer</option>
+      <option value="email-address">Email address analyzer</option>
       <option value="english">English analyzer</option>
       <option value="german">German analyzer</option>
       <option value="keyword">Keyword analyzer</option>
-      <option value="standard">Standard analyzer</option>
+      <option value="simple">Simple analyzer</option>
+      <option selected="selected" value="standard">Standard analyzer</option>
       <option value="whitespace">Whitespace analyzer</option>
     </select>
     <label for="analyzersRequestBody">AnalyzersRequestBody</label>

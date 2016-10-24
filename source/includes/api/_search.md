@@ -43,20 +43,26 @@ To avoid this problem, use an appropriate [guard clause](#index-guard-clauses).<
 The function contained in the index field is a Javascript function that is called for each document in the database. It takes the document as a parameter, extracts some data from it and then calls the `index` function to index that data.
 
 The `index` function takes three parameters, where the third parameter is optional.
-The first parameter is the name of the field used when querying the index,
-specified in the Lucene syntax portion of the query.
+
+The first parameter is the name of the field you intend to use when querying the index,
+and which is specified in the Lucene syntax portion of subsequent queries.
 For example,
 when querying:
 
+  `query=color:red`
+
+`color` is the Lucene field name specified as the first parameter of the `index` function.
+
+The `query` parameter can be abbreviated to `q`,
+so another way of writing the query is as follows:
+
   `q=color:red`
 
-"color" is the Lucene field name.
+If the special value `"default"` is used when defining the name,
+you do not have to specify a field name at query time.
+The effect is that the query can be simplified:
 
-If the special value `"default"` is used,
-the field name is not specified at query time.
-The effect is that the query becomes:
-
-  `q=red`
+  `query=red`
 
 The second parameter is the data to be indexed.
 
@@ -64,10 +70,12 @@ The third, optional parameter is a JavaScript object with the following fields:
 
 Option | Description | Values | Default
 -------|-------------|--------|---------
-`index` | Whether the data is indexed, and if so, how. If set to `false` or `no`, the data cannot be used for searches, but can still be retrieved from the index if `store` is set to `true`. See [Analyzers](#analyzers) for more information. | `analyzed`, `analyzed_no_norms`, `false`, `no`, `not_analyzed`, `not_analyzed_no_norms` | `analyzed`
+`index` | Whether the data is indexed, and if so, how. If set to `false` or `no`, the data cannot be used for searches, but can still be retrieved from the index if `store` is set to `true`. See [Analyzers](search.html#analyzers) for more information. | `analyzed`, `analyzed_no_norms`, `false`, `no`, `not_analyzed`, `not_analyzed_no_norms` | `analyzed`
 `facet` | Creates a faceted index. See [Faceting](search.html#faceting) for more information. | `true`, `false` | `false`
 `store` | If `true`, the value is returned in the search result; otherwise, the value is not returned. | `true`, `false` | `false`
 `boost` | A number specifying the relevance in search results. Content indexed with a boost value greater than 1 is more relevant than content indexed without a boost value. Content with a boost value less than one is not so relevant. | A positive floating point number | 1 (no boosting)
+
+<aside class="warning" role="complementary" aria-label="useStore">If you do not set the <code class="prettyprint">store</code> parameter, the index data for the document is not returned in response to a query.</aside>
 
 #### Index Guard Clauses
 
@@ -161,7 +169,7 @@ Analyzer | Description
 <div></div>
 #### Language-Specific Analyzers
 
-These analyzers will omit very common words in the specific language, and many also [remove prefixes and suffixes](http://en.wikipedia.org/wiki/Stemming). The name of the language is also the name of the analyzer.
+These analyzers omit very common words in the specific language, and many also [remove prefixes and suffixes](http://en.wikipedia.org/wiki/Stemming). The name of the language is also the name of the analyzer.
 
 * arabic
 * armenian
@@ -313,9 +321,17 @@ You can test the results of analyzer tokenization by posting sample data to the 
 
 ### Queries
 
+> Example query of an index.
+
 ```shell
-curl https://$USERNAME.cloudant.com/$DATABASE/_design/$DESIGN_ID/_search/$INDEX_NAME?q=$QUERY \
+curl https://$USERNAME.cloudant.com/$DATABASE/_design/$DESIGN_DOC/_search/$INDEX_NAME?include_docs=true\&query="*:*"\&limit=1 \
      -u $USERNAME
+```
+
+```http
+GET /$DATABASE/_design/$DESIGN_DOC/_search/$INDEX_NAME?include_docs=true\&query="*:*"\&limit=1 HTTP/1.1
+Content-Type: application/json
+Host: account.cloudant.com
 ```
 
 ```javascript
@@ -361,6 +377,7 @@ Argument | Description | Optional | Type | Supported Values
 `include_docs` | Include the full content of the documents in the response | yes | boolean |
 `include_fields` | A JSON array of field names to include in search results. Any fields included must have been indexed with the `store:true` option. | yes, the default is all fields | Array of strings |
 `limit` | Limit the number of the returned documents to the specified number. In case of a grouped search, this parameter limits the number of documents per group. | yes | numeric | The limit value can be any positive integer number up to and including 200.
+`q` | Abbreviation for `query`. Performs a Lucene query. | no | string or number |
 `query` | A Lucene query | no | string or number |
 `ranges` | This field defines ranges for faceted, numeric search fields. The value is a JSON object where the fields names are numeric, faceted search fields and the values of the fields are again JSON objects. Their field names are names for ranges. The values are Strings describing the range, for example `"[0 TO 10]"` | yes | JSON | The value must be on object whose fields again have objects as their values. These objects must have string describing ranges as their field values.
 `sort` | Specifies the sort order of the results. In a grouped search (when `group_field` is used), this parameter specifies the sort order within a group. The default sort order is relevance. | yes | JSON | A JSON string of the form `"fieldname<type>"` or `-fieldname<type>` for descending order, where `fieldname` is the name of a string or number field, and `type` is either number or string or a JSON array of such strings. The type part is optional and defaults to number. Some examples are `"foo"`, `"-foo"`, `"bar<string>"`, `"-foo<number>"` and `["-foo<number>", "bar<string>"]`. String fields used for sorting must not be analyzed fields. Fields used for sorting must be indexed by the same indexer used for the search query.
@@ -392,9 +409,7 @@ curl 'https://account.cloudant.com/db/_design/ddoc/_search/searchname' -X POST -
 }
 ```
 
-Instead of using the `GET` HTTP method, you can also use `POST`. The main advantage of `POST` queries is, that they can have a request body, so you can specify the request as a JSON object. Each parameter in the previous table corresponds to a field in the JSON object in the request body.
-
-<div> </div>
+Instead of using the `GET` HTTP method, you can also use `POST`. The main advantage of `POST` queries is that they can have a request body, so you can specify the request as a JSON object. Each parameter in the previous table corresponds to a field in the JSON object in the request body.
 
 ### Query Syntax
 
@@ -407,8 +422,8 @@ class:bird
 l*
 // Carnivorous birds
 class:bird AND diet:carnivore
-// Herbivores that start with letter
-"l" l* AND diet:herbivore
+// Herbivores that start with letter "l"
+l* AND diet:herbivore
 // Medium-sized herbivores
 min_length:[1 TO 3] AND diet:herbivore
 // Herbivores that are 2m long or less
@@ -423,15 +438,16 @@ diet:(herbivore OR omnivore) AND class:mammal
 *:*
 ```
 
-The Cloudant search query syntax is based on the [Lucene syntax](http://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#Overview). Search queries take the form of name:value (unless the name is omitted, in which case they hit the default field, demonstrated in the example provided).
+The Cloudant search query syntax is based on the [Lucene syntax](http://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#Overview). Search queries take the form of `name:value` unless the name is omitted, in which case they use the default field, as demonstrated in the example provided.
 
 Queries over multiple fields can be logically combined, and groups and fields can be further grouped. The available logical operators are case sensitive and are `AND`, `+`, `OR`, `NOT` and `-`. Range queries can run over strings or numbers.
 
-If you want a fuzzy search you can run a query with `~` to find terms like the search term. For instance, `look~` will find terms book and took.
+If you want a fuzzy search you can run a query with `~` to find terms like the search term. For instance, `look~` will find terms `book` and `took`.
 
-You can alter the importance of a search term by adding `^` + a positive number. This makes matches containing the term more or less relevant to the power of the boost value, with 1 as the default. Any decimal between 0 and 1 will reduce importance while anything over 1 will increase it.
+You can alter the importance of a search term by adding `^` and a positive number. This makes matches containing the term more or less relevant to the power of the boost value, with 1 as the default. Any decimal between 0 and 1 reduces importance.
+A value greater than one increases importance.
 
-Wild card searches are supported, for both single (`?`) and multiple (`*`) character searches. `dat?` would match date and data, `dat*` would match date, data, database, and dates.
+Wild card searches are supported, for both single (`?`) and multiple (`*`) character searches. `dat?` would match `date` and `data`, `dat*` would match `date`, `data`, `database`, and `dates`.
 Wildcards must come after the search term.
 Use `*:*` to return all results.
 
