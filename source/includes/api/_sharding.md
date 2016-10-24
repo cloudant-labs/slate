@@ -6,7 +6,7 @@ The number of total shards that a database contains is set at the time of its cr
 
 In a dedicated Cloudant cluster, the default configuration for new databases is Q=8 and N=3. Therefore, a database that is created without explicitly specifying `Q` or `N` will have its data and indexes divided among 8 shards. Each of those shards will have 3 replicas for redundancy and quorum within the cluster. 
 
-Shards become distributed among the nodes of a cluster in round-robin fashion, with data distributed into them by using a hash of the content for each JSON document. For example, consider a scenario that uses a database with Q=4 unique shards that we designate as A, B, C, and D. Documents are distributed into the shards by taking a hash of their contents, and using it as a key within the range of each shard.  
+Shards become distributed among the nodes of a cluster in round-robin fashion, with data distributed into them by using a hash of the content for each JSON document. For example, consider a scenario that uses a database with Q=4 unique shards that we designate as A, B, C, and D. Documents are distributed into the shards by taking a hash of their ID, and using it as a key within the range of each shard.
 
 Shard A: 00000000-3FFFFFFF
 <br>Shard B: 40000000-7FFFFFFF
