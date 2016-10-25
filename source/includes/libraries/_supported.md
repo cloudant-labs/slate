@@ -96,7 +96,7 @@ A supported library for working with Cloudant using Python is available [here](h
 
 Download the current library release [here](https://pypi.python.org/pypi/cloudant/). Learn more information about the Python language at [python.org](https://www.python.org/about/). 
 
-### SwiftCloudant
+### Swift
 
 A supported library is available for working with Cloudant. The library is called SwiftCloudant, and is installed using `cocoapods`.
 
