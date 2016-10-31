@@ -1,6 +1,6 @@
 ## Sharding
 
-In Cloudant and CouchDB 2.0, database sharding is the concept of dividing a database into separate parts to enable high-availability of data, and the division of work among the nodes inside a cluster. These shards become roughly congruous to the number of files in the file system that contains JSON data and indexes in the database.  
+In Cloudant and CouchDB 2.0, database sharding is the concept of dividing a database into separate parts to enable high-availability of data, and the division of work among the nodes inside a cluster.   
 
 The number of total shards that a database contains is set at the time of its creation. While shards can be moved around a cluster for re-balancing purposes (during cluster expansion or contraction), shards cannot be increased or decreased in number. The number of unique shards in a Cloudant database is often described as its `Q` value. The number of replicas of those shards in the database is described as its `N` value.  Therefore, the total number of *files* the database has inside the cluster is equivalent to Q * N. 
 
