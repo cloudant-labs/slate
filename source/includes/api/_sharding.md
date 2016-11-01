@@ -49,7 +49,7 @@ Users | 24m | 2k | 150 | 25 | 4 | 0.1 | 8-12
 Social feed | 50m | .2k | 40 | 8 | 4 | 0.1 | 4-8
 
 ####`N` - Number of copies or replicas 
-You can store `N` copies of data and configure them when you create a database. This value should almost never be changed from its default, 3.  Default `N` value is N=3.  
+You can store `N` copies of data and configure them when you create a database. This value should almost never be changed from its default, 3.    
 
 The node computes the following items.
 
@@ -84,7 +84,7 @@ Each database has its own requirements. Here are a few best practices to remembe
 For most databases, you do not need to adjust the default `Q` and `R` value. However, when you expect that your Cloudant database is going to be large, or if your application uses a per-user or per-device model with a large number of small databases, it is essential to evaluate the expected growth of your database and choose the right shard count from the beginning. Alternatively, if a database has grown much larger in size while in production than was initially predicted, you might want to take the following step.
 
 1.	Create a new database with a more appropriate shard count.
-2.	Migrate your data to that database using replication [INSERT LINK].
+2.	Migrate your data to that database using replication [LINK].
 3.	Delete the previous database. 
 
 Unfortunately, there is no exact formula to determine what the optimal shard count is for a database in Cloudant. Due to the multiple variables in a production database, the *best* “shard count should be determined through experimentation. However, consider these recommendations when you select the shard count for larger databases.
@@ -95,7 +95,7 @@ Unfortunately, there is no exact formula to determine what the optimal shard cou
 As an illustration, let’s consider a cluster of 6 nodes, where you expect your database to grow to 500GB in size. When creating the database, thirty shards could be a reasonable number. This method satisfies the following conditions.
 
 1.	At 500GB, each shard is ~17GB, which satisfies the recommendation of keeping shards below 50GB.
-2.	With Q=30 and N=3, the NxQ count is 90. Since the total count is divisible by the node count of 6, this means that each node in the cluster has the same number of shards for this database, and disk space will probably remains balanced.
+2.	With Q=30 and N=3, the N*Q count is 90. Since the total count is divisible by the node count of 6, this means that each node in the cluster has the same number of shards for this database, and disk space will probably remains balanced.
 
 In addition, different application servers, such as IoTs or mobile devices, access large databases in Cloudant multiple times per second. If you have more unique shards, this allows for the database to accept more simultaneous connections from client devices or application servers.
 
