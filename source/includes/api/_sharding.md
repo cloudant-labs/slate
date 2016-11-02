@@ -6,7 +6,7 @@ The number of total shards that a database is split into is set at the time of i
 
 In a dedicated Cloudant cluster, the default configuration for new databases might be `Q`= 8 and `N`= 3. Therefore, a database that is created without explicitly specifying `Q` or `N` will have its data and indexes divided among 8 shards. Each of those shards will have 3 replicas for redundancy within the cluster. 
 
-Shards are distributed among the nodes of a cluster in round-robin fashion, with data distributed into them by using a hash of the Document ID for each JSON document. For example, consider a scenario that uses a database with Q=4 shards that we designate as A, B, C, and D. Documents are distributed into the shards by taking a hash of their ID, and using it as a key within the range of each shard.
+Shards are distributed among the nodes of a cluster in round-robin fashion, with data distributed into them by using a hash of the Document ID for each JSON document. For example, consider a scenario that uses a database with `Q` = 4 shards that we designate as A, B, C, and D. Documents are distributed into the shards by taking a hash of their ID, and using it as a key within the range of each shard.
 
 Shard A: 00000000-3FFFFFFF
 <br>Shard B: 40000000-7FFFFFFF
@@ -15,7 +15,7 @@ Shard A: 00000000-3FFFFFFF
 
 For example, a document whose hash computes to 4A51341C would be contained within the B shard. Using the hash of the document’s ID makes even distribution of documents to shards more likely, which avoids certain nodes having busy shards.
 
-With N=3, each of these shards has three replicas for redundancy, so the cluster has 4 shards, 12 files in total for the database: A1, B1, C1, D1, A2, B2, C2, D2, A3, B3, C3, and D3. In other words, three nodes of the cluster can go offline without data becoming inaccessible. In a cluster of 4 nodes, the cluster might distribute the shard replicas as shown in the following example.
+With `N`= 3, each of these shards has three replicas for redundancy, so the cluster has 4 shards, 12 files in total for the database: A1, B1, C1, D1, A2, B2, C2, D2, A3, B3, C3, and D3. In other words, three nodes of the cluster can go offline without data becoming inaccessible. In a cluster of 4 nodes, the cluster might distribute the shard replicas as shown in the following example.
 
 <br>Node 1: A1, D2, C3
 <br>Node 2: B1, A2, D3
@@ -66,12 +66,12 @@ Cloudant builds indexes locally for each shard. Shard indexing runs in parallel.
 ####`R` - Read quorum 
 The `R` value measures the reads served by the database as query results. For example, the results occur when the database provides the answer or when enough nodes provide the answer. *Enough* means the shard attempted to read from `N` nodes, and `R` nodes replied and agreed. 
 
-Default `R` value is R=2 (majority). To minimize latency, set R=1, or to maximize consistency, set R=N. 
+Default `R` value is `R`= 2 (majority). To minimize latency, set `R`= 1, or to maximize consistency, set `R`= `N`. 
 
 ####`W` - Write quorum 
 The `W` value measures the times a database writes data and when enough nodes write data. *Enough* means the shard tried to store all replicas (`N` copies) when `W` nodes replied after fsyncing to disk. 
 
-Default `W` value is W=2 (majority). To maximize throughput, set W=1, or to maximize consistency, set W=N. 
+Default `W` value is `W`= 2 (majority). To maximize throughput, set `W`= 1, or to maximize consistency, set `W`= `N`. 
 
 ### Cloudant Sharding best practices
 
@@ -91,7 +91,7 @@ Unfortunately, there is no exact formula to determine what the optimal shard cou
 As an illustration, let’s consider a cluster of 6 nodes, where you expect your database to grow to 500GB in size. When creating the database, thirty shards could be a reasonable number. This method satisfies the following conditions.
 
 1.	At 500GB, each shard is ~17GB, which satisfies the recommendation of keeping shards below 50GB.
-2.	With Q=30 and N=3, the N * Q count is 90. Since the total count is divisible by the node count of 6, this means that each node in the cluster has the same number of shards for this database, and makes the chance that disk space will remain balanced.
+2.	With `Q`= 30 and `N` = 3, the `N` * `Q` count is 90. Since the total count is divisible by the node count of 6, this means that each node in the cluster has the same number of shards for this database, and makes the chance that disk space will remain balanced.
 
 In addition, different application servers, such as IoTs or mobile devices, access large databases in Cloudant multiple times per second. If you have more shards, this configuration makes it more likely that load from the requests will be evenly distributed. 
 
