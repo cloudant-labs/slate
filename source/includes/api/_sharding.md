@@ -2,9 +2,9 @@
 
 In Cloudant and CouchDB 2.0, database sharding is the concept of dividing a database into separate parts to enable high-availability of data, and the division of work among the nodes inside a cluster.   
 
-The number of total shards that a database is split into is set at the time of its creation. Shards cannot be increased or decreased in number after database creation. The number of shards in a Cloudant database is often described as its `Q` value. The number of replicas of the shards in the database is described as its `N` value. Each replica of a shard is a file, therefore, the total number of *files* the database has inside the cluster is equivalent to Q * N. 
+The number of total shards that a database is split into is set at the time of its creation. Shards cannot be increased or decreased in number after database creation. The number of shards in a Cloudant database is often described as its `Q` value. The number of replicas of the shards in the database is described as its `N` value. Each replica of a shard is a file, therefore, the total number of *files* the database has inside the cluster is equivalent to `Q` * `N`. 
 
-In a dedicated Cloudant cluster, the default configuration for new databases might be Q=8 and N=3. Therefore, a database that is created without explicitly specifying `Q` or `N` will have its data and indexes divided among 8 shards. Each of those shards will have 3 replicas for redundancy within the cluster. 
+In a dedicated Cloudant cluster, the default configuration for new databases might be `Q`= 8 and `N`= 3. Therefore, a database that is created without explicitly specifying `Q` or `N` will have its data and indexes divided among 8 shards. Each of those shards will have 3 replicas for redundancy within the cluster. 
 
 Shards are distributed among the nodes of a cluster in round-robin fashion, with data distributed into them by using a hash of the Document ID for each JSON document. For example, consider a scenario that uses a database with Q=4 shards that we designate as A, B, C, and D. Documents are distributed into the shards by taking a hash of their ID, and using it as a key within the range of each shard.
 
@@ -25,13 +25,11 @@ With N=3, each of these shards has three replicas for redundancy, so the cluster
 
 ### Sharding Parameters
 
-To set appropriate values, you must understand the parameters. You must set N and Q at database creation time. In addition, some read/write requests also allow R and W to be set. 
+To set appropriate values, you must understand the parameters. You must set `N` and `Q` at database creation time. The parameters that interact with sharding include `N`, `Q`, `R` and `W`. 
 
 ####`Q` - Sharding
 
-The number of shards for a database is set at the time the database is created. Only Dedicated and Local users can set the number of shards. When you create the database, you specify the configuration for the shards. 
-
-You cannot change the `Q` value for a given database. Instead, you are creating a new database with a different `Q` value. 
+The number of shards for a database is set at the time the database is created. Only Dedicated and Local users can set the number of shards. When you create the database, you specify the configuration for the shards. You cannot change the `Q` value for a given database. Instead, you create a new database with a different `Q` value. 
 
 It is a good idea to create more shards than the number of cluster nodes in your environment. When you configure the `Q` value, remember the following recommendations. 
 
@@ -62,12 +60,8 @@ get_nodes(shard) ==> [N1,N3,N4]
 Nodesforeach: store(doc)
 ```
 
-`PUT /db10/docid92`
-
-The database "computes."
-
 ####Indexing – Views, Search, Geo
-Cloudant builds indexes locally for each shard. Shard indexing runs in parallel – shards are inert objects.
+Cloudant builds indexes locally for each shard. Shard indexing runs in parallel. Shards are inert objects.
 
 ####`R` - Read quorum 
 The `R` value measures the reads served by the database as query results. For example, the results occur when the database provides the answer or when enough nodes provide the answer. *Enough* means the shard attempted to read from `N` nodes, and `R` nodes replied and agreed. 
@@ -81,27 +75,26 @@ Default `W` value is W=2 (majority). To maximize throughput, set W=1, or to maxi
 
 ### Cloudant Sharding best practices
 
-Each database has its own requirements. Here are a few best practices to remember.
+Each database has its own requirements. Here are a few best practices to remember. For most databases, you do not need to adjust the default `Q` and `N` values. However, it is essential to evaluate the expected growth of your database and choose the right shard count from the beginning when you expect your Cloudant database is going to be large, or if your application uses a per-user or per-device model with a large number of small databases. 
 
-For most databases, you do not need to adjust the default `Q` and `R` value. However, when you expect that your Cloudant database is going to be large, or if your application uses a per-user or per-device model with a large number of small databases, it is essential to evaluate the expected growth of your database and choose the right shard count from the beginning. Alternatively, if a database has grown much larger in size while in production than was initially predicted, you might want to take the following step.
+Alternatively, if a database has grown much larger in size while in production than was initially predicted, you might want to take the following steps.
 
 1.	Create a new database with a more appropriate shard count.
-2.	Migrate your data to that database using replication [LINK].
+2.	Migrate your data to that database using [replication](http://docs.cloudant.com/replication.html).
 3.	Delete the previous database. 
 
-Unfortunately, there is no exact formula to determine what the optimal shard count is for a database in Cloudant. Due to the multiple variables in a production database, the *best* “shard count should be determined through experimentation. However, consider these recommendations when you select the shard count for larger databases.
+Unfortunately, there is no exact formula to determine what the optimal shard count is for a database in Cloudant. Due to the multiple variables in a production database, the *best* shard count should be determined through experimentation. However, consider these recommendations when you select the shard count for larger databases.
 
 1.	Use a value of `Q` that will result in shards that are less than 20GB in size. 
-2.	For larger databases, it is important to factor the number of nodes in the cluster into this equation. If you make the shard count divisible by the node count, it ensures that each node in the cluster has the same number of shards of the database, and make it more likely that the data is balanced.
+2.	It is important to factor the number of nodes in the cluster into this equation. If you make the shard count divisible by the node count, it ensures that each node in the cluster has the same number of shards of the database, and makes it more likely that the data is balanced.
 
 As an illustration, let’s consider a cluster of 6 nodes, where you expect your database to grow to 500GB in size. When creating the database, thirty shards could be a reasonable number. This method satisfies the following conditions.
 
 1.	At 500GB, each shard is ~17GB, which satisfies the recommendation of keeping shards below 50GB.
-2.	With Q=30 and N=3, the N * Q count is 90. Since the total count is divisible by the node count of 6, this means that each node in the cluster has the same number of shards for this database, and disk space will probably remains balanced.
+2.	With Q=30 and N=3, the N * Q count is 90. Since the total count is divisible by the node count of 6, this means that each node in the cluster has the same number of shards for this database, and makes the chance that disk space will remain balanced.
 
-In addition, different application servers, such as IoTs or mobile devices, access large databases in Cloudant multiple times per second. If you have more unique shards, this allows for the database to accept more simultaneous connections from client devices or application servers.
+In addition, different application servers, such as IoTs or mobile devices, access large databases in Cloudant multiple times per second. If you have more shards, this configuration makes it more likely that load from the requests will be evenly distributed. 
 
-Alternatively, let’s consider a scenario on the opposite end of the spectrum, where an application is using multiple small databases, thousands, or even millions. In this scenario, it might be preferable to reduce the value of `Q` below the default setting. Databases smaller than 1MB derive very little benefit from being split into multiple shards, because they often have only one user who makes relatively infrequent requests. For tiny databases like this, consider using a very low number of shards. Small databases are less likely to cause node imbalances, so the priority for evenly dividing them among database nodes is insignificant. If you use smaller shard counts for smaller databases, it helps performance. 
-
+Alternatively, let’s consider a scenario on the opposite end of the spectrum, where an application is using multiple small databases, thousands, or even millions. In this scenario, it might be preferable to reduce the value of `Q` below the default setting. Databases smaller than 1MB derive very little benefit from being split into multiple shards, because they often have only one user who makes relatively infrequent requests. For tiny databases like this, consider using a very low number of shards. Small databases are less likely to cause node imbalances, so the priority for evenly dividing them among database nodes is insignificant. Use smaller shard counts for smaller databases to help performance. 
 
 
