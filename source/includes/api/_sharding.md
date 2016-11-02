@@ -2,11 +2,11 @@
 
 In Cloudant and CouchDB 2.0, database sharding is the concept of dividing a database into separate parts to enable high-availability of data, and the division of work among the nodes inside a cluster.   
 
-The number of total shards that a database is split into is set at the time of its creation. Shards cannot be increased or decreased in number after database creation. The number of shards in a Cloudant database is often described as its `Q` value. The number of replicas of those shards in the database is described as its `N` value. Each replica of a shard is a file, therefore, the total number of *files* the database has inside the cluster is equivalent to Q * N. 
+The number of total shards that a database is split into is set at the time of its creation. Shards cannot be increased or decreased in number after database creation. The number of shards in a Cloudant database is often described as its `Q` value. The number of replicas of the shards in the database is described as its `N` value. Each replica of a shard is a file, therefore, the total number of *files* the database has inside the cluster is equivalent to Q * N. 
 
 In a dedicated Cloudant cluster, the default configuration for new databases might be Q=8 and N=3. Therefore, a database that is created without explicitly specifying `Q` or `N` will have its data and indexes divided among 8 shards. Each of those shards will have 3 replicas for redundancy within the cluster. 
 
-Shards are distributed among the nodes of a cluster in round-robin fashion, with data distributed into them by using a hash of the document ID for each JSON document. For example, consider a scenario that uses a database with Q=4 shards that we designate as A, B, C, and D. Documents are distributed into the shards by taking a hash of their ID, and using it as a key within the range of each shard.
+Shards are distributed among the nodes of a cluster in round-robin fashion, with data distributed into them by using a hash of the Document ID for each JSON document. For example, consider a scenario that uses a database with Q=4 shards that we designate as A, B, C, and D. Documents are distributed into the shards by taking a hash of their ID, and using it as a key within the range of each shard.
 
 Shard A: 00000000-3FFFFFFF
 <br>Shard B: 40000000-7FFFFFFF
@@ -25,13 +25,15 @@ With N=3, each of these shards has three replicas for redundancy, so the cluster
 
 ### Sharding Parameters
 
-To set appropriate shard values, you must understand the parameters. You must set N and Q at database create time. Some read/write requests also allow R and W to be set. The 4 parameters that interact with sharding are N, Q, R, and W. These parameters are described in this section.
+To set appropriate values, you must understand the parameters. You must set N and Q at database creation time. In addition, some read/write requests also allow R and W to be set. 
 
 ####`Q` - Sharding
-The number of shards for a database is set when creating the database. Only Dedicated and Local users can set the number of shards. When you create the database, you specify the configuration for the shards. You cannot change the Q value for a given database. Instead, you must replicate the data for the database into a new database with a different Q value. It is a good idea to create more shards than the number of cluster nodes in your environment. 
-  
 
-When you configure the `Q` value, remember the following recommendations. 
+The number of shards for a database is set at the time the database is created. Only Dedicated and Local users can set the number of shards. When you create the database, you specify the configuration for the shards. 
+
+You cannot change the `Q` value for a given database. Instead, you are creating a new database with a different `Q` value. 
+
+It is a good idea to create more shards than the number of cluster nodes in your environment. When you configure the `Q` value, remember the following recommendations. 
 
 | Rule | Description |
 |-----|--------------|
