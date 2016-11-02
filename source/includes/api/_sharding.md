@@ -95,7 +95,7 @@ Unfortunately, there is no exact formula to determine what the optimal shard cou
 As an illustration, let’s consider a cluster of 6 nodes, where you expect your database to grow to 500GB in size. When creating the database, thirty shards could be a reasonable number. This method satisfies the following conditions.
 
 1.	At 500GB, each shard is ~17GB, which satisfies the recommendation of keeping shards below 50GB.
-2.	With Q=30 and N=3, the N*Q count is 90. Since the total count is divisible by the node count of 6, this means that each node in the cluster has the same number of shards for this database, and disk space will probably remains balanced.
+2.	With Q=30 and N=3, the N * Q count is 90. Since the total count is divisible by the node count of 6, this means that each node in the cluster has the same number of shards for this database, and disk space will probably remains balanced.
 
 In addition, different application servers, such as IoTs or mobile devices, access large databases in Cloudant multiple times per second. If you have more unique shards, this allows for the database to accept more simultaneous connections from client devices or application servers.
 
