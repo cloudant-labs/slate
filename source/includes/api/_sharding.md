@@ -39,7 +39,7 @@ Remember the considerations discussed earlier, especially for large databases, a
  
  [TODO-ADD TABLE]
  
- |Database Type | Database Size | # of shards |
+ |Database Type | Database Size | # of Shards |
  |--------------|---------------|-------------|
  | Small | 10 - 100 MB, or 1,000 documents | 1 |
  | Medium | 100+ GB and a few million documents| Single digit shard, for example, 8 GB |
