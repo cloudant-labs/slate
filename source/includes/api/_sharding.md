@@ -1,6 +1,7 @@
 ## Sharding
 
 ###	 Data storage in Cloudant
+
 Each Cloudant database is formed by `Q` distinct shards, where `Q` is one shard but usually more than one shard. A shard is a distinct subset of documents from the database and is physically stored in triplicate. A shard copy is called a shard replica. A shard replica is stored on a different server.
 
 ![Sharding a database](images/database_shard.png)
@@ -14,6 +15,7 @@ A rebalance moves replicas to different servers. While the number of shards and 
 You can tune the default `Q` value for different clusters as you learn more about your environment. Technically, the number of replicas can also be configured. However, it is a best practice to use three shard replicas to maintain performance and data integrity. 
 
 ###	Sharding and performance
+
 You can configure, or tune, the number of shards for each database. Your configuration interacts with database performance in a number of ways.
 
 When the database cluster receives a request, Cloudant assigns the request to one node in the cluster as the coordinator of that request. This coordinator makes internal requests to the nodes that hold the data that is relevant to the request and returns the result to the client.
@@ -33,18 +35,27 @@ Given these competing requirements, a single `Q` value cannot work optimally in 
 
 ###	Guidelines for using shards
 
-Remember the considerations discussed earlier, especially for large databases, and consider testing with representative data as described in the following list. 
+Remember the considerations discussed earlier, especially for large databases, and consider testing with representative data as described in the following table. 
+ 
+ [TODO-ADD TABLE]
+ 
+ |Database Type | Database Size | # of shards |
+ |--------------|---------------|-------------|
+ | Small | 10 - 100 MB, or 1,000 documents | 1 |
+ | Medium | 100+ GB and a few million documents| Single digit shard, for example, 8 GB |
+ | Large | 10 GB, or 10 - 100 million documents | 16 |
+ 
+ 
+*	A small database equals 10 - 100 MB, or 1,000 documents. Use a single shard for a small database. 
+*	A mid-size database equals 100 GB, and a few million documents. Use a single-digit shard count, such as 8 GB, with a mid-size database. 
+*	A large database equals 10 to 100 million documents or 10 GBs of data. For large databases, use 16 shards. 
 
-*	If your data is trivial in size – 
-*	For small databases, use a single shard. A small database equal tens or hundreds of megabytes, or thousands of documents. 
-*	For medium databases, use a single-digit shard count, such as 8 GB. A medium-sized database equals a few GB or a few million documents.
-*	For large databases, use 16 shards. A large database equals tens to hundreds of millions of documents or tens of GB.
-
-Consider manually sharding your data into several databases. If your database is large, and you would like advice from support, send an email to Cloudant support.
+Consider manually sharding your data into several databases. If your database is large, and you would like advice from support, send an email to Cloudant support [TODO-email address].
 
 ###	API
 
 ####	Setting the shard count
+
 You set the number of database shards, `Q`, when you create the database. The number of shards cannot be changed. To set the number of shards, run the following `Q` query string parameter. 
 
 ```curl
@@ -58,9 +69,11 @@ Remember the `Q` setting for databases is currently disabled on most multi-tenan
 ```
 
 ####	Setting the replica count
+
 CouchDB 2+ allows you to change the replica count. Cloudant does not recommend that you change from the default setting under any circumstances. If you need assistance with this, contact Cloudant support.
 
 ####	Using the `R` and `W` arguments
+
 Some individual document requests contain arguments that affect the coordinator’s behavior. These arguments are known as `R` and `W` after their names in the request querystring. You can use these arguments for single document operations since they have no effect for query-style operations. While you can set `R` or `W` arguments to higher numbers, that does not increase the consistency for that read or write operation. 
 
 ####	`R` arguments
@@ -69,7 +82,6 @@ Some individual document requests contain arguments that affect the coordinator�
 
 When you set `R`, the 
 `R` can be used for single document lookups. The `R` setting does affect the number of responses  how many responses from that the coordinator waits to receive from nodes hosting the replicas of the shard hosting the node before it will respond to the client
-
 
 Setting `R` to 1 can improve throughput because the coordinator is able to send a response sooner. The default for `R` is 2, which is a majority of replicas (if replicas is higher or lower than 3, the default for `R` changes appropriately).
 
