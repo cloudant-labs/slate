@@ -38,13 +38,14 @@ Given these competing requirements, a single `Q` value cannot work optimally in 
 Remember the considerations discussed earlier, especially for large databases, and consider testing with representative data as described in the following table. 
  
  [TODO-ADD TABLE]
- 
- |Database Type | Database Size | # of Shards |
- |--------------|---------------|-------------|
- | Small | 10 - 100 MB, or 1,000 documents | 1 |
- | Medium | 100+ GB and a few million documents| Single digit shard, for example, 8 GB |
- | Large | 10 GB, or 10 - 100 million documents | 16 |
- 
+
+
+| Database Size&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Database Size | # of Shards |
+|---------------|---------------|-------------|
+| Small | 10 - 100 MB, or 1,000 documents | 1 |
+| Medium | 100+ GB and a few million documents | Single digit shard, for example, 8 GB |
+| Large | 10 GB, or 10 - 100 million documents | 16 |
+
  
 *	A small database equals 10 - 100 MB, or 1,000 documents. Use a single shard for a small database. 
 *	A mid-size database equals 100 GB, and a few million documents. Use a single-digit shard count, such as 8 GB, with a mid-size database. 
