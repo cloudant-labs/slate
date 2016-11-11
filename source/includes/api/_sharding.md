@@ -4,11 +4,11 @@
 
 Each Cloudant database is formed by `Q` distinct shards, where `Q` is one shard but usually more than one shard. A shard is a distinct subset of documents from the database and is physically stored in triplicate. A shard copy is called a shard replica. A shard replica is stored on a different server.
 
-![Sharding a database](images/database_shard.png)
+![Sharding a database](images/shardflow.png)
 
 Each document is assigned to a particular shard using consistent hashing of its ID, and always resides on a specific shard and set of servers. 
 
-![Assigning a document to a shard](images/database_shard.png)
+![Assigning a document to a shard](images/shardflow2.png)
 
 However, during a rebalance, the disk each replica is written to changes. The number of shards and replicas stays the same, and the documents stored in the shard remain assigned to the same shard. 
 
