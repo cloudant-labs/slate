@@ -43,7 +43,7 @@ Remember the considerations discussed earlier, especially for large databases. C
 | Medium | 100+ GB and a few million documents | Single digit shard, for example, 8 GB |
 | Large | 10 GB, or 10 - 100 million documents | 16 |
 
-Consider manually sharding your data into several databases. If your database is large, and you would like advice from support, send an email to [Cloudant support](support@cloudant.com).
+Consider manually sharding your data into several databases. If your database is large, and you would like advice from support, contact Cloudant support at support@cloudant.com.
 
 ###	API
 
@@ -58,12 +58,12 @@ You set the number of database shards, `Q`, when you create the database. The nu
 Remember the `Q` setting for databases is currently disabled on most multi-tenant clusters. If you try to set the `Q` parameter for these clusters, you might see a 403 response within the body, as seen in the following example. 
 
 ```
-{"error":"forbidden","reason":"`q` is not configurable"}
+{"error":"forbidden","reason":"`Q` is not configurable"}
 ```
 
 ####	Setting the replica count
 
-CouchDB 2+ allows you to change the replica count. Cloudant does not recommend that you change from the default setting under any circumstances. If you need assistance with this, contact [Cloudant support](support@cloudant.com).
+CouchDB 2+ allows you to change the replica count. Cloudant does not recommend that you change from the default setting under any circumstances. If you need assistance with this, contact Cloudant support at support@cloudant.com.
 
 ####	Using the `R` and `W` arguments
 
@@ -71,12 +71,12 @@ Some individual document requests contain arguments that affect the coordinatorâ
 
 ####	`R` arguments
 
-The `R` argument can be used for single document lookups. When you set `r` value, it defines the number of responses the coordinator will wait to receive before responding to the client. The responses come from the nodes hosting the shard replicas. 
+The `R` argument can be used for single document lookups. When you set `R` value, it defines the number of responses the coordinator will wait to receive before responding to the client. The responses come from the nodes hosting the shard replicas. 
 
 The coordinator can respond more quickly if you set `R` to 1. The default setting for `R` is 2. Most replicas use this setting. If a replica is higher or lower than 3, the default for `R` changes appropriately.
 
 ####	`W` arguments
 
-The `W` argument can be specified on single document write requests. Like the `r` argument, `w` affects the number of responses the coordinator will wait to receive before it replies to the client. Keep in mind that `W` does not affect the write behavior in any way.
+The `W` argument can be specified on single document write requests. Like the `R` argument, `W` affects the number of responses the coordinator will wait to receive before it replies to the client. Keep in mind that `W` does not affect the write behavior in any way.
 
-Setting `W` to 1 can improve response times to the client, but the coordinator is still issuing all three write requests within the database. For example, one write request is sent to each replica that holds the document. The default setting for `w` is 2. You can set a higher `w` value since `w` lets the client receive notifications when additional replicas are updated with the new document. Since `w` does not change the write behavior, it cannot change the database consistency properties for that request.
+Setting `W` to 1 can improve response times to the client, but the coordinator is still issuing all three write requests within the database. For example, one write request is sent to each replica that holds the document. The default setting for `W` is 2. You can set a higher `W` value since `W` lets the client receive notifications when additional replicas are updated with the new document. Since `W` does not change the write behavior, it cannot change the database consistency properties for that request.
