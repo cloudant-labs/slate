@@ -33,14 +33,14 @@ As a best practice, your shard size must not exceed 10 million documents per sha
 
 Given these competing requirements, a single `Q` value cannot work optimally in all cases. You can tune the defaults for a cluster over time. However, for large or complex databases, it is prudent to consider future sizing issues. It is also a good practice to analyze the request patterns so you can select the most appropriate number of shards. To make accurate estimates for good `Q` values, test the database with representative data and request patterns. However, when you move to production, be prepared for different results than those you learned from testing.  
 
-###	Guidelines for using shards
+###	Sharding guidelines
 
 Remember the considerations discussed earlier, especially for large databases. Consider testing with representative data using the guidelines described in the following table. 
 
 | Database | Size | # of Shards |
 |------|------|-------------|
 | Small | 10 - 100 MB, or 1,000 documents | 1 |
-| Medium | 100+ GB and a few million documents | Single digit shard, for example, 8 GB |
+| Medium | 100+ GB or a few million documents | Single digit shard, for example, 8 GB |
 | Large | 10 GB, or 10 - 100 million documents | 16 |
 
 Consider manually sharding your data into several databases. If your database is large, and you would like advice from support, contact Cloudant support at support@cloudant.com.
@@ -65,7 +65,7 @@ Remember the `Q` setting for databases is currently disabled on most multi-tenan
 
 CouchDB 2+ allows you to change the replica count. Cloudant does not recommend that you change from the default setting under any circumstances. If you need assistance with this, contact Cloudant support at support@cloudant.com.
 
-####	Using the `R` and `W` arguments
+####	Using `R` and `W` arguments
 
 Some individual document requests contain arguments that affect the coordinator’s behavior. These arguments are known as `R` and `W` after their names in the request query string. You can use these arguments for single document operations since they have no effect on query-style operations. While you can set `R` or `W` arguments to higher numbers, that does not increase the consistency for the read or write operation. 
 
