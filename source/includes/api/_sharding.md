@@ -6,32 +6,32 @@ Each Cloudant database is formed by `Q` distinct shards, where `Q` is one shard 
 
 ![Sharding a database](images/database_shard.png)
 
-Each document is assigned to a particular shard using consistent hashing of its ID, and always resides on a specific shard and set of servers, with one exception. 
+Each document is assigned to a particular shard using consistent hashing of its ID, and always resides on a specific shard and set of servers. 
 
 ![Assigning a document to a shard](images/database_shard.png)
 
-A rebalance moves replicas to different servers. The number of shards and replicas stays the same, and the documents stored in the shard remain assigned to the same shard. However, the disk each replica is written to changes.  
+However, during a rebalance, the disk each replica is written to changes. The number of shards and replicas stays the same, and the documents stored in the shard remain assigned to the same shard. 
 
 You can tune the default `Q` value for different clusters as you learn more about your environment. Technically, the number of replicas can also be configured. However, it is a best practice to use three shard replicas to maintain performance and data integrity. 
 
 ###	Sharding and performance
 
-You can configure, or tune, the number of shards for each database. Your configuration interacts with database performance in a number of ways.
+You can configure, or tune, the number of shards for each database. Your configuration interacts with database performance in multiple ways.
 
 When the database cluster receives a request, Cloudant assigns the request to one node in the cluster as the coordinator of that request. This coordinator makes internal requests to the nodes that hold the data relevant to the request. The coordinator also returns the results to the client.
 
 When you consider the number of shards in a database, a single document lookup or write request can conflict with the needs of aggregating query requests.
 
-*	The coordinator only makes requests of the nodes holding the document. Since each document is stored on a single shard, multiple shards allow higher parallelism for single document lookup and write. 
+*	The coordinator only makes requests of the nodes holding the document. Since each document is stored on a single shard, multiple shards allow higher parallelism for single document lookups and writes. 
 *	As queries process results from all shards, multiple shards introduce higher overhead for querying data. In this case, the coordinator must make one request per replica and organize the results as a stream before returning data to the client.
 
-Therefore, before you consider the shard count, the request pattern must be established as mostly single document operations or queries, and time-sensitive operations. In addition, queries read data from all replicas, because each replica maintains its own copy of indexes that power queries. When document writes are evenly distributed across shards in the cluster, more shards enable index building which improves parallelism. It is difficult to predict indexing load across the nodes in a cluster. In practice, this task is less useful than considering request patterns, because large numbers of document writes lead to larger shard counts.
+Therefore, before you consider the shard count, the request pattern must be established as predominantly single document operations or queries, and time-sensitive operations. In addition, queries read data from all replicas, because each replica maintains its own copy of indexes that power queries. When document writes are evenly distributed across shards in the cluster, more shards enable index building which improves parallelism. It is difficult to predict indexing load across the nodes in a cluster. In practice, this task is less useful than considering request patterns because large numbers of document writes lead to larger shard counts.
 
 For data sizing, consider the number of documents per shard. Each shard holds documents in a large B-tree on disk. Indexes are stored using the same method. As more documents are added to a shard, the depth that an average document lookup or query must traverse in the B-tree increases and slows down the request as more data must be read from a cache or disk.
 
 As a best practice, your shard size must not exceed 10 million documents per shard. In terms of overall shard size, it is good to keep shards under 10GB, but this limit is not required. 
 
-Given these competing requirements, a single `Q` value cannot work optimally in all cases. You can tune the defaults for a cluster over time. However, for large or complex databases, it is valuable to consider future sizing issues. It is also a good practice to analyze the request patterns so you can select the best number of shards. To make accurate estimates for good `Q` values, test the database with representative data and request patterns. However, when you move to production, be prepared to alter the expectations that originated from testing.  
+Given these competing requirements, a single `Q` value cannot work optimally in all cases. You can tune the defaults for a cluster over time. However, for large or complex databases, it is prudent to consider future sizing issues. It is also a good practice to analyze the request patterns so you can select the most appropriate number of shards. To make accurate estimates for good `Q` values, test the database with representative data and request patterns. However, when you move to production, be prepared for different results than those you learned from testing.  
 
 ###	Guidelines for using shards
 
@@ -49,7 +49,7 @@ Consider manually sharding your data into several databases. If your database is
 
 ####	Setting the shard count
 
-You set the number of database shards, `Q`, when you create the database. The number of shards cannot be changed. To set the number of shards, run the following `Q` query string parameter. 
+You set the number of database shards, `Q`, when you create the database. The number of shards cannot be changed. To set the number of shards, run the following `Q` query-string parameter. 
 
 ```curl
 	-XPUT -u myaccount https://myaccount.cloudant.com/mynewdatabase?q=
@@ -71,12 +71,12 @@ Some individual document requests contain arguments that affect the coordinatorâ
 
 ####	`R` arguments
 
-The `R` argument can be used for single document lookups. When you set `r`, it defines the number of responses the coordinator will wait to receive before responding to the client. The responses come from the nodes hosting the shard replicas. 
+The `R` argument can be used for single document lookups. When you set `r` value, it defines the number of responses the coordinator will wait to receive before responding to the client. The responses come from the nodes hosting the shard replicas. 
 
-Setting `R` to 1 can improve throughput because the coordinator can respond more quickly. The default setting for `R` is 2. Most replicas use this setting. If a replica is higher or lower than 3, the default for `R` changes appropriately.
+The coordinator can respond more quickly if you set `R` to 1. The default setting for `R` is 2. Most replicas use this setting. If a replica is higher or lower than 3, the default for `R` changes appropriately.
 
 ####	`W` arguments
 
 The `W` argument can be specified on single document write requests. Like the `r` argument, `w` affects the number of responses the coordinator will wait to receive before it replies to the client. Keep in mind that `W` does not affect the write behavior in any way.
 
-Setting `W` as 1 can improve response times to the client, but the coordinator is still issuing all three write requests within the database. (One to each replica that holds the document.) The default setting for `w` is 2. You can set a higher `w` value since `w` lets the client receive notifications when additional replicas are updated with the new document. Since `w` does not change the write behavior, it cannot change the database consistency properties for that request.
+Setting `W` to 1 can improve response times to the client, but the coordinator is still issuing all three write requests within the database. For example, one write request is sent to each replica that holds the document. The default setting for `w` is 2. You can set a higher `w` value since `w` lets the client receive notifications when additional replicas are updated with the new document. Since `w` does not change the write behavior, it cannot change the database consistency properties for that request.
