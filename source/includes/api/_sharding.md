@@ -40,7 +40,7 @@ Remember the considerations discussed earlier, especially for large databases. C
 | Database | Size | # of Shards |
 |------|------|-------------|
 | Small | 10 - 100 MB, or 1,000 documents | 1 |
-| Medium | 100+ GB or a few million documents | Single digit shard, for example, 8 GB |
+| Medium | 100+ GB, or a few million documents | Single digit shard, for example, 8 GB |
 | Large | 10 GB, or 10 - 100 million documents | 16 |
 
 Consider manually sharding your data into several databases. If your database is large, and you would like advice from support, contact Cloudant support at support@cloudant.com.
