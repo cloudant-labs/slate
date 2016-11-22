@@ -107,4 +107,4 @@ Endpoint |Method |Cloudant |CouchDB |Summary |Notes
 /{db}/{docid}/{attname} | HEAD | ![smallCloudantLogo](images/smallCloudantLogo.png) | ![smallCouchLogo](images/smallCouchLogo.png) | Return the HTTP headers containing a minimal amount of information about the specified attachment. |
 /{db}/{docid}/{attname} | GET | ![smallCloudantLogo](images/smallCloudantLogo.png) | ![smallCouchLogo](images/smallCouchLogo.png) | Return the file attachment associated with the document. |
 /{db}/{docid}/{attname} | PUT | ![smallCloudantLogo](images/smallCloudantLogo.png) | ![smallCouchLogo](images/smallCouchLogo.png) | Upload the supplied content as an attachment to the specified document. |
-/{db}/{docid}/{attname} | DELETE | ![smallCloudantLogo](images/smallCloudantLogo.png) | ![smallCouchLogo](images/smallCouchLogo.png) | Delete the attachment attachment of the specified doc. |
+/{db}/{docid}/{attname} | DELETE | ![smallCloudantLogo](images/smallCloudantLogo.png) | ![smallCouchLogo](images/smallCouchLogo.png) | Delete the attachment associated with the specified doc. |
