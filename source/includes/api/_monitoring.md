@@ -1,24 +1,5 @@
 ## Monitoring a Cloudant cluster
 
-===========================
-There have been changes to the monitoring endpoints that require some documentation 
-updates. These changes are reflected in Wilson >= 0.14.53 and currently is not in production.
-
-Example responses to the various listed targets should be updated to exclude the 
-'granularity' field. Example target list should be updated.
-
-A note around the timing (start/end/duration) should be added to hopefully 
-clear up any confusion with the data returned.
-
-"NOTE: Internally the data queried is stored at three different resolutions
-
-10 seconds for the past 24 hours
-1 minute for the past 7 days
-1 hour for the past 2 years
-because of this, time deltas on the boundary of these resolutions are trimmed by one 
-interval's length to ensure that we always get the higher resolution interval length back."
-
-=============================
 A key part of ensuring best performance,
 or troubleshooting any problems,
 is monitoring the affected system.
@@ -81,6 +62,19 @@ for example `sumSeries(net.cloudant.mycustomer001.db*.df.srv.used)`.
 
 The information in the results consists of cluster-level data from the last five minutes,
 recorded at 15 second intervals. 
+
+<aside class="warning" role="complementary" aria-label="copynonstandard">
+Cloudant stores your queried data at the following resolutions.
+
+*    10 seconds for the past 24 hours
+*    1 minute for the past 7 days
+*    1 hour for the past 2 years
+
+As a result, and to ensure that Cloudant always stores the higher 
+resolution interval length back, deltas on the boundary of these 
+resolutions are trimmed by one interval's length.
+</aside>
+
 
 <div></div>
 
@@ -277,7 +271,6 @@ curl -u myusername https://myusername.cloudant.com/_api/v2/monitoring/disk_use?c
       ]
     }
   ],
-  "granularity": "15sec"
 }
 ```
 
@@ -321,7 +314,6 @@ curl -u myusername https://myusername.cloudant.com/_api/v2/monitoring/kv_emits?c
       ]
     }
   ],
-  "granularity": "15sec"
 }
 ```
 
@@ -365,7 +357,6 @@ curl -u myusername https://myusername.cloudant.com/_api/v2/monitoring/map_doc?cl
       ]
     }
   ],
-  "granularity": "15sec"
 }
 ```
 
@@ -459,7 +450,6 @@ curl -u myusername https://myusername.cloudant.com/_api/v2/monitoring/rate/statu
       ]
     }
   ],
-  "granularity": "15sec"
 }
 ```
 
@@ -589,7 +579,6 @@ curl -u myusername https://myusername.cloudant.com/_api/v2/monitoring/rate/verb?
       ]
     }
   ], 
-  "granularity": "15sec"
 }
 ```
 
@@ -610,7 +599,6 @@ curl -u myusername https://myusername.cloudant.com/_api/v2/monitoring/response_t
   "start": 1436195645,
   "end": 1436195945,
   "target_responses": [],
-  "granularity": "15sec"
 }
 ```
 
@@ -650,7 +638,6 @@ curl -u myusername https://myusername.cloudant.com/_api/v2/monitoring/rps?cluste
       ]
     }
   ],
-  "granularity": "15sec"
 }
 ```
 
@@ -690,7 +677,6 @@ curl -u myusername https://myusername.cloudant.com/_api/v2/monitoring/wps?cluste
       ]
     }
   ],
-  "granularity": "15sec"
 }
 ```
 
