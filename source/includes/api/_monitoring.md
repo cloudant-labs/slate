@@ -63,15 +63,15 @@ for example `sumSeries(net.cloudant.mycustomer001.db*.df.srv.used)`.
 The information in the results consists of cluster-level data from the last five minutes,
 recorded at 15 second intervals. 
 
-<aside class="warning" role="complementary" aria-label="copynonstandard">
-Cloudant stores your queried data at the following resolutions.
+<aside class="warning" role="complementary" aria-label="timenote">Cloudant stores 
+the queried data at the following resolutions.
 
 *    10 seconds for the past 24 hours
 *    1 minute for the past 7 days
 *    1 hour for the past 2 years
 
 As a result, and to ensure that Cloudant always stores the higher 
-resolution interval length back, deltas on the boundary of these 
+resolution interval length, deltas on the boundary of these 
 resolutions are trimmed by one interval's length.
 </aside>
 
