@@ -46,9 +46,9 @@ The fields are described in the following table:
 
 Field | Meaning
 ------|--------
-`ADMIN_USER` |  The account name. Must have administrative privileges.
-`END_POINT` | The [aspect](monitoring.html#monitoring-endpoints) of the cluster you want to monitor.
-`CLUSTER` | The cluster you are interested in.
+`ADMIN_USER`	| The account name. Must have administrative privileges.
+`END_POINT`	|	The [aspect](monitoring.html#monitoring-endpoints) of the cluster you want to monitor.
+`CLUSTER`	|	The cluster you are interested in.
 `START` | UTC timestamp in ISO-8601 or integer seconds since epoch format specifies starting point of a time series query that is mutually exclusive with END.
 `END` | UTC timestamp in ISO-8601 or integer seconds since epoch format specifies end point of a time series query that is mutually exclusive with START.
 `DURATION` | Specifies the duration of the desired time series query. Select from one of the following time intervals, ["5min", "30min", "1h", "12h", "24h", "1d", "3d", "7d", "1w", "1m", "3m", "6m", "12m", "1y"]. DURATION must be paired with either START or END request.
@@ -64,17 +64,17 @@ The results include a text string that identifies the metric stored on the serve
 for example `sumSeries(net.cloudant.mycustomer001.db*.df.srv.used)`.
 
 The information in the results consists of cluster-level data from the last five minutes,
-recorded at 15 second intervals. 
+recorded at 15 second intervals.
 
-<aside class="warning" role="complementary" aria-label="timenote">Cloudant stores 
+<aside class="warning" role="complementary" aria-label="timenote">Cloudant stores
 the queried data at the following resolutions.
 
 *    10 seconds for the past 24 hours
 *    1 minute for the past 7 days
 *    1 hour for the past 2 years
 
-As a result, and to ensure that Cloudant always stores the higher 
-resolution interval length, deltas on the boundary of these 
+As a result, and to ensure that Cloudant always stores the higher
+resolution interval length, deltas on the boundary of these
 resolutions are trimmed by one interval's length.
 </aside>
 
@@ -160,28 +160,28 @@ curl -u myusername https://myusername.cloudant.com/_api/v2/monitoring
 ```json
 {
   "targets": [
-    "node_disk_free_srv", 
-    "rps", 
-    "kv_emits", 
-    "smoosh_channels/slack_dbs", 
-    "smoosh_channels/upgrade_dbs", 
-    "smoosh_channels/ratio_dbs", 
-    "smoosh_channels/ratio_views", 
-    "smoosh_channels/slack_views", 
-    "smoosh_channels/upgrade_views", 
-    "uptime", 
-    "map_doc", 
-    "wps", 
-    "node_peak_cpu", 
-    "rate/status_code", 
-    "rate/verb", 
-    "disk_use", 
-    "node_mean_cpu", 
-    "memory", 
-    "os_proc_count", 
-    "run_queue", 
-    "node_disk_use_srv", 
-    "process_count", 
+    "node_disk_free_srv",
+    "rps",
+    "kv_emits",
+    "smoosh_channels/slack_dbs",
+    "smoosh_channels/upgrade_dbs",
+    "smoosh_channels/ratio_dbs",
+    "smoosh_channels/ratio_views",
+    "smoosh_channels/slack_views",
+    "smoosh_channels/upgrade_views",
+    "uptime",
+    "map_doc",
+    "wps",
+    "node_peak_cpu",
+    "rate/status_code",
+    "rate/verb",
+    "disk_use",
+    "node_mean_cpu",
+    "memory",
+    "os_proc_count",
+    "run_queue",
+    "node_disk_use_srv",
+    "process_count",
     "response_time"
   ]
 }
@@ -463,118 +463,118 @@ curl -u myusername https://myusername.cloudant.com/_api/v2/monitoring/rate/verb?
 
 ```json
 {
-  "start": 1436195497, 
-  "end": 1436195797, 
+  "start": 1436195497,
+  "end": 1436195797,
   "target_responses": [
     {
-      "target": "myclustername GET", 
+      "target": "myclustername GET",
       "datapoints": [
         [
-          null, 
+          null,
           1436195500
-        ], 
+        ],
         [
-          36.0, 
+          36.0,
           1436195510
-        ], 
+        ],
 ...
         [
-          49.5, 
+          49.5,
           1436195790
         ]
       ]
-    }, 
+    },
     {
-      "target": "myclustername POST", 
+      "target": "myclustername POST",
       "datapoints": [
         [
-          null, 
+          null,
           1436195500
-        ], 
+        ],
         [
-          0.0, 
+          0.0,
           1436195510
-        ], 
+        ],
 ...
         [
-          0.0, 
+          0.0,
           1436195790
         ]
       ]
-    }, 
+    },
     {
-      "target": "myclustername PUT", 
+      "target": "myclustername PUT",
       "datapoints": [
         [
-          null, 
+          null,
           1436195500
-        ], 
+        ],
         [
-          0.0, 
+          0.0,
           1436195510
-        ], 
+        ],
 ...
         [
-          0.0, 
+          0.0,
           1436195790
         ]
       ]
-    }, 
+    },
     {
-      "target": "myclustername DELETE", 
+      "target": "myclustername DELETE",
       "datapoints": [
         [
-          null, 
+          null,
           1436195500
-        ], 
+        ],
         [
-          0.0, 
+          0.0,
           1436195510
-        ], 
+        ],
 ...
         [
-          0.0, 
+          0.0,
           1436195790
         ]
       ]
-    }, 
+    },
     {
-      "target": "myclustername COPY", 
+      "target": "myclustername COPY",
       "datapoints": [
         [
-          null, 
+          null,
           1436195500
-        ], 
+        ],
         [
-          0.0, 
+          0.0,
           1436195510
-        ], 
+        ],
 ...
         [
-          0.0, 
+          0.0,
           1436195790
         ]
       ]
-    }, 
+    },
     {
-      "target": "myclustername HEAD", 
+      "target": "myclustername HEAD",
       "datapoints": [
         [
-          null, 
+          null,
           1436195500
-        ], 
+        ],
         [
           0.0,  +$
           1436195510
-        ], 
+        ],
 ...
         [
-          0.0, 
+          0.0,
           1436195790
         ]
       ]
     }
-  ], 
+  ],
 }
 ```
 
@@ -675,4 +675,3 @@ curl -u myusername https://myusername.cloudant.com/_api/v2/monitoring/wps?cluste
   ],
 }
 ```
-
