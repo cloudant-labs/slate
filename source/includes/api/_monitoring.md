@@ -49,6 +49,16 @@ Field | Meaning
 `ADMIN_USER` | The account name. Must have administrative privileges.
 `END_POINT` | The [aspect](monitoring.html#monitoring-endpoints) of the cluster you want to monitor.
 `CLUSTER` | The cluster you are interested in.
+`START`    | UTC timestamp in ISO-8601 or integer seconds 
+since epoch format specifies starting 
+point of a time series query that is mutually exclusive with END.
+`END` | UTC timestamp in ISO-8601 or integer seconds since epoch 
+format specifies end point of a time series query that is mutually 
+exclusive with START.
+`DURATION` |  Specifies the duration of the desired time series query. 
+Select from one of the following time intervals, ["5min", "30min", "1h", "12h", 
+"24h", "1d", "3d", "7d", "1w", "1m", "3m", "6m", "12m", "1y"]. 
+DURATION must be paired with either START or END request.
 
 #### Results format
 
@@ -156,38 +166,31 @@ curl -u myusername https://myusername.cloudant.com/_api/v2/monitoring
 
 ```json
 {
-	"targets": [
-		"rps",
-		"kv_emits",
-		"rate/status_code",
-		"rate/verb",
-		"disk_use",
-		"node_peak_cpu",
-		"run_queue",
-		"uptime",
-		"map_doc_v2",
-		"memory",
-		"node_disk_free_srv",
-		"map_doc",
-		"smoosh_channels/slack_dbs",
-		"smoosh_channels/upgrade_dbs",
-		"smoosh_channels/ratio_dbs",
-		"smoosh_channels/ratio_views",
-		"smoosh_channels/slack_views",
-		"smoosh_channels/upgrade_views",
-		"wps",
-		"rps_v2",
-		"rate_v2/status_code",
-		"rate_v2/verb",
-		"os_proc_count",
-		"response_time",
-		"wps_v2",
-		"kv_emits_v2",
-		"disk_use_v2",
-		"response_time_v2",
-		"node_disk_use_srv",
-		"process_count"
-	]
+  "targets": [
+    "node_disk_free_srv", 
+    "rps", 
+    "kv_emits", 
+    "smoosh_channels/slack_dbs", 
+    "smoosh_channels/upgrade_dbs", 
+    "smoosh_channels/ratio_dbs", 
+    "smoosh_channels/ratio_views", 
+    "smoosh_channels/slack_views", 
+    "smoosh_channels/upgrade_views", 
+    "uptime", 
+    "map_doc", 
+    "wps", 
+    "node_peak_cpu", 
+    "rate/status_code", 
+    "rate/verb", 
+    "disk_use", 
+    "node_mean_cpu", 
+    "memory", 
+    "os_proc_count", 
+    "run_queue", 
+    "node_disk_use_srv", 
+    "process_count", 
+    "response_time"
+  ]
 }
 ```
 
