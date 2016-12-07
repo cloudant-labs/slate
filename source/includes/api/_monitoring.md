@@ -64,18 +64,12 @@ you can choose to receive the results in `raw` format.
 The results include a text string that identifies the metric stored on the server providing the API capability,
 for example `sumSeries(net.cloudant.mycustomer001.db*.df.srv.used)`.
 
-ORIGINAL
-"The information in the results consists of cluster-level data. The defaults 
-(no start/end and duration given) will consist of a start time from when the call 
-was made and a duration of 5 minutes."
-
-REVISION 2
 The results include cluster-level data. Here are the default values for the 
 START, END, and DURATION fields:
 
 *   START - current time
 *   END - n/a
-*   DURAION - 5 minutes
+*   DURATION - 5 minutes
 
 
 
