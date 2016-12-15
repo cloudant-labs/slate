@@ -56,6 +56,11 @@ contact [Cloudant Support](mailto:support@cloudant.com).</aside>
 <td>1,000</td>
 </tr>
 <tr>
+<td colspan="2" id="maxDoc">Maximum document size</td>
+<td>1 MB</td>
+<td colspan="4">1 MB</a>.</td>
+</tr>
+<tr>
 <td rowspan="2" id="diskSpace">Disk Space</td>
 <td id="diskSpaceIncluded">Included</td>
 <td>1 GB</td>
@@ -161,6 +166,12 @@ You should check this as part of your migration verification.</aside>
 
 In summary,
 you must ensure that your application is able to handle a `429` response correctly.
+
+##### Maximum document size
+
+Data is stored within Cloudant as [JSON documents](documents.html).
+For documents in a Cloudant service on IBM Bluemix,
+the maximum size for a document is 1 MB.
 
 ##### Disk Space Included
 

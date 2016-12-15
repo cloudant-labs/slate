@@ -3,6 +3,11 @@
 Documents are [JSON objects](http://en.wikipedia.org/wiki/JSON#Data_types.2C_syntax_and_example).
 Documents are containers for your data, and are the basis of the Cloudant database.
 
+Documents are limited to a maximum size of 64 MB.
+
+<aside class="notice">If you are using a <a href="bluemix.html">Cloudant service on IBM Bluemix</a>,
+documents are limited to a maximum size of 1 MB.</aside>
+
 All documents must have two fields:
 a unique `_id` field, and a `_rev` field.
 The `_id` field is either created by you,
