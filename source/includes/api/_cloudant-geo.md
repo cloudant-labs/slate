@@ -194,7 +194,7 @@ Field | Description
 > The basic format for a Cloudant Geo API call:
 
 ```
-/<database>/_design/<name>/_geo/<geoindexname>?<query-parameters>
+/$DATABASE/_design/<name>/_geo/<geoindexname>?<query-parameters>
 ```
 
 The fundamental API call for utilizing Cloudant Geo has a simple format, where query parameters `<query-parameters>` include three different types of parameters: query geometry, geometric relation, and result set.

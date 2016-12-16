@@ -23,7 +23,7 @@ The credentials you use to log in to the dashboard automatically have `_admin` p
 > Example request to determine permissions:
 
 ```http
-GET /_api/v2/db/<database>/_security HTTP/1.1
+GET /_api/v2/db/$DATABASE/_security HTTP/1.1
 ```
 
 ```shell
@@ -44,7 +44,7 @@ account.request({
 });
 ```
 
-To see who has permissions to read, write, and manage the database, make a GET request against `https://<account>.cloudant.com/_api/v2/db/<database>/_security`.
+To see who has permissions to read, write, and manage the database, make a GET request against `https://$ACCOUNT.cloudant.com/_api/v2/db/$DATABASE/_security`.
 
 <div></div>
 
@@ -80,7 +80,7 @@ In the example response, for instance, `nobody` has `_reader` permissions, makin
 > Modification request:
 
 ```http
-PUT /_api/v2/db/<database>/_security HTTP/1.1
+PUT /_api/v2/db/$DATABASE/_security HTTP/1.1
 Content-Type: application/json
 ```
 
@@ -127,7 +127,7 @@ account.request({
 }
 ```
 
-To modify who has permissions to read, write, and manage a database, make a PUT request against `https://<account>.cloudant.com/_api/v2/db/<database>/_security`. To see what roles you can assign, see [Roles](#roles).
+To modify who has permissions to read, write, and manage a database, make a PUT request against `https://<account>.cloudant.com/_api/v2/db/$DATABASE/_security`. To see what roles you can assign, see [Roles](#roles).
 
 The request object's `cloudant` field contains an object whose keys are usernames with permissions to interact with the database. The `nobody` username indicates what rights are available to unauthenticated users -- that is, anybody. In the example request, for instance, `nobody` has `_reader` permissions, making the database publicly readable.
 
@@ -212,7 +212,7 @@ account.request({
 To generate an API key,
 use `https://<account>.cloudant.com/_api/v2/api_keys`.
 Next,
-assign the API key to a database by using a `PUT` request to `https://<account>.cloudant.com/_api/v2/db/<database>/_security`.
+assign the API key to a database by using a `PUT` request to `https://<account>.cloudant.com/_api/v2/db/$DATABASE/_security`.
 Once assigned to a database,
 the key can be granted access permissions.
 By default,
@@ -278,7 +278,7 @@ curl https://$ACCOUNT.cloudant.com/$DATABASE/_security \
  }'
 ```
 
-You can use the [_users database](http://docs.couchdb.org/en/1.6.1/intro/security.html#authentication-database) to manage roles in Cloudant. However, you must turn off Cloudant security for those roles first. To do this, `PUT` a JSON document to the `_security` endpoint of the database. For example, `https://<account>.cloudant.com/<database>/_security`.
+You can use the [_users database](http://docs.couchdb.org/en/1.6.1/intro/security.html#authentication-database) to manage roles in Cloudant. However, you must turn off Cloudant security for those roles first. To do this, `PUT` a JSON document to the `_security` endpoint of the database. For example, `https://$ACCOUNT.cloudant.com/$DATABASE/_security`.
 
 <div></div>
 

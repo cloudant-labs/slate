@@ -80,7 +80,7 @@ The response contains the document ID and the new document revision. Note that a
 > Example instruction for reading an attachment:
 
 ```http
-GET /<database>/<documenat_id>/<attachment http>/1.1
+GET /$DATABASE/<documenat_id>/<attachment http>/1.1
 ```
 
 ```shell
@@ -102,7 +102,7 @@ db.attachment.get($DOCUMENT_ID, $FILENAME, function (err, body) {
 ```
 
 To retrieve an attachment,
-make a GET request to `https://<account>.cloudant.com/<database>/<document_id>/<attachment>/`.
+make a GET request to `https://$ACCOUNT.cloudant.com/$DATABASE/$document_id/$attachment/`.
 The body of the response is the raw content of the attachment.
 
 ### Delete
@@ -110,7 +110,7 @@ The body of the response is the raw content of the attachment.
 > Example instruction for deleting an attachment:
 
 ```http
-DELETE /<database>/<document_id>/<attachment>?rev=<rev HTTP>/1.1
+DELETE /$DATABASE/$DOCUMENT_ID/$ATTACHMENT?rev=<rev HTTP>/1.1
 ```
 
 ```shell
@@ -130,7 +130,7 @@ db.attachment.destroy($DOCUMENT_ID, $FILENAME, $REV, function (err, body) {
 });
 ```
 
-To delete an attachment, make a DELETE request with the document's latest `_rev` to `https://<account>.cloudant.com/<database>/<document_id>/<attachment>`.
+To delete an attachment, make a DELETE request with the document's latest `_rev` to `https://$ACCOUNT.cloudant.com/$DOCUMENT_ID/$ATTACHMENT`.
 If you do not supply the latest `_rev`,
 the response is a [409 error](basics.html#http-status-codes).
 

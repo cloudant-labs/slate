@@ -300,7 +300,7 @@ Executes the specified `view-name` from the specified `design-doc` design docume
 > Example of retrieving a list of the first five documents from a database, applying the user-created `by_title` view:
 
 ```http
-GET /<database>/_design/<design-doc>/_view/by_title?limit=5 HTTP/1.1
+GET /$DATABASE/_design/<design-doc>/_view/by_title?limit=5 HTTP/1.1
 Accept: application/json
 Content-Type: application/json
 ```

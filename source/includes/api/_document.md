@@ -116,7 +116,8 @@ db.insert($JSON, function (err, body, headers) {
 }
 ```
 
-To create a document, make a POST request with the document's JSON content to `https://<account>.cloudant.com/<database>`.
+To create a document, make a POST request with the document's JSON content to 
+`https://$ACCOUNT.cloudant.com/$DATABASE`.
 
 <div></div>
 
@@ -130,7 +131,8 @@ To create a document, make a POST request with the document's JSON content to `h
 }
 ```
 
-The response is a JSON document containing the ID of the created document, the revision string, and `"ok": true`. If you did not provide an `_id` field, Cloudant generates one automatically as a [UUID](http://en.wikipedia.org/wiki/Universally_unique_identifier). If creation of the document failed, the response contains a description of the error.
+The response is a JSON document containing the ID of the created document, the revision string, 
+and `"ok": true`. If you did not provide an `_id` field, Cloudant generates one automatically as a [UUID](http://en.wikipedia.org/wiki/Universally_unique_identifier). If creation of the document failed, the response contains a description of the error.
 
 <aside class="warning" role="complementary" aria-label="cannotmeetquorum">If the write quorum cannot be met, a [`202` response](http.html#202) is returned.</aside>
 
@@ -139,7 +141,7 @@ The response is a JSON document containing the ID of the created document, the r
 > Reading a document:
 
 ```http
-GET /<database>/<document_id> HTTP/1.1
+GET /$DATABASE/$DOCUMENT_ID> HTTP/1.1
 ```
 
 ```shell
@@ -158,7 +160,7 @@ db.get($JSON._id, function (err, body, headers) {
 });
 ```
 
-To retrieve a document, make a GET request to `https://<account>.cloudant.com/<database>/<document_id>`.
+To retrieve a document, make a GET request to `https://$ACCOUNT.cloudant.com/$DATABASE/$DOCUMENT_ID`.
 If you do not know the `_id` for a particular document,
 you can [query the database](database.html#get-documents) for all documents.
 
@@ -212,7 +214,7 @@ To fetch many documents at once, [query the database](database.html#get-document
 > Updating a document
 
 ```http
-PUT /<database>/<document_id> HTTP/1.1
+PUT /$DATABASE/$DOCUMENT_ID HTTP/1.1
 ```
 
 ```shell
@@ -252,7 +254,7 @@ db.insert($JSON, $JSON._id, function (err, body, headers) {
 }
 ```
 
-To update (or create) a document, make a PUT request with the updated JSON content *and* the latest `_rev` value (not needed for creating new documents) to `https://<account>.cloudant.com/<database>/<document_id>`.
+To update (or create) a document, make a PUT request with the updated JSON content *and* the latest `_rev` value (not needed for creating new documents) to `https://$ACCOUNT.cloudant.com/$DATABASE/$DOCUMENT_ID`.
 
 <aside class="warning" role="complementary" aria-label="uselatestrev1">If you fail to provide the latest `_rev`, Cloudant responds with a [409 error](http.html#409).
 This error prevents you overwriting data changed by other processes. If the write quorum cannot be met, a [`202` response](http.html#202) is returned.</aside>
@@ -282,7 +284,7 @@ The response contains the ID and the new revision of the document or an error me
 > Delete request
 
 ```http
-DELETE /<database>/<document_id>?rev=<rev> HTTP/1.1
+DELETE /$DATABASE/$DOCUMENT_ID?rev=<rev> HTTP/1.1
 ```
 
 ```shell
@@ -313,7 +315,7 @@ db.destroy($JSON._id, $REV, function (err, body, headers) {
 }
 ```
 
-To delete a document, make a DELETE request with the document's latest `_rev` in the querystring, to `https://<account>.cloudant.com/<database>/<document_id>`.
+To delete a document, make a DELETE request with the document's latest `_rev` in the querystring, to `https://$ACCOUNT.cloudant.com/$DATABASE/<document_id>`.
 
 The response contains the ID and the new revision of the document or an error message in case the update failed.
 
@@ -490,7 +492,7 @@ The bulk document API allows you to create and update multiple documents at the 
 > Request to update/create/delete multiple documents:
 
 ```http
-POST /<database>/_bulk_docs HTTP/1.1
+POST /$DATABASE/_bulk_docs HTTP/1.1
 Content-Type: application/json
 ```
 

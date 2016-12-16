@@ -513,7 +513,7 @@ function (doc, req) {
 > Example query:
 
 ```http
-GET /<database>/<design_id>/_show/<show_function>/<document_id http>/1.1
+GET /$DATABASE/<design_id>/_show/<show_function>/<document_id http>/1.1
 Host: <account>.cloudant.com
 ```
 
@@ -542,7 +542,7 @@ For web and mobile applications, consider whether any computations done in a sho
 
 Show functions receive two arguments: `doc`, and [req](#req). `doc` is the document requested by the show function.
 
-When you have defined a show function, you query it with a `GET` request to `https://<account>.cloudant.com/<database>/<design_id>/_show/<show_function>/<document_id>`,
+When you have defined a show function, you query it with a `GET` request to `https://$DATABASE.cloudant.com/$DATABASE/<design_id>/_show/<show_function>/<document_id>`,
 where `<show_function>` is the name of the function that is applied to the document that has `<design_id>` as its `_id`.
 
 ### Update Handlers
@@ -579,7 +579,7 @@ function(doc, req){
 > Example query:
 
 ```http
-POST /<database>/<design_id>/_update/<update_handler http>/1.1
+POST /$DATABASE/<design_id>/_update/<update_handler http>/1.1
 Content-Type: application/json
 ```
 
@@ -614,8 +614,8 @@ Here's how to query update handlers:
 
 Method | URL
 -------|------
-POST | `https://<account>.cloudant.com/<database>/<design_id>/_update>/<update_handler>`
-PUT | `https://<account>.cloudant.com/<database>/<design_id>/_update>/<update_handler>/<document_id>`
+POST | `https://$ACCOUNT.cloudant.com/$DATABASE/<design_id>/_update>/<update_handler>`
+PUT | `https://$ACCOUNT.cloudant.com/$DATABASE/<design_id>/_update>/<update_handler>/<document_id>`
 
 Where `<design_id>` is the `_id` of the document defining the update handler, `$UPDATE_HANDLER` is the name of the update handler, and `<document_id>` is the `_id` of the document you want the handler to, well, handle.
 
@@ -682,7 +682,7 @@ More details about the `req` parameter are available [here](#req).
 > Example query:
 
 ```http
-GET /<database>/_changes?filter=<design_id>/<filter_function http>/1.1
+GET /$DATABASE/_changes?filter=<design_id>/<filter_function http>/1.1
 ```
 
 ```shell
@@ -698,7 +698,7 @@ providing the name of the filter to use.
 > Using the `req` argument:
 
 ```http
-GET /<database>/_changes?filter=<design_id>/<filter_function&status=new http>/1.1
+GET /$DATABASE/_changes?filter=<design_id>/<filter_function&status=new http>/1.1
 ```
 
 ```shell

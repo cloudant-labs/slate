@@ -105,7 +105,7 @@ descending | Whether results should be returned in descending order, i.e. the la
 > Example request
 
 ```http
-GET /<database>/_shards HTTP/1.1
+GET /$DATABASE/_shards HTTP/1.1
 ```
 
 ```shell
@@ -184,7 +184,7 @@ The response's `shards` field contains an object whose keys are the hash value r
 > Example request
 
 ```http
-GET /<database/_missing_revs
+GET /$DATABASE/_missing_revs
 Content-Type: application/json
 ```
 
@@ -313,7 +313,7 @@ account.request({
 ```
 
 ```http
-GET /<database>/_revs_limit HTTP/1.1
+GET /$DATABASE/_revs_limit HTTP/1.1
 ```
 
 ```shell

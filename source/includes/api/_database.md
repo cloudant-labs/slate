@@ -9,8 +9,8 @@ All documents must be contained in a database.
 > Create a database
 
 ```http
-PUT /<database> HTTP/1.1
-HOST: <account>.cloudant.com
+PUT /$DATABASE HTTP/1.1
+HOST: $ACCOUNT.cloudant.com
 ```
 
 ```shell
