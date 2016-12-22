@@ -28,7 +28,7 @@ account.db.create($DATABASE, function (err, body, headers) {
 });
 ```
 
-To create a database, make a PUT request to `https://<account>.cloudant.com/<database>`.
+To create a database, make a PUT request to `https://<account>.cloudant.com/$DATABASE`.
 
 The database name must start with a lowercase letter and contain only the following characters:
 
@@ -94,7 +94,7 @@ account.db.get($DATABASE, function (err, body, headers) {
 });
 ```
 
-Making a GET request against `https://<account>.cloudant.com/<database>` returns details about the database,
+Making a GET request against `https://<account>.cloudant.com/$DATABASE` returns details about the database,
 such as how many documents it contains.
 
 <div></div>
@@ -215,7 +215,7 @@ GET /_all_docs?keys=["somekey","someotherkey"] HTTP/1.1
 curl https://$ACCOUNT.cloudant.com/$DATABASE/_all_docs?keys=["somekey","someotherkey"]
 ```
 
-To list all the documents in a database, make a GET request against `https://<account>.cloudant.com/<database>/_all_docs`.
+To list all the documents in a database, make a GET request against `https://<account>.cloudant.com/$DATABASE/_all_docs`.
 
 The `_all_docs` endpoint accepts these query arguments:
 
@@ -299,7 +299,7 @@ account.db.changes($DATABASE, function (err, body, headers) {
 });
 ```
 
-Making a GET request against `https://<account>.cloudant.com/<database>/_changes` returns a list of changes made to documents in the database,
+Making a GET request against `https://<account>.cloudant.com/$DATABASE/_changes` returns a list of changes made to documents in the database,
 including insertions,
 updates,
 and deletions.
@@ -450,7 +450,7 @@ Each line in the continuous response is either empty or a JSON object representi
 > Example of `POST`ing to the `_changes` endpoint
 
 ```http
-POST /<database>/_changes HTTP/1.1
+POST /$DATABASE/_changes HTTP/1.1
 Host: <account>.cloudant.com
 Content-Type: application/json
 ```
@@ -472,7 +472,7 @@ Instead of `GET`, you can also use `POST` to query the changes feed. The only di
 > Example request to delete a Cloudant database:
 
 ```http
-DELETE /<database> HTTP/1.1
+DELETE /$DATABASE HTTP/1.1
 Host: <account>.cloudant.com
 ```
 
@@ -492,7 +492,7 @@ account.db.destroy($DATABASE, function (err, body, headers) {
 });
 ```
 
-To delete a databases and its contents, make a DELETE request to `https://<account>.cloudant.com/<database>`.
+To delete a databases and its contents, make a DELETE request to `https://<account>.cloudant.com/$DATABASE`.
 
 <aside class="warning" role="complementary" aria-label="deletecheck">There is no additional check to ensure that you really intended to delete the database ("Are you sure?").</aside>
 

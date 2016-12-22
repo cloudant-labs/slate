@@ -331,7 +331,7 @@ db.search($DESIGN_ID, $SEARCH_INDEX, {
 });
 ```
 
-Once you've got an index written, you can query it with a `GET` request to `https://<account>.cloudant.com/<database>/_design/<deign_id>/_search/<index_name>`. Specify your search query in the `query` query parameter.
+Once you've got an index written, you can query it with a `GET` request to `https://<account>.cloudant.com/$DATABASE/_design/<deign_id>/_search/<index_name>`. Specify your search query in the `query` query parameter.
 
 #### Query Parameters
 
@@ -741,7 +741,7 @@ In the response, a `highlights` field will be added with one subfield per field 
 > Example request
 
 ```http
-GET /<DATABASE>/_design/<DDOC>/_search_info/<INDEX> HTTP/1.1
+GET /$DATABASE/_design/$DESIGN_DOC/_search_info/$INDEX HTTP/1.1
 ```
 
 ```shell

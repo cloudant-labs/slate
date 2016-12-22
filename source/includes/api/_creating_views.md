@@ -438,7 +438,7 @@ accessing a stale view returns the current (existing) version of the data in the
 > Example of requesting the last five records by reversing the sort order:
 
 ```http
-GET /<database>/_design/<design-doc>/_view/by_title?limit=5&descending=true HTTP/1.1
+GET /$DATABASE/_design/<design-doc>/_view/by_title?limit=5&descending=true HTTP/1.1
 Accept: application/json
 Content-Type: application/json
 ```

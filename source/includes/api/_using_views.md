@@ -19,7 +19,7 @@ Executes the specified `view-name` from the specified `design-doc` design docume
 > Example of retrieving a list of the first five documents from a database, applying the user-created `by_title` view:
 
 ```http
-GET /<database>/_design/<design-doc>/_view/by_title?limit=5 HTTP/1.1
+GET /$DATABASE/_design/<design-doc>/_view/by_title?limit=5 HTTP/1.1
 Accept: application/json
 Content-Type: application/json
 ```
@@ -151,7 +151,7 @@ accessing a stale view returns the current (existing) version of the data in the
 > Example of requesting the last five records by reversing the sort order:
 
 ```http
-GET /<database>/_design/<design-doc>/_view/by_title?limit=5&descending=true HTTP/1.1
+GET /$DATABASE/_design/<design-doc>/_view/by_title?limit=5&descending=true HTTP/1.1
 Accept: application/json
 Content-Type: application/json
 ```
@@ -453,7 +453,7 @@ However,
 > Example request:
 
 ```http
-POST /<database>/_design/<design_doc>/_view/<view> HTTP/1.1
+POST /$DATABASE/_design/<design_doc>/_view/<view> HTTP/1.1
 Content-Type: application/json
 ```
 
@@ -540,6 +540,6 @@ curl https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DESIGN_DOC/_view/$VIEW -H 
 }
 ```
 
-To send several view queries in one request, use a `POST` request to `/<database>/_design/<design_doc>/_view/<view>`. The request body is a JSON object containing only the `queries` field. It holds an array of query objects with fields for the parameters of the query. The field names and their meaning are the same as the query parameters of a regular view request.
+To send several view queries in one request, use a `POST` request to `/$DATABASE/_design/<design_doc>/_view/<view>`. The request body is a JSON object containing only the `queries` field. It holds an array of query objects with fields for the parameters of the query. The field names and their meaning are the same as the query parameters of a regular view request.
 
 The JSON object returned in the response contains only the `results` field, which holds an array of result objects - one for each query. Each result object contains the same fields as the response to a regular view request.

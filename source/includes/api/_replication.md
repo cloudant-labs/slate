@@ -63,7 +63,7 @@ rather than from the very beginning.
 This field is especially useful for creating incremental copies of databases. To do this:
 
 1.	Find the ID of the [checkpoint](replication.html#checkpoints) document for the last replication. It is stored in the  `_replication_id` field of the replication document in the [`_replicator` database](replication.html#replicator-database).
-2.	Open the checkpoint document at `/<database>/_local/<_replication_id>`, where `<_replication_id>` is the ID you found in the previous step, and `<database>` is the name of the source or the target database. The document usually exists on both databases but might only exist on one.
+2.	Open the checkpoint document at `/$DATABASE/_local/<_replication_id>`, where `<_replication_id>` is the ID you found in the previous step, and `$DATABASE` is the name of the source or the target database. The document usually exists on both databases but might only exist on one.
 3.	Search for the `recorded_seq` field of the first element in the history array.
 4.	Set the `since_seq` field in the replication document to the value of the `recorded_seq` field.
 5.	Start replicating to a new database.
@@ -111,7 +111,7 @@ To start a replication, [add a replication document](#replication-document-forma
 
 ####(Optional) Creating a replication to two Bluemix environments
 
-You can replicate a Cloudant database to multiple Bluemix environments. When you set up the replication job for each environment, the source database and target database names you provide must use this format, `https://<account>.cloudant.com/<database>`. You create the database name, `<database>`, and add it to the URL format. Do not copy the `URL` field from the `VCAP_SERVICES` environment variable. 
+You can replicate a Cloudant database to multiple Bluemix environments. When you set up the replication job for each environment, the source database and target database names you provide must use this format, `https://<account>.cloudant.com/$DATABASE`. You create the database name, `$DATABASE`, and add it to the URL format. Do not copy the `URL` field from the `VCAP_SERVICES` environment variable. 
 
 #### Monitoring a replication
 

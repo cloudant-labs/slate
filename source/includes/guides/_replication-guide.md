@@ -303,7 +303,7 @@ When starting a replication job, a filter function’s name can be specified in 
 > Querying the changes feed
 
 ```http
-GET /<database>/_changes?feed=continuous HTTP/1.1
+GET /$DATABASE/_changes?feed=continuous HTTP/1.1
 Host: <account>.cloudant.com
 Authorization: ...
 ```
@@ -335,7 +335,7 @@ To see the document body itself, append `&include_docs=true` to the curl command
 > Using since
 
 ```http
-GET /<database>/_changes?feed=continuous&include_docs=true&since=11-g1AAAAEueJzLYWBgYMlgTmGQSUlKzi9KdUhJMtTLTU1M0UvOyS9NScwr0ctLLckBqmJKZEiy____f1YGUyJLLlCA3cg0zdTS3II43UkOQDKpHmoAM9gAkxQzQ2OLNOIMyGMBkgwNQApoxv6sDGaoK1KTkgwTk1IJGEGKHQcgdoAdygDxaVJSorlhShYAJoFc1Q HTTP/1.1
+GET /$DATABASE/_changes?feed=continuous&include_docs=true&since=11-g1AAAAEueJzLYWBgYMlgTmGQSUlKzi9KdUhJMtTLTU1M0UvOyS9NScwr0ctLLckBqmJKZEiy____f1YGUyJLLlCA3cg0zdTS3II43UkOQDKpHmoAM9gAkxQzQ2OLNOIMyGMBkgwNQApoxv6sDGaoK1KTkgwTk1IJGEGKHQcgdoAdygDxaVJSorlhShYAJoFc1Q HTTP/1.1
 HOST:<account>.cloudant.com
 Authorization: ...
 ```
@@ -351,7 +351,7 @@ To join the changes feed from a known position, simply pass a `since` parameter 
 > since = now
 
 ```http
-GET /<database>/_changes?feed=continuous&include_docs=true&since=now HTTP/1.1
+GET /$DATABASE/_changes?feed=continuous&include_docs=true&since=now HTTP/1.1
 Host: <account>.cloudant.com
 Authorization: ...
 ```
@@ -383,7 +383,7 @@ Example use cases might be:
 > Filtering the changes feed
 
 ```http
-GET /<database>/_changes?feed=continuous&include_docs=true&since=now&filter=mydesigndoc/myfilter HTTP/1.1
+GET /$DATABASE/_changes?feed=continuous&include_docs=true&since=now&filter=mydesigndoc/myfilter HTTP/1.1
 Host: <account>.cloudant.com
 Authorization: ...
 ```

@@ -68,7 +68,7 @@ account.request({
 });
 ```
 
-Once you've got an index written, you can query it with a GET request to `https://<account>.cloudant.com/<database>/<design_document_id>/_geo/<index_name>`. All geo queries must provide these two query arguments: `relation` (a relation) and `g` (a geometry). Cloudant returns every document in the database whose indexed geometry has the specified relationship to the given geometry.
+Once you've got an index written, you can query it with a GET request to `https://<account>.cloudant.com/$DATABASE/<design_document_id>/_geo/<index_name>`. All geo queries must provide these two query arguments: `relation` (a relation) and `g` (a geometry). Cloudant returns every document in the database whose indexed geometry has the specified relationship to the given geometry.
 
 #### Geometries
 
