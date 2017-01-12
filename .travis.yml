@@ -15,6 +15,7 @@ notifications:
 branches:
   except:
   - bluemix
+  - bluemix-fb75459
 before_install:
 - sudo apt-get update
 - sudo apt-get install python python-pip jq perl aspell aspell-en curl
