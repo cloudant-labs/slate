@@ -39,7 +39,7 @@ sending personal information relating to EU citizens to {{site.data.keyword.clou
 
 To request an EU Model Clauses agreement,
 or for any other information or assistance around the transfer of personal data,
-customers can contact our dedicated EU Model Clauses team at [eu-mc@ie.ibm.com](mailto://eu-mc@ie.ibm.com).
+customers can contact our dedicated EU Model Clauses team at [eu-mc@ie.ibm.com](mailto:eu-mc@ie.ibm.com).
 
 The EU Directive 95/46/EC sets out rules concerning processing of customer's personal data.
 As the data controller,

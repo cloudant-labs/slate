@@ -97,6 +97,9 @@ and other security-minded industries to benefit from {{site.data.keyword.cloudan
 The service is built on best-in-industry standards,
 including ISO 27001 and ISO 27002.
 
+More details on {{site.data.keyword.cloudant_short_notm}} Data Privacy and
+Governance [are available](dataprivacygovernance).
+
 ## Multiple hosting options
 
 Never worry about cloud lock-in.
