@@ -58,3 +58,18 @@ More information about Cloudant's overall standards compliance can be found
 [here](cloudantcompliance.html).
 Similar information can be found for our IaaS partners:
 
+-   [Amazon](https://aws.amazon.com/compliance/){:new_window}
+-   [Rackspace](http://www.rackspace.co.uk/certifications){:new_window}
+-   [SoftLayer](http://www.softlayer.com/compliance){:new_window}
+
+Following the recent vote in favour of new
+[General Data Protection Regulations](http://www.engadget.com/2016/04/14/eu-data-protection-rules/){:new_window},
+it is worth Cloudant customers being aware not only of the Cloudant team's understanding and
+compliance against emerging data privacy standards and legislation
+but also of IBM's wider ability to provide a comprehensive suite of solutions
+to assist businesses of all sizes with their own internal data governance requirements.
+
+If you have further questions about the impending changes to data protection laws in Europe
+and how they are likely to impact your business,
+or would like to discuss how IBM can support your information governance
+and compliance efforts please contact the Client Success team at [cdscsm@us.ibm.com](mailto:cdscsm@us.ibm.com). 

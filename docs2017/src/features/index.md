@@ -98,7 +98,7 @@ The service is built on best-in-industry standards,
 including ISO 27001 and ISO 27002.
 
 More details on {{site.data.keyword.cloudant_short_notm}} Data Privacy and
-Governance [are available](dataprivacygovernance).
+Governance [are available](dataprivacygovernance.html).
 
 ## Multiple hosting options
 
