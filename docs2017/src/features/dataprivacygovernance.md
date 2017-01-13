@@ -24,12 +24,12 @@ we must of course take data privacy and governance very seriously.
 
 To govern the movement of data from the EU to the US,
 {{site.data.keyword.cloudant_short_notm}} complied with both US-EU and US-Swiss
-[Safe Harbour Frameworks](https://safeharbor.export.gov/companyinfo.aspx?id=29450){:new_window}.
+[Safe Harbour Frameworks ![External link icon](../images/launch-glyph.svg "External link icon")](https://safeharbor.export.gov/companyinfo.aspx?id=29450){:new_window}.
 Following last year's ruling of the European Court of Justice that
-[invalidated](http://curia.europa.eu/juris/document/document.jsf?text=&docid=169195&pageIndex=0&doclang=en&mode=req&dir=&occ=first&part=1&cid=113326){:new_window}
+[invalidated ![External link icon](../images/launch-glyph.svg "External link icon")](http://curia.europa.eu/juris/document/document.jsf?text=&docid=169195&pageIndex=0&doclang=en&mode=req&dir=&occ=first&part=1&cid=113326){:new_window}
 the Safe Harbour agreement,
 IBM was quick to urge policymakers to work expediently
-to ensure "[unbroken data flows between the European Union and the United States](http://www.ibm.com/ibm/ibmgra/safe_harbor_10062015.html){:new_window}".
+to ensure "[unbroken data flows between the European Union and the United States ![External link icon](../images/launch-glyph.svg "External link icon")](http://www.ibm.com/ibm/ibmgra/safe_harbor_10062015.html){:new_window}".
 
 IBM has prepared an EU Model Clauses agreement for {{site.data.keyword.cloudant_short_notm}} customers
 to facilitate the transfer of personal data outside of the EU
@@ -39,7 +39,7 @@ sending personal information relating to EU citizens to {{site.data.keyword.clou
 
 To request an EU Model Clauses agreement,
 or for any other information or assistance around the transfer of personal data,
-customers can contact our dedicated EU Model Clauses team at [eu-mc@ie.ibm.com](mailto:eu-mc@ie.ibm.com).
+customers can contact our dedicated EU Model Clauses team at [eu-mc@ie.ibm.com ![External link icon](../images/launch-glyph.svg "External link icon")](mailto:eu-mc@ie.ibm.com){:new_window}.
 
 The EU Directive 95/46/EC sets out rules concerning processing of customer's personal data.
 As the data controller,
@@ -52,18 +52,18 @@ A list of countries where content may be held,
 or from where content may be accessed,
 for the purpose of delivering and supporting a Cloud Service,
 is available at:
-[www.ibm.com/cloud/datacenters](http://www.ibm.com/cloud/datacenters){:new_window}.
+[www.ibm.com/cloud/datacenters ![External link icon](../images/launch-glyph.svg "External link icon")](http://www.ibm.com/cloud/datacenters){:new_window}.
 
 More information about Cloudant's overall standards compliance can be found
 [here](cloudantcompliance.html).
 Similar information can be found for our IaaS partners:
 
--   [Amazon](https://aws.amazon.com/compliance/){:new_window}
--   [Rackspace](http://www.rackspace.co.uk/certifications){:new_window}
--   [SoftLayer](http://www.softlayer.com/compliance){:new_window}
+-   [Amazon ![External link icon](../images/launch-glyph.svg "External link icon")](https://aws.amazon.com/compliance/){:new_window}
+-   [Rackspace ![External link icon](../images/launch-glyph.svg "External link icon")](http://www.rackspace.co.uk/certifications){:new_window}
+-   [SoftLayer ![External link icon](../images/launch-glyph.svg "External link icon")](http://www.softlayer.com/compliance){:new_window}
 
 Following the recent vote in favour of new
-[General Data Protection Regulations](http://www.engadget.com/2016/04/14/eu-data-protection-rules/){:new_window},
+[General Data Protection Regulations ![External link icon](../images/launch-glyph.svg "External link icon")](http://www.engadget.com/2016/04/14/eu-data-protection-rules/){:new_window},
 it is worth Cloudant customers being aware not only of the Cloudant team's understanding and
 compliance against emerging data privacy standards and legislation
 but also of IBM's wider ability to provide a comprehensive suite of solutions
@@ -72,4 +72,4 @@ to assist businesses of all sizes with their own internal data governance requir
 If you have further questions about the impending changes to data protection laws in Europe
 and how they are likely to impact your business,
 or would like to discuss how IBM can support your information governance
-and compliance efforts please contact the Client Success team at [cdscsm@us.ibm.com](mailto:cdscsm@us.ibm.com). 
+and compliance efforts please contact the Client Success team at [cdscsm@us.ibm.com ![External link icon](../images/launch-glyph.svg "External link icon")](mailto:cdscsm@us.ibm.com){:new_window}. 

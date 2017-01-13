@@ -93,7 +93,7 @@ There are a multitude of security features built into
     can whitelist IP addresses to restrict access to only specified servers and users.
 -	CORS: Enable CORS support for specific domains by using the
     {{site.data.keyword.cloudant_short_notm}} dashboard.
--	[Shared Databases](https://cloudant.com/blog/shared-databases-faq/): Share
+-	[Shared Databases ![External link icon](../images/launch-glyph.svg "External link icon")](https://cloudant.com/blog/shared-databases-faq/){:new_window}: Share
     databases with other {{site.data.keyword.cloudant_short_notm}} users in
     your organization and configure authorization privileges for each by using
     the {{site.data.keyword.cloudant_short_notm}} dashboard.

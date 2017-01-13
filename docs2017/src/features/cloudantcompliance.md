@@ -65,7 +65,7 @@ and electronic information.
 
 {{site.data.keyword.cloudant_short_notm}} is audited by a third-party security firm
 and meets all of the requirements for ISO 27001:
-[Bluemix ISO 27001:2013 Certificate of Registration](ftp://public.dhe.ibm.com/cloud/bluemix/compliance/Bluemix_ISO27K1_WWCert_2016.pdf).
+[Bluemix ISO 27001:2013 Certificate of Registration ![External link icon](../images/launch-glyph.svg "External link icon")](ftp://public.dhe.ibm.com/cloud/bluemix/compliance/Bluemix_ISO27K1_WWCert_2016.pdf){:new_window}.
 
 ## SOC 2 Certification
 
@@ -77,4 +77,4 @@ The Trust Services Principles define adequate control systems and establish indu
 for services providers such as SoftLayer to safeguard their customers' data and information.
 
 Customers may request SOC 2 reports from the customer portal
-or [contact our sales team](https://cloudant.com/history/contact-us/).
+or [contact our sales team ![External link icon](../images/launch-glyph.svg "External link icon")](https://cloudant.com/history/contact-us/){:new_window}.
