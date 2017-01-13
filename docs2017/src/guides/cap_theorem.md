@@ -18,7 +18,7 @@ lastupdated: "2017-01-06"
 
 # CAP Theorem
 
-Cloudant uses an ['Eventually Consistent'](http://en.wikipedia.org/wiki/Eventual_consistency){:new_window} model.
+Cloudant uses an ['Eventually Consistent' ![External link icon](../images/launch-glyph.svg "External link icon")](http://en.wikipedia.org/wiki/Eventual_consistency){:new_window} model.
 {:shortdesc}
 
 To understand how this works,
@@ -72,7 +72,7 @@ the system must become more sophisticated.
 ## Tradeoffs in Partition Tolerance
 
 A database which prioritizes consistency and partition tolerance will commonly employ
-a [master-slave](http://en.wikipedia.org/wiki/Master/slave_(technology)){:new_window} setup,
+a [master-slave ![External link icon](../images/launch-glyph.svg "External link icon")](http://en.wikipedia.org/wiki/Master/slave_(technology)){:new_window} setup,
 where one node of the many in the system is elected leader.
 Only the leader can approve data writes,
 while all secondary nodes replicate data from the leader in order to handle reads.
@@ -80,7 +80,7 @@ If the leader loses connection to the network,
 or can't communicate with a majority of the system's nodes,
 the majority elects a new leader.
 This election process will differ between systems,
-and can be a source of [significant problems](http://aphyr.com/posts/284-call-me-maybe-mongodb){:new_window}.
+and can be a source of [significant problems ![External link icon](../images/launch-glyph.svg "External link icon")](http://aphyr.com/posts/284-call-me-maybe-mongodb){:new_window}.
 
 Cloudant prioritizes availability and partition tolerance by employing a master-master setup,
 such that every node can accept both writes and reads to its portion of your data.
@@ -90,7 +90,7 @@ so that if a node becomes inaccessible,
 others can serve in its place while the network heals.
 This way,
 the system will return your data in a timely manner despite arbitrary node failure,
-while maintaining [eventual consistency](http://en.wikipedia.org/wiki/Eventual_consistency){:new_window}.
+while maintaining [eventual consistency ![External link icon](../images/launch-glyph.svg "External link icon")](http://en.wikipedia.org/wiki/Eventual_consistency){:new_window}.
 The tradeoff in deprioritizing absolute consistency is that it will take a moment for all nodes to see the same data,
 such that responses may contain old data while the new data propagates through the system.
 
@@ -111,7 +111,7 @@ A database engineered around this assumption that prioritizes availability and e
 is better suited to keeping your application online.
 The consistency of application data can be addressed after the fact.
 As Seth Gilbert and Nancy Lynch of MIT
-[conclude](http://www.glassbeam.com/sites/all/themes/glassbeam/images/blog/10.1.1.67.6951.pdf){:new_window},
+[conclude ![External link icon](../images/launch-glyph.svg "External link icon")](http://www.glassbeam.com/sites/all/themes/glassbeam/images/blog/10.1.1.67.6951.pdf){:new_window},
 "most real-world systems today are forced to settle with returning 'most of the data, most of the time.'"
 
 ## Application availability vs. consistency in the enterprise

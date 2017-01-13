@@ -135,7 +135,7 @@ The reason might be one of:
 -	The selector object does not describe a valid Cloudant Query.
 
 More information about using a `selector` object is available in the
-[Apache CouchDB documentation](http://docs.couchdb.org/en/2.0.0/api/database/changes.html#selector){:new_window}.
+[Apache CouchDB documentation ![External link icon](../images/launch-glyph.svg "External link icon")](http://docs.couchdb.org/en/2.0.0/api/database/changes.html#selector){:new_window}.
 
 _Example error response if the selector is not valid:_
 

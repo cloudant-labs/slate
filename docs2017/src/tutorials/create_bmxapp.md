@@ -17,7 +17,7 @@ lastupdated: "2017-01-10"
 # Creating a simple Bluemix application to access a Cloudant database
 
 This tutorial shows you how to create an {{site.data.keyword.Bluemix}} application that uses the
-[Python programming language](https://www.python.org/){:new_window} to
+[Python programming language ![External link icon](../images/launch-glyph.svg "External link icon")](https://www.python.org/){:new_window} to
 access an {{site.data.keyword.cloudantfull}} database,
 hosted in your {{site.data.keyword.Bluemix_notm}} service instance.
 {:shortdesc}
@@ -34,7 +34,7 @@ it makes sense to have your applications there,
 too.
 
 {{site.data.keyword.Bluemix_notm}} applications are typically created by using
-[Cloud Foundry](https://en.wikipedia.org/wiki/Cloud_Foundry){:new_window} technology.
+[Cloud Foundry ![External link icon](../images/launch-glyph.svg "External link icon")](https://en.wikipedia.org/wiki/Cloud_Foundry){:new_window} technology.
 Cloud Foundry offers a Platform-as-a-Service (PaaS) capability
 that simplifies the process of creating applications that can be deployed and run
 within a Cloud environment.

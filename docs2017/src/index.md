@@ -30,7 +30,7 @@ and mobile devices.
 {:shortdesc}
 
 For more information on all the {{site.data.keyword.cloudant_short_notm}} offerings,
-see the main [{{site.data.keyword.cloudant_short_notm}}](http://www.ibm.com/analytics/us/en/technology/cloud-data-services/cloudant/){:new_window} site.
+see the main [{{site.data.keyword.cloudant_short_notm}} ![External link icon](images/launch-glyph.svg "External link icon")](http://www.ibm.com/analytics/us/en/technology/cloud-data-services/cloudant/){:new_window} site.
 For more details on {{site.data.keyword.cloudant_short_notm}} concepts,
 tasks and techniques,
 see the [{{site.data.keyword.cloudant_short_notm}} documentation](cloudant.html).
@@ -73,7 +73,7 @@ follow these steps:
     -   [Swift](libraries/supported.html#swift)
 
     For more information,
-    see the [Cloudant homepage](http://www.ibm.com/analytics/us/en/technology/cloud-data-services/cloudant/){:new_window}
+    see the [Cloudant homepage ![External link icon](images/launch-glyph.svg "External link icon")](http://www.ibm.com/analytics/us/en/technology/cloud-data-services/cloudant/){:new_window}
     and the list of [Client Libraries](libraries/index.html).
 
 Tutorials are [available](tutorials/index.html) that describe these tasks in more detail.
@@ -216,7 +216,7 @@ in the [API reference](api/index.html).
 ## Related Links
 {: #general}
 
-*   [{{site.data.keyword.cloudant_short_notm}} Guides](guides/index.html)
-*   [{{site.data.keyword.cloudant_short_notm}} website and dashboard](https://cloudant.com/){:new_window}
-*   [{{site.data.keyword.cloudant_short_notm}} Blog](https://cloudant.com/blog){:new_window}
-*   [Using {{site.data.keyword.cloudant_short_notm}} with Liberty on {{site.data.keyword.Bluemix_notm}}](https://developer.ibm.com/bluemix/2014/07/08/cloudant_on_bluemix/){:new_window}
+*   [{{site.data.keyword.cloudant_short_notm}} Guides ![External link icon](images/launch-glyph.svg "External link icon")](guides/index.html)
+*   [{{site.data.keyword.cloudant_short_notm}} website and dashboard ![External link icon](images/launch-glyph.svg "External link icon")](https://cloudant.com/){:new_window}
+*   [{{site.data.keyword.cloudant_short_notm}} Blog ![External link icon](images/launch-glyph.svg "External link icon")](https://cloudant.com/blog){:new_window}
+*   [Using {{site.data.keyword.cloudant_short_notm}} with Liberty on {{site.data.keyword.Bluemix_notm}} ![External link icon](images/launch-glyph.svg "External link icon")](https://developer.ibm.com/bluemix/2014/07/08/cloudant_on_bluemix/){:new_window}

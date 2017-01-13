@@ -93,11 +93,11 @@ your first {{site.data.keyword.Bluemix_notm}} applications.
 
 A good source of advice on best practice for creating {{site.data.keyword.Bluemix_notm}} or
 Cloud Foundry applications is
-[here](https://docs.cloudfoundry.org/devguide/deploy-apps/prepare-to-deploy.html){:new_window}.
+[here ![External link icon](../images/launch-glyph.svg "External link icon")](https://docs.cloudfoundry.org/devguide/deploy-apps/prepare-to-deploy.html){:new_window}.
 
 In particular,
 the advice on
-[avoiding writes to the local file system](https://docs.cloudfoundry.org/devguide/deploy-apps/prepare-to-deploy.html#filesystem){:new_window}
+[avoiding writes to the local file system ![External link icon](../images/launch-glyph.svg "External link icon")](https://docs.cloudfoundry.org/devguide/deploy-apps/prepare-to-deploy.html#filesystem){:new_window}
 is prudent.
 
 >   **Note**: For reasons of simplicity,

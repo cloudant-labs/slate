@@ -31,7 +31,7 @@ by accessing your {{site.data.keyword.cloudant_short_notm}} account.
 
 1.  Log in to your {{site.data.keyword.Bluemix_notm}} account.<br/>
     The {{site.data.keyword.Bluemix_notm}} dashboard can be found at:
-    [http://bluemix.net](http://bluemix.net){:new_window}.
+    [http://bluemix.net ![External link icon](../images/launch-glyph.svg "External link icon")](http://bluemix.net){:new_window}.
     After authenticating with your user name and password,
     you are presented with the {{site.data.keyword.Bluemix_notm}} dashboard:<br/>
     ![{{site.data.keyword.Bluemix_notm}} dashboard](images/img0001.png)
@@ -116,7 +116,7 @@ you can find the credentials for a service that is associated with your account.
 
 1.  Begin by logging in to Bluemix.
     The {{site.data.keyword.Bluemix}} dashboard can be found at:
-    [http://bluemix.net](http://bluemix.net){:new_window}.
+    [http://bluemix.net ![External link icon](../images/launch-glyph.svg "External link icon")](http://bluemix.net){:new_window}.
     After authenticating with your user name and password,
     you are presented with the {{site.data.keyword.Bluemix_notm}} dashboard:<br/>
     ![{{site.data.keyword.Bluemix_notm}} dashboard](images/img0001.png)

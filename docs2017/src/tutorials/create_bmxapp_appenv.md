@@ -26,7 +26,7 @@ for creating an {{site.data.keyword.Bluemix}} application.
 
 1.  Log in to your {{site.data.keyword.Bluemix_notm}} account.
     The {{site.data.keyword.Bluemix_notm}} dashboard can be found at:
-    [http://bluemix.net](http://bluemix.net){:new_window}.
+    [http://bluemix.net ![External link icon](../images/launch-glyph.svg "External link icon")](http://bluemix.net){:new_window}.
     After you authenticate with your user name and password,
     the {{site.data.keyword.Bluemix_notm}} dashboard appears:<br/>
     ![{{site.data.keyword.Bluemix_notm}} dashboard](images/img0001.png)
@@ -133,7 +133,7 @@ your {{site.data.keyword.Bluemix_notm}} environment,
 applications,
 and services.
 
-The [Cloud Foundry](https://en.wikipedia.org/wiki/Cloud_Foundry){:new_window}
+The [Cloud Foundry ![External link icon](../images/launch-glyph.svg "External link icon")](https://en.wikipedia.org/wiki/Cloud_Foundry){:new_window}
 toolkit is a collection of tools for working with applications that are
 deployed in a Cloud Foundry-compatible environment.
 Use these tools for tasks such as updating a deployed application,
@@ -148,7 +148,7 @@ you do not need to download them again,
 unless they are updated.
 
 General information about the toolkits is available
-[here](https://console.ng.bluemix.net/docs/cli/index.html){:new_window}.
+[here ![External link icon](../images/launch-glyph.svg "External link icon")](https://console.ng.bluemix.net/docs/cli/index.html){:new_window}.
 
 ### Installing the Cloud Foundry toolkit
 
@@ -165,7 +165,7 @@ use the following steps to download and install the Cloud Foundry toolkit on you
     ![A link to download the Cloud Foundry toolkit](images/img0025.png)
 
 2.  Clicking the link takes you to a
-    [download page on GitHub](https://github.com/cloudfoundry/cli/releases){:new_window}:<br/>
+    [download page on GitHub ![External link icon](../images/launch-glyph.svg "External link icon")](https://github.com/cloudfoundry/cli/releases){:new_window}:<br/>
     ![The Cloud Foundry toolkit download page on GitHub](images/img0026.png)
 
 3.  Download and run the most recent version of the installer for your system.
@@ -196,7 +196,7 @@ Use the following steps to download and install the {{site.data.keyword.Bluemix_
     ![A link to download the Cloud Foundry toolkit](images/img0027.png)
 
 2.  Clicking the link takes you to a
-    [download page](http://clis.ng.bluemix.net/ui/home.html){:new_window}:<br/>
+    [download page ![External link icon](../images/launch-glyph.svg "External link icon")](http://clis.ng.bluemix.net/ui/home.html){:new_window}:<br/>
     ![The Bluemix toolkit download page](images/img0028.png)
 
 3.  Download and run the appropriate installer for your system.
@@ -237,7 +237,7 @@ A {{site.data.keyword.Bluemix_notm}} starter application is the minimum possible
 of source and configuration files
 necessary to create a working {{site.data.keyword.Bluemix_notm}} application.
 In some regards,
-it is similar to a ['Hello World' application](https://en.wikipedia.org/wiki/%22Hello,_World!%22_program){:new_window};
+it is similar to a ['Hello World' application ![External link icon](../images/launch-glyph.svg "External link icon")](https://en.wikipedia.org/wiki/%22Hello,_World!%22_program){:new_window};
 sufficient only to show that the basic system and configuration is working correctly.
 
 A {{site.data.keyword.Bluemix_notm}} starter application is an archive of example files that
@@ -261,7 +261,7 @@ a '`Procfile`' is a Cloud Foundry artifact that
 defines an application process type,
 and the command to run the application.
 More information about '`Procfile`' is available
-[here](https://docs.cloudfoundry.org/buildpacks/prod-server.html#procfile){:new_window}.
+[here ![External link icon](../images/launch-glyph.svg "External link icon")](https://docs.cloudfoundry.org/buildpacks/prod-server.html#procfile){:new_window}.
 
 The '`Procfile`' for a {{site.data.keyword.Bluemix_notm}} Python starter application
 looks similar to the following example:

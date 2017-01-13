@@ -1646,9 +1646,9 @@ A query where the Divisor or Remainder is a non-integer returns a [404 status](h
 
 >	**Note**: When using negative integer values for the Divisor or Remainder,
 you should note that the Cloudant `$mod` operator is similar to the
-[Erlang `rem` modulo operator](http://erlang.org/doc/reference_manual/expressions.html){:new_window},
-or the [`%` operator in C](https://en.wikipedia.org/wiki/Operators_in_C_and_C%2B%2B){:new_window},
-and uses [truncated division](https://en.wikipedia.org/wiki/Modulo_operation){:new_window}.
+[Erlang `rem` modulo operator ![External link icon](../images/launch-glyph.svg "External link icon")](http://erlang.org/doc/reference_manual/expressions.html){:new_window},
+or the [`%` operator in C ![External link icon](../images/launch-glyph.svg "External link icon")](https://en.wikipedia.org/wiki/Operators_in_C_and_C%2B%2B){:new_window},
+and uses [truncated division ![External link icon](../images/launch-glyph.svg "External link icon")](https://en.wikipedia.org/wiki/Modulo_operation){:new_window}.
 
 _Example of the `$mod` operator, used with full text indexing:_
 
@@ -1804,13 +1804,13 @@ and is not efficient for large databases.
 
 Most selector expressions work exactly as you would expect for the given operator.
 The matching algorithms used by the `$regex` operator are currently _based_ on
-the [Perl Compatible Regular Expression (PCRE) library](https://en.wikipedia.org/wiki/Perl_Compatible_Regular_Expressions){:new_window}.
+the [Perl Compatible Regular Expression (PCRE) library ![External link icon](../images/launch-glyph.svg "External link icon")](https://en.wikipedia.org/wiki/Perl_Compatible_Regular_Expressions){:new_window}.
 However,
 not all of the PCRE library is implemented.
 Additionally,
 some parts of the `$regex` operator go beyond what PCRE offers.
 For more information about what is implemented,
-see the [Erlang Regular Expression](http://erlang.org/doc/man/re.html){:new_window} information.
+see the [Erlang Regular Expression ![External link icon](../images/launch-glyph.svg "External link icon")](http://erlang.org/doc/man/re.html){:new_window} information.
 
 _Example use of an equality operator to enable a selector expression:_
 

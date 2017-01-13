@@ -19,7 +19,7 @@ points of modelling your application's data to work efficiently at large scale.
 {:shortdesc}
 
 _(This guide is based on a Blog article by Mike Rhodes:
-["My top 5 tips for modelling your data to scale"](https://cloudant.com/blog/my-top-5-tips-for-modelling-your-data-to-scale/){:new_window},
+["My top 5 tips for modelling your data to scale" ![External link icon](../images/launch-glyph.svg "External link icon")](https://cloudant.com/blog/my-top-5-tips-for-modelling-your-data-to-scale/){:new_window},
 originally published December 17, 2013.)_
 
 The way you model data on Cloudant will significantly impact how your application is able to 
@@ -233,6 +233,6 @@ and to take advantage of, to make sure the database performance scales as your a
 grows. We understand the shift can be confusing, so we’re always on-hand to give advice.
 
 For further reading, see this discussion on the
-["data model for Foundbite"](https://cloudant.com/blog/foundbites-data-model-relational-db-vs-nosql-on-cloudant/){:new_window},
-or this ["example from our friends at Twilio"](https://www.twilio.com/blog/2013/01/building-a-real-time-sms-voting-app-part-3-scaling-node-js-and-couchdb.html){:new_window}.
+["data model for Foundbite" ![External link icon](../images/launch-glyph.svg "External link icon")](https://cloudant.com/blog/foundbites-data-model-relational-db-vs-nosql-on-cloudant/){:new_window},
+or this ["example from our friends at Twilio" ![External link icon](../images/launch-glyph.svg "External link icon")](https://www.twilio.com/blog/2013/01/building-a-real-time-sms-voting-app-part-3-scaling-node-js-and-couchdb.html){:new_window}.
 

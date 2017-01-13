@@ -15,7 +15,7 @@ lastupdated: "2017-01-06"
 # JSON
 
 The majority of requests and responses to and from Cloudant
-use the [JavaScript Object Notation (JSON)](https://en.wikipedia.org/wiki/JSON){:new_window}
+use the [JavaScript Object Notation (JSON) ![External link icon](../images/launch-glyph.svg "External link icon")](https://en.wikipedia.org/wiki/JSON){:new_window}
 for formatting the content and structure of the data and responses.
 {:shortdesc}
 

@@ -63,7 +63,7 @@ relation=contains&g=POLYGON ((-71.0537124 42.3681995,-71.054399 42.3675178,-71.0
 The basic steps for working with geospatial data in Cloudant Geo are as follows:
 
 1.  Include a GeoJSON geometry object in your JSON document.
-	The geometry object can be of any type defined by the [GeoJSON specification](http://geojson.org/geojson-spec.html){:new_window}.
+	The geometry object can be of any type defined by the [GeoJSON specification ![External link icon](../images/launch-glyph.svg "External link icon")](http://geojson.org/geojson-spec.html){:new_window}.
 2.  Index the geometry object using Cloudant Geo defined `st_index` function.
 3.  Search the indexed geometry object by using various geometries and geometric relationships.
 
@@ -108,11 +108,11 @@ To see the other results from your geospatial query,
 page through them by clicking the left or right arrow buttons.
 
 More information on using Cloudant Geospatial is available through
-the [Learning Center](http://www.cloudant.com/learning-center#geo){:new_window}.
+the [Learning Center ![External link icon](../images/launch-glyph.svg "External link icon")](http://www.cloudant.com/learning-center#geo){:new_window}.
 
 ## GeoJSON
 
-[GeoJSON format](http://geojson.org/geojson-spec.html){:new_window}
+[GeoJSON format ![External link icon](../images/launch-glyph.svg "External link icon")](http://geojson.org/geojson-spec.html){:new_window}
 is used to express a variety of geographic data structures, including:
 
 -   `Point`
@@ -167,7 +167,7 @@ _An example GeoJSON document:_
 
 More information about GeoJSON,
 including the full specification,
-is available at [http://geojson.org/](http://geojson.org/){:new_window}.
+is available at [http://geojson.org/ ![External link icon](../images/launch-glyph.svg "External link icon")](http://geojson.org/){:new_window}.
 
 ## Creating a Cloudant Geo Index
 
@@ -207,7 +207,7 @@ Some algorithms are simple to understand and implement,
 but do not produce fast results.
 
 The basic algorithm used by Cloudant Geo
-is [R\*\_tree](http://en.wikipedia.org/wiki/R*_tree){:new_window}.
+is [R\*\_tree ![External link icon](../images/launch-glyph.svg "External link icon")](http://en.wikipedia.org/wiki/R*_tree){:new_window}.
 Although it has a slightly higher resource requirement for building the index,
 the resulting index offers much better performance in responding to geospatial queries.
 
@@ -328,7 +328,7 @@ when executing a query with query geometry only.
 ### Geometric Relation
 
 Cloudant Geo works with geospatial relationships and follows
-the [DE-9IM specification](https://en.wikipedia.org/wiki/DE-9IM){:new_window} for geometric relations.
+the [DE-9IM specification ![External link icon](../images/launch-glyph.svg "External link icon")](https://en.wikipedia.org/wiki/DE-9IM){:new_window} for geometric relations.
 These define the different ways in which two geospatial objects are related to each other,
 if indeed they are related at all.
 

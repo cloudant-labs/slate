@@ -29,7 +29,7 @@ before you start working through the tutorial.
 
 For all but the simplest possible development work,
 it is much easier if you have a current installation of the
-[Python programming language](https://www.python.org/){:new_window}
+[Python programming language ![External link icon](../images/launch-glyph.svg "External link icon")](https://www.python.org/){:new_window}
 on your system.
 
 To check,

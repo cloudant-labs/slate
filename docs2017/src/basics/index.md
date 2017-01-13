@@ -137,8 +137,8 @@ see the [CAP Theorem](../guides/cap_theorem.html) guide.
 ## Replication
 
 [Replication](../api/replication.html) is a procedure followed by Cloudant,
-[CouchDB](http://couchdb.apache.org/){:new_window},
-[PouchDB](http://pouchdb.com/){:new_window},
+[CouchDB ![External link icon](../images/launch-glyph.svg "External link icon")](http://couchdb.apache.org/){:new_window},
+[PouchDB ![External link icon](../images/launch-glyph.svg "External link icon")](http://pouchdb.com/){:new_window},
 and other distributed databases.
 Replication synchronizes the state of two databases so that their contents are identical.
 

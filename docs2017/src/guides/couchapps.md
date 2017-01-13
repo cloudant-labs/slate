@@ -56,7 +56,7 @@ When is each appropriate?
 -   You don't need to schedule cronjobs or other regular tasks.
 
 To get started with CouchApps,
-read [Managing applications on Cloudant](https://cloudant.com/blog/app-management/){:new_window}.
+read [Managing applications on Cloudant ![External link icon](../images/launch-glyph.svg "External link icon")](https://cloudant.com/blog/app-management/){:new_window}.
 
 ## A 3-tier application is appropriate if...
 

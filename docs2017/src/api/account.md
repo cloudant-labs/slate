@@ -20,7 +20,7 @@ Your Cloudant dashboard is always
 `https://$USERNAME.cloudant.com/dashboard.html`.
 {:shortdesc}
 
-If you don't yet have an account, [sign up](https://cloudant.com/sign-up/){:new_window}.
+If you don't yet have an account, [sign up ![External link icon](../images/launch-glyph.svg "External link icon")](https://cloudant.com/sign-up/){:new_window}.
 
 ## Ping
 
@@ -70,7 +70,7 @@ print ping.status_code
 
 ## CORS
 
-[Cross-origin resource sharing (CORS)](http://www.w3.org/TR/cors/){:new_window} is a
+[Cross-origin resource sharing (CORS) ![External link icon](../images/launch-glyph.svg "External link icon")](http://www.w3.org/TR/cors/){:new_window} is a
 mechanism that allows Javascript from another domain to interact with data in
 your Cloudant account.
 

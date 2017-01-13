@@ -135,7 +135,7 @@ Assume you need to back up one database.
 You want to create a full backup on Monday,
 and an incremental backup on Tuesday.
 
-You can use the `curl` and [`jq`](http://stedolan.github.io/jq/){:new_window}
+You can use the `curl` and [`jq` ![External link icon](../images/launch-glyph.svg "External link icon")](http://stedolan.github.io/jq/){:new_window}
 commands to run these operations.
 In practice,
 you could use any http client.
@@ -493,4 +493,4 @@ If you get stuck,
 check out the [replication guide](replication_guide.html),
 talk to us on IRC (#cloudant on freenode),
 or contact the
-[IBM Cloudant support team](mailto:support@cloudant.com){:new_window}.
+[IBM Cloudant support team ![External link icon](../images/launch-glyph.svg "External link icon")](mailto:support@cloudant.com){:new_window}.

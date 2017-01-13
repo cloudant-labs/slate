@@ -18,7 +18,7 @@ This section contains details about more advanced replication concepts and tasks
 {:shortdesc}
 
 You might also find it helpful to review details of the underlying
-[replication protocol](http://dataprotocols.org/couchdb-replication/){:new_window},
+[replication protocol ![External link icon](../images/launch-glyph.svg "External link icon")](http://dataprotocols.org/couchdb-replication/){:new_window},
 as well as reviewing the [Advanced Methods](advanced.html) material.
 
 ## Replication Status
@@ -34,7 +34,7 @@ Field | Detail
 ------|-------
 `_replication_id` | This is the internal ID assigned to the replication. It is the same ID that appears in the output from `_active_tasks`.
 `_replication_state` | The current state of the replication.
-`_replication_state_time` | An [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt){:new_window} compliant timestamp that reports when the current replication state defined in `_replication_state` was set.
+`_replication_state_time` | An [RFC 3339 ![External link icon](../images/launch-glyph.svg "External link icon")](https://www.ietf.org/rfc/rfc3339.txt){:new_window} compliant timestamp that reports when the current replication state defined in `_replication_state` was set.
 
 The possible values for the `_replication_state` are:
 
@@ -313,7 +313,7 @@ by including them in the replication document.
 	The default value is 10 attempts.
 -   `socket_options` - A list of options to pass to the connection sockets.
 	The available options can be found in the
-	[documentation for the Erlang function setopts/2 of the inet module](http://www.erlang.org/doc/man/inet.html#setopts-2){:new_window}. 
+	[documentation for the Erlang function setopts/2 of the inet module ![External link icon](../images/launch-glyph.svg "External link icon")](http://www.erlang.org/doc/man/inet.html#setopts-2){:new_window}. 
 	Default value is `[{keepalive, true},{nodelay, false}]`.
 -   `worker_batch_size` - Worker processes perform batches of replication tasks,
 	where the batch size is defined by this parameter.

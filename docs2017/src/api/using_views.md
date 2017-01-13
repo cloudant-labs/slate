@@ -255,7 +255,7 @@ The effect is that a stale view index result might be different from different n
 ## Sorting Returned Rows
 
 The data returned by a view query are in the form of an array.
-Each element within the array is sorted by using standard [UTF-8](https://en.wikipedia.org/wiki/UTF-8){:new_window} sorting.
+Each element within the array is sorted by using standard [UTF-8 ![External link icon](../images/launch-glyph.svg "External link icon")](https://en.wikipedia.org/wiki/UTF-8){:new_window} sorting.
 The sort is applied to the key defined in the view function.
 
 The basic order of output is as follows:

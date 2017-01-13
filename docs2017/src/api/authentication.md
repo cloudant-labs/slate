@@ -41,7 +41,7 @@ pass along your credentials as part of every request.
 You do this by adding an `Authorization` header to the request.
 
 The header contains the authentication scheme (`Basic`),
-followed by the [BASE64](https://en.wikipedia.org/wiki/Base64){:new_window} encoding of a string created by concatenating:
+followed by the [BASE64 ![External link icon](../images/launch-glyph.svg "External link icon")](https://en.wikipedia.org/wiki/Base64){:new_window} encoding of a string created by concatenating:
 
 -	Your username.
 -	The `:` character.

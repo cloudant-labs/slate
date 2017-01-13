@@ -14,7 +14,7 @@ lastupdated: "2017-01-06"
 
 # Document Versioning and MVCC
 
-[Multi-version concurrency control (MVCC)](https://en.wikipedia.org/wiki/Multiversion_concurrency_control){:new_window}
+[Multi-version concurrency control (MVCC) ![External link icon](../images/launch-glyph.svg "External link icon")](https://en.wikipedia.org/wiki/Multiversion_concurrency_control){:new_window}
 is how Cloudant databases ensure that all of the nodes in a database's cluster contain
 only the [newest version](../api/document.html) of a document.
 {:shortdesc}
@@ -24,7 +24,7 @@ this is necessary to prevent inconsistencies arising between nodes
 as a result of synchronizing between outdated documents.
 
 Multi-Version Concurrency Control (MVCC) enables concurrent read and write access to a Cloudant database.
-MVCC is a form of [optimistic concurrency](http://en.wikipedia.org/wiki/Optimistic_concurrency_control){:new_window}.
+MVCC is a form of [optimistic concurrency ![External link icon](../images/launch-glyph.svg "External link icon")](http://en.wikipedia.org/wiki/Optimistic_concurrency_control){:new_window}.
 It makes both read and write operations on Cloudant databases faster because
 there is no need for database locking on either read or write operations.
 MVCC also enables synchronization between Cloudant database nodes.
@@ -54,7 +54,7 @@ or else your request fails and returns a [409 error](../api/http.html#409).
 You can query a particular revision using its `_rev`,
 however,
 older revisions are regularly deleted by a process called
-[compaction](http://en.wikipedia.org/wiki/Data_compaction){:new_window}.
+[compaction ![External link icon](../images/launch-glyph.svg "External link icon")](http://en.wikipedia.org/wiki/Data_compaction){:new_window}.
 A consequence of compaction is that
 you cannot rely on a successful response when querying a particular document revision
 using its `_rev` in order to obtain a history of revisions to your document.
@@ -204,7 +204,7 @@ other resolution strategies might be required:
 *   Sophisticated algorithms: for example, 3-way merges of text fields.
 
 For a practical example of how to implement a merge of changes,
-see [this project with sample code](https://github.com/glynnbird/deconflict){:new_window}.
+see [this project with sample code ![External link icon](../images/launch-glyph.svg "External link icon")](https://github.com/glynnbird/deconflict){:new_window}.
 
 ### Upload the new revision
 

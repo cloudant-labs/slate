@@ -22,12 +22,12 @@ This capability:
 -   Is only available to Enterprise customers, who must specifically request it.
 -   Must be explicitly configured before it is operational.
 -   Is subject to [known limitations](#known-limitations).
--   Is not applicable to [Cloudant Local](https://www.ibm.com/support/knowledgecenter/SSTPQH_1.0.0/com.ibm.cloudant.local.doc/SSTPQH_1.0.0_welcome.html){:new_window}.
+-   Is not applicable to [Cloudant Local ![External link icon](../images/launch-glyph.svg "External link icon")](https://www.ibm.com/support/knowledgecenter/SSTPQH_1.0.0/com.ibm.cloudant.local.doc/SSTPQH_1.0.0_welcome.html){:new_window}.
 For more information,
-please contact the [IBM Cloudant support team](mailto:support@cloudant.com){:new_window}.
+please contact the [IBM Cloudant support team ![External link icon](../images/launch-glyph.svg "External link icon")](mailto:support@cloudant.com){:new_window}.
 
 >   **Note**: The daily incremental backup capability is not applicable for
-    [Cloudant Local](https://www.ibm.com/support/knowledgecenter/SSTPQH_1.0.0/com.ibm.cloudant.local.doc/SSTPQH_1.0.0_welcome.html){:new_window}.
+    [Cloudant Local ![External link icon](../images/launch-glyph.svg "External link icon")](https://www.ibm.com/support/knowledgecenter/SSTPQH_1.0.0/com.ibm.cloudant.local.doc/SSTPQH_1.0.0_welcome.html){:new_window}.
     To back up data in Cloudant Local,
     use [replication](../api/replication.html) to make a copy of your database.
 
@@ -88,7 +88,7 @@ More information about how Cloudant backs up data is provided in the rest of thi
 For further assistance,
 or to request that data backup is enabled,
 contact the Cloudant support team:
-[support@cloudant.com](mailto:support@cloudant.com){:new_window}.
+[support@cloudant.com ![External link icon](../images/launch-glyph.svg "External link icon")](mailto:support@cloudant.com){:new_window}.
 
 >   **Note**: The Cloudant backup facility is available only to Enterprise customers.
 
@@ -169,7 +169,7 @@ if it is available within the granularity of the delta.
 
 For more complex restores,
 such as a full database restore,
-request assistance from [Cloudant support](mailto:support@cloudant.com){:new_window}.
+request assistance from [Cloudant support ![External link icon](../images/launch-glyph.svg "External link icon")](mailto:support@cloudant.com){:new_window}.
 
 ## Using the Dashboard
 

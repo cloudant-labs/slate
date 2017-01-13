@@ -32,7 +32,7 @@ Cloud Foundry needs to know the URL to use for making API calls,
 for example when you upload an application.
 The {{site.data.keyword.Bluemix_notm}} toolkit uses the '`cf api`' command to manage the API endpoint.
 More information about the '`cf api`' command is
-[available](https://console.ng.bluemix.net/docs/cli/reference/cfcommands/index.html#cf_api){:new_window}.
+[available ![External link icon](../images/launch-glyph.svg "External link icon")](https://console.ng.bluemix.net/docs/cli/reference/cfcommands/index.html#cf_api){:new_window}.
 
 Use the following command to tell Cloud Foundry the URL to use:
 

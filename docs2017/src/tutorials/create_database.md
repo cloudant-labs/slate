@@ -14,7 +14,7 @@ lastupdated: "2017-01-06"
 
 # Creating and populating a simple Cloudant database on Bluemix
 
-This tutorial shows you how to use the [Python programming language](https://www.python.org/){:new_window} to
+This tutorial shows you how to use the [Python programming language ![External link icon](../images/launch-glyph.svg "External link icon")](https://www.python.org/){:new_window} to
 create an {{site.data.keyword.cloudantfull}} database in your {{site.data.keyword.Bluemix_notm}} service instance,
 and populate the database with a simple collection of data.
 {:shortdesc}
@@ -26,7 +26,7 @@ before you start working through the tutorial.
 
 ### Python
 
-You must have a current installation of the [Python programming language](https://www.python.org/){:new_window}
+You must have a current installation of the [Python programming language ![External link icon](../images/launch-glyph.svg "External link icon")](https://www.python.org/){:new_window}
 installed on your system.
 
 To check this,

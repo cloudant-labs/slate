@@ -14,7 +14,7 @@ lastupdated: "2017-01-06"
 
 # Attachments
 Another way to store data is to use attachments.
-Attachments are Binary Large Object ([BLOB](http://en.wikipedia.org/wiki/Binary_large_object){:new_window})
+Attachments are Binary Large Object ([BLOB ![External link icon](../images/launch-glyph.svg "External link icon")](http://en.wikipedia.org/wiki/Binary_large_object){:new_window})
 files contained within documents.
 {:shortdesc}
 
@@ -30,7 +30,7 @@ Examples of BLOBs would be images and multimedia.
 >	**Note**: If you include the attachment as an '[inline](#inline)' component of the overall JSON,
 the attachment content should be represented using BASE64 form.
 
-The content type corresponds to a [MIME type](http://en.wikipedia.org/wiki/Internet_media_type#List_of_common_media_types){:new_window}.
+The content type corresponds to a [MIME type ![External link icon](../images/launch-glyph.svg "External link icon")](http://en.wikipedia.org/wiki/Internet_media_type#List_of_common_media_types){:new_window}.
 For example,
 if you want to attach a `.jpg` image file to a document,
 you specify the attachment MIME type as `image/jpeg`.
@@ -46,7 +46,7 @@ include the attachment as an '[inline](#inline)' component of the JSON content.
 To create a new attachment on an existing document,
 or to update an attachment on a document,
 make a PUT request with the document's latest `_rev` to `https://$USERNAME.cloudant.com/$DATABASE/$DOCUMENT_ID/$ATTACHMENT`.
-The attachment's [content type](http://en.wikipedia.org/wiki/Internet_media_type#List_of_common_media_types){:new_window}
+The attachment's [content type ![External link icon](../images/launch-glyph.svg "External link icon")](http://en.wikipedia.org/wiki/Internet_media_type#List_of_common_media_types){:new_window}
 must be specified using the `Content-Type` header.
 The `$ATTACHMENT` value is the name by which the attachment is associated with the document.
 
@@ -201,11 +201,11 @@ _Example response after successfuly deleting an attachment:_
 ## Inline
 
 Inline attachments are attachments included as part of the JSON content.
-The content must be provided using [BASE64](https://en.wikipedia.org/wiki/Base64){:new_window} representation,
+The content must be provided using [BASE64 ![External link icon](../images/launch-glyph.svg "External link icon")](https://en.wikipedia.org/wiki/Base64){:new_window} representation,
 as shown in the example.
 
 A full list of media types is available
-[here](http://en.wikipedia.org/wiki/Internet_media_type#List_of_common_media_types){:new_window}.
+[here ![External link icon](../images/launch-glyph.svg "External link icon")](http://en.wikipedia.org/wiki/Internet_media_type#List_of_common_media_types){:new_window}.
 
 _Example JSON document that includes an inline attachment of a jpeg image:_
 
@@ -233,7 +233,7 @@ having a large number of attachments can have an adverse performance impact duri
 For example,
 if your application requires lots of images to be stored as attachments,
 or has large images,
-a better approach would be to use an alternative [BLOB](https://en.wikipedia.org/wiki/Binary_large_object){:new_window}
+a better approach would be to use an alternative [BLOB ![External link icon](../images/launch-glyph.svg "External link icon")](https://en.wikipedia.org/wiki/Binary_large_object){:new_window}
 storage mechanism for the images.
 You could then use Cloudant to keep
 the image metadata,

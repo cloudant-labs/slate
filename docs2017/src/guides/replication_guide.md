@@ -19,8 +19,8 @@ across accounts and across data centers.
 {:shortdesc}
 
 Data can even be replicated to and from a Cloudant account and a mobile device
-using [Cloudant Sync](https://cloudant.com/product/cloudant-features/sync/){:new_window}
-or [PouchDB](http://pouchdb.com/){:new_window}.
+using [Cloudant Sync ![External link icon](../images/launch-glyph.svg "External link icon")](https://cloudant.com/product/cloudant-features/sync/){:new_window}
+or [PouchDB ![External link icon](../images/launch-glyph.svg "External link icon")](http://pouchdb.com/){:new_window}.
 Replication can run in one direction or in both directions,
 as a 'single shot' or continuous operation,
 and can be finely tuned with optional parameters.
@@ -227,7 +227,7 @@ This point is identified using checkpoints.
 
 Therefore,
 an application making use of the `_changes` feed should
-be ['idempotent'](http://www.eaipatterns.com/IdempotentReceiver.html){:new_window}.
+be ['idempotent' ![External link icon](../images/launch-glyph.svg "External link icon")](http://www.eaipatterns.com/IdempotentReceiver.html){:new_window}.
 This means that the application must be able safely to receive the same data multiple times,
 and potentially if a different order for repeated requests.
 
@@ -397,14 +397,14 @@ Cloudant’s replication protocol is compatible with other databases and librari
 
 ### Apache CouchDB
 
-[Apache CouchDB](http://couchdb.apache.org/){:new_window} is an open-source database
+[Apache CouchDB ![External link icon](../images/launch-glyph.svg "External link icon")](http://couchdb.apache.org/){:new_window} is an open-source database
 that can communicate with Cloudant 'out-of-the-box'.
 Applications include:
 
 -   Backup: Replicate your data from Cloudant to your own CouchDB databases
     and take nightly snapshots of your data for archiving purposes.
     Send the data to a backup service such as
-    [Amazon Glacier](https://aws.amazon.com/glacier/){:new_window} for safe keeping.
+    [Amazon Glacier ![External link icon](../images/launch-glyph.svg "External link icon")](https://aws.amazon.com/glacier/){:new_window} for safe keeping.
 -   Local-first data collection: Write your data to local Apache CouchDB first,
     then replicate it to Cloudant for long-term storage,
     aggregation,
@@ -412,7 +412,7 @@ Applications include:
 
 ### PouchDB
 
-[PouchDB](http://pouchdb.com/){:new_window} is an open-source,
+[PouchDB ![External link icon](../images/launch-glyph.svg "External link icon")](http://pouchdb.com/){:new_window} is an open-source,
 in-browser database that allows data to be replicated between the browser and Cloudant,
 and vice-versa.
 Having the data stored in a web browser on the client side allows web applications to function
@@ -431,7 +431,7 @@ db.sync(URL, { live: true });
 
 ### CloudantSync
 
-[CloudantSync](https://cloudant.com/cloudant-sync-resources/){:new_window} is a set of native libraries
+[CloudantSync ![External link icon](../images/launch-glyph.svg "External link icon")](https://cloudant.com/cloudant-sync-resources/){:new_window} is a set of native libraries
 for iOS and Android that allows data to be stored locally in a mobile device
 and synced with Cloudant when mobile connectivity permits.
 As with [PouchDB](#pouchdb),
@@ -715,7 +715,7 @@ GET https://myaccount.cloudant.com/_replicator
 In the returned JSON,
 look for the `disk_size` value.
 If the value indicates a size of over 1 GB,
-contact the [IBM Cloudant support team](mailto:support@cloudant.com){:new_window} for further advice.
+contact the [IBM Cloudant support team ![External link icon](../images/launch-glyph.svg "External link icon")](mailto:support@cloudant.com){:new_window} for further advice.
 
 You can check an individual `_replicator` document for conflicts,
 as shown in the following example:
@@ -790,4 +790,4 @@ For example:
     setting `worker_processes` and `http_connections` to 1 might be appropriate.
 
 For further assistance about the best configuration for your use-case,
-contact the [IBM Cloudant support team](mailto:support@cloudant.com){:new_window}.
+contact the [IBM Cloudant support team ![External link icon](../images/launch-glyph.svg "External link icon")](mailto:support@cloudant.com){:new_window}.

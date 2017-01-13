@@ -337,7 +337,7 @@ refer to the [search](search.html) section of this documentation.
 Functions in design documents are run on multiple nodes for each document,
 and might be run several times.
 To avoid inconsistencies,
-they need to be [idempotent](https://en.wikipedia.org/wiki/Idempotence#Computer_science_meaning){:new_window},
+they need to be [idempotent ![External link icon](../images/launch-glyph.svg "External link icon")](https://en.wikipedia.org/wiki/Idempotence#Computer_science_meaning){:new_window},
 meaning they need to behave identically when run multiple times or on different nodes.
 In particular,
 you should avoid using functions that generate random numbers or return the current time.

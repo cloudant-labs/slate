@@ -15,7 +15,7 @@ lastupdated: "2017-01-06"
 # Design Document Management
 
 *Article contributed by Glynn Bird, Developer Advocate at IBM Cloudant,
-[glynn@cloudant.com](mailto:glynn@cloudant.com){:new_window}*
+[glynn@cloudant.com ![External link icon](../images/launch-glyph.svg "External link icon")](mailto:glynn@cloudant.com){:new_window}*
 
 Cloudant's scalable JSON data store has several querying mechanisms,
 all of which generate indices that are created and maintained separately to the core data.
@@ -226,7 +226,7 @@ as long as you remember to remove the older versions at a later date!
 ### 'Move and switch' design documents
 
 Another approach,
-documented [here](http://wiki.apache.org/couchdb/How_to_deploy_view_changes_in_a_live_environment){:new_window},
+documented [here ![External link icon](../images/launch-glyph.svg "External link icon")](http://wiki.apache.org/couchdb/How_to_deploy_view_changes_in_a_live_environment){:new_window},
 relies on the fact that Cloudant recognises when it has two identical design documents,
 and won't waste time and resources rebuilding views it already has.
 In other words,
@@ -301,7 +301,7 @@ If the incoming design document is the same as the incumbent one,
 then the script returns almost immediately.
 
 The source code for the script is available here:
-[https://github.com/glynnbird/couchmigrate](https://github.com/glynnbird/couchmigrate){:new_window}.
+[https://github.com/glynnbird/couchmigrate ![External link icon](../images/launch-glyph.svg "External link icon")](https://github.com/glynnbird/couchmigrate){:new_window}.
 
 <div id="stale"></div>
 

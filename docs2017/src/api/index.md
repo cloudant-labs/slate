@@ -15,7 +15,7 @@ lastupdated: "2017-01-06"
 # API Reference
 
 The Cloudant API reference is intended to be a comprehensive and living catalog of Cloudant's capabilities.
-Contributions are welcome through [Cloudant Labs on GitHub](https://github.com/cloudant-labs/slate){:new_window}.
+Contributions are welcome through [Cloudant Labs on GitHub ![External link icon](../images/launch-glyph.svg "External link icon")](https://github.com/cloudant-labs/slate){:new_window}.
 {:shortdesc}
 
 ## For the cURL samples

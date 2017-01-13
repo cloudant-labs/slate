@@ -15,7 +15,7 @@ lastupdated: "2017-01-06"
 # Authorized curl: `acurl`
 
 _(This guide is based on a Blog article by Samantha Scharr: [
-"Authorized curl, a.k.a. acurl"](https://cloudant.com/blog/authorized-curl-a-k-a-acurl/){:new_window},
+"Authorized curl, a.k.a. acurl" ![External link icon](../images/launch-glyph.svg "External link icon")](https://cloudant.com/blog/authorized-curl-a-k-a-acurl/){:new_window},
 originally published November 27, 2013.)_
 
 `acurl` is a handy alias that allows you to `curl` Cloudant commands to URLs

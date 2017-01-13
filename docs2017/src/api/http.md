@@ -269,6 +269,6 @@ Code                                    | Meaning
 `415 - Bad Content Type`                | The content types supported, and the content type of the information being requested or submitted indicate that the content type is not supported.
 `416 - Requested Range Not Satisfiable` | The range specified in the request header cannot be satisfied by the server.
 `417 - Expectation Failed`              | When sending documents in bulk, the bulk load operation failed.
-`429 - Too Many Requests`               | The user has sent too many requests in a given amount of time. More information is available in the corresponding [RFC 6585](https://tools.ietf.org/html/rfc6585#page-3){:new_window}.
+`429 - Too Many Requests`               | The user has sent too many requests in a given amount of time. More information is available in the corresponding [RFC 6585 ![External link icon](../images/launch-glyph.svg "External link icon")](https://tools.ietf.org/html/rfc6585#page-3){:new_window}.
 `500 - Internal Server Error`           | The request was invalid, either because the supplied JSON was invalid, or invalid information was supplied as part of the request. Alternatively, a replication was canceled while in progress.
 `503 - Service Unavailable`             | The request could not be processed. Seeing this response following a Cloudant request might indicate an misspelled Cloudant account name.

@@ -14,7 +14,7 @@ lastupdated: "2017-01-06"
 
 # Overview
 
-This is the online documentation for the [IBM Cloudant Database-as-a-Service (DBaaS)](https://cloudant.com/){:new_window},
+This is the online documentation for the [IBM Cloudant Database-as-a-Service (DBaaS) ![External link icon](images/launch-glyph.svg "External link icon")](https://cloudant.com/){:new_window},
 all intended to help you get going quickly.
 {:shortdesc}
 
@@ -47,4 +47,4 @@ We're also open about our documentation.
 If it's not working for you,
 it's not working for us.
 Please make contributions or share suggestions through
-Cloudant Labs on [GitHub](https://github.com/cloudant-labs/slate){:new_window}.
+Cloudant Labs on [GitHub ![External link icon](images/launch-glyph.svg "External link icon")](https://github.com/cloudant-labs/slate){:new_window}.

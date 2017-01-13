@@ -251,11 +251,11 @@ remember to record the key name and password.
 These are both randomly generated,
 and cannot be retrieved if lost or forgotten.
 
->	**Note**: [IBM Cloudant Data Layer Local Edition ("Cloudant Local")](https://www.ibm.com/support/knowledgecenter/SSTPQH_1.0.0/com.ibm.cloudant.local.doc/SSTPQH_1.0.0_welcome.html){:new_window}
+>	**Note**: [IBM Cloudant Data Layer Local Edition ("Cloudant Local") ![External link icon](../images/launch-glyph.svg "External link icon")](https://www.ibm.com/support/knowledgecenter/SSTPQH_1.0.0/com.ibm.cloudant.local.doc/SSTPQH_1.0.0_welcome.html){:new_window}
 does not support API Keys.
 For a similar capability,
 create "CouchDB" style users,
-as described in the [IBM Knowledge Center](http://www-01.ibm.com/support/knowledgecenter/SSTPQH_1.0.0/com.ibm.cloudant.local.install.doc/topics/clinstall_db_security.html){:new_window}.
+as described in the [IBM Knowledge Center ![External link icon](../images/launch-glyph.svg "External link icon")](http://www-01.ibm.com/support/knowledgecenter/SSTPQH_1.0.0/com.ibm.cloudant.local.install.doc/topics/clinstall_db_security.html){:new_window}.
 
 _Example request to create an API key, using HTTP:_
 
@@ -338,7 +338,7 @@ The updated list should _omit_ the API key.
 ## Enabling the `_users` database with Cloudant
 
 You can use the
-[_users database](http://docs.couchdb.org/en/1.6.1/intro/security.html#authentication-database){:new_window}
+[_users database ![External link icon](../images/launch-glyph.svg "External link icon")](http://docs.couchdb.org/en/1.6.1/intro/security.html#authentication-database){:new_window}
 to manage roles in Cloudant.
 However,
 you must turn off Cloudant security for those roles first.

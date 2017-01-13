@@ -15,7 +15,7 @@ lastupdated: "2017-01-06"
 # IBM Bluemix
 
 Cloudant is also available as an
-[IBM Bluemix service](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db/){:new_window}.
+[IBM Bluemix service ![External link icon](../images/launch-glyph.svg "External link icon")](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db/){:new_window}.
 {:shortdesc}
 
 Bluemix is an open-standards,
@@ -24,7 +24,7 @@ running,
 and managing applications.
 Find out more about Bluemix,
 and start using it,
-at the [home page](https://console.ng.bluemix.net/){:new_window}.
+at the [home page ![External link icon](../images/launch-glyph.svg "External link icon")](https://console.ng.bluemix.net/){:new_window}.
 
 ## Bluemix Public
 
@@ -35,18 +35,18 @@ The following table summarizes the performance measures for each of the plans.
 
 >   **Note**: The details in the table are indicative as at September 2016.
     For current values,
-    contact [Cloudant Support](mailto:support@cloudant.com){:new_window}.
+    contact [Cloudant Support ![External link icon](../images/launch-glyph.svg "External link icon")](mailto:support@cloudant.com){:new_window}.
 
 >   **Note**: All currency values in this document are in US dollars ($).
 
 Plans                                                | Lite | Standard
 -----------------------------------------------------|------|---------
-Base Price (per hour)                                | $0.00 | See [Pricing details](http://cloudant.com/bluemix){:new_window}.
+Base Price (per hour)                                | $0.00 | See [Pricing details ![External link icon](../images/launch-glyph.svg "External link icon")](http://cloudant.com/bluemix){:new_window}.
 Provisioned Throughput Capacity (Lookups per second) | 20 | 100 | 1,000 | 5,000 | 20,000
 Provisioned Throughput Capacity (Writes per second)  | 10 | 50 | 500 | 2,500 | 10,000
 Provisioned Throughput Capacity (Queries per second) | 5 | 5 | 50 | 250 | 1,000
 Disk Space Included                                  | 1 GB | 20 GB
-Disk Overage (per GB/hour)                           | Not available | See [Pricing details](http://cloudant.com/bluemix){:new_window}.
+Disk Overage (per GB/hour)                           | Not available | See [Pricing details ![External link icon](../images/launch-glyph.svg "External link icon")](http://cloudant.com/bluemix){:new_window}.
 
 ### Lite plan
 
@@ -65,7 +65,7 @@ you should move to the [Standard plan](#standard-plan).
 The Standard plan includes 20GB of data storage.
 Above 20GB,
 you are charged a defined cost per GB per hour.
-See the [Pricing](http://cloudant.com/bluemix){:new_window} information for the current cost.
+See the [Pricing ![External link icon](../images/launch-glyph.svg "External link icon")](http://cloudant.com/bluemix){:new_window} information for the current cost.
 On the Standard plan,
 you can also change the amount of provisioned throughput capacity for lookups, writes and queries.
 
@@ -130,7 +130,7 @@ Recent versions of the supported client libraries (for [Java](../libraries/suppo
 and [Python](../libraries/supported.html#python) languages) have an ability to handle a `429` response.
 For example,
 the Java library throws a
-[`TooManyRequestsException`](http://static.javadoc.io/com.cloudant/cloudant-client/2.5.1/com/cloudant/client/org/lightcouch/TooManyRequestsException.html){:new_window}.
+[`TooManyRequestsException` ![External link icon](../images/launch-glyph.svg "External link icon")](http://static.javadoc.io/com.cloudant/cloudant-client/2.5.1/com/cloudant/client/org/lightcouch/TooManyRequestsException.html){:new_window}.
 
 By default,
 the supported client libraries do not automatically attempt to retry
@@ -214,14 +214,14 @@ you can choose from the following Bluemix Public regions:
 #### Security, Encryption, and Compliance
 
 All plans are provided on servers with
-[at-rest](https://en.wikipedia.org/wiki/Data_at_rest){:new_window} disk encryption.
+[at-rest ![External link icon](../images/launch-glyph.svg "External link icon")](https://en.wikipedia.org/wiki/Data_at_rest){:new_window} disk encryption.
 Access is encrypted over a network connection by using HTTPS.
 For more detail,
-see [DBaaS Security](https://cloudant.com/product/cloudant-features/dbaas-security/){:new_window}.
+see [DBaaS Security ![External link icon](../images/launch-glyph.svg "External link icon")](https://cloudant.com/product/cloudant-features/dbaas-security/){:new_window}.
 
 The plans also offer
-[Security Compliance Certification](https://cloudant.com/product/cloudant-features/cloudant-compliance/){:new_window}.
-[HIPAA](https://en.wikipedia.org/wiki/Health_Insurance_Portability_and_Accountability_Act){:new_window}
+[Security Compliance Certification ![External link icon](../images/launch-glyph.svg "External link icon")](https://cloudant.com/product/cloudant-features/cloudant-compliance/){:new_window}.
+[HIPAA ![External link icon](../images/launch-glyph.svg "External link icon")](https://en.wikipedia.org/wiki/Health_Insurance_Portability_and_Accountability_Act){:new_window}
 compliance requires a [single-tenant environment](#locations),
 so you should request this environment before provisioning.
 
@@ -235,7 +235,7 @@ then use continuous data replication to provide HA/DR across data centers.
 Cloudant data is not automatically backed up.
 You can request enablement of an [incremental backup feature](../guides/backup-guide.html),
 or alternatively implement your own solution by using one of several possible techniques that are described
-[here](https://developer.ibm.com/clouddataservices/2016/03/22/simple-couchdb-and-cloudant-backup/){:new_window}.  
+[here ![External link icon](../images/launch-glyph.svg "External link icon")](https://developer.ibm.com/clouddataservices/2016/03/22/simple-couchdb-and-cloudant-backup/){:new_window}.  
 
 ### Monitoring usage
 
@@ -264,11 +264,11 @@ It is provided by purchasing "Bluemix Standard Support".
 Support is not available for the Lite plan.
 
 A pricing calculator for Bluemix Standard Support is available
-[here](https://console.ng.bluemix.net/?direct=classic/#/pricing/cloudOEPaneId=pricing&paneId=pricingSheet){:new_window}.
+[here ![External link icon](../images/launch-glyph.svg "External link icon")](https://console.ng.bluemix.net/?direct=classic/#/pricing/cloudOEPaneId=pricing&paneId=pricingSheet){:new_window}.
 Information about the details of the Support Service Level Agreement (SLA) is available
-[here](http://www-03.ibm.com/software/sla/sladb.nsf/pdf/6606-08/$file/i126-6606-08_05-2016_en_US.pdf){:new_window}.
+[here ![External link icon](../images/launch-glyph.svg "External link icon")](http://www-03.ibm.com/software/sla/sladb.nsf/pdf/6606-08/$file/i126-6606-08_05-2016_en_US.pdf){:new_window}.
 
 ## Bluemix Dedicated
 
 Cloudant DBaaS Enterprise on single tenant dedicated hardware is available in a
-[Bluemix Dedicated](http://www.ibm.com/cloud-computing/bluemix/dedicated/){:new_window} configuration.
+[Bluemix Dedicated ![External link icon](../images/launch-glyph.svg "External link icon")](http://www.ibm.com/cloud-computing/bluemix/dedicated/){:new_window} configuration.

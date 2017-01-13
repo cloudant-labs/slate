@@ -620,7 +620,7 @@ _Example (abbreviated) response to a `_changes` request:_
 -	`_changes` reported by a shard are always presented in order.
 	But the ordering between all the contributing shards might appear to be different.
 	For more information,
-	see [this example](https://gist.github.com/smithsz/30fb97662c549061e581){:new_window}.
+	see [this example ![External link icon](../images/launch-glyph.svg "External link icon")](https://gist.github.com/smithsz/30fb97662c549061e581){:new_window}.
 -	Sequence values are unique for a shard,
 	but might vary between shards.
 	This variation means that if you have sequence values from different shards,

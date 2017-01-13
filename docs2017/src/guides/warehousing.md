@@ -37,7 +37,7 @@ reporting,
 and analytics,
 based on relational database technology.
 In general,
-a [data warehouse is](https://en.wikipedia.org/wiki/Data_warehouse){:new_window}:
+a [data warehouse is ![External link icon](../images/launch-glyph.svg "External link icon")](https://en.wikipedia.org/wiki/Data_warehouse){:new_window}:
 "... a central repository of integrated data from one or more sources.
 It stores current and historical data.
 It can be used for performing analysis and creating reports for knowledge workers throughout the enterprise."
@@ -45,7 +45,7 @@ It can be used for performing analysis and creating reports for knowledge worker
 The technologies that enable data storage,
 reporting,
 and analytics have emerged in recent years as a response to the need
-to process '[Big Data](https://en.wikipedia.org/wiki/Big_data){:new_window}':
+to process '[Big Data ![External link icon](../images/launch-glyph.svg "External link icon")](https://en.wikipedia.org/wiki/Big_data){:new_window}':
 "Big data is a term for data sets that are so large or complex
 that traditional data processing applications are inadequate."
 
@@ -110,7 +110,7 @@ that enable you to perform a range of basic analytical tasks.
 
 For more advanced warehousing tasks,
 you can leverage the full capabilities provided by the
-IBM cloud-based warehousing service [IBM dashDB](http://www-01.ibm.com/software/data/dashdb/){:new_window}.
+IBM cloud-based warehousing service [IBM dashDB ![External link icon](../images/launch-glyph.svg "External link icon")](http://www-01.ibm.com/software/data/dashdb/){:new_window}.
 
 When you use IBM Cloudant,
 you have integrated and easy access to advanced warehousing capabilities,
@@ -137,18 +137,18 @@ dashDB can accept data from a variety of sources by
 examining the structure of data when it is loaded.
 
 For more information,
-see the [IBM dashDB Cloud Data Warehouse documentation](https://www.ibm.com/support/knowledgecenter/SS6NHC/com.ibm.swg.im.dashdb.kc.doc/welcome.html){:new_window}.
+see the [IBM dashDB Cloud Data Warehouse documentation ![External link icon](../images/launch-glyph.svg "External link icon")](https://www.ibm.com/support/knowledgecenter/SS6NHC/com.ibm.swg.im.dashdb.kc.doc/welcome.html){:new_window}.
 
 ## IBM DB2 on Cloud
 
-[IBM DB2 on Cloud](https://console.ng.bluemix.net/catalog/services/ibm-db2-on-cloud){:new_window}
+[IBM DB2 on Cloud ![External link icon](../images/launch-glyph.svg "External link icon")](https://console.ng.bluemix.net/catalog/services/ibm-db2-on-cloud){:new_window}
 provides you with a database on IBM's SoftLayer® global cloud infrastructure.
 It offers you the rich features of an on-premise DB2 deployment,
 but without the cost,
 complexity,
 and risk of managing your own infrastructure.
 
-For more information, see the [IBM DB2 on Cloud documentation](https://console.ng.bluemix.net/docs/services/DB2OnCloud/index.html#DB2OnCloud){:new_window}.
+For more information, see the [IBM DB2 on Cloud documentation ![External link icon](../images/launch-glyph.svg "External link icon")](https://console.ng.bluemix.net/docs/services/DB2OnCloud/index.html#DB2OnCloud){:new_window}.
 
 ## Creating a warehouse
 
@@ -217,7 +217,7 @@ you must provide the following details:
     However,
     the topic applies equally if you are using an instance of DB2.
     A tutorial is also available describing how to
-    [load JSON data from Cloudant into dashDB](https://developer.ibm.com/clouddataservices../dashdb/get/load-json-from-cloudant-database-in-to-dashdb/){:new_window},
+    [load JSON data from Cloudant into dashDB ![External link icon](../images/launch-glyph.svg "External link icon")](https://developer.ibm.com/clouddataservices../dashdb/get/load-json-from-cloudant-database-in-to-dashdb/){:new_window},
     and includes examples of using DB2 as the warehouse database.
 
 ## Warehouse schema
@@ -259,7 +259,7 @@ The advantage of dashDB is that you can perform other warehousing tasks,
 such as loading more data from other sources,
 and analyzing the data using built-in analytic tools.
 DashDB supports the
-[`'R'` programming language](https://en.wikipedia.org/wiki/R_%28programming_language%29){:new_window}
+[`'R'` programming language ![External link icon](../images/launch-glyph.svg "External link icon")](https://en.wikipedia.org/wiki/R_%28programming_language%29){:new_window}
 and software environment for statistical computing and graphics.
 This means you have access to algorithms that let you perform database analytic tasks such as linear regression,
 'k-means' clustering,
@@ -269,7 +269,7 @@ The `RStudio` tool allows you to create `'R'` scripts which are then uploaded in
 then run using your data.
 
 For more information about working with dashDB,
-see the [IBM dashDB Cloud Data Warehouse documentation](https://www.ibm.com/support/knowledgecenter/SS6NHC/com.ibm.swg.im.dashdb.kc.doc/welcome.html){:new_window}.
+see the [IBM dashDB Cloud Data Warehouse documentation ![External link icon](../images/launch-glyph.svg "External link icon")](https://www.ibm.com/support/knowledgecenter/SS6NHC/com.ibm.swg.im.dashdb.kc.doc/welcome.html){:new_window}.
 
 ## Keeping the data and structure fresh
 
@@ -434,11 +434,11 @@ Information on some of these problems is provided later in this topic.
 Additionally,
 discussion of some common errors or problems,
 as well as details of how to troubleshoot them,
-is available in [Stack Overflow](http://stackoverflow.com/questions/tagged/cloudant+dashdb){:new_window}.
+is available in [Stack Overflow ![External link icon](../images/launch-glyph.svg "External link icon")](http://stackoverflow.com/questions/tagged/cloudant+dashdb){:new_window}.
 
 If you need further help,
 and can't find solutions in Stack Overflow,
-please contact [Cloudant support](mailto:support@cloudant.com){:new_window}.
+please contact [Cloudant support ![External link icon](../images/launch-glyph.svg "External link icon")](mailto:support@cloudant.com){:new_window}.
 
 ### Exceptions visible in the dashboard
 
