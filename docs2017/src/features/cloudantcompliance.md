@@ -37,6 +37,8 @@ including (but not limited to):
 
 ## HIPAA
 
+>   **Note**: HIPAA compliance is not applicable for an {{site.data.keyword.Bluemix_notm}} {{site.data.keyword.cloudant_short_notm}} instance.
+
 {{site.data.keyword.cloudant_short_notm}} Enterprise,
 when hosted on IBM Softlayer,
 meets the required IBM controls that are commensurate with

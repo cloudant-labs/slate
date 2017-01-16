@@ -34,13 +34,6 @@ and distributed across an elastic database cluster that can span multiple racks,
 data centers,
 or cloud providers to provide superior scalability and availability.
 
-## Multi-master Replication Across Data Centers
-
-{{site.data.keyword.cloudant_short_notm}} increases scale and uptime,
-and reduces read-write latency by replicating and synchronizing readable and writable copies of data
-across multiple data centers or devices.
-Geo load balancers connect users with the closest replica.
-
 ## Cloudant Sync for Occasionally Connected Apps
 
 Cloudant Sync pushes database access to the farthest edge of the network -
