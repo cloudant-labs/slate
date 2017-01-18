@@ -1,9 +1,15 @@
 # Installing and using the local build tool
 
+## Changelog
+
+### 2017-01-18
+
+Updated VirtualBox requirement to 5.1.14.
+
 ## Pre-requisites
 
 1.  Download and install [VirtualBox](https://www.virtualbox.org/wiki/Downloads).
-    Ensure you have at least version 5.1.12, or more recent.
+    Ensure you have at least version 5.1.14, or more recent.
 
 2.  Download and install [Vagrant](https://www.vagrantup.com/downloads.html).
     Ensure you have at least version 1.8.5, or more recent.

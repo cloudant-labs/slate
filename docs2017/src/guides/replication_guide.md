@@ -130,7 +130,7 @@ Authorization: ...
 
 _Example of starting a replication job, using the command line:_
 
-```shell
+```sh
 curl -X POST \
     -H 'Content-type: application/json' \
     'https://myuser:mypassword@myaccount.cloudant.com/_replicator' \
@@ -303,7 +303,7 @@ Authorization: ...
 
 _Example of starting a continuous replication, using the command line:_
 
-```shell
+```sh
 curl -X POST \
     -H "Content-type: application/json" \
     https://myuser:mypassword@myaccount.cloudant.com/_replicator \
@@ -346,7 +346,7 @@ Authorization: ...
 
 _Example of monitoring a replication process, using the command line:_
 
-```shell
+```sh
 curl 'https://myaccount.cloudant.com/_replicator/weekly_backup'
 ```
 {:codeblock}
@@ -385,7 +385,7 @@ Authorization:
 
 _Example of cancelling a replication, using the command line:_
 
-```shell
+```sh
 curl -X DELETE 'https://myaccount.cloudant.com/_replicator/weekly_backup?rev=22-c57c18f7e761f1a76fa977caa03cd098'
 ```
 {:codeblock}
@@ -506,7 +506,7 @@ Authorization: ...
 
 _Example of starting a filtered replication, using the command line:_
 
-```shell
+```sh
 curl -X POST \
     -H "Content-type: application/json" \
     https://myuser:mypassword@myaccount.cloudant.com/_replicator \
@@ -553,7 +553,7 @@ Authorization: ...
 
 _Example of querying the changes feed, using the command line:_
 
-```shell
+```sh
 curl "https://myaccount.cloudant.com/$db/_changes?feed=continuous"
 ```
 {:codeblock}
@@ -601,7 +601,7 @@ Authorization: ...
 
 _Example (abbreviated) of supplying the `since` to join a `_changes` feed at a known position, using the command line:_
 
-```shell
+```sh
 curl "https://myaccount.cloudant.com/$db/_changes?feed=continuous&include_docs=true&since=11-g1A...c1Q"
 ```
 {:codeblock}
@@ -622,7 +622,7 @@ Authorization: ...
 
 _Example of supplying `since=now` to join a `_changes` feed at the current moment in time, using the command line:_
 
-```shell
+```sh
 curl "https://myaccount.cloudant.com/$db/_changes?feed=continuous&include_docs=true&since=now"
 ```
 {:codeblock}
@@ -666,7 +666,7 @@ Authorization: ...
 
 _Example of filtering the changes feed, using the command line:_
 
-```shell
+```sh
 curl "https://myaccount.cloudant.com/$db/_changes?feed=continuous&include_docs=true&since=now&filter=mydesigndoc/myfilter"
 ```
 {:codeblock}
@@ -746,7 +746,7 @@ Authorization: ...
 
 _Example of removing and recreating the `_replicator` database, using the command line:_
 
-```shell
+```sh
 curl -X DELETE 'https://myaccount.cloudant.com/_replicator'
 curl -X PUT 'https://myaccount.cloudant.com/_replicator'
 ```

@@ -53,7 +53,7 @@ GET /_api/v2/db/$DATABASE/_security HTTP/1.1
 
 _Example request to determine permissions, using the command line:_
 
-```shell
+```sh
 curl https://$USERNAME.cloudant.com/_api/v2/db/$DATABASE/_security
 ```
 {:codeblock}
@@ -129,7 +129,7 @@ Content-Type: application/json
 
 _Example of sending an authorization modification request, using the command line:_
 
-```shell
+```sh
 curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/_api/v2/db/$DATABASE/_security \
 	-X PUT \
 	-H "Content-Type: application/json" \
@@ -266,7 +266,7 @@ POST https://<username>.cloudant.com/_api/v2/api_keys HTTP/1.1
 
 _Example request to create an API key, using the command line:_
 
-```shell
+```sh
 curl -X POST https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/_api/v2/api_keys
 ```
 {:codeblock}
@@ -356,7 +356,7 @@ Content-Type: application/json
 
 _Example submission of a modification request, using the command line:_
 
-```shell
+```sh
 curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/_security \
 	-X PUT \
 	-H "Content-Type: application/json" \

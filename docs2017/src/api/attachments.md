@@ -63,7 +63,7 @@ Content-Type: $$ATTACHMENT_MIME_TYPE
 
 _Example instruction for creating or updating an attachment, using the command line:_
 
-```shell
+```sh
 curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/$DOCUMENT_ID/$ATTACHMENT?rev=$REV \
 	 -X PUT \
 	 -H "Content-Type: $ATTACHMENT_MIME_TYPE" \
@@ -124,7 +124,7 @@ GET /$DATABASE/$DOCUMENT_ID/$ATTACHMENT HTTP/1.1
 
 _Example of reading an attachment, using the command line:_
 
-```shell
+```sh
 curl https://$USERNAME.cloudant.com/$DATABASE/$DOCUMENT_ID/$ATTACHMENT \
 	 -u $USERNAME >blob_content.dat
 # store the response content into a file for further processing.
@@ -162,7 +162,7 @@ DELETE /$DATABASE/$DOCUMENT_ID/$ATTACHMENT?rev=$REV HTTP/1.1
 
 _Example of deleting an attachment, using the command line:_
 
-```shell
+```sh
 curl https://$USERNAME.cloudant.com/$DATABASE/$DOCUMENT_ID/$ATTACHMENT?rev=$REV \
 	-u $USERNAME \
 	-X DELETE

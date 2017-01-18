@@ -53,7 +53,7 @@ HOST: $ACCOUNT.cloudant.com
 
 _Example of using the command line to create a database:_
 
-```shell
+```sh
 curl https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE -X PUT
 ```
 {:codeblock}
@@ -128,7 +128,7 @@ GET /$DATABASE HTTP/1.1
 
 _Example of using the command line to get database details:_
 
-```shell
+```sh
 curl https://$USERNAME.cloudant.com/$DATABASE \
 	-u $USERNAME
 ```
@@ -205,7 +205,7 @@ GET /_all_dbs HTTP/1.1
 
 _Example of using the command line to list all databases:_
 
-```shell
+```sh
 curl https://$USERNAME.cloudant.com/_all_dbs \
      -u $USERNAME
 ```
@@ -281,7 +281,7 @@ GET /_all_docs HTTP/1.1
 
 _Example of using the command line to list all documents in a database,_
 
-```shell
+```sh
 curl https://%USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/_all_docs
 ```
 {:codeblock}
@@ -310,7 +310,7 @@ GET /_all_docs?keys=["somekey","someotherkey"] HTTP/1.1
 
 _Example of using the command line to list all documents in a database that match at least one of the specified keys:_
 
-```shell
+```sh
 curl https://%USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/_all_docs?keys=["somekey","someotherkey"]
 ```
 {:codeblock}
@@ -398,7 +398,7 @@ GET /$DATABASE/_changes HTTP/1.1
 
 _Example of using the command line to get a list of changes made to documents in a database_
 
-```shell
+```sh
 curl https://$USERNAME.cloudant.com/$DATABASE/_changes \
      -u $USERNAME
 ```
@@ -648,7 +648,7 @@ Content-Type: application/json
 
 _Example of using the command line to `POST` to the `_changes` endpoint:_
 
-```shell
+```sh
 curl -X POST "https://$USERNAME.cloudant.com/$DB/_changes?filter=_selector" -d @request.json
 ```
 {:codeblock}
@@ -679,7 +679,7 @@ Host: $USERNAME.cloudant.com
 
 _Example of using the command line to delete a Cloudant database:_
 
-```shell
+```sh
 curl https://$USERNAME.cloudant.com/$DATABASE \
 	-X DELETE \
 	-u $USERNAME

@@ -255,7 +255,7 @@ It can be installed as follows.
 
 _Command to install the Node.js `couchmigrate` script:_
 
-```shell
+```sh
 npm install -g couchmigrate
 ```
 {:codeblock}
@@ -265,7 +265,7 @@ first define the URL of the CouchDB/Cloudant instance by setting an environment 
 
 _Defining the URL of the a Cloudant instance:_
 
-```shell
+```sh
 export COUCH_URL=http://127.0.0.1:5984
 ```
 {:codeblock}
@@ -275,7 +275,7 @@ and can include authentication credentials.
 
 _Defining the URL of the Cloudant instance with authentication credentials:_
 
-```shell
+```sh
 export COUCH_URL=https://myusername:mypassword@myhost.cloudant.com
 ```
 {:codeblock}
@@ -290,7 +290,7 @@ and `dd` specifies the path to our Design Document file.
 
 _Running the `couchmigrate` command:_
 
-```shell
+```sh
 couchmigrate --db mydb --dd /path/to/my/dd.json
 ```
 {:pre}

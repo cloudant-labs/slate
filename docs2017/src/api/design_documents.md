@@ -102,7 +102,7 @@ Destination: /recipes/_design/recipelist
 
 _Example command to copy a design document, using the command line:_
 
-```shell
+```sh
 curl "https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/recipes/_design/recipes" \
 	-X COPY \
 	-H 'Content-Type: application/json' \
@@ -157,7 +157,7 @@ Destination: recipes/_design/recipelist
 
 _Example command to copy a specific revision of the design document, using the command line:_
 
-```shell
+```sh
 curl "https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/recipes/_design/recipes?rev=1-e23b9e942c19e9fb10ff1fde2e50e0f5" \
 	-X COPY \
 	-H 'Content-Type: application/json' \
@@ -182,7 +182,7 @@ Destination: recipes/_design/recipelist?rev=1-9c65296036141e575d32ba9c034dd3ee
 
 _Example command to overwrite an existing copy of the design document, using the command line:_
 
-```shell
+```sh
 curl "https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/recipes/_design/recipes" \
 	-X COPY \
 	-H 'Content-Type: application/json' \
@@ -220,7 +220,7 @@ DELETE /recipes/_design/recipes?rev=2-ac58d589b37d01c00f45a4418c5a15a8 HTTP/1.1
 
 _Example command to delete a design document, using using the command line:_
 
-```shell
+```sh
 curl "https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/recipes/_design/recipes?rev=2-ac58d589b37d01c00f45a4418c5a15a8" \
      -X DELETE
 ```
@@ -430,7 +430,7 @@ GET /$DATABASE/$DESIGN_ID/_list/$LIST_FUNCTION/$MAPREDUCE_INDEX HTTP/1.1
 
 _Example invocation of a list function, using the command line:_
 
-```shell
+```sh
 curl "https://$ACCOUNT.cloudant.com/$DATABASE/$DESIGN_ID/_list/$LIST_FUNCTION/$MAPREDUCE_INDEX" \
 	-u "$USERNAME:$PASSWORD"
 ```
@@ -542,7 +542,7 @@ Host: $USERNAME.cloudant.com
 
 _Example of a show function query, using the command line:_
 
-```shell
+```sh
 curl https://$USERNAME.cloudant.com/$DATABASE/$DESIGN_ID/_show/$SHOW_FUNCTION/$DOCUMENT_ID \
      -u $USERNAME
 ```
@@ -643,7 +643,7 @@ Content-Type: application/json
 
 _Example of an update handler query, using the command line:_
 
-```shell
+```sh
 curl "https://$ACCOUNT.cloudant.com/$DATABASE/$DESIGN_ID/_update/$UPDATE_HANDLER" \
 	-X POST \
 	-H 'Content-Type: application/json' \
@@ -740,7 +740,7 @@ GET /$DATABASE/_changes?filter=$DESIGN_ID/$FILTER_FUNCTION HTTP/1.1
 
 _Example of an filter function applied to a `_changes` query, using the command line:_
 
-```shell
+```sh
 curl "https://$ACCOUNT.cloudant.com/$DATABASE/_changes?filter=$DESIGN_ID/$FILTER_FUNCTION" \
      -u "$USERNAME:$PASSWORD"
 ```
@@ -757,7 +757,7 @@ GET /$DATABASE/_changes?filter=$DESIGN_ID/$FILTER_FUNCTION&status=new HTTP/1.1
 
 _Example of supplying a `req` argument, using the command line:
 
-```shell
+```sh
 curl "https://$ACCOUNT.cloudant.com/$DATABASE/_changes?filter=$DESIGN_ID/$FILTER_FUNCTION&status=new" \
 	-u "$USERNAME:$PASSWORD"
 ```
@@ -806,7 +806,7 @@ GET /$DATABASE/_changes?filter=_design HTTP/1.1
 
 _Example application of the `_design` filter, using the command line:_
 
-```shell
+```sh
 curl "https://$ACCOUNT.cloudant.com/$DATABASE/_changes?filter=_design" \
      -u "$USERNAME:$PASSWORD"
 ```
@@ -858,7 +858,7 @@ POST /$DATABASE/_changes?filter=_doc_ids HTTP/1.1
 
 _Example application of the `_doc_ids` filter, using the command line:_
 
-```shell
+```sh
 curl "https://$ACCOUNT.cloudant.com/$DATABASE/_changes?filter=_doc_ids" \
      -u "$USERNAME:$PASSWORD"
 ```
@@ -914,7 +914,7 @@ POST /$DATABASE/_changes?filter=_selector HTTP/1.1
 
 _Example application of the `_selector` filter, using the command line:_
 
-```shell
+```sh
 curl "https://$ACCOUNT.cloudant.com/$DATABASE/_changes?filter=_selector" \
      -u "$USERNAME:$PASSWORD"
 ```
@@ -990,7 +990,7 @@ GET /$DATABASE/_changes?filter=_view&view=$DESIGNDOC/$VIEWNAME HTTP/1.1
 
 _Example application of the `_view` filter, using the command line:_
 
-```shell
+```sh
 curl "https://$ACCOUNT.cloudant.com/$DATABASE/_changes?filter=_view&view=$DESIGNDOC/$VIEWNAME" \
      -u "$USERNAME:$PASSWORD"
 ```
@@ -1094,7 +1094,7 @@ GET /recipes/_design/recipesdd/_info HTTP/1.1
 _Example of retrieving information about the `recipesdd` design document from within the `recipes` database,
 using the command line:_
 
-```shell
+```sh
 curl "https://$ACCOUNT.cloudant.com/recipes/_design/recipesdd/_info" \
      -u "$USERNAME:$PASSWORD"
 ```
@@ -1155,7 +1155,7 @@ GET /foundbite/_design/app/_search_info/description HTTP/1.1
 _Example of getting information about the `description` search,
 defined within the `app` design document stored in the `foundbite` database, using the command line:_
 
-```shell
+```sh
 curl "https://$USERNAME.cloudant.com/foundbite/_design/app/_search_info/description" \
 	-u "$USERNAME:$PASSWORD"
 ```

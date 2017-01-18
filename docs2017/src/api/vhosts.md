@@ -42,7 +42,7 @@ Host: $ACCOUNT.cloudant.com
 
 _Example request to list all vhosts, using the command line:_
 
-```shell
+```sh
 curl "https://$ACCOUNT.cloudant.com/_api/v2/user/virtual_hosts"
 ```
 {:codeblock}
@@ -88,7 +88,7 @@ Content-Type: application/json
 
 _Example request for creating a vhost, using the command line:_
 
-```shell
+```sh
 curl "https://$ACCOUNT.cloudant.com/_api/v2/user/virtual_hosts" -X POST -d '@vhost.json' -H 'Content-Type: application/json'
 ```
 {:codeblock}
@@ -131,7 +131,7 @@ Content-Type: application/json
 
 _Example request for deleting a vhost, using the command line:_
 
-```shell
+```sh
 curl "https://account.cloudant.com/_api/v2/user/virtual_hosts" -X DELETE -d '@vhost.json' -H 'Content-Type: application/json'
 ```
 {:codeblock}

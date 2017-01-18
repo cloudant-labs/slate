@@ -46,7 +46,7 @@ The [API reference](../api/index.html) has more information about the options.
 
 _Example of obtaining and formatting a list of active tasks:_
 
-```shell
+```sh
 curl 'https://username:password@username.cloudant.com/_active_tasks' | jq '.'
 ```
 {:codeblock}
@@ -77,14 +77,14 @@ one for each of the active tasks found.
 
 _Example of finding all view indexing tasks by filtering for the `indexer` type:_
 
-```shell
+```sh
 curl -s 'https://username:password@username.cloudant.com/_active_tasks' | jq '.[] | select(.type=="indexer")'
 ```
 {:codeblock}
 
 _Example of finding all search indexing tasks by filtering for the `search_indexer` type:_
 
-```shell
+```sh
 curl -s 'https://username:password@username.cloudant.com/_active_tasks' | jq '.[] | select(.type=="search_indexer")'
 ```
 {:codeblock}
@@ -132,7 +132,7 @@ or about 66 minutes,to complete.
 
 _Example of extracting the `changes_done` field using `jq`:_
 
-```shell
+```sh
 curl ... | jq '.[] | select(.type=="search_indexer") | .changes_done'
 ```
 {:codeblock}
@@ -149,21 +149,21 @@ and set its `_id` field to a known value.
 
 _Example of finding all replication tasks, by filtering for the `replication` type:_
 
-```shell
+```sh
 curl -s 'https://username:password@username.cloudant.com/_active_tasks' | jq '.[] | select(.type=="replication")'
 ```
 {:codeblock}
 
 _Example of finding a specific replication task, by filtering for a known document identity:_
 
-```shell
+```sh
 curl ... | jq '.[] | select(.doc_id=="ID")'
 ```
 {:codeblock}
 
 _Example of finding a specific replication task, by filtering for a known `replication_id`:_
 
-```shell
+```sh
 curl ... | jq '.[] | select(.replication_id=="ID")'
 ```
 {:codeblock}

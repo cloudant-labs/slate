@@ -268,7 +268,7 @@ Content-Type: application/json
 _Example of `PUT`ting a view into a design document called `training`,
 using the command line:_
 
-```shell
+```sh
 curl -X PUT https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/_design/training --data-binary @view.def
 	# where the design document is stored in the file `view.def`
 ```

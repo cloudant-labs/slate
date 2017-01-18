@@ -40,7 +40,7 @@ HOST: $ACCOUNT.cloudant.com
 
 _Example request to get server meta information, using the command line:_
 
-```shell
+```sh
 curl https://$ACCOUNT.cloudant.com/
 ```
 {:codeblock}
@@ -112,7 +112,7 @@ GET /_db_updates HTTP/1.1
 
 _Example request to get a list of changes to the database, using the command line:_
 
-```shell
+```sh
 curl https://$USERNAME.cloudant.com/_db_updates \
 	-u $USERNAME
 ```
@@ -165,7 +165,7 @@ GET /$DATABASE/_shards HTTP/1.1
 
 _Example request, using the command line:_
 
-```shell
+```sh
 curl https://$USERNAME.cloudant.com/$DATABASE/_shards \
 	-u $USERNAME
 ```
@@ -245,7 +245,7 @@ Content-Type: application/json
 
 _Example request, using the command line:_
 
-```shell
+```sh
 curl https://$USERNAME.cloudant.com/$DATABASE/_missing_revs \
 	 -X POST \
 	 -u "$USERNAME:$PASSWORD" \
@@ -315,7 +315,7 @@ Content-Type: application/json
 
 _Example request, from the command line:_
 
-```shell
+```sh
 curl https://$USERNAME.cloudant.com/$DATABASE/_revs_diff \
 	-X POST \
 	-u $USERNAME \
@@ -376,7 +376,7 @@ GET /$DATABASE/_revs_limit HTTP/1.1
 
 _Example request, using the command line:_
 
-```shell
+```sh
 curl https://$USERNAME.cloudant.com/$DATABASE/_revs_limit \
 	-X GET \
 	-u "$USERNAME:$PASSWORD"
@@ -400,7 +400,7 @@ account.request({
 
 _Example response:_
 
-```text
+```
 1000
 ```
 {:codeblock}
@@ -423,7 +423,7 @@ PUT /$DATABASE/_revs_limit HTTP/1.1
 
 _Example request, using the command line:_
 
-```shell
+```sh
 curl https://$USERNAME.cloudant.com/_revs_limit \
 	-u $USERNAME \
 	-X PUT \
@@ -478,7 +478,7 @@ GET /_membership HTTP/1.1
 
 _Example request to list nodes in the cluster, using the command line:_
 
-```shell
+```sh
 curl https://$USERNAME.cloudant.com/_membership \
 	-u $USERNAME
 ```
@@ -546,7 +546,7 @@ GET /_uuids HTTP/1.1
 
 _Example request for a single UUID, using the command line:_
 
-```shell
+```sh
 curl https://$USERNAME.cloudant.com/_uuids \
 	-u $USERNAME
 ```
@@ -587,7 +587,7 @@ GET /_uuids?count=5 HTTP/1.1
 
 _Example request for five UUIDs, using the command line:_
 
-```shell
+```sh
 curl https://$USERNAME.cloudant.com/_uuids?count=5 \
 	-u $USERNAME
 ```

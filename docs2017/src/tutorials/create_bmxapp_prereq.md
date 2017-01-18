@@ -35,14 +35,14 @@ on your system.
 To check,
 run the following command at a prompt:
 
-```shell
+```sh
 python --version
 ```
 {:pre}
 
 Expect a result similar to the following output:
 
-```text
+```
 Python 2.7.12
 ```
 {:codeblock}

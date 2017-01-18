@@ -32,14 +32,14 @@ installed on your system.
 To check this,
 run the following command at a prompt:
 
-```shell
+```sh
 python --version
 ```
 {:pre}
 
 You should get a result similar to:
 
-```text
+```
 Python 2.7.12
 ```
 {:codeblock}
@@ -54,7 +54,7 @@ You should install this using the instructions provided [here](../libraries/supp
 To check that you have the client library installed successfully,
 run the following command at a prompt:
 
-```shell
+```sh
 pip freeze
 ```
 {:pre}
@@ -63,7 +63,7 @@ You should get a list of all the Python modules installed on your system.
 Inspect the list,
 looking for a {{site.data.keyword.cloudant_short_notm}} entry similar to the following:
 
-```text
+```
 cloudant==2.3.1
 ```
 {:codeblock}

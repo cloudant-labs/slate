@@ -36,14 +36,14 @@ More information about the '`cf api`' command is
 
 Use the following command to tell Cloud Foundry the URL to use:
 
-```shell
+```sh
 bluemix api https://api.ng.bluemix.net
 ```
 {:pre}
 
 Expect a result similar to the following output:
 
-```text
+```
 Invoking 'cf api https://api.ng.bluemix.net'...
 
 Setting api endpoint to https://api.ng.bluemix.net...
@@ -73,14 +73,14 @@ Use a command similar to the following example to log in to your
 {{site.data.keyword.Bluemix_notm}} application environment.
 Notice that you are asked to enter your account password.
 
-```shell
+```sh
 bluemix login -u Adrian.Warman@uk.ibm.com -o Adrian.Warman@uk.ibm.com -s dev
 ```
 {:pre}
 
 Expect a result similar to the following output:
 
-```text
+```
 Invoking 'cf login -u Adrian.Warman@uk.ibm.com -o Adrian.Warman@uk.ibm.com -s dev'...
 
 API endpoint: https://api.ng.bluemix.net
@@ -114,14 +114,14 @@ as described [here](create_bmxapp_createapp.html#essential-files)
 Use a command similar to the following example to log in to upload your
 {{site.data.keyword.Bluemix_notm}} application.
 
-```shell
+```sh
 cf push "Cloudant Python"
 ```
 {:pre}
 
 A sequence of result messages is displayed.
 
-```text
+```
 Using manifest file /..../BMXDemo/manifest.yml
 
 Updating app Cloudant Python in org Adrian.Warman@uk.ibm.com / space dev as Adrian.Warman@uk.ibm.com...
@@ -133,7 +133,7 @@ The Cloud Foundry toolkit located the manifest file,
 and is preparing to upload the application by using the connection
 and identification details you provided [earlier](#uploading).
 
-```text
+```
 Using route Cloudant-Python.mybluemix.net
 Uploading Cloudant Python...
 Uploading app files from: /..../BMXDemo
@@ -148,7 +148,7 @@ OK
 The application was uploaded successfully,
 and a connection made with the {{site.data.keyword.cloudant_short_notm}} database instance.
 
-```text
+```
 Starting app Cloudant Python in org Adrian.Warman@uk.ibm.com / space dev as Adrian.Warman@uk.ibm.com...
 -----> Downloaded app package (4.0K)
 -----> Downloaded app buildpack cache (29M)
@@ -190,7 +190,7 @@ After you upload and start the application,
 some simple system checks are run to confirm that the application is running correctly
 as far as {{site.data.keyword.Bluemix_notm}} is concerned.
 
-```text
+```
 Showing health and status for app Cloudant Python in org Adrian.Warman@uk.ibm.com / space dev as Adrian.Warman@uk.ibm.com...
 OK
 

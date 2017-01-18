@@ -107,7 +107,7 @@ Content-Type: application/json
 
 _Example request, using the command line:_ 
 
-```shell
+```sh
 curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/_api/v2/user/config/cors \
 	-H 'Content-Type: application/json' \
 	-X PUT \
@@ -154,7 +154,7 @@ Host: username.cloudant.com
 
 _Example request to `GET` the current CORS configuration, using the command line:_
 
-```shell
+```sh
 curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/_api/v2/user/config/cors
 ```
 {:codeblock}

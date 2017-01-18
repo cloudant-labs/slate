@@ -59,13 +59,13 @@ all available in the ['starter' application pack](create_bmxapp_appenv.html#star
 Modify your configuration files as follows:
 
 1.  Edit the '`Procfile`' file so that it contains the following text:
-    ```text
+    ```
     web: python server.py
     ```
     {:codeblock}
 
 2.  Edit the '`manifest.yml`' file so that it contains the following text:
-    ```text
+    ```
     applications:
     - path: .
       memory: 128M
@@ -81,7 +81,7 @@ Modify your configuration files as follows:
     >   **Note**: Ensure that you modify the '`domain`', '`name`', '`host`', and '`services`' values. They are the values that were entered when you created your [{{site.data.keyword.Bluemix_notm}} application environment](create_bmxapp_appenv.html#creating) and your [{{site.data.keyword.cloudant_short_notm}} database instance](create_bmxapp_prereq.html#csi).
 
 3.  Edit the '`requirements.txt`' file so that it contains the following text:
-    ```text
+    ```
     cloudant==2.3.1
     ```
     {:codeblock}

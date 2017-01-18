@@ -238,7 +238,7 @@ DELETE https://$USERNAME.cloudant.com/products/$_ID?rev=2-61ae00e029d4f5edd29818
 
 _Example request to delete an old document revision, using the command line:_
 
-```shell
+```sh
 curl "https://$USERNAME.cloudant.com/products/$_ID?rev=2-f796915a291b37254f6df8f6f3389121" -X DELETE
 ```
 {:codeblock}

@@ -244,7 +244,7 @@ GET /_api/v2/backup/task HTTP/1.1
 _Example of requesting the backup task configuration for the user,
 returning results in a list format (default), using the command line:_
 
-```shell
+```sh
 curl https://$USERNAME.cloudant.com/_api/v2/backup/task \
     -X GET
 ```
@@ -261,7 +261,7 @@ GET /_api/v2/backup/task?format=mapping HTTP/1.1
 _Example of requesting the backup task configuration for the user,
 returning results in a mapping format, using the command line:_
 
-```shell
+```sh
 curl https://$USERNAME.cloudant.com/_api/v2/backup/task?format=mapping \
      -X GET
 ```
@@ -363,7 +363,7 @@ GET /_api/v2/backup/task?databases=backuptest,taskdb HTTP/1.1
 
 _Example command to find backup tasks for the `backuptest` and `taskdb` database, using the command line:_
 
-```shell
+```sh
 curl https://$USERNAME.cloudant.com/_api/v2/backup/task?databases=backuptest,taskdb \
     -X GET
 ```
@@ -410,7 +410,7 @@ GET /_api/v2/backup/monitor/$TASKNAME/$DOCID?include_docs=true HTTP/1.1
 
 _Retrieving the list of databases created by a backup task, that contain a specific document, using the command line:_
 
-```shell
+```sh
 curl https://$USERNAME.cloudant.com/_api/v2/backup/monitor/$TASKNAME/$DOCID?include_docs=true \
     -X GET
 ```
@@ -444,7 +444,7 @@ Content-Type: application/json
 
 _Example of request to restore a document from the most recent version held in a specific backup database, using the command line:_
 
-```shell
+```sh
 curl https://$USERNAME.cloudant.com/_api/v2/backup/restore/document --data=@RESTORE.json \
     -X POS \
     -H "Content-Type: application/json" \
@@ -519,7 +519,7 @@ GET /_replicator/original HTTP/1.1
 _Example request to get the checkpoint ID of the last incremental backup,
 for a database called `original`, using the command line:_
 
-```shell
+```sh
 replication_id=$(curl "${url}/_replicator/original" | jq -r '._replication_id')
 ```
 {:pre}
@@ -539,7 +539,7 @@ GET /original/_local/${replication_id} HTTP/1.1
 
 _Example of getting the `recorded_seq` value from a database called `original`, using the command line:_
 
-```shell
+```sh
 recorded_seq=$(curl "${url}/original/_local/${replication_id}" | jq -r '.history[0].recorded_seq')
 ```
 {:pre}
@@ -559,7 +559,7 @@ Content-Type: application/json
 
 _Example of starting a new incremental backup, to an incremental database called `newbackup`, using the command line:_
 
-```shell
+```sh
 curl -X PUT "${url}/_replicator/newbackup" -H "${ct}" -d @newbackup.json
 ```
 {:codeblock}

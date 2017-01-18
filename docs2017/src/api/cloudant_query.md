@@ -2040,7 +2040,7 @@ Content-Type: application/json
 
 _Example showing how to identify the index used to answer a query, using the command line:_
 
-```shell
+```sh
 curl 'https://examples.cloudant.com/movies/_explain' \
 	-X POST \
 	-H 'Content-Type: application/json' \
@@ -2286,7 +2286,7 @@ Content-Type: application/json
 
 _Obtaining a copy of the Cloudant Query movie database, using the command line:_
 
-```shell
+```sh
 curl 'https://<user:password>@<user>.cloudant.com/_replicator' \
 	-X POST \
 	-H 'Content-Type: application/json' \
@@ -2328,7 +2328,7 @@ Content-Type: application/json
 
 _Creating a _text_ index for your sample database, using the command line:_
 
-```shell
+```sh
 curl 'https://<user:password>@<user>.cloudant.com/my-movies/_index' \
 	-X POST \
 	-H 'Content-Type: application/json' \
@@ -2371,7 +2371,7 @@ Content-Type: application/json
 
 _Example of searching for a specific document within the database, using the command line:_
 
-```shell
+```sh
 curl -X POST -H "Content-Type: application/json" \
 	https://<user:password>@<user>.cloudant.com/my-movies/_find \
 	-d '{"selector": {"Person_name":"Zoe Saldana"}}'
@@ -2419,7 +2419,7 @@ Content-Type: application/json
 
 _Example of a slightly more complex search, using the command line:_
 
-```shell
+```sh
 curl -X POST -H "Content-Type: application/json" \
 	https://<user:password>@<user>.cloudant.com/my-movies/_find \
 	-d '{"selector": {"Person_name":"Robert De Niro", "Movie_year": 1978}}'
@@ -2468,7 +2468,7 @@ Content-Type: application/json
 
 _Example of searching within a range, using the command line:_
 
-```shell
+```sh
 curl -X POST -H "Content-Type: application/json" \
 	https://<user:password>@<user>.cloudant.com/my-movies/_find \
 	-d '{"selector": {"Person_name":"Robert De Niro", "Movie_year": { "$in": [1974, 2009]}}}'

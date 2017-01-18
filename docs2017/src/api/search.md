@@ -57,7 +57,7 @@ The first parameter is the name of the field you intend to use when querying the
 and which is specified in the Lucene syntax portion of subsequent queries.
 An example appears in the following query:
 
-```text
+```
 query=color:red
 ```
 {:codeblock}
@@ -67,7 +67,7 @@ The Lucene field name `color` is the first parameter of the `index` function.
 The `query` parameter can be abbreviated to `q`,
 so another way of writing the query is as follows:
 
-```text
+```
 q=color:red
 ```
 {:codeblock}
@@ -76,7 +76,7 @@ If the special value `"default"` is used when you define the name,
 you do not have to specify a field name at query time.
 The effect is that the query can be simplified:
 
-```text
+```
 query=red
 ```
 {:codeblock}
@@ -372,7 +372,7 @@ Content-Type: application/json
 
 _Example of using the command line to test the `keyword` analyzer:_
 
-```shell
+```sh
 curl 'https://<account>.cloudant.com/_search_analyze' -H 'Content-Type: application/json'
 	-d '{"analyzer":"keyword", "text":"ablanks@renovations.com"}'
 ```
@@ -401,7 +401,7 @@ Content-Type: application/json
 
 _Example of using the command line to test the `standard` analyzer:_
 
-```shell
+```sh
 curl 'https://<account>.cloudant.com/_search_analyze' -H 'Content-Type: application/json'
 	-d '{"analyzer":"standard", "text":"ablanks@renovations.com"}'
 ```
@@ -437,7 +437,7 @@ Host: account.cloudant.com
 
 _Example to using the command line to query an index:_
 
-```shell
+```sh
 curl https://$USERNAME.cloudant.com/$DATABASE/_design/$DESIGN_DOC/_search/$INDEX_NAME?include_docs=true\&query="*:*"\&limit=1 \
 	-u $USERNAME
 ```
@@ -708,7 +708,7 @@ Host: account.cloudant.com
 
 _Example of using the command line to `POST` a search request:_
 
-```shell
+```sh
 curl 'https://account.cloudant.com/db/_design/ddoc/_search/searchname' -X POST -H 'Content-Type: application/json' -d @search.json
 ```
 {:codeblock}
@@ -734,7 +734,7 @@ as demonstrated in the following examples:
 
 > Example search query expressions:
 
-```text
+```
 // Birds
 class:bird
 
@@ -818,7 +818,7 @@ making it quick and easy to get the next set of results.
 
 The following characters require escaping if you want to search on them:
 
-```text
+```
 + - && || ! ( ) { } [ ] ^ " ~ * ? : \ /
 ```
 {:codeblock}
@@ -1034,7 +1034,7 @@ Host: $ACCOUNT.cloudant.com
 
 _An example of using the command line for a query that sorts cities in the northern hemisphere by their distance to New York:_
 
-```shell
+```sh
 curl 'https://$ACCOUNT.cloudant.com/examples/_design/cities-designdoc/_search/cities?q=lat:[0+TO+90]&sort="<distance,lon,lat,-74.0059,40.7127,km>"'
 ```
 {:codeblock}
@@ -1128,7 +1128,7 @@ Authorization: ...
 
 _Example of using the command line to search with highlighting enabled:_
 
-```shell
+```sh
 curl "https://$user:$password@$account.cloudant.com/movies/_design/searches/_search/movies?q=movie_name:Azazel&highlight_fields=\[\"movie_name\"\]&highlight_pre_tag=\"<b>\"&highlight_post_tag=\"</b>\"&highlights_size=30&highlights_number=2
 ```
 {:codeblock}
@@ -1164,7 +1164,7 @@ GET /<DATABASE>/_design/<DDOC>/_search_info/<INDEX> HTTP/1.1
 
 _Example of using the command line to request search index metadata:_
 
-```shell
+```sh
 curl "https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DDOC/_search_info/$INDEX" \
      -X GET -u "$USERNAME:$PASSWORD"
 ```

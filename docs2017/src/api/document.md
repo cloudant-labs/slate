@@ -111,7 +111,7 @@ Content-Type: application/json
 
 _Creating a document, using the command line:_
 
-```shell
+```sh
 curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE \
 	-X POST \
 	-H "Content-Type: application/json" \
@@ -205,7 +205,7 @@ GET /$DATABASE/$DOCUMENT_ID HTTP/1.1
 
 _Example of retrieving a document, using the command line:_
 
-```shell
+```sh
 curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/$DOCUMENT_ID
 ```
 {:codeblock}
@@ -298,7 +298,7 @@ PUT /$DATABASE/$DOCUMENT_ID HTTP/1.1
 
 _Example of updating a document, using the command line:_
 
-```shell
+```sh
 # make sure $JSON contains the correct `_rev` value!
 curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/$DOCUMENT_ID \
 	-X PUT \
@@ -391,7 +391,7 @@ DELETE /$DATABASE/$DOCUMENT_ID?rev=$REV HTTP/1.1
 
 _Example of a delete request, using the command line:_
 
-```shell
+```sh
 # make sure $JSON contains the correct `_rev` value!
 curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/$DOCUMENT_ID?rev=$REV -X DELETE
 ```
@@ -647,7 +647,7 @@ Content-Type: application/json
 
 _Example request to create, update, or delete multiple documents, using the command line:_
 
-```shell
+```sh
 curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/_bulk_docs \
 	-X POST \
 	-H "Content-Type: application/json" \
@@ -838,7 +838,7 @@ Accept: application/json
 
 _Example request to perform bulk update, using the command line:_
 
-```shell
+```sh
 curl -X POST "https://$USERNAME.cloudant.com/$DATABASE/_bulk_docs" \
 	-d @request.json
 ```

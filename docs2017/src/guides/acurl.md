@@ -60,7 +60,7 @@ python -c 'import base64; print base64.urlsafe_b64encode("myusername:mypassword"
 
 You then get the following output:
 
-```text
+```
 bXl1c2VybmFtZTpteXBhc3N3b3Jk
 ```
 {:codeblock}
@@ -77,7 +77,7 @@ every time we write a `curl` command.
 
 Add the following line to your `~/.bashrc` or `~/.bash_profile`:
 
-```shell
+```sh
 alias acurl="curl -s --proto '=https' -g -H 'Authorization: Basic <OUTPUT-OF-BASE64>'"
 ```
 {:codeblock}
@@ -96,7 +96,7 @@ Now start a new shell or run `source ~/.bash_profile` (or `~/.bashrc` if you use
 Now let's make sure everything is set up correctly.
 Go ahead and run:
 
-```shell
+```sh
 acurl https://<username>.cloudant.com/_all_dbs
 ```
 {:codeblock}

@@ -124,7 +124,7 @@ This example shows how to:
 
 ### Constants used in this guide
 
-```shell
+```sh
 # save base URL and the content type in shell variables
 $ url='https://<username>:<password>@<username>.cloudant.com'
 $ ct='Content-Type: application-json'
@@ -162,7 +162,7 @@ PUT /backup-tuesday HTTP/1.1
 _Example showing how to check you have three databases to use with this example,
 using the command line:_
 
-```shell
+```sh
 $ curl -X PUT "${url}/original"
 $ curl -X PUT "${url}/backup-monday"
 $ curl -X PUT "${url}/backup-tuesday"
@@ -182,7 +182,7 @@ PUT /_replicator HTTP/1.1
 
 _Creating the `_replicator` database, using the command line:_
 
-```shell
+```sh
 curl -X PUT "${url}/_replicator"
 ```
 {:pre}
@@ -203,7 +203,7 @@ Content-Type: application/json
 
 _Running a full backup on Monday, using the command line:_
 
-```shell
+```sh
 $ curl -X PUT "${url}/_replicator/full-backup-monday" -H "$ct" -d @backup-monday.json
 # where backup-monday.json describes the required backup.
 ```
@@ -252,7 +252,7 @@ GET /_replicator/backup-monday HTTP/1.1
 
 _Getting the checkpoint ID to help find the `recorded_seq` value, using the command line:_
 
-```shell
+```sh
 replication_id=$(curl "${url}/_replicator/backup-monday" | jq -r '._replication_id')
 ```
 {:pre}
@@ -279,7 +279,7 @@ GET /original/_local/${replication_id} HTTP/1.1
 
 _Getting the `recorded_seq` from original database, using the command line:_
 
-```shell
+```sh
 recorded_seq=$(curl "${url}/original/_local/${replication_id}" | jq -r '.history[0].recorded_seq')
 ```
 {:pre}
@@ -305,7 +305,7 @@ Content-Type: application/json
 
 _Running Tuesday's incremental backup, using the command line:_
 
-```shell
+```sh
 curl -X PUT "${url}/_replicator/incr-backup-tuesday" -H "${ct}" -d @backup-tuesday.json
 ```
 {:pre}
@@ -335,7 +335,7 @@ you would replicate from the `backup-monday` database.
 
 _Restoring from the `backup-monday` database, using HTTP:_
 
-```shell
+```sh
 PUT /_replicator/restore-monday HTTP/1.1
 Content-Type: application/json
 ```
@@ -343,7 +343,7 @@ Content-Type: application/json
 
 _Restoring from the `backup-monday` database, using the command line:_
 
-```shell
+```sh
 curl -X PUT "${url}/_replicator/restore-monday" -H "$ct" -d @restore-monday.json
 ```
 {:pre}
@@ -383,7 +383,7 @@ Content-Type: application/json
 
 _Restoring Tuesday's backup, getting the latest changes first, using the command line:_
 
-```shell
+```sh
 curl -X PUT "${url}/_replicator/restore-tuesday" -H "$ct" -d @restore-tuesday.json
 ```
 {:pre}

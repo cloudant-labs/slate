@@ -69,7 +69,7 @@ _Example of a returned header when the client is assumed to accept all formats:_
 >	**Note**: The returned content type is `text/plain`
 even though the information returned by the request is in JSON format.
 
-```text
+```
 Server: CouchDB/1.0.2 (Erlang OTP/R14B)
 Date: Thu, 13 Jan 2011 13:39:34 GMT
 Content-Type: text/plain;charset=utf-8
@@ -98,7 +98,7 @@ Accept: application/json
 
 _Example of the headers returned in response, including the `application/json` content type:_
 
-```text
+```
 Server: CouchDB/1.0.2 (Erlang OTP/R14B)
 Date: Thu, 13 Jan 2011 13:40:11 GMT
 Content-Type: application/json
@@ -131,7 +131,7 @@ the request body must be encoded using the corresponding format.
 
 _Example of creating a gzipped request body:_
 
-```shell
+```sh
 # create gzipped document
 echo '{"foo":"bar"}' | gzip >doc.gzip
 ```
@@ -148,7 +148,7 @@ Content-Encoding: gzip
 
 _Example of sending a gzip-encoded request body to create a document, using the command line:_
 
-```shell
+```sh
 curl https://example.cloudant.com/db/doc \
 	-X PUT \
 	-T doc.gzip \

@@ -40,7 +40,7 @@ GET /_active_tasks HTTP/1.1
 
 _Example request to retrieve list of active tasks, using the command line:_
 
-```shell
+```sh
 curl https://$USERNAME.cloudant.com/_active_tasks \
 	-u $USERNAME
 ```

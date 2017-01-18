@@ -55,7 +55,7 @@ defined by a series of points.
 
 _Example of a relationship using a geospatial polygon:_
 
-```text
+```
 relation=contains&g=POLYGON ((-71.0537124 42.3681995,-71.054399 42.3675178,-71.0522962 42.3667409,-71.051631 42.3659324,-71.051631 42.3621431,-71.0502148 42.3618577,-71.0505152 42.3660275,-71.0511589 42.3670263,-71.0537124 42.3681995))
 ```
 {:codeblock}
@@ -230,7 +230,7 @@ Host: $USERNAME.cloudant.com
 
 _Example request, using the command line:_
 
-```shell
+```sh
 curl https://$USERNAME.cloudant.com/crimes/_design/geodd/_geo_info/geoidx \
      -u $USERNAME
 ```
@@ -415,7 +415,7 @@ These examples show the available results based on the options you specify for t
 
 _Example query to return results with `format=legacy`:_
 
-```shell
+```sh
 curl -X GET 'https://education.cloudant.com/crimes/_design/geodd/_geo/geoidx?format=legacy&lat=42.3397&lon=-71.07959&radius=10'
 ```
 {:codeblock}
@@ -437,7 +437,7 @@ _Example response to the query:_
 
 _Example query to return results with `format=view`:_
 
-```shell
+```sh
 curl -X GET 'https://education.cloudant.com/crimes/_design/geodd/_geo/geoidx?format=view&lat=42.3397&lon=-71.07959&radius=10'
 ```
 {:codeblock}
@@ -465,7 +465,7 @@ _Example response to the query:_
 
 _Example query to return results with `format=geojson` or `format=application/vnd.geo+json`:_
 
-```shell
+```sh
 curl -X GET 'https://education.cloudant.com/crimes/_design/geodd/_geo/geoidx?format=geojson&lat=42.3397&lon=-71.07959&radius=10'
 ```
 {:codeblock}
@@ -516,7 +516,7 @@ you use the `contains` relation.
 
 _Example query to find documents that have a geospatial position within a circle:_
 
-```shell
+```sh
 curl -X GET 'https://education.cloudant.com/crimes/_design/geodd/_geo/geoidx?lat=42.3397&lon=-71.07959&radius=10&relation=contains&format=geojson'
 ```
 {:codeblock}

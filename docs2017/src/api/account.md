@@ -39,7 +39,7 @@ HOST: $USERNAME.cloudant.com
 
 _Example of connecting to your Cloudant account, using the command line:_
 
-```shell
+```sh
 curl -u $USERNAME https://$USERNAME.cloudant.com
 ```
 {:codeblock}

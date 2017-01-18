@@ -173,14 +173,14 @@ use the following steps to download and install the Cloud Foundry toolkit on you
 4.  <div id='checkCFversion'></div>To check that you have a working Cloud Foundry toolkit,
     run the following command at a prompt:
 
-    ```shell
+    ```sh
     cf --version
     ```
     {:pre}
     
     Expect a result similar to the following output:
     
-    ```text
+    ```
     cf version 6.20.0+25b1961-2016-06-29
     ```
     {:codeblock}
@@ -208,14 +208,14 @@ Use the following steps to download and install the {{site.data.keyword.Bluemix_
 4.  To check that you have a working {{site.data.keyword.Bluemix_notm}} toolkit,
     run the following command at a prompt:
     
-    ```shell
+    ```sh
     bluemix --version
     ```
     {:pre}
     
     Expect a result similar to the following output:
     
-    ```text
+    ```
     bluemix version 0.4.5+03c29de-2016-12-08T07:01:01+00:00
     ```
     {:codeblock}
@@ -266,7 +266,7 @@ More information about '`Procfile`' is available
 The '`Procfile`' for a {{site.data.keyword.Bluemix_notm}} Python starter application
 looks similar to the following example:
 
-```text
+```
 web: python server.py
 ```
 {:codeblock}
@@ -274,7 +274,7 @@ web: python server.py
 This example indicates that the application is a Python web application,
 and that it is started by running the command:
 
-```shell
+```sh
 python server.py
 ```
 {:codeblock}
@@ -295,7 +295,7 @@ and of the environment it requires to run.
 
 The file for a {{site.data.keyword.Bluemix_notm}} Python starter application looks similar to the following example:
 
-```text
+```
 applications:
 - path: .
   memory: 128M
@@ -340,7 +340,7 @@ the application must be able to use the
 
 To enable the Python client library,
 modify the '`requirements.txt`' file to read:
-```text
+```
 cloudant==2.3.1
 ```
 {:codeblock}

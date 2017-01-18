@@ -60,7 +60,7 @@ Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
 
 _Example including basic authentication credentials in a request, using the command line:_
 
-```shell
+```sh
 curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com
 ```
 {:codeblock}
@@ -132,7 +132,7 @@ name=USERNAME&password=PASSWORD
 
 _Example of requesting a cookie, using the command line:_
 
-```shell
+```sh
 curl https://$USERNAME.cloudant.com/_session \
 	-X POST \
 	-c /path/to/cookiefile
@@ -229,7 +229,7 @@ Accept: application/json
 
 _Example request for cookie information, using the command line:_
 
-```shell
+```sh
 curl https://$USERNAME.cloudant.com/_session \
 	-X GET \
 	-b /path/to/cookiefile
@@ -283,7 +283,7 @@ Accept: application/json
 
 _Example cookie `DELETE` request, using the command line:_
 
-```shell
+```sh
 curl https://$USERNAME.cloudant.com/_session \
 	-X DELETE \
 	-b /path/to/cookiefile
