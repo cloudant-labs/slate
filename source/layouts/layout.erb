@@ -188,16 +188,21 @@ under the License.
         Page.new('Contents', 'index.html#contents', []),
         Page.new('Contribute', 'index.html#contribute', [])
       ]),
-			Page.new('Cloudant Offerings', 'offerings.html', [
-				Page.new('Database as a Service', 'offerings.html#database-as-a-service', []),
-				Page.new('Cloudant Local', 'offerings.html#cloudant-local', []),
-				Page.new('IBM Bluemix', 'bluemix.html', [])
+      Page.new('Cloudant Features', 'cloudantcom.html', [
+        Page.new('DBaaS Security', 'dbaassecurity.html', []),
+        Page.new('Cloudant Security Compliance', 'cloudantcompliance.html', []),
+        Page.new('Data Privacy and Governance', 'dataprivacygovernance.html', [])
       ]),
-			Page.new('Cloudant Basics', 'basics.html', [
-				Page.new('HTTP API', 'basics.html#http-api', []),
-				Page.new('JSON', 'basics.html#json', []),
-				Page.new('Distributed Systems', 'basics.html#distributed', []),
-				Page.new('Replication', 'basics.html#replication', [])
+        Page.new('Cloudant Offerings', 'offerings.html', [
+            Page.new('Database as a Service', 'offerings.html#database-as-a-service', []),
+            Page.new('Cloudant Local', 'offerings.html#cloudant-local', []),
+            Page.new('IBM Bluemix', 'bluemix.html', [])
+      ]),
+        Page.new('Cloudant Basics', 'basics.html', [
+            Page.new('HTTP API', 'basics.html#http-api', []),
+            Page.new('JSON', 'basics.html#json', []),
+            Page.new('Distributed Systems', 'basics.html#distributed', []),
+            Page.new('Replication', 'basics.html#replication', [])
       ]),
       Page.new('Client Libraries', 'libraries.html', [
         Page.new('Supported', 'libraries.html#supported-client-libraries', []),
@@ -239,10 +244,6 @@ under the License.
         Page.new('CouchApps', 'couchapps.html', []),
         Page.new('Design document management', 'design_document_management.html', []),
         Page.new('Warehousing', 'warehousing.html', [])
-      ]),
-      Page.new('Cloudant Features', 'cloudantcom.html', [
-        Page.new('DBaaS Security', 'dbaassecurity.html', []),
-        Page.new('Cloudant Security Compliance', 'cloudantcompliance.html', [])
       ])
     ].each { |page|
             %>
