@@ -66,7 +66,7 @@ it is possible to use an underscore prefix for the field name.
 
 <div></div>
 
-Cloudant uses an [eventually consistent](basics.html#consistency) model for data.
+Cloudant uses an [eventually consistent](cap_theorem.html#consistency) model for data.
 This means that under some conditions,
 it is possible that if your application performs a document write or update,
 followed immediately by a read of the same document,
@@ -74,7 +74,7 @@ older document content is retrieved.
 In other words,
 your application would see the document content as it was *before* the write or update occurred.
 For more information about this,
-see the topic on [Consistency](basics.html#consistency).
+see the topic on [Consistency](cap_theorem.html#consistency).
 
 <h3 id="documentCreate">Create</h3>
 
@@ -200,7 +200,7 @@ This is a list of parameters you can add to the URL in the usual way, e.g. `/db/
 | `revs` | boolean | Includes list of all known document revisions. | false |
 | `revs_info` | boolean | Includes detailed information for all known document revisions. | false |
 
-<aside class="warning" role="complementary" aria-label="readsmightbestale">Due to the distributed, eventually consistent nature of Cloudant, reads might return stale data. In particular, data that has just been written, even by the same client, might not be returned from a read request immediately following the write request. To work around this behaviour, a client can cache state locally. Caching also helps to keep request counts down and thus increase application performance and decrease load on the database cluster. This also applies to requests to map-reduce and search indexes.
+<aside class="warning" role="complementary" aria-label="readsmightbestale">Due to the distributed, eventually consistent nature of Cloudant, reads might return stale data. In particular, data that has just been written, even by the same client, might not be returned from a read request immediately following the write request. To work around this behavior, a client can cache state locally. Caching also helps to keep request counts down and thus increase application performance and decrease load on the database cluster. This also applies to requests to map-reduce and search indexes.
 </aside>
 
 ### Read Many
@@ -258,7 +258,7 @@ To update (or create) a document, make a PUT request with the updated JSON conte
 This error prevents you overwriting data changed by other processes. If the write quorum cannot be met, a [`202` response](http.html#202) is returned.</aside>
 
 <aside class="warning" role="complementary" aria-label="updateconflicts">
-Any document update can lead to a conflict - espescially if you replicate updated documents. To learn more about avoiding and resolving conflicts, check out our [Document Versioning and MVCC guide](mvcc.html).
+Any document update can lead to a conflict - especially if you replicate updated documents. To learn more about avoiding and resolving conflicts, check out our [Document Versioning and MVCC guide](mvcc.html).
 </aside>
 
 <div></div>
@@ -313,7 +313,7 @@ db.destroy($JSON._id, $REV, function (err, body, headers) {
 }
 ```
 
-To delete a document, make a DELETE request with the document's latest `_rev` in the querystring, to `https://$USERNAME.cloudant.com/$DATABASE/$DOCUMENT_ID`.
+To delete a document, make a DELETE request with the document's latest `_rev` in the query string, to `https://$USERNAME.cloudant.com/$DATABASE/$DOCUMENT_ID`.
 
 The response contains the ID and the new revision of the document or an error message in case the update failed.
 

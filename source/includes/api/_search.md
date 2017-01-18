@@ -387,6 +387,33 @@ Argument | Description | Optional | Type | Supported Values
 
 <aside class="warning" role="complementary" aria-label="performanceimplications">Note that using `include_docs=true` might have [performance implications](creating_views.html#include_docs_caveat).</aside>
 
+#### Relevance
+
+When more than one result might be returned,
+it is possible for them to be sorted.
+By default,
+the sorting order is determined by 'relevance'.
+
+Relevance is measured according to
+[Apache Lucene Scoring](https://lucene.apache.org/core/3_6_0/scoring.html).
+As an example,
+if you search a simple database for the word "`example`",
+there might be two documents that contain the word.
+If one document mentions the word "`example`" ten times,
+but the second document mentions it only twice,
+then the first document is considered to be more 'relevant'.
+
+If you do not provide a `sort` parameter,
+the default order used is relevance.
+The highest scoring matches are returned first.
+
+If you provide a `sort` parameter,
+then matches are returned in that order,
+ignoring relevance.
+
+If you still want to include the relevance ordering in your search results,
+use the special fields `-<score>` or `<score>` within the `sort` parameter. 
+
 #### POSTing search queries
 
 > Search request using the POST API

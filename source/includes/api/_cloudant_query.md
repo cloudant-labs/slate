@@ -473,6 +473,7 @@ Only the equality operators such as `$eq`, `$gt`, `$gte`, `$lt`, and `$lte` (but
 For more information about creating complex selector expressions, see [Creating selector expressions](#creating-selector-expressions).
 
 <div></div>
+
 #### Selector with two fields
 
 This selector matches any document with a `name` field containing "Paul",
@@ -709,6 +710,7 @@ Operator | Argument | Purpose
 `$elemMatch` | Selector | Matches and returns all documents that contain an array field with at least one element that matches all the specified query criteria.
 
 <div></div>
+
 #### Examples of combination operators
 
 <div></div>
@@ -1717,11 +1719,22 @@ For field names in text search sorts, it is
 sometimes necessary for a field type to be specified,
 for example:
 
-  `{ "<fieldname>:string": "asc"}`
+	`{ "fieldname:string": "asc" }`
 
 If possible,
 an attempt is made to discover the field type based on the selector.
 In ambiguous cases the field type must be provided explicitly.
+
+The following table clarifies when the field type must be specified:
+
+Index used by query                       | Field type requirement
+------------------------------------------|-----------------------
+JSON index                                | It is not necessary to specify the type of sort fields in the query.
+Text index of all fields in all documents | Specify the type of any sort field in the query if the database contains any documents in which the sort field has one type _and also_ contains some documents in which the sort field has a different type.
+Any other text index                      | Specify the type of all sort fields in the query.
+
+<aside class="warning" role="complementary" aria-label="textindexcreation">Remember that a text index of all fields
+in all documents is created when you use the syntax: [`"index": {}`](cloudant_query.html#the-index-field).</aside>
 
 <aside class="warning" role="complementary" aria-label="sortorderundefined">The sorting order is undefined when fields contain different data types.
 This is an important difference between text and view indexes.

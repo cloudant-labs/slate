@@ -149,4 +149,14 @@ To configure the Apache CouchDB or Cloudant server connection information, pass 
 
 See [API Reference](api.html) for more information about meteor-couchdb APIs. 
 
+### Apache Spark
+
+[spark-cloudant](https://github.com/cloudant-labs/spark-cloudant) is the official Cloudant library for Apache Spark.
+
+The spark-cloudant library is already loaded into the [IBM Bluemix Apache Spark-as-a-Service](https://console.ng.bluemix.net/catalog/services/apache-spark/) offering.
+It can be used with any stand-alone Spark cluster.
+
+See the [project information](https://github.com/cloudant-labs/spark-cloudant)
+and [Spark Packages](https://spark-packages.org/package/cloudant-labs/spark-cloudant) for more details.
+
 

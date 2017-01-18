@@ -50,6 +50,7 @@
 {"from": "/CCMbilling.html", "to": "/_show/redirect", "method": "GET", "query": {"target": "bluemix.html"} },
 {"from": "/CCM.html", "to": "/_show/redirect", "method": "GET", "query": {"target": "bluemix.html"} },
 {"from": "/ccm.html", "to": "/_show/redirect", "method": "GET", "query": {"target": "bluemix.html"} },
+{"from": "/querying.html", "to": "/_show/redirect", "method": "GET", "query": {"target": "cloudant_query.html"} },
 {
     "from": "",
     "to": "index.html",

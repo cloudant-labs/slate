@@ -1,5 +1,6 @@
 <div id="creating-views"></div>
 <div id="working-with-views"></div>
+
 ## Views (MapReduce)
 
 Views are used to obtain data stored within a database.
@@ -13,9 +14,9 @@ It can speed up searching for content.
 It can be used to 'pre-process' the results before they are returned to the client.
 
 Views are simply Javascript functions,
-defined within the view field of a design document.
+defined within the `view` field of a design document.
 When you use a view,
-or more accurately when make a query using your view,
+or more accurately when you perform a query using your view,
 the system applies the Javascript function to each and every document in the database.
 Views can be complex.
 You might choose to define a collection of Javascript functions to create the overall view required.
@@ -35,44 +36,42 @@ function(employee) {
 > Simplified example data:
 
 ```json
-{
-  "_id":"23598567",
-  "number":"23598567",
-  "training":"2014/05/21 10:00:00"
-}
-
-{
-  "_id":"10278947",
-  "number":"10278947"
-}
-
-{
-  "_id":"23598567",
-  "number":"23598567",
-  "training":"2014/07/30 12:00:00"
-}
+[
+    {
+        "_id":"23598567",
+        "number":"23598567",
+        "training":"2014/05/21 10:00:00"
+    },
+    {
+        "_id":"10278947",
+        "number":"10278947"
+    },
+    {
+        "_id":"23598567",
+        "number":"23598567",
+        "training":"2014/07/30 12:00:00"
+    }
+]
 ```
 
 > Example response from running the view query
 
 ```json
 {
-  "total_rows": 2,
-  "offset": 0,
-  "rows": [
-    {
-      "id":"23598567",
-      "number":"23598567",
-      "training":"2014/05/21 10:00:00"
-    },
-
-    {
-      "id":"23598567",
-      "number":"23598567",
-      "training":"2014/07/30 12:00:00"
-    }
-
-  ]
+	"total_rows": 2,
+	"offset": 0,
+	"rows": [
+		{
+			"id":"23598567",
+			"number":"23598567",
+			"training":"2014/05/21 10:00:00"
+		},
+		{
+			"id":"23598567",
+			"number":"23598567",
+			"training":"2014/07/30 12:00:00"
+		}
+	]
 }
 ```
 
@@ -141,23 +140,23 @@ When the key is an array, view results can be grouped by a sub-section of the ke
 > Example of a reduce function:
 
 ```
-function (key, values, rereduce) {
+function (keys, values, rereduce) {
   return sum(values);
 }
 ```
 
 If a view has a reduce function, it is used to produce aggregate results for that view. A reduce function is passed a set of intermediate values and combines them to a single value. Reduce functions must accept, as input, results emitted by its corresponding map function '''as well as results returned by the reduce function itself'''. The latter case is referred to as a ''rereduce''.
 
-Reduce functions are passed three arguments in the order ''key'', ''values'', and ''rereduce''.
+Reduce functions are passed three arguments in the order ''keys'', ''values'', and ''rereduce''.
 
 Reduce functions must handle two cases:
 
 1.	When `rereduce` is false:
-  -	`key` will be an array whose elements are arrays of the form `[key,id]`, where `key` is a key emitted by the map function and ''id'' is that of the document from which the key was generated.
+  -	`keys` will be an array whose elements are arrays of the form `[key,id]`, where `key` is a key emitted by the map function and ''id'' is that of the document from which the key was generated.
   -	`values` will be an array of the values emitted for the respective elements in `keys`, for example: `reduce([ [key1,id1], [key2,id2], [key3,id3] ], [value1,value2,value3], false)`
 
 2.	When `rereduce` is true:
-  -	`key` will be `null`.
+  -	`keys` will be `null`.
   -	`values` will be an array of values returned by previous calls to the reduce function, for example: `reduce(null, [intermediate1,intermediate2,intermediate3], true)`\`
 
 Reduce functions should return a single value, suitable for both the "value" field of the final view and as a member of the "values" array passed to the reduce function.
@@ -196,53 +195,6 @@ For performance reasons, a few simple reduce functions are built in. Whenever po
 </table>
 
 By feeding the results of `reduce` functions back into the `reduce` function, MapReduce is able to split up the analysis of huge datasets into discrete, parallelized tasks, which can be completed much faster.
-
-### Dbcopy
-
-If the `dbcopy` field of a view is set, the view contents will be written to a database of that name. If `dbcopy` is set, the view must also have a reduce function. For every key/value pair created by a reduce query with `group` set to `true`, a document will be created in the dbcopy database. If the database does not exist, it will be created. The documents created have the following fields:
-
-<table>
-<colgroup>
-<col width="18%" />
-<col width="81%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">Field</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left"><code>key</code></td>
-<td align="left">The key of the view result. This can be a string or an array.</td>
-</tr>
-<tr class="even">
-<td align="left"><code>value</code></td>
-<td align="left">The value calculated by the reduce function.</td>
-</tr>
-<tr class="odd">
-<td align="left"><code>_id</code></td>
-<td align="left">The ID is a hash of the key.</td>
-</tr>
-<tr class="even">
-<td align="left"><code>salt</code></td>
-<td align="left">This value is an implementation detail used internally.</td>
-</tr>
-<tr class="odd">
-<td align="left"><code>partials</code></td>
-<td align="left">This value is an implementation detail used internally.</td>
-</tr>
-</tbody>
-</table>
-
-<aside class="warning" role="complementary" aria-label="dbcopyperformance">Dbcopy should be used carefully, since it can negatively impact the performance of a database cluster.
-
-1.	It creates a new database, so it can use a lot of disk space.
-2.	Dbcopy can also be IO intensive, and building a dbcopy target can adversely affect the rest of the cluster.
-3.	It can behave in some unexpected ways. Notably, if a design document with a dbcopy target is created, and the target database has been built, editing this design document so that some documents, which were previously copied, are no longer copied, does not lead to those documents being deleted from the target database. This behavior differs from that of normal views.
-
-</aside>
 
 ### Storing the view definition
 
@@ -361,7 +313,7 @@ curl https://$USERNAME.cloudant.com/$DATABASE/_design/$DESIGNDOCUMENT/_view/by_t
 }
 ```
 
-Argument&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Description | Optional | Type | Default | Supported values
+Argument | Description | Optional | Type | Default | Supported values
 ---------|-------------|----------|------|---------|-----------------
 `descending` | Return the documents in 'descending by key' order. | yes | Boolean | false |
 `endkey` | Stop returning records when the specified key is reached. | yes | String or JSON array | |
@@ -375,9 +327,11 @@ Argument&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 `limit` | Limit the number of returned documents to the specified count. | yes | Numeric | |
 `reduce` | Use the reduce function. | yes | Boolean | true |
 `skip` | Skip this number of rows from the start. | yes | Numeric | 0 |
+`stable` | Prefer view results from a 'stable' set of shards. This means that the results are from a view that is less likely to be updated soon. | yes | Boolean | false | 
 `stale` | Allow the results from a stale view to be used. This makes the request return immediately, even if the view has not been completely built yet. If this parameter is not given, a response is returned only after the view has been built. | yes | String | false | `ok`: Allow stale views.<br/>`update_after`: Allow stale views, but update them immediately after the request.
 `startkey` | Return records starting with the specified key. | yes | String or JSON array | |
 `startkey_docid` | Return records starting with the specified document ID. | yes | String | |
+`update` | Ensure that the view has been updated before results are returned. | yes | String | `true` | `false`: Return view results before updating.<br/>`true`: Return view results after updating.<br/>`lazy`: Return the view results without waiting for an update, but update them immediately after the request.
 
 <aside class="warning" role="complementary" aria-label="includedocsperformance">Note that using `include_docs=true` might have [performance implications](creating_views.html#include_docs_caveat).</aside>
 
@@ -411,7 +365,10 @@ all three view indexes within the design document are rebuilt.</aside>
 If the database has been updated recently, there might be a delay in returning the results when the view is accessed.
 The delay is affected by the number of changes to the database, and whether the view index is not current because the database content has been modified.
 
-It is not possible to eliminate these delays, in the case of newly created databases you might reduce them by creating the view definition in the design document in your database before inserting or updating documents. This causes incremental updates to the index when the documents or inserted.
+It is not possible to eliminate these delays,
+in the case of newly created databases you might reduce them by creating the view definition
+in the design document in your database before inserting or updating documents.
+This causes incremental updates to the index when the documents or inserted.
 
 If speed of response is more important than having completely up-to-date data,
 an alternative is to allow users to access an old version of the view index.
@@ -425,13 +382,66 @@ by using an existing version of the index.
 
 ### Accessing a stale view
 
-For example, to access the existing stale view `by_recipe` in the `recipes` design document,
-you would use a request similar to:
-<code>/recipes/_design/recipes/_view/by_recipe?stale=ok</code>
+If you are prepared to accept a response that is quicker,
+but might not have the most current data,
+there are three options you can use.
 
-Making use of a stale view has consequences.
+The `stale` option allows the results from a stale view to be used.
+This makes the request return immediately,
+even if the view has not been completely built.
+If this parameter is not given,
+or the value `false` is supplied,
+a response is returned only after the view has been built.
+The value `ok` allows stale views.
+The value `update_after` allows stale views,
+but updates them immediately after a response to the request has been created and processed.
+
+The `stable` option allows you to indicate whether you would prefer to get results from a single,
+consistent set of shards.
+The default value is `false`,
+meaning all available shard replicas are queried.
+The first response received is the one that is used.
+The benefit is that the response is not delayed in the event that any individual shard replica is slow to respond.
+By contrast,
+setting `stable` to `true` forces the database to use a single,
+consistent set of shards to respond to the query.
+
+The `update` option allows you to indicate whether you are prepared to accept
+view results without waiting for the view to be updated.
+The default value is `true`,
+meaning that the view should be updated before results are returned.
+The `lazy` value means that the results are returned before the view is updated,
+but that the view must then be updated anyway.
+
+When you specify `stable=true` in conjunction with `update=false` or `update=lazy`,
+responses are consistent from request to request because a single,
+consistent set of shards is used to respond to the query.
+However,
+if one of those shards is heavily loaded or slow to respond,
+the response time might be adversely affected.
+
+When the default `stable=false` value applies,
+and you use either of `update=false` or `update=lazy`,
+indexes between shard replicas might not be synchronized.
+The effect would be that you might get different results,
+depending on which replicas respond first.
+
+In summary,
+if you want the quickest possible response,
+and are prepared to accept results that might not yet be synchronized,
+or are returned from the first shard replica to respond rather than your normal set of shards,
+then you could use the combination: `stable=false&update=false`.
+
+Remember that using a stale view has consequences.
 In particular,
-accessing a stale view returns the current (existing) version of the data in the view index, if it exists. The current state of the view index might be different on different nodes in the cluster.
+accessing a stale view returns the current (existing) version of the data in the view index,
+if it exists,
+without waiting for an update.
+This would mean that a stale view index result might be different from different nodes in the cluster.
+
+<aside class="notice" role="complementary" aria-label="staleredundant">Cloudant automatically and actively works to keep views up-to-date at all times.
+This means that the only time you might notice a difference when using `stable` or `update` options is when
+there is an indexing backlog.</aside>
 
 ### Sorting Returned Rows
 
@@ -672,7 +682,7 @@ curl "https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DB/_design/$DDOC/_view
      -d "{ "keys" : [ "claret", "clear apple juice" ] }"
 ```
 
-> Example response, returning the full document for each recipe:
+> Example response (abbreviated), returning the full document for each recipe:
 
 ```json
 {
@@ -688,8 +698,7 @@ curl "https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DB/_design/$DDOC/_view
                   "ingredient" : "onion",
                   "ingredtext" : "onion, peeled and chopped",
                   "meastext" : "1"
-               },
-            ...
+               }
             ],
             "keywords" : [
                "cook method.hob, oven, grill@hob",
@@ -725,7 +734,7 @@ curl "https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DB/_design/$DDOC/_view
             "_rev" : "1-bff6edf3ca2474a243023f2dad432a5a",
             "cooktime" : "92",
             "ingredients" : [
-...            ],
+            ],
             "keywords" : [
                "diet@dairy-free",
                "diet@peanut-free",

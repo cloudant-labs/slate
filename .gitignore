@@ -27,7 +27,7 @@ couchapp/_attachments
 
 # build artifacts
 build/
-/Gemfile.lock
+Gemfile.lock
 /.externalToolBuilders/
 /.project
 /.DS_Store
@@ -35,3 +35,4 @@ build/
 vendor
 /.externalToolBuilders/
 /.project
+.pydevproject

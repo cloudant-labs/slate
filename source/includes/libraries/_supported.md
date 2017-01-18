@@ -84,7 +84,7 @@ Unsupported:<ul><li><a href="http://ektorp.org/">ektorp</a></li>
 <li><a href="http://www.ibm.com/developerworks/cloud/library/cl-guesstheword-app/index.html?ca=drs-">Build a simple word game app using Cloudant on Bluemix</a> - uses Node.js</li>
 <li><a href="https://www.twilio.com/blog/2012/09/building-a-real-time-sms-voting-app-part-1-node-js-couchdb.html">Building a Real-time SMS Voting App</a> - six-part series using Node.js, Twilio, and Cloudant.</li>
 <li><a href="http://msopentech.com/blog/2013/12/19/tutorial-building-multi-tier-windows-azure-web-application-use-cloudants-couchdb-service-node-js-cors-grunt-2/">Building a Multi-Tier Windows Azure Web application</a> - uses Cloudant, Node.js, CORS, and Grunt.</li>
-<li><a href="http://www.ibm.com/developerworks/library/ba-remoteservpi-app/index.html">Do it yourself: Build a remote surveillance app using Bluemix, Cloudant, and Raspberry Pi.</a></li>
+<li><a href="http://www.ibm.com/developerworks/library/ba-remoteservpi-app/index.html">Do it yourself: Build a remote surveillance application using Bluemix, Cloudant, and Raspberry Pi.</a></li>
 </ul>
 </td>
 </tr>
@@ -96,29 +96,18 @@ A supported library for working with Cloudant using Python is available [here](h
 
 Download the current library release [here](https://pypi.python.org/pypi/cloudant/). Learn more information about the Python language at [python.org](https://www.python.org/about/). 
 
-### Objective C and Swift
+### Swift
 
-A supported library is available for working with Cloudant using Objective-C on iOS, and using Swift on OS&nbsp;X.
-The library is called ObjectiveCloudant,
-and is installed using `cocoapods`.
+A supported library is available for working with Cloudant. The library is called SwiftCloudant, and is installed using `cocoapods`.
 
 The Podfile entry is:
 
-`pod 'ObjectiveCloudant'`
+`pod 'SwiftCloudant'`
 
-More information about ObjectiveCloudant,
-including details of installation and how to use the library to store, index and query remote JSON data on Cloudant,
-is available [here](https://github.com/cloudant/objective-cloudant).
+More information about SwiftCloudant, including details of installation and how to use the library to store, index, and query remote JSON data on Cloudant, is available [here](https://github.com/cloudant/swift-cloudant).
 
-The library is an early release version.
-As such it does not currently have complete Cloudant API coverage.
+The library is an early release version. As such, it does not currently have complete Cloudant API coverage. 
 
-### Apache Spark
+<aside class="warning" role="complementary" aria-label="betaonly0">SwiftCloudant is not supported on iOS, and you cannot call it from Objective-C.</aside>
 
-[spark-cloudant](https://github.com/cloudant-labs/spark-cloudant) is the official Cloudant library for Apache Spark.
 
-The spark-cloudant library is already loaded into the [IBM Bluemix Apache Spark-as-a-Service](https://console.ng.bluemix.net/catalog/services/apache-spark/) offering.
-It can be used with any stand-alone Spark cluster.
-
-See the [project information](https://github.com/cloudant-labs/spark-cloudant)
-and [Spark Packages](https://spark-packages.org/package/cloudant-labs/spark-cloudant) for more details.

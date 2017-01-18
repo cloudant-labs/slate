@@ -50,7 +50,7 @@ The source and target database names do not need to match.
 
 Replication can be initiated at either the source or the destination end. This means that you can decide whether account A is pushing data to account B, or account B is pulling data from account A. In some cases, it might not be possible to run replication in either configuration, for example when one account is behind a firewall. Replication happens over HTTP (or HTTPS) and so no non-standard ports need be opened. The decision as to which device initiates replication is yours.
 
-### How to initiate replication via the Cloudant API?
+### How do I initiate replication via the Cloudant API?
 
 > Starting a replication job
 
@@ -80,10 +80,89 @@ curl
 
 Every Cloudant account has a special database called `_replicator`, into which replication jobs can be inserted. Simply add a document into the `_replicator` database to initiate replication.
 
- * `_id` - Supplying an _id field is optional, but can be useful in order to identify replication tasks. Cloudant generates a value for you if you do not supply one.
+ * `_id` - Supplying an `_id` field is optional, but can be useful in order to identify replication tasks. Cloudant generates a value for you if you do not supply one.
  * `source` - The URL of the source Cloudant database, including login credentials.
  * `target` - The URL of the destination Cloudant database, including login credentials.
  * `create_target` - (Optional) Determine whether to create the destination database if it doesn't exist yet.
+
+### How does replication affect the list of changes?
+
+You can get a list of changes made to a document using the [`_changes` endpoint](database.html#get-changes).
+However,
+the distributed nature of Cloudant databases
+means that the response provided by the `_changes` feed
+cannot simply be a list of changes that occurred after a particular date and time.
+
+The [CAP Theorem](cap_theorem.html) discussion makes it clear that
+Cloudant uses an 'eventually consistent' model.
+This means that if you were to ask two different replicas of a database for a document,
+at the same time,
+you might get different results if one of the database copies has not yet replicated
+and therefore received an update to the document.
+_Eventually_,
+the database copies complete their replication,
+so that all the changes to a document are present in each copy.
+
+This 'eventual consistency' model has two characteristics that affect a list of changes:
+
+1.	A change affecting a document almost certainly takes place at different times in different copies of the database.
+2.	The order in which changes affect documents might differ between different copies of the database, depending on when and from where the replication took place.
+
+A consequence of the first characteristic is that,
+when you ask for a list of changes,
+it is meaningless to ask for a list of changes after a given point in time.
+The reason is that the list of changes might be supplied by a different database copy,
+which resulted in document updates at different times.
+However,
+it _is_ meaningful to ask for a list of changes after a specific change,
+specified using a sequence identifier.
+
+An additional consequence of the first characteristic is that,
+in order to agree on the list of changes,
+it might be necessary to 'look back' at preceding changes.
+In other words,
+to get a list of changes,
+you start from the most recent change which the database copies agree on.
+The point of agreement between database copies is identified within
+Cloudant using the [checkpoint](replication-guide.html#checkpoints) mechanism
+that enables replication between database copies to be synchronized.
+
+Finally,
+a consequence of the second characteristic is that the individual changes appearing in the
+list of changes might be presented in a different order
+in subsequent requests that are answered by a different database copy.
+In other words,
+an initial list of changes might report changes `A`,
+`B`,
+then `C` in that order.
+But a subsequent list of changes might report changes `C`,
+`A`,
+then `B` in that order.
+All the changes are listed,
+but in a different order.
+This is because the sequence of changes received during replication
+might vary between two different copies of the database.
+
+#### What this means for the list of changes
+
+When you request a list of changes,
+the response you get might vary depending on which database copy supplies the list.
+
+If you use the `since` option to obtain a list of changes after a given update sequence identifier,
+you always get the list of changes after that update _and_ you might also get some changes prior to that update.
+The reason is that the database copy responding to the list request must ensure that it
+lists the changes,
+consistent with all the replicas.
+In order to do this,
+the database copy might have to start the list of changes from the point
+when all the copies were in agreement.
+This point is identified using checkpoints.
+
+Therefore,
+an application making use of the `_changes` feed should
+be '[idempotent](http://www.eaipatterns.com/IdempotentReceiver.html)'.
+This means that the application must be able safely to receive the same data multiple times,
+and potentially if a different order for repeated requests.
 
 ### Checkpoints
 
@@ -99,7 +178,7 @@ Admin access is required to insert a document into the `_replicator` database. T
 Cloudant has a special `_replicator` user permission. This allows checkpoint documents to be created, but does not allow the creation of ordinary documents in a database. It is recommended that you create API keys that have:
 
  * `_reader` and `_replicator` access at the source side.
- * `_writer` access at the destination side.
+ * `_reader` and `_writer` access at the destination side.
 
 API keys are created and configured within the Cloudant Dashboard, on a per-database basis.
 
@@ -417,7 +496,7 @@ Another consequence of setting user permissions incorrectly is that the `_replic
 You can check the size of your `_replicator` database by using the command:
 
 	`GET https://myaccount.cloudant.com/_replicator`
-	
+
 In the returned JSON, look for the `disk_size` value.
 If the value indicates a size of over 1GB, contact [Cloudant support](https://cloudant.com/support/) for further advice.
 
