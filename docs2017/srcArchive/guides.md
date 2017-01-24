@@ -27,7 +27,6 @@ fragments = {
   '#document-versioning-and-mvcc': 'mvcc.html',
   '#transactions-in-cloudant': 'transactions.html',
   '#cap-theorem': 'cap_theorem.html',
-  '#acid': 'acid.html',
   '#back-up-your-data': 'backup-guide.html',
   '#back-up-your-data-using-replication': 'backup-guide-using-replication.html',
   '#couchapps': 'couchapps.html',

@@ -7,7 +7,6 @@ managing_tasks.md
 mvcc.md
 transactions.md
 cap_theorem.md
-acid.md
 backup-guide.md
 backup-guide-using-replication.md
 couchapps.md

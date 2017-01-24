@@ -79,7 +79,6 @@ def index_file(filename):
 
 for filename in [
 'account',
-'acid',
 'active_tasks',
 'advanced',
 'advanced_replication',
