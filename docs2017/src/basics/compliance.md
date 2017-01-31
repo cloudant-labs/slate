@@ -52,7 +52,7 @@ and technical safeguards required of Business Associates in 45 CFR Part 160 and 
 
 ## International Organization for Standardization (ISO)
 
-![BV certification logo](images/BV_Certification_ISO27001.jpg)
+![BV certification logo](../basics/images/BV_Certification_ISO27001.jpg)
 {{site.data.keyword.cloudant_short_notm}} is certified under
 the International Organization for Standardization (ISO) 27001 standard,
 which defines the expectations for information security management processes.
@@ -74,7 +74,7 @@ and meets all of the requirements for ISO 27001:
 
 ## SOC 2 Certification
 
-![SOC 2 certification](images/SOC-Service-Org_B_Marks_2c_Web.jpg)
+![SOC 2 certification](../basics/images/SOC-Service-Org_B_Marks_2c_Web.jpg)
 IBM provides SOC 2 reports for {{site.data.keyword.cloudant_short_notm}}.
 These reports evaluate IBM's operational controls according to criteria
 set by the American Institute of Certified Public Accountants (AICPA) Trust Services Principles.

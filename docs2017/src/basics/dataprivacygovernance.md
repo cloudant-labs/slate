@@ -58,7 +58,7 @@ is available at:
 [www.ibm.com/cloud/datacenters ![External link icon](../images/launch-glyph.svg "External link icon")](http://www.ibm.com/cloud/datacenters){:new_window}.
 
 More information about Cloudant's overall standards compliance can be found
-[here](cloudantcompliance.html).
+[here](compliance.html).
 Similar information can be found for these IaaS partners:
 
 -   [Amazon ![External link icon](../images/launch-glyph.svg "External link icon")](https://aws.amazon.com/compliance/){:new_window}

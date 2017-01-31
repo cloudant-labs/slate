@@ -4,6 +4,9 @@ index.md
     offerings/index.md
         offerings/bluemix.md
     basics/index.md
+        basics/security.md
+        basics/compliance.md
+        basics/dataprivacygovernance.md
     libraries/index.md
         libraries/supported.md
         libraries/thirdparty.md
