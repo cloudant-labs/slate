@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-01-06"
+lastupdated: "2017-01-31"
 
 ---
 
@@ -12,13 +12,15 @@ lastupdated: "2017-01-06"
 {:codeblock: .codeblock}
 {:pre: .pre}
 
+<!-- Acrolinx: 2017-01-26 -->
+
 # IBM Bluemix
 
 Cloudant is also available as an
 [IBM Bluemix service ![External link icon](../images/launch-glyph.svg "External link icon")](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db/){:new_window}.
 {:shortdesc}
 
-Bluemix is an open-standards,
+Bluemix is an open-standard,
 cloud platform for building,
 running,
 and managing applications.
@@ -39,47 +41,92 @@ The following table summarizes the performance measures for each of the plans.
 
 >   **Note**: All currency values in this document are in US dollars ($).
 
-Plans                                                | Lite | Standard
------------------------------------------------------|------|---------
-Base Price (per hour)                                | $0.00 | See [Pricing details ![External link icon](../images/launch-glyph.svg "External link icon")](http://cloudant.com/bluemix){:new_window}.
-Provisioned Throughput Capacity (Lookups per second) | 20 | 100 | 1,000 | 5,000 | 20,000
-Provisioned Throughput Capacity (Writes per second)  | 10 | 50 | 500 | 2,500 | 10,000
-Provisioned Throughput Capacity (Queries per second) | 5 | 5 | 50 | 250 | 1,000
-Disk Space Included                                  | 1 GB | 20 GB
-Disk Overage (per GB/hour)                           | Not available | See [Pricing details ![External link icon](../images/launch-glyph.svg "External link icon")](http://cloudant.com/bluemix){:new_window}.
+<table border='1'>
+
+<tr>
+<th>Plans</th><th>Lite</th><th colspan='4'>Standard</th>
+</tr>
+<tr>
+<td>Base Price (per hour)</td>
+<td>$0.00</td>
+<td colspan='4'>See <a href="http://cloudant.com/bluemix" target="_blank">Pricing details <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>.</td>
+</tr>
+<tr>
+<td>Provisioned Throughput Capacity (Lookups per second)</td>
+<td>20</td>
+<td>100</td>
+<td>1,000</td>
+<td>5,000</td>
+<td>20,000</td>
+</tr>
+<tr>
+<td>Provisioned Throughput Capacity (Writes per second)</td>
+<td>10</td>
+<td>50</td>
+<td>500</td>
+<td>2,500</td>
+<td>10,000</td>
+</tr>
+<tr>
+<td>Provisioned Throughput Capacity (Queries per second)</td>
+<td>5</td>
+<td>5</td>
+<td>50</td>
+<td>250</td>
+<td>1,000</td>
+</tr>
+<tr>
+<td>Maximum individual document size</td>
+<td>1 MB</td>
+<td colspan='4'>1 MB</td>
+</tr>
+<tr>
+<td>Disk Space Included</td>
+<td>1 GB</td>
+<td colspan='4'>20 GB</td>
+</tr>
+<tr>
+<td>Disk Overage (per GB/hour)</td>
+<td>Not available</td>
+<td colspan='4'>See <a href="http://cloudant.com/bluemix" target="_blank">Pricing details <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>.</td>
+</tr>
+
+</table>
 
 ### Lite plan
 
 The Lite plan is free,
-but limits you to a maximum of 1GB of data storage.
-There are also limits on the provisioned throughput capacity for lookups,
+but limits you to a maximum of 1 GB of data storage.
+Limits also apply to the provisioned throughput capacity for lookups,
 writes,
 and queries.
 
-If you would like to store more than 1GB of data,
+If you would like to store more than one GB of data,
 or to have a greater throughput capacity,
-you should move to the [Standard plan](#standard-plan).
+move to the [Standard plan](#standard-plan).
 
 ### Standard plan
 
-The Standard plan includes 20GB of data storage.
-Above 20GB,
+The Standard plan includes 20 GB of data storage.
+Above 20 GB,
 you are charged a defined cost per GB per hour.
 See the [Pricing ![External link icon](../images/launch-glyph.svg "External link icon")](http://cloudant.com/bluemix){:new_window} information for the current cost.
 On the Standard plan,
-you can also change the amount of provisioned throughput capacity for lookups, writes and queries.
+you can also change the amount of provisioned throughput capacity for lookups,
+writes,
+and queries.
 
 <div id="servicetier"></div>
 
-You can see details of the throughput capacity within the plans available for your account,
-and select the level of provisioning that you want to use,
+You can see details of the throughput capacity within the plans available for your account.
+You can select the level of provisioning that you want to use,
 through the Account tab of your Cloudant account Dashboard.
 
 ![Account Dashboard](../images/cloudant_capacity.png)
 
 To move to a different throughput capacity,
 select the provisioning you want,
-then click the `Change Capacity` button.
+then click the `Change Capacity` option button.
 You are asked to confirm the change,
 and reminded that the provisioning change can take up to 24 hours to complete.
 
@@ -93,10 +140,10 @@ Throughput provision is identified and measured as one of three kinds of events:
 
 1.	A lookup,
     which is a read of a specific document,
-    based on its `_id`.
+    based on the `_id` of the document.
 2.	A write,
-    which is a write of an individual document,
-    or a write due to an index build.
+    which is the creation or modification of an individual document,
+    or any update due to an index build.
 3.	A query,
     which is a request made to one of the Cloudant query endpoints,
     including the following types:
@@ -112,13 +159,13 @@ per second,
 where the second is a _sliding_ window.
 If your account exceeds the number of throughput events that are provisioned for the plan,
 requests are rejected until the number of events within the sliding window
-no longer exceeds the number provisioned.
-It might help to think of the sliding one-second window as being any consecutive period of 1,000 milliseconds.
+no longer exceeds the number that is provisioned.
+It might help to think of the sliding 1-second window as being any consecutive period of 1,000 milliseconds.
 
 For example,
-if you are on the Standard plan and have provisioned 200 lookups per second,
+if you are on the Standard plan with provision for 200 lookups per second,
 your account might make a maximum of 200 lookup requests during a consecutive period of 1,000 milliseconds (1 second).
-Subsequent lookup requests made during the sliding 1,000 millisecond period
+Subsequent lookup requests made during the sliding 1,000-millisecond period
 are rejected until the number of lookup requests in that period drops below 200 again.
 
 When a request is rejected because the number of events is exceeded,
@@ -127,7 +174,7 @@ response.
 
 Recent versions of the supported client libraries (for [Java](../libraries/supported.html#java),
 [Node.js](../libraries/supported.html#node-js),
-and [Python](../libraries/supported.html#python) languages) have an ability to handle a `429` response.
+and [Python](../libraries/supported.html#python) languages) help you handle a `429` response.
 For example,
 the Java library throws a
 [`TooManyRequestsException` ![External link icon](../images/launch-glyph.svg "External link icon")](http://static.javadoc.io/com.cloudant/cloudant-client/2.5.1/com/cloudant/client/org/lightcouch/TooManyRequestsException.html){:new_window}.
@@ -139,14 +186,22 @@ a request when a `429` response is received.
 It is better to ensure that your application handles `429` responses correctly.
 The reason is that the number of retries is limited;
 regularly transgressing the number of requests is a strong indicator
-that you should move to a different plan configuration.
+for moving to a different plan configuration.
 
->   **Note**: If you are migrating an existing application,
-    it might not be configured to handle a `429` response correctly.
-    You should check this as part of your migration verification.
+>   **Note**: If you are porting an existing application,
+    it might not be able to handle a `429` response.
+    As part of your migration verification,
+    check that your application handles `429` responses correctly.
 
 In summary,
 you must ensure that your application is able to handle a [`429`](../api/http.html#429) response correctly.
+
+#### Maximum individual document size
+
+Data is stored within Cloudant as [JSON documents](../api/document.html).
+For documents in a Cloudant service on IBM Bluemix,
+the maximum size for an individual document is 1 MB.
+Exceeding this limit causes a [`413` error](../api/http.html#413).
 
 #### Disk Space Included
 
@@ -158,7 +213,7 @@ It is used for both data and index storage.
 All Standard and Lite plan service instances are monitored for disk space used.
 If the account uses more than the amount of storage that is provided in your plan configuration,
 it is considered to 'overflow'.
-An overflow causes the account to be billed at the indicated price for each extra GB used beyond the plan allocation.
+Overflow causes the account to be billed at the indicated price for each extra GB used beyond the plan allocation.
 
 The extra amount of money that you must pay for using more disk space than is provided in the plan is called an 'overage'.
 Overage is calculated on an hourly basis.
@@ -166,7 +221,7 @@ It is not possible to overflow the disk space available in the Lite plan.
 
 For example,
 assume that your Standard plan instance increases disk usage to 107 GB for half a day (12 hours).
-This change means your instance caused an overflow of 87 GB more than the 20 GB plan allocation,
+This change means that your instance caused overflow of 87 GB more than the 20 GB plan allocation,
 for 12 hours.
 Therefore,
 you would be billed an overage charge based on 87 GB x 12 hours = 1044 GB hours for that extra space.
@@ -223,7 +278,7 @@ The plans also offer
 [Security Compliance Certification ![External link icon](../images/launch-glyph.svg "External link icon")](https://cloudant.com/product/cloudant-features/cloudant-compliance/){:new_window}.
 [HIPAA ![External link icon](../images/launch-glyph.svg "External link icon")](https://en.wikipedia.org/wiki/Health_Insurance_Portability_and_Accountability_Act){:new_window}
 compliance requires a [single-tenant environment](#locations),
-so you should request this environment before provisioning.
+so request this environment before provisioning.
 
 #### High Availability, Disaster Recovery, and Backup
 
@@ -247,8 +302,9 @@ Details are provided there,
 illustrating your current [throughput](#throughput),
 and quantity of [stored data](#disk-space-included).
 
-If your monitoring indicates that a change to the provisioning in your plan might be advisable,
-for example if you are frequently approaching the maximum number of database lookups,
+Monitoring helps you recognize that a change to the provisioning in your plan might be advisable.
+For example,
+if you frequently approach the maximum number of database lookups,
 then you can modify the provisioning through the [Service pane](#servicetier) on the Account tab of the Dashboard.
 
 ### Hardware specification

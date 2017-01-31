@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-01-06"
+lastupdated: "2017-01-31"
 
 ---
 
@@ -75,7 +75,12 @@ npm install cloudant
 
 ### Libraries and Frameworks
 
+#### Supported
+
 -   [nodejs-cloudant ![External link icon](../images/launch-glyph.svg "External link icon")](https://github.com/cloudant/nodejs-cloudant){:new_window} ([npm ![External link icon](../images/launch-glyph.svg "External link icon")](https://www.npmjs.org/package/cloudant){:new_window}).
+
+#### Unsupported
+
 -   [sag-js ![External link icon](../images/launch-glyph.svg "External link icon")](https://github.com/sbisbee/sag-js){:new_window} which also works in the browser.
     See [saggingcouch ![External link icon](../images/launch-glyph.svg "External link icon")](https://github.com/sbisbee/saggingcouch.com){:new_window} for more detail.
 -   [nano ![External link icon](../images/launch-glyph.svg "External link icon")](https://github.com/dscape/nano){:new_window} is a minimalist implementation.

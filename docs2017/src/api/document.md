@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-01-06"
+lastupdated: "2017-01-31"
 
 ---
 
@@ -19,6 +19,12 @@ Documents are
 Documents are containers for your data,
 and are the basis of the Cloudant database.
 {:shortdesc}
+
+Documents are limited to a maximum size of 64 MB.
+
+>   **Note**: If you are using a [Cloudant service on IBM Bluemix](../offerings/bluemix.html),
+    documents are limited to a maximum size of 1 MB.
+    Exceeding this limit causes a [`413` error](http.html#413).
 
 All documents must have two fields:
 a unique `_id` field, and a `_rev` field.

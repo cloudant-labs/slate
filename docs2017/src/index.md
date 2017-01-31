@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-01-11"
+lastupdated: "2017-01-25"
 
 ---
 
@@ -198,10 +198,10 @@ in the [API reference](api/index.html).
 -->
 
 # Related Links
-{: #rellinks}
+{: #rellinks notoc}
 
 ## Tutorials and Samples
-{: #samples}
+{: #samples notoc}
 
 *   [Tutorial overview](tutorials/index.html)
 *   [Creating a {{site.data.keyword.cloudant_short_notm}} instance on {{site.data.keyword.Bluemix_notm}}](tutorials/create_service.html)
@@ -209,12 +209,12 @@ in the [API reference](api/index.html).
 *   [Creating a {{site.data.keyword.Bluemix_notm}} application to access a {{site.data.keyword.cloudant_short_notm}} database](tutorials/create_bmxapp.html)
 
 ## API Reference
-{: #api}
+{: #api notoc}
 
 *   [{{site.data.keyword.cloudant_short_notm}} API reference](api/index.html)
 
 ## Related Links
-{: #general}
+{: #general notoc}
 
 *   [{{site.data.keyword.cloudant_short_notm}} Guides ![External link icon](images/launch-glyph.svg "External link icon")](guides/index.html)
 *   [{{site.data.keyword.cloudant_short_notm}} website and dashboard ![External link icon](images/launch-glyph.svg "External link icon")](https://cloudant.com/){:new_window}
