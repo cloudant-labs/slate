@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-01-06"
+lastupdated: "2017-02-01"
 
 ---
 
@@ -12,15 +12,18 @@ lastupdated: "2017-01-06"
 {:codeblock: .codeblock}
 {:pre: .pre}
 
+<!-- Acrolinx: 2017-02-01 -->
+
 # Cloudant Basics
 
 If it's your first time here,
-scan this section before you scroll further.
+read this information to find out more.
 {:shortdesc}
 
 The sections on [Client Libraries](../libraries/index.html#-client-libraries),
 [API Reference](../api/index.html#-api-reference),
-and [Guides](../guides/index.html#-guides) assume you know some basic things about Cloudant.
+and [Guides](../guides/index.html#-guides) assume that
+you know some basic things about {{site.data.keyword.IBM}} {{site.data.keyword.cloudant}}.
 
 ## Much More Than A Hosted database
 
@@ -30,8 +33,8 @@ run non-stop,
 and handle a wide variety of data types like JSON,
 full-text,
 and geo spatial.
-{{site.data.keyword.cloudant_short_notm}} is an operational data store optimized
-to handle concurrent reads and writes,
+{{site.data.keyword.cloudant_short_notm}} is an operational data store,
+optimized to handle concurrent reads and writes,
 and provide high availability and data durability.
 
 ## Scalable, Fault-tolerant JSON data stores
@@ -49,7 +52,7 @@ Tools such as
 mobile devices,
 remote facilities,
 sensors,
-and internet-enabled goods can connect.
+and Internet-enabled goods can connect.
 Use Cloudant Sync to scale bigger,
 and enable client apps to continue running offline.
 
@@ -110,48 +113,49 @@ Never worry about cloud lock-in.
 {{site.data.keyword.cloudant_short_notm}} supports various hosting options
 to fit your budget and performance needs.
 Choose between {{site.data.keyword.Bluemix}},
-Rackspace,
-IBM SoftLayer,
+{{site.data.keyword.BluSoftlayer_full}},
 AWS,
-Windows Azure,
+Windows&trade; Azure,
 or Joyent,
 and even change hosting environments on demand.
 
-## Managed by big data experts at Cloudant
+## Managed by Big Data experts at Cloudant
 
-Big data experts at {{site.data.keyword.cloudant_short_notm}} grow,
+Big Data experts at {{site.data.keyword.cloudant_short_notm}} grow,
 reconfigure,
 repartition and rebalance clusters,
 and protect and administer your data layer around the clock so you can get a good night’s sleep.
 
 ## Connecting to Cloudant
 
-To access {{site.data.keyword.cloudant}},
-you must have either a [{{site.data.keyword.cloudant}} account](../api/account.html),
+To access {{site.data.keyword.cloudant_short_notm}},
+you must have either a [{{site.data.keyword.cloudant_short_notm}} account](../api/account.html),
 or a [{{site.data.keyword.Bluemix_notm}} account](../offerings/bluemix.html).
 
 ## HTTP API
 
-All requests to Cloudant go over the web.
-This means any system that can speak to the web can speak to Cloudant.
-All language-specific libraries for Cloudant are really just wrappers that provide
+All requests to {{site.data.keyword.cloudant_short_notm}} go over the web.
+This connection means any system that can speak to the web can speak to {{site.data.keyword.cloudant_short_notm}}.
+All language-specific libraries for {{site.data.keyword.cloudant_short_notm}} are just wrappers that provide
 some convenience and linguistic niceties to help you work with a simple API.
-Many users choose to use raw HTTP libraries for working with Cloudant.
+Many users choose to use raw HTTP libraries for working with {{site.data.keyword.cloudant_short_notm}}.
 
-Specific details about how Cloudant uses HTTP are
+Specific details about how {{site.data.keyword.cloudant_short_notm}} uses HTTP are
 provided in the [HTTP topic of the API Reference](../api/http.html).
 
-Cloudant supports the following HTTP request methods:
+{{site.data.keyword.cloudant_short_notm}} supports the following HTTP request methods:
 
 -   `GET`
 
     Request the specified item.
     As with normal HTTP requests,
     the format of the URL defines what is returned.
-    With Cloudant this can include static items,
+    With {{site.data.keyword.cloudant_short_notm}},
+    a request can include static items,
     database documents,
     and configuration and statistical information.
-    In most cases the information is returned in the form of a JSON document.
+    In most cases,
+    the information is returned in the form of a JSON document.
 
 -   `HEAD`
 
@@ -160,7 +164,7 @@ Cloudant supports the following HTTP request methods:
 -   `POST`
 
     Upload data.
-    Within Cloudant's API,
+    Within the API endpoints for {{site.data.keyword.cloudant_short_notm}},
     the `POST` method is used to set values,
     upload documents,
     set document values,
@@ -169,7 +173,7 @@ Cloudant supports the following HTTP request methods:
 -   `PUT`
 
     Used to 'store' a specific resource.
-    In Cloudant's API,
+    In the API for {{site.data.keyword.cloudant_short_notm}},
     `PUT` is used to create new objects,
     including databases,
     documents,
@@ -187,7 +191,7 @@ Cloudant supports the following HTTP request methods:
 
     A special method that can be used to copy documents and objects.
 
-If the client (such as some web browsers) does not support using these HTTP methods,
+If the client (such as some web browsers) does not support the use of these HTTP methods,
 `POST` can be used instead with the `X-HTTP-Method-Override` request header set to the actual HTTP method.
 
 ### Method not allowed error
@@ -208,7 +212,7 @@ _Example error message in response to an unsupported request:_
 
 ## JSON
 
-Cloudant stores documents using JSON (JavaScript Object Notation) encoding,
+{{site.data.keyword.cloudant_short_notm}} stores documents by using JSON (JavaScript Object Notation) encoding,
 so anything encoded into JSON can be stored as a document.
 Files containing media,
 such as images,
@@ -223,29 +227,29 @@ More information about JSON can be found in the [JSON Guide](../guides/json.html
 
 ## Distributed Systems
 
-Cloudant's API enables you to interact with a collaboration of numerous machines,
+The {{site.data.keyword.cloudant_short_notm}} API enables applications to interact with a collaboration of numerous servers,
 called a cluster.
-The machines in a cluster must be in the same datacenter,
-but can be within different 'pods' in that datacenter.
-Using different pods helps improve the High Availability characteristics of Cloudant.
+The servers in a cluster must be in the same data center,
+but can be within different 'pods' in that data center.
+Using different pods helps improve the High Availability characteristics of {{site.data.keyword.cloudant_short_notm}}.
 
 An advantage of clustering is that when you need more computing capacity,
-you just add more machines.
-This is often more cost-effective and fault-tolerant than scaling up or enhancing an existing single machine.
+you add more servers.
+This approach is often more cost-effective and fault-tolerant than scaling up or enhancing an existing single server.
 
-For more information about Cloudant and distributed system concepts,
+For more information about {{site.data.keyword.cloudant_short_notm}} and distributed system concepts,
 see the [CAP Theorem](../guides/cap_theorem.html) guide.
 
 ## Replication
 
-[Replication](../api/replication.html) is a procedure followed by Cloudant,
+[Replication](../api/replication.html) is a procedure followed by {{site.data.keyword.cloudant_short_notm}},
 [CouchDB ![External link icon](../images/launch-glyph.svg "External link icon")](http://couchdb.apache.org/){:new_window},
 [PouchDB ![External link icon](../images/launch-glyph.svg "External link icon")](http://pouchdb.com/){:new_window},
 and other distributed databases.
 Replication synchronizes the state of two databases so that their contents are identical.
 
 You can replicate continuously.
-This means that a target database updates every time the source database changes.
+This form of replication means that a target database updates every time the source database changes.
 Continuous replication can be used for backups of data,
 aggregating data across multiple databases,
 or for sharing data.
@@ -255,6 +259,7 @@ continuous replication means testing continuously for any source database change
 This testing requires continuous internal calls,
 which might impact performance or the cost of using the database.
 
->   **Note**: Continuous replication can result in a large number of internal calls.
-    This might affect costs for multi-tenant users of Cloudant systems.
-    Continuous replication is disabled by default.
+>   **Note**: Continuous replication can result in many internal calls.
+    These calls might affect costs for multi-tenant users of Cloudant systems.
+    By default,
+    continuous replication is not enabled.

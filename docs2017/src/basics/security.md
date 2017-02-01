@@ -2,7 +2,7 @@
 
 copyright:
   years: 2017
-lastupdated: "2017-01-31"
+lastupdated: "2017-02-01"
 
 ---
 
@@ -12,11 +12,11 @@ lastupdated: "2017-01-31"
 {:codeblock: .codeblock}
 {:pre: .pre}
 
-<!-- Acrolinx: 2017-01-16 -->
+<!-- Acrolinx: 2017-02-01 -->
 
 # Security
 
-## Cloudant DBaaS Data Protection & Security
+## Cloudant DBaaS Data Protection and Security
 
 Protecting application data for large-scale web and mobile apps can be complex,
 especially with distributed and NoSQL databases.
@@ -41,7 +41,7 @@ and other security-minded industries.
 
 The {{site.data.keyword.cloudant_short_notm}} DBaaS is
 physically hosted on Tier-1 cloud infrastructure providers such as
-IBM (SoftLayer) and Amazon.
+{{site.data.keyword.BluSoftlayer_full}} and Amazon.
 Therefore,
 your data is protected by the network and physical security measures that are employed by these partners,
 including (but not limited to):
@@ -67,7 +67,8 @@ for you to control access to data:
 
 -	Authentication: {{site.data.keyword.cloudant_short_notm}} is accessed
     by using an HTTP API.
-    The user is authenticated for every HTTPS or HTTP request
+    Where the API endpoint requires it,
+    the user is authenticated for every HTTPS or HTTP request
     {{site.data.keyword.cloudant_short_notm}} receives.
 -	Authorization: Grant read,
     write,

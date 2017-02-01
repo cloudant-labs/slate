@@ -32,19 +32,19 @@ clean:
 html:
 	make clean
 	mkdir $(BUILDDIR)
-	node $(BUILDTOOL) $(MAINSRCDIR) --output=$(BUILDDIR) --extension-file=$(CONFIGDIR)/headerFooterExt.js --conref-file=$(CONFIGDIR)/conref.yml --toc-xml
+	node $(BUILDTOOL) $(MAINSRCDIR) --output=$(BUILDDIR) --extension-file=$(CONFIGDIR)/headerFooterExt.js --conref-file=$(CONFIGDIR)/cloudoeconrefs.yml --toc-xml
 
 .PHONY: pdf
 pdf:
 	make clean
 	mkdir $(BUILDDIR)
-	node $(BUILDTOOL) $(MAINSRCDIR) --output=$(BUILDDIR) --extension-file=$(CONFIGDIR)/headerFooterExt.js --conref-file=$(CONFIGDIR)/conref.yml --toc-xml --gen-pdf
+	node $(BUILDTOOL) $(MAINSRCDIR) --output=$(BUILDDIR) --extension-file=$(CONFIGDIR)/headerFooterExt.js --conref-file=$(CONFIGDIR)/cloudoeconrefs.yml --toc-xml --gen-pdf --verbose
 
 .PHONY: debughtml
 debughtml:
 	make clean
 	mkdir $(BUILDDIR)
-	node $(BUILDTOOL) $(MAINSRCDIR) --output=$(BUILDDIR) --extension-file=$(CONFIGDIR)/headerFooterExt.js --conref-file=$(CONFIGDIR)/conref.yml --toc-xml --verbose
+	node $(BUILDTOOL) $(MAINSRCDIR) --output=$(BUILDDIR) --extension-file=$(CONFIGDIR)/headerFooterExt.js --conref-file=$(CONFIGDIR)/cloudoeconrefs.yml --toc-xml --verbose
 
 .PHONY: publish
 publish:

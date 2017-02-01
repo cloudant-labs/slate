@@ -2,7 +2,7 @@
 
 copyright:
   years: 2016, 2017
-lastupdated: "2017-01-16"
+lastupdated: "2017-02-01"
 
 ---
 
@@ -12,7 +12,7 @@ lastupdated: "2017-01-16"
 {:codeblock: .codeblock}
 {:pre: .pre}
 
-<!-- Acrolinx: 2017-01-16 -->
+<!-- Acrolinx: 2017-02-01 -->
 
 # Data Privacy and Governance
 
@@ -20,7 +20,7 @@ _(This Cloudant Data Privacy and Governance Update was originally published Apri
 
 As a pioneer in the provision of a fully managed and globally distributable Database-as-a-Service,
 {{site.data.keyword.cloudant_short_notm}} allows customers to locate data in any
-global SoftLayer or Rackspace data center or AWS region.
+global SoftLayer or AWS region.
 By providing customers with such high levels of data mobility to serve the local needs of customers,
 IBM,
 and Cloudant take data privacy and governance seriously.
@@ -28,7 +28,7 @@ and Cloudant take data privacy and governance seriously.
 To govern the movement of data from the EU to the US,
 {{site.data.keyword.cloudant_short_notm}} complied with both US-EU and US-Swiss
 [Safe Harbour Frameworks ![External link icon](../images/launch-glyph.svg "External link icon")](https://safeharbor.export.gov/companyinfo.aspx?id=29450){:new_window}.
-Following last year's ruling of the European Court of Justice that
+Following the 2015 ruling of the European Court of Justice that
 [invalidated ![External link icon](../images/launch-glyph.svg "External link icon")](http://curia.europa.eu/juris/document/document.jsf?text=&docid=169195&pageIndex=0&doclang=en&mode=req&dir=&occ=first&part=1&cid=113326){:new_window}
 the Safe Harbour agreement,
 IBM was quick to urge policymakers to work expediently
@@ -59,10 +59,9 @@ is available at:
 
 More information about Cloudant's overall standards compliance can be found
 [here](compliance.html).
-Similar information can be found for these IaaS partners:
+Similar information can be found for these IaaS business partners:
 
 -   [Amazon ![External link icon](../images/launch-glyph.svg "External link icon")](https://aws.amazon.com/compliance/){:new_window}
--   [Rackspace ![External link icon](../images/launch-glyph.svg "External link icon")](http://www.rackspace.co.uk/certifications){:new_window}
 -   [SoftLayer ![External link icon](../images/launch-glyph.svg "External link icon")](http://www.softlayer.com/compliance){:new_window}
 
 Following the recent vote in favor of new
