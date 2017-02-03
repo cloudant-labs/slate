@@ -2,7 +2,7 @@
 
 copyright:
   years: 2017
-lastupdated: "2017-01-16"
+lastupdated: "2017-02-03"
 
 ---
 
@@ -20,7 +20,7 @@ lastupdated: "2017-01-16"
 
 {{site.data.keyword.cloudantfull}} provides a trustworthy and secure cloud database system.
 The service is built on best-in-industry standards,
-including ISO 27001 and ISO 27002.
+including ISO 27001:2013.
 
 ## Top-Tier Physical systems
 

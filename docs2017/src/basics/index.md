@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-02-01"
+lastupdated: "2017-02-03"
 
 ---
 
@@ -85,7 +85,7 @@ Indexes are updated incrementally as data changes to enable analytics.
 '`GET`',
 '`PUT`',
 index,
-and query JSON documents directly from the browser by using an HTTP API over secure HTTP/S.
+and query JSON documents directly from the browser by using an HTTP API over HTTP or secure HTTP.
 
 ## [Security](security.html)
 
@@ -102,22 +102,10 @@ and other security-minded industries to benefit from {{site.data.keyword.cloudan
 
 {{site.data.keyword.cloudant_short_notm}} provides a trustworthy and secure cloud database system.
 The service is built on best-in-industry standards,
-including ISO 27001 and ISO 27002.
+including ISO 27001:2013.
 
 More details on {{site.data.keyword.cloudant_short_notm}} Data Privacy and
 Governance [are available](dataprivacygovernance.html).
-
-## Multiple hosting options
-
-Never worry about cloud lock-in.
-{{site.data.keyword.cloudant_short_notm}} supports various hosting options
-to fit your budget and performance needs.
-Choose between {{site.data.keyword.Bluemix}},
-{{site.data.keyword.BluSoftlayer_full}},
-AWS,
-Windows&trade; Azure,
-or Joyent,
-and even change hosting environments on demand.
 
 ## Managed by Big Data experts at Cloudant
 
@@ -172,7 +160,7 @@ provided in the [HTTP topic of the API Reference](../api/http.html).
 
 -   `PUT`
 
-    Used to 'store' a specific resource.
+    Used to store a specific resource.
     In the API for {{site.data.keyword.cloudant_short_notm}},
     `PUT` is used to create new objects,
     including databases,
@@ -189,7 +177,7 @@ provided in the [HTTP topic of the API Reference](../api/http.html).
 
 -   `COPY`
 
-    A special method that can be used to copy documents and objects.
+    A special method that can be used to copy documents.
 
 If the client (such as some web browsers) does not support the use of these HTTP methods,
 `POST` can be used instead with the `X-HTTP-Method-Override` request header set to the actual HTTP method.
