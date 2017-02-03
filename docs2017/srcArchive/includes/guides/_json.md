@@ -1,5 +1,18 @@
 ## JSON
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the JSON topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/guides/json.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 The majority of requests and responses to and from Cloudant use the JavaScript Object Notation (JSON) for formatting the content and structure of the data and responses.
 
 JSON is used because it is the simplest and easiest solution for working with data using a web browser.

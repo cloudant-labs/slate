@@ -2,6 +2,19 @@
 
 ## Replication
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the Replication topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/api/replication.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 Cloudant replication is the process that synchronizes ('syncs') the state of two databases.
 Any change which has occurred in the source database is reproduced in the target database.
 You can create replications between any number of databases, whether continuous or not.

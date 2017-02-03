@@ -1,5 +1,18 @@
 ## Managing tasks
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the 'Managing tasks' topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/guides/managing_tasks.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 Creating new indexes over lots of data or replicating a large database can take quite a while. So how can you see whether your tasks are making progress, or if they have completed? The `_active_tasks` endpoint provides information about all ongoing tasks. However, if you start a lot of tasks, some of them might be scheduled to run later and do not show up under `_active_tasks` until they have been started.
 
 This guide tells you how to use the `_active_tasks` endpoint to monitor long-running tasks.

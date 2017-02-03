@@ -1,5 +1,18 @@
 ## Grouping related documents together in Cloudant
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the 'Grouping related documents together in Cloudant' topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/guides/transactions.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 Traditionally, e-commerce systems are built with relational databases. These databases typically use a number of tables joined together to record sales, customer details, purchased products, and delivery tracking information. Relational databases offer high consistency meaning that application developers can build their applications to a database's strengths, including using joins between collections, enumerations to record the state of an object, and database transactions to guarantee atomic operations.
 
 Cloudant favors availability over consistency. It is a high-availability, fault-tolerant, distributed database that is eventually consistent. This gives the advantage that the customer's shopping service is always available and scalable enough to cope with multiple users making purchases at the same time. This means that your application can utilize Cloudant's strengths and not treat it like a relational database.

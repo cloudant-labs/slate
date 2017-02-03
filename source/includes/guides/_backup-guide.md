@@ -1,5 +1,18 @@
 ## Back up your data
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the 'Back up your data' topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/guides/backup-guide.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 <aside class="warning" role="complementary" aria-label="betaonly0">This guide refers to a <b>Beta</b> daily incremental backup capability,
 available only on request to Enterprise customers.
 This capability:

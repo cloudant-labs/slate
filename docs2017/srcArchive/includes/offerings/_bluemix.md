@@ -1,5 +1,18 @@
 ## IBM Bluemix
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the 'IBM Bluemix' topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/offerings/bluemix.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 Cloudant is also available as an [IBM Bluemix service](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db/).
 Bluemix is an open-standards, cloud platform for building, running, and managing applications.
 Find out more about Bluemix,

@@ -3,6 +3,19 @@
 
 ## Views (MapReduce)
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the Views (MapReduce) topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/api/creating_views.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 Views are used to obtain data stored within a database.
 Views are written using Javascript functions.
 

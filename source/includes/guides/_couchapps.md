@@ -1,5 +1,18 @@
 ## CouchApps
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the CouchApps topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/guides/couchapps.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 Because Cloudant can host raw file data, like images, and serve them
 over HTTP, then theoretically it can host all the static files necessary
 to run a website, and host them just like a web server. Because these

@@ -1,5 +1,18 @@
 ## Replication
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the Replication topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/guides/replication_guide.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 Cloudant’s replication capabilities are best-of-class. Data can be copied from one database to another in the same Cloudant account, across accounts and across data centers. Data can even be replicated to and from a Cloudant account and a mobile device using [Cloudant Sync](https://cloudant.com/product/cloudant-features/sync/) or [PouchDB](http://pouchdb.com/). Replication can run in one direction or in both directions, as a 'single shot' or continuous operation, and can be finely tuned with optional parameters.
 
 Cloudant’s replication protocol is compatible with a range of other databases and libraries, making it a great fit for Internet of Things (IoT) and mobile applications.

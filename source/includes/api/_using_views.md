@@ -1,5 +1,18 @@
 ## Using Views
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the 'Using Views' topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/api/using_views.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 View enable you to search for content within a database,
 that matches specific criteria.
 The criteria are specified within the view definition,

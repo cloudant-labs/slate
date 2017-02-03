@@ -1,5 +1,18 @@
 ## Design Documents
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the Design Documents topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/api/design_documents.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 Instead of storing data in a document,
 you might also have special documents that store other content, such as functions.
 The special documents are called "design documents".

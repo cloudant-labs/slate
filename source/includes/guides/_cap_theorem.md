@@ -3,6 +3,19 @@
 <div id="cap_theorem"></div>
 <div id="consistency"></div>
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the 'CAP Theorem' topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/guides/cap_theorem.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 Cloudant uses an '[Eventually Consistent](http://en.wikipedia.org/wiki/Eventual_consistency)' model. To understand how this works, and why it is an essential part of using Cloudant, we must first consider what is meant by Consistency.
 
 Consistency is one of the three attributes in the CAP (**C**onsistency, **A**vailability, and **P**artition tolerance) theorem, which states that it is not possible for a distributed computer system - such as Cloudant - to simultaneously guarantee three attributes:

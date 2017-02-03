@@ -1,5 +1,18 @@
 # ![alt tag](images/cloudantbasics_icon.png) Cloudant Offerings
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the 'Cloudant Offerings' topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/offerings/index.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 ## Database as a Service
 
 Cloudant is a hosted and fully-managed database-as-a-service (DBaaS).

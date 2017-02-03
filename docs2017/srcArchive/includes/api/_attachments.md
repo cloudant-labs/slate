@@ -1,5 +1,18 @@
 ## Attachments
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the Attachments topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/api/attachments.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 If you want to store data, use attachments.
 Attachments are Binary Large Object ([BLOb](http://en.wikipedia.org/wiki/Binary_large_object)) files contained within documents.
 The BLOb is stored in the `_attachments` component of the document.
