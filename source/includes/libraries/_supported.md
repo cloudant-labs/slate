@@ -1,5 +1,18 @@
 ## Supported client libraries
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the 'Supported client libraries' topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/libraries/supported.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 ### Mobile
 
 The Cloudant Sync library is used to store, index and query local JSON data on a mobile device.

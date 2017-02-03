@@ -1,5 +1,18 @@
 ## Cloudant Geospatial
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the Cloudant Geospatial topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/api/cloudant-geo.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 Cloudant Geospatial, or 'Cloudant Geo', combines the advanced geospatial queries of a Geographic Information System (GIS) with the flexibility and scalability of Cloudant's database-as-a-service (DBaaS) capabilities.
 
 Cloudant Geo:

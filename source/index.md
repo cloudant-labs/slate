@@ -18,6 +18,19 @@ toc_footers:
 
 # ![alt tag](images/documentation_icon.png) Overview
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the Overview topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/cloudant.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 This is the online documentation for the [IBM Cloudant Database-as-a-Service (DBaaS)](https://cloudant.com/),
 all intended to help you get going quickly.
 

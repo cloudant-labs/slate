@@ -1,5 +1,18 @@
 ## Document Versioning and MVCC
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the 'Document Versioning and MVCC' topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/guides/mvcc.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 Multi-version concurrency control (MVCC) is how Cloudant databases ensure that all of the nodes in a database's cluster contain only the [newest version](document.html) of a document. Since Cloudant databases are [eventually consistent](cap_theorem.html), this is necessary to prevent inconsistencies arising between nodes as a result of synchronizing between outdated documents.
 
 Multi-Version Concurrency Control (MVCC) enables concurrent read and write access to a Cloudant database. MVCC is a form of <a href="http://en.wikipedia.org/wiki/Optimistic_concurrency_control" target="_blank">optimistic concurrency</a>.
