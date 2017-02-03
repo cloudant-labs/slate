@@ -1,5 +1,18 @@
 ## CORS
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the CORS topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/api/cors.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 [Cross-origin resource sharing (CORS)](http://www.w3.org/TR/cors/) is a mechanism that allows resources such as JSON documents in a Cloudant database to be requested from Javascript running on a website loaded from another domain.
 These "cross-domain" requests would normally be forbidden by web browsers, due to the
 [same origin security policy](http://en.wikipedia.org/wiki/Same-origin_policy).

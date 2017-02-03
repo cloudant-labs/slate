@@ -18,6 +18,19 @@ toc_footers:
 
 ## Virtual hosts
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the 'Virtual hosts' topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/api/vhosts.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 Virtual hosts (vhosts) are a way to make cloudant serve data from a different domain than the one normally associated with your Cloudant account. You can create as many vhosts as needed and point them to any endpoint in your Cloudant account. Vhosts are often used to point to a `_rewrite` endpoint of a design document in order to use Cloudant as a web server. You need to have the admin role in order to use any of the vhost endpoints.
 
 ### Listing virtual hosts
