@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-01-06"
+lastupdated: "2017-02-14"
 
 ---
 
@@ -18,6 +18,26 @@ When you have [authenticated](authentication.html),
 the next test is to decide whether you are permitted to perform certain tasks.
 This is called authorization.
 {:shortdesc}
+
+When you authenticate with the {{site.data.keyword.cloudant}} system,
+it 'knows' who you are.
+The next question is: what tasks are you permitted to perform?
+
+One way of answering that question is to have a complete list of all the possible tasks that you are allowed to
+perform,
+for each aspect of a {{site.data.keyword.cloudant_short_notm}} system such as a database or a document.
+Although simple,
+this approach would require many, lengthy lists.
+Keeping those lists correct and complete would be impractical.
+
+A better approach uses the idea of 'roles'.
+The various tasks can be grouped into collections that are typical of some generic roles.
+
+For example,
+the task of creating or deleting a database is characteristic of an administrative role.
+Similarly,
+the task or creating or updating a document is characteristic of someone with a 'writing' role.
+
 
 ## Roles
 
