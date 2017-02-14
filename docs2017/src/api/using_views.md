@@ -24,7 +24,7 @@ or supplied as arguments when you use the view.
 To query a view,
 submit a `GET` request with the following format:
 
--   **Method**: `GET /<database>/_design/<design-doc>/_view/<view-name>`
+-   **Method**: `GET /$DATABASE/_design/<design-doc>/_view/<view-name>`
 -   **Request**: None
 -   **Response**: JSON of the documents that are returned by the view
 -   **Roles permitted**: `_reader`
@@ -59,7 +59,7 @@ Argument         | Description | Optional | Type | Default | Supported values
 _Example of using HTTP to retrieve a list of the first five documents from a database, applying the user-created `by_title` view:_
 
 ```http
-GET /<database>/_design/<design-doc>/_view/by_title?limit=5 HTTP/1.1
+GET /$DATABASE/_design/<design-doc>/_view/by_title?limit=5 HTTP/1.1
 Accept: application/json
 Content-Type: application/json
 ```
@@ -276,7 +276,7 @@ You can reverse the order of the returned view information by setting the `desce
 _Example of using HTTP to request the last five records in reversed sort order:_
 
 ```http
-GET /<database>/_design/<design-doc>/_view/by_title?limit=5&descending=true HTTP/1.1
+GET /$DATABASE/_design/<design-doc>/_view/by_title?limit=5&descending=true HTTP/1.1
 Accept: application/json
 Content-Type: application/json
 ```

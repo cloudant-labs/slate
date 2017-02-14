@@ -1158,7 +1158,7 @@ and `INDEX` is the name of the index.
 _Example of using HTTP to request search index metadata:_
 
 ```http
-GET /<DATABASE>/_design/<DDOC>/_search_info/<INDEX> HTTP/1.1
+GET /$DATABASE/_design/<DDOC>/_search_info/<INDEX> HTTP/1.1
 ```
 {:codeblock}
 

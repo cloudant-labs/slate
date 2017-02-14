@@ -260,7 +260,7 @@ as described in the [IBM Knowledge Center ![External link icon](../images/launch
 _Example request to create an API key, using HTTP:_
 
 ```http
-POST https://<username>.cloudant.com/_api/v2/api_keys HTTP/1.1
+POST https://$ACCOUNT.cloudant.com/_api/v2/api_keys HTTP/1.1
 ```
 {:codeblock}
 
@@ -306,7 +306,7 @@ _Example response to request for an API key:_
 
 When you have generated an API key,
 you can assign the API key to a database by sending a `PUT` request to
-`https://<username>.cloudant.com/_api/v2/db/<database>/_security`.
+`https://$ACCOUNT.cloudant.com/_api/v2/db/$DATABASE/_security`.
 Once assigned to a database,
 the key can be granted access permissions.
 By default,
@@ -344,7 +344,7 @@ However,
 you must turn off Cloudant security for those roles first.
 To do this,
 `PUT` a JSON document to the `_security` endpoint of the database.
-For example, `https://<username>.cloudant.com/<database>/_security`.
+For example, `https://$ACCOUNT.cloudant.com/$DATABASE/_security`.
 
 _Example submission of a modification request, using HTTP:_
 
