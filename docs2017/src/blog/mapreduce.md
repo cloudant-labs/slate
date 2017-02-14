@@ -197,7 +197,7 @@ It's a one-liner to serialize that Python dictionary and push it into Cloudant.
 If you want to try this yourself the `README` file has instructions on installing
 the Couchdbkit module and executing the `upload.py` script, but it just boils down to:
 ```sh
-python upload.py AviationData.txt.gz 'http://<username>:<password>@<username>.cloudant.com' planes
+python upload.py AviationData.txt.gz 'http://$ACCOUNT:<password>@$ACCOUNT.cloudant.com' planes
 ```
 {:pre}
 
