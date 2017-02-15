@@ -304,6 +304,15 @@ _Example response to request for an API key:_
 ```
 {:codeblock}
 
+## Using API keys
+
+API keys are typically generated using an account that has at least one database.
+
+However,
+once generated,
+it is possible to use the API key with other databases,
+or even with other accounts.
+
 When you have generated an API key,
 you can assign the API key to a database by sending a `PUT` request to
 `https://<username>.cloudant.com/_api/v2/db/<database>/_security`.
@@ -312,6 +321,18 @@ the key can be granted access permissions.
 By default,
 an API key has no permissions for anything,
 and must be given permissions explicitly.
+
+The database does not have to be in the same account as that used for generating the API key initially.
+
+To give an existing API key permissions to access a database in another account,
+do the following steps:
+
+1.  Retrieve the existing security permissions for the database, as described [here](#viewing-permissions).
+2.  [Add](#modifying-permissions) the details of the API key to the database security permissions, along with the [roles](#roles) required.
+
+For an example of this process,
+see the blog article:
+[Using a Cloudant API Key with Multiple Cloudant Databases and Accounts ![External link icon](../images/launch-glyph.svg "External link icon")](https://dx13.co.uk/articles/2016/4/11/using-a-cloudant-api-key-with-multiple-cloudant-databases-and-accounts.html){:new_window}.
 
 ## Deleting API keys
 
