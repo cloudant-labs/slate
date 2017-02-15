@@ -23,39 +23,94 @@ When you authenticate with the {{site.data.keyword.cloudant}} system,
 it 'knows' who you are.
 The next question is: what tasks are you permitted to perform?
 
-One way of answering that question is to have a complete list of all the possible tasks that you are allowed to
+One way of answering that question might be to have a complete list of all the possible tasks that you are allowed to
 perform,
 for each aspect of a {{site.data.keyword.cloudant_short_notm}} system such as a database or a document.
 Although simple,
-this approach would require many, lengthy lists.
+this approach would require many lengthy lists.
 Keeping those lists correct and complete would be impractical.
 
 A better approach uses the idea of 'roles'.
 The various tasks can be grouped into collections that are typical of some generic roles.
-
 For example,
-the task of creating or deleting a database is characteristic of an administrative role.
+the task of creating or deleting a database is characteristic of someone with an administrative role.
 Similarly,
 the task or creating or updating a document is characteristic of someone with a 'writing' role.
 
+Rather than explicitly listing every task you can perform,
+you are given one or more roles.
+If you have a role,
+then you can perform all the tasks associated with that role.
 
 ## Roles
 
+{{site.data.keyword.cloudant_short_notm}} has a number of roles available.
+The roles can be assigned to user accounts or [API keys](#creating-api-keys).
+
+The three core roles are as follows:
+
 Role          | Description
 --------------|------------
-`_reader`     | Gives the user permission to read documents from the database.
-`_writer`     | Gives the user permission to create, update, and delete documents (except design documents) in the database.
-`_admin`      | Gives the user the ability to change security settings, including adding roles.
-`_replicator` | Gives the user permission to replicate a database, including creating checkpoints.
-`_db_updates` | Gives the user permission to use the global changes feed.
-`_design`     | Gives the user permission to read design documents.
-`_shards`     | Gives the user access to the `/$DATABASE/_shards` endpoint.
-`_security`   | Gives the user permission to read from the `/_api/v2/db/$DATABASE/_security` endpoint
+`_admin`      | Change security settings, including adding roles.
+`_reader`     | Read documents from the database.
+`_writer`     | Create, update, and delete documents (except design documents) in the database.
 
-The credentials you use to log in to the dashboard automatically have `_admin` permissions to all databases you create.
+There are also a number of sub-roles.
+These provide permissions for specific API endpoints.
+
+The sub-roles are as follows:
+
+Role          | Description                                               | API Endpoints
+--------------|-----------------------------------------------------------|--------------
+`_db_updates` | Use the global changes feed.                              | [`_db_updates`](advanced.html#-get-_db_updates-)
+`_design`     | Create, read, update and delete design documents.         | [`_design`](design_documents.html), [`_find`](cloudant_query.html#finding-documents-using-an-index), [`_index`](cloudant_query.html)
+`_replicator` | Replicate a database, including creating checkpoints.     | [`_local`](replication.html#the-since_seq-field), [`_replicate`](replication.html#the-_replicate-endpoint), [`_replicator`](replication.html#replicator-database)
+`_security`   | Work with the `/_api/v2/db/$DATABASE/_security` endpoint. | [`_security`](#viewing-permissions)
+`_shards`     | Access to the `/$DATABASE/_shards` endpoint.              | [`_shards`](advanced.html#-get-database-_shards-)
+
+For example,
+the `_design` sub-role allows a user or API key to interact with design documents,
+but without assigning the `_reader` or `_writer` roles.
+This distinction is useful because otherwise the authorized account would be able to read from or write to all documents,
+not just design documents.
+
+The credentials you use to log in to the dashboard automatically have the `_admin` role for all databases you create.
 Everyone and everything else,
 including users you share databases with and API keys you create,
 must be given a permission level explicitly.
+
+The special `nobody` username applies for anyone or any application that tries to perform tasks,
+but which has not authenticated with the system.
+For example,
+if an application attempts to read data from a database,
+but has not identified itself,
+the task can only proceed if the `nobody` user has the role `_reader`.
+
+### The role 'hierarchy'
+
+Clearly,
+some roles are more 'powerful' than others.
+
+In the following list,
+roles appearing at the top of the list are more 'powerful' than roles appearing towards the bottom of the list.
+In general,
+a role is authorized to perform more tasks than the roles underneath.
+
+Role          | Authorized tasks
+--------------|------------------|--------------
+`_admin`      | Many.            |
+`_writer`     |                  |
+`_reader`     | Few.          
+
+### Determining the role to assign
+
+When determining the role or roles to assign to a user account or API key,
+it is best to give the lowest possible role necessary to perform the tasks expected of that account or API key.
+
+If the tasks are for a specific aspect.
+such as design documents or the security settings,
+then it might be possible to assign one of the sub-roles,
+such as `_design` or `_security`.
 
 ## Viewing Permissions
 
