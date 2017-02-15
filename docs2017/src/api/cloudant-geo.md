@@ -224,15 +224,15 @@ _Example request, using HTTP:_
 
 ```http
 GET /crimes/_design/geodd/_geo_info/geoidx HTTP/1.1
-Host: $USERNAME.cloudant.com
+Host: $ACCOUNT.cloudant.com
 ```
 {:codeblock}
 
 _Example request, using the command line:_
 
 ```sh
-curl https://$USERNAME.cloudant.com/crimes/_design/geodd/_geo_info/geoidx \
-     -u $USERNAME
+curl https://$ACCOUNT.cloudant.com/crimes/_design/geodd/_geo_info/geoidx \
+     -u $ACCOUNT
 ```
 {:codeblock}
 

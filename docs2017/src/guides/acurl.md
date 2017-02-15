@@ -21,7 +21,7 @@ originally published November 27, 2013.)_
 `acurl` is a handy alias that allows you to `curl` Cloudant commands to URLs
 without having to enter your username and password for every request.
 That means a simple `GET` to a database no longer needs to be written as
-`https://$ACCOUNT:<password>@$ACCOUNT.cloudant.com/foo`
+`https://$ACCOUNT:$PASSWORD@$ACCOUNT.cloudant.com/foo`
 but instead you can just use `https://$ACCOUNT.cloudant.com/foo`.
 
 Not only does this cut down on annoyingly long URLs,
@@ -44,7 +44,7 @@ This gives us a base64 character sequence as output.
 The command to base64-encode some data is similar to the following example:
 
 ```python
-python -c 'import base64; print base64.urlsafe_b64encode("$ACCOUNT:<password>")'
+python -c 'import base64; print base64.urlsafe_b64encode("$ACCOUNT:$PASSWORD")'
 ```
 {:codeblock}
 

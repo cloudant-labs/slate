@@ -545,7 +545,7 @@ every change that is required to get the latest version of every document in the
 _Example of querying the changes feed, using HTTP:_
 
 ```http
-GET /$db/_changes?feed=continuous HTTP/1.1
+GET /$DATABASE/_changes?feed=continuous HTTP/1.1
 Host: myaccount.cloudant.com
 Authorization: ...
 ```
@@ -554,7 +554,7 @@ Authorization: ...
 _Example of querying the changes feed, using the command line:_
 
 ```sh
-curl "https://myaccount.cloudant.com/$db/_changes?feed=continuous"
+curl "https://myaccount.cloudant.com/$DATABASE/_changes?feed=continuous"
 ```
 {:codeblock}
 
@@ -593,7 +593,7 @@ simply pass a [`since` argument](../api/database.html#the-since-argument) with t
 _Example (abbreviated) of supplying the `since` to join a `_changes` feed at a known position, using HTTP:_
 
 ```http
-GET /$db/_changes?feed=continuous&include_docs=true&since=11-g1A...c1Q HTTP/1.1
+GET /$DATABASE/_changes?feed=continuous&include_docs=true&since=11-g1A...c1Q HTTP/1.1
 HOST: myaccount.cloudant.com
 Authorization: ...
 ```
@@ -602,7 +602,7 @@ Authorization: ...
 _Example (abbreviated) of supplying the `since` to join a `_changes` feed at a known position, using the command line:_
 
 ```sh
-curl "https://myaccount.cloudant.com/$db/_changes?feed=continuous&include_docs=true&since=11-g1A...c1Q"
+curl "https://myaccount.cloudant.com/$DATABASE/_changes?feed=continuous&include_docs=true&since=11-g1A...c1Q"
 ```
 {:codeblock}
 
@@ -614,7 +614,7 @@ set `since=now`.
 _Example of supplying `since=now` to join a `_changes` feed at the current moment in time, using HTTP:_
 
 ```http
-GET /$db/_changes?feed=continuous&include_docs=true&since=now HTTP/1.1
+GET /$DATABASE/_changes?feed=continuous&include_docs=true&since=now HTTP/1.1
 Host: myaccount.cloudant.com
 Authorization: ...
 ```
@@ -623,7 +623,7 @@ Authorization: ...
 _Example of supplying `since=now` to join a `_changes` feed at the current moment in time, using the command line:_
 
 ```sh
-curl "https://myaccount.cloudant.com/$db/_changes?feed=continuous&include_docs=true&since=now"
+curl "https://myaccount.cloudant.com/$DATABASE/_changes?feed=continuous&include_docs=true&since=now"
 ```
 {:codeblock}
 
@@ -658,7 +658,7 @@ by using a similar technique to [filtering during replication](#filtered-replica
 _Example of filtering the changes feed, using HTTP:_
 
 ```http
-GET /$db/_changes?feed=continuous&include_docs=true&since=now&filter=mydesigndoc/myfilter HTTP/1.1
+GET /$DATABASE/_changes?feed=continuous&include_docs=true&since=now&filter=mydesigndoc/myfilter HTTP/1.1
 Host: myaccount.cloudant.com
 Authorization: ...
 ```
@@ -667,7 +667,7 @@ Authorization: ...
 _Example of filtering the changes feed, using the command line:_
 
 ```sh
-curl "https://myaccount.cloudant.com/$db/_changes?feed=continuous&include_docs=true&since=now&filter=mydesigndoc/myfilter"
+curl "https://myaccount.cloudant.com/$DATABASE/_changes?feed=continuous&include_docs=true&since=now&filter=mydesigndoc/myfilter"
 ```
 {:codeblock}
 

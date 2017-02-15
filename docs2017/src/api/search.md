@@ -423,7 +423,7 @@ _Result of testing the `standard` analyzer:_
 
 After you create an index,
 you can query it with a `GET` request to
-`https://$USERNAME.cloudant.com/$DATABASE/_design/$DESIGN_ID/_search/$INDEX_NAME`.
+`https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DESIGN_ID/_search/$INDEX_NAME`.
 Specify your search by using the `query` parameter.
 
 _Example of using HTTP to query an index:_
@@ -438,8 +438,8 @@ Host: account.cloudant.com
 _Example to using the command line to query an index:_
 
 ```sh
-curl https://$USERNAME.cloudant.com/$DATABASE/_design/$DESIGN_DOC/_search/$INDEX_NAME?include_docs=true\&query="*:*"\&limit=1 \
-	-u $USERNAME
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DESIGN_DOC/_search/$INDEX_NAME?include_docs=true\&query="*:*"\&limit=1 \
+	-u $ACCOUNT
 ```
 {:codeblock}
 
@@ -447,7 +447,7 @@ _Example of using JavaScript to query an index:_
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+":"+$PASSWORD+"@"+$ACCOUNT+".cloudant.com");
 var db = account.use($DATABASE);
 
 db.search($DESIGN_ID, $SEARCH_INDEX, {
@@ -1166,7 +1166,7 @@ _Example of using the command line to request search index metadata:_
 
 ```sh
 curl "https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DDOC/_search_info/$INDEX" \
-     -X GET -u "$USERNAME:$PASSWORD"
+     -X GET -u "$ACCOUNT:$PASSWORD"
 ```
 {:codeblock}
 

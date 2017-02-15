@@ -2109,8 +2109,8 @@ add the `use_index` parameter to the query.
 
 The value of the `use_index` parameter takes one of two formats:
 
--	`"use_index": "<design_document>"`
--	`"use_index": ["<design_document>","<index_name"]`
+-	`"use_index": "$DESIGN_DOCUMENT"`
+-	`"use_index": ["$DESIGN_DOCUMENT","$INDEX_NAME"]`
 
 _Example query with instructions to use a specific index:_
 
