@@ -3,6 +3,7 @@ index.md
     cloudant.md
     offerings/index.md
         offerings/bluemix.md
+	offerings/whatsnew.md
     basics/index.md
     libraries/index.md
         libraries/supported.md
