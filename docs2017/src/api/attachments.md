@@ -126,7 +126,7 @@ _Example of reading an attachment, using the command line:_
 
 ```sh
 curl https://$ACCOUNT.cloudant.com/$DATABASE/$DOCUMENT_ID/$ATTACHMENT \
-	 -u $ACCOUNT >blob_content.dat
+	 -u $ACCOUNT blob_content.dat
 # store the response content into a file for further processing.
 ```
 {:codeblock}

@@ -271,7 +271,7 @@ _	Result set.
 _Example format for a Cloudant Geo API call:_
 
 ```http
-/$DATABASE/_design/<name>/_geo/<geoindexname>?<query-parameters>
+/$DATABASE/_design/$ACCOUNT/_geo/<geoindexname>?<query-parameters
 ```
 {:codeblock}
 

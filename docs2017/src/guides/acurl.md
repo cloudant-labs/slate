@@ -54,7 +54,7 @@ For example,
 if you use the command:
 
 ```python
-python -c 'import base64; print base64.urlsafe_b64encode("myusername:mypassword")'
+python -c 'import base64; print base64.urlsafe_b64encode("$ACCOUNT:$PASSWORD")'
 ```
 {:codeblock}
 

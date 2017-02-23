@@ -123,7 +123,7 @@ _Example of starting a replication job, using HTTP:_
 ```http
 POST /_replicator HTTP/1.1
 Content-Type: application/json
-Host: myaccount.cloudant.com
+Host: $ACCOUNT.cloudant.com
 Authorization: ...
 ```
 {:codeblock}
@@ -133,7 +133,7 @@ _Example of starting a replication job, using the command line:_
 ```sh
 curl -X POST \
     -H 'Content-type: application/json' \
-    'https://myuser:mypassword@myaccount.cloudant.com/_replicator' \
+    'https://$ACCOUNT:$PASSWORD@$ACCOUNT.cloudant.com/_replicator' \
     -d '@replication.json'
 ```
 {:codeblock}
@@ -143,8 +143,8 @@ _Example JSON document describing the required replication:_
 ```json
 {
     "_id": "weekly_backup",
-    "source": "https://username:password@myaccount1.cloudant.com/source",
-    "target": "https://username:password@myaccount2.cloudant.com/destination",
+    "source": "https://$ACCOUNT:$PASSWORD@$ACCOUNT1.cloudant.com/source",
+    "target": "https://$ACCOUNT:$PASSWORD@$ACCOUNT2.cloudant.com/destination",
     "create_target": true
 }
 ```
@@ -296,7 +296,7 @@ _Example of starting a continuous replication, using HTTP:_
 ```http
 POST /_replicator HTTP/1.1
 Content-Type: application/json
-Host: myaccount.cloudant.com
+Host: $ACCOUNT.cloudant.com
 Authorization: ...
 ```
 {:codeblock}
@@ -306,7 +306,7 @@ _Example of starting a continuous replication, using the command line:_
 ```sh
 curl -X POST \
     -H "Content-type: application/json" \
-    https://myuser:mypassword@myaccount.cloudant.com/_replicator \
+    https://$ACCOUNT:$PASSWORD@$ACCOUNT.cloudant.com/_replicator \
     -d @continuous-replication.json
 ```
 {:codeblock}
@@ -316,8 +316,8 @@ _Example of a JSON document defining a continuous replication:_
 ```json
 {
     "_id": "weekly_continuous_backup",
-    "source": "https://username:password@myaccount1.cloudant.com/source",
-    "target": "https://username:password@myaccount2.cloudant.com/destination",
+    "source": "https://$ACCOUNT:$PASSWORD@$ACCOUNT1.cloudant.com/source",
+    "target": "https://$ACCOUNT:$PASSWORD@$ACCOUNT2.cloudant.com/destination",
     "continuous": true
 }
 ```
@@ -339,7 +339,7 @@ _Example of monitoring a replication process, using HTTP:_
 
 ```http
 GET /_replicator/weekly_backup HTTP/1.1
-HOST: myaccount.cloudant.com
+HOST: $ACCOUNT.cloudant.com
 Authorization: ...
 ```
 {:codeblock}
@@ -347,7 +347,7 @@ Authorization: ...
 _Example of monitoring a replication process, using the command line:_
 
 ```sh
-curl 'https://myaccount.cloudant.com/_replicator/weekly_backup'
+curl 'https://$ACCOUNT.cloudant.com/_replicator/weekly_backup'
 ```
 {:codeblock}
 
@@ -378,7 +378,7 @@ _Example of cancelling a replication, using HTTP:_
 
 ```http
 DELETE /_replicator/weekly_backup?rev=22-c57c18f7e761f1a76fa977caa03cd098 HTTP/1.1
-Host: myaccount.cloudant.com
+Host: $ACCOUNT.cloudant.com
 Authorization:
 ```
 {:codeblock}
@@ -386,7 +386,7 @@ Authorization:
 _Example of cancelling a replication, using the command line:_
 
 ```sh
-curl -X DELETE 'https://myaccount.cloudant.com/_replicator/weekly_backup?rev=22-c57c18f7e761f1a76fa977caa03cd098'
+curl -X DELETE 'https://$ACCOUNT.cloudant.com/_replicator/weekly_backup?rev=22-c57c18f7e761f1a76fa977caa03cd098'
 ```
 {:codeblock}
 
@@ -499,7 +499,7 @@ _Example of starting a filtered replication, using HTTP:_
 ```http
 POST /_replicator HTTP/1.1
 Content-Type: application/json
-Host: myaccount.cloudant.com
+Host: $ACCOUNT.cloudant.com
 Authorization: ...
 ```
 {:codeblock}
@@ -509,7 +509,7 @@ _Example of starting a filtered replication, using the command line:_
 ```sh
 curl -X POST \
     -H "Content-type: application/json" \
-    https://myuser:mypassword@myaccount.cloudant.com/_replicator \
+    https://$ACCOUNT:$PASSWORD@$ACCOUNT.cloudant.com/_replicator \
     -d @filtered-replication.json
 ```
 {:codeblock}
@@ -519,8 +519,8 @@ _Example of a JSON document defining a filtered replication:_
 ```json
 {
     "_id": "weekly_backup",
-    "source": "https://username:password@myaccount1.cloudant.com/source",
-    "target": "https://username:password@myaccount2.cloudant.com/destination",
+    "source": "https://$ACCOUNT:$PASSWORD@$ACCOUNT1.cloudant.com/source",
+    "target": "https://$ACCOUNT:$PASSWORD@$ACCOUNT2.cloudant.com/destination",
     "filter": "mydesigndoc/myfilter",
     "query_params": {
         "foo": "bar",
@@ -546,7 +546,7 @@ _Example of querying the changes feed, using HTTP:_
 
 ```http
 GET /$DATABASE/_changes?feed=continuous HTTP/1.1
-Host: myaccount.cloudant.com
+Host: $ACCOUNT.cloudant.com
 Authorization: ...
 ```
 {:codeblock}
@@ -554,7 +554,7 @@ Authorization: ...
 _Example of querying the changes feed, using the command line:_
 
 ```sh
-curl "https://myaccount.cloudant.com/$DATABASE/_changes?feed=continuous"
+curl "https://$ACCOUNT.cloudant.com/$DATABASE/_changes?feed=continuous"
 ```
 {:codeblock}
 
@@ -594,7 +594,7 @@ _Example (abbreviated) of supplying the `since` to join a `_changes` feed at a k
 
 ```http
 GET /$DATABASE/_changes?feed=continuous&include_docs=true&since=11-g1A...c1Q HTTP/1.1
-HOST: myaccount.cloudant.com
+HOST: $ACCOUNT.cloudant.com
 Authorization: ...
 ```
 {:codeblock}
@@ -602,7 +602,7 @@ Authorization: ...
 _Example (abbreviated) of supplying the `since` to join a `_changes` feed at a known position, using the command line:_
 
 ```sh
-curl "https://myaccount.cloudant.com/$DATABASE/_changes?feed=continuous&include_docs=true&since=11-g1A...c1Q"
+curl "https://$ACCOUNT.cloudant.com/$DATABASE/_changes?feed=continuous&include_docs=true&since=11-g1A...c1Q"
 ```
 {:codeblock}
 
@@ -615,7 +615,7 @@ _Example of supplying `since=now` to join a `_changes` feed at the current momen
 
 ```http
 GET /$DATABASE/_changes?feed=continuous&include_docs=true&since=now HTTP/1.1
-Host: myaccount.cloudant.com
+Host: $ACCOUNT.cloudant.com
 Authorization: ...
 ```
 {:codeblock}
@@ -623,7 +623,7 @@ Authorization: ...
 _Example of supplying `since=now` to join a `_changes` feed at the current moment in time, using the command line:_
 
 ```sh
-curl "https://myaccount.cloudant.com/$DATABASE/_changes?feed=continuous&include_docs=true&since=now"
+curl "https://$ACCOUNT.cloudant.com/$DATABASE/_changes?feed=continuous&include_docs=true&since=now"
 ```
 {:codeblock}
 
@@ -659,7 +659,7 @@ _Example of filtering the changes feed, using HTTP:_
 
 ```http
 GET /$DATABASE/_changes?feed=continuous&include_docs=true&since=now&filter=mydesigndoc/myfilter HTTP/1.1
-Host: myaccount.cloudant.com
+Host: $ACCOUNT.cloudant.com
 Authorization: ...
 ```
 {:codeblock}
@@ -667,7 +667,7 @@ Authorization: ...
 _Example of filtering the changes feed, using the command line:_
 
 ```sh
-curl "https://myaccount.cloudant.com/$DATABASE/_changes?feed=continuous&include_docs=true&since=now&filter=mydesigndoc/myfilter"
+curl "https://$ACCOUNT.cloudant.com/$DATABASE/_changes?feed=continuous&include_docs=true&since=now&filter=mydesigndoc/myfilter"
 ```
 {:codeblock}
 
@@ -708,7 +708,7 @@ Such a large document uses a lot of the available space and causes extra server 
 You can check the size of your `_replicator` database by sending a `GET` request to the `/_replicator` endpoint:
 
 ```http
-GET https://myaccount.cloudant.com/_replicator
+GET https://$ACCOUNT.cloudant.com/_replicator
 ```
 {:codeblock}
 
@@ -721,7 +721,7 @@ You can check an individual `_replicator` document for conflicts,
 as shown in the following example:
 
 ```http
-GET https://myaccount.cloudant.com/_replicator/<<docid>>?conflicts=true
+GET https://$ACCOUNT.cloudant.com/_replicator/<<docid>>?conflicts=true
 ```
 {:codeblock}
 
@@ -735,11 +735,11 @@ _Example of removing and recreating the `_replicator` database, using HTTP:_
 
 ```http
 DELETE /_replicator HTTP/1.1
-HOST: myaccount.cloudant.com
+HOST: $ACCOUNT.cloudant.com
 Authorization: ...
 
 PUT /_replicator HTTP/1.1
-HOST: myaccount.cloudant.com
+HOST: $ACCOUNT.cloudant.com
 Authorization: ...
 ```
 {:codeblock}
@@ -747,8 +747,8 @@ Authorization: ...
 _Example of removing and recreating the `_replicator` database, using the command line:_
 
 ```sh
-curl -X DELETE 'https://myaccount.cloudant.com/_replicator'
-curl -X PUT 'https://myaccount.cloudant.com/_replicator'
+curl -X DELETE 'https://$ACCOUNT.cloudant.com/_replicator'
+curl -X PUT 'https://$ACCOUNT.cloudant.com/_replicator'
 ```
 {:codeblock}
 
