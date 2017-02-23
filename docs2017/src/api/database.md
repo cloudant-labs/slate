@@ -58,6 +58,8 @@ curl https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE -X PUT
 ```
 {:codeblock}
 
+<!--
+
 _Example of using JavaScript to create a database:_
 
 ```javascript
@@ -71,6 +73,8 @@ account.db.create($DATABASE, function (err, body, headers) {
 });
 ```
 {:codeblock}
+
+-->
 
 <div id="response"></div>
 
@@ -134,6 +138,8 @@ curl https://$USERNAME.cloudant.com/$DATABASE \
 ```
 {:codeblock}
 
+<!--
+
 _Example of using JavaScript to get database details:_
 
 ```javascript
@@ -147,6 +153,8 @@ account.db.get($DATABASE, function (err, body, headers) {
 });
 ```
 {:codeblock}
+
+-->
 
 The elements of the returned structure are shown in the following table:
 
@@ -211,6 +219,8 @@ curl https://$USERNAME.cloudant.com/_all_dbs \
 ```
 {:codeblock}
 
+<!--
+
 _Example of using JavaScript to list all databases:_
 
 ```javascript
@@ -224,6 +234,8 @@ account.db.list(function (err, body, headers) {
 });
 ```
 {:codeblock}
+
+-->
 
 The response is a JSON array with all the database names.
 
@@ -286,6 +298,8 @@ curl https://%USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/_all_docs
 ```
 {:codeblock}
 
+<!--
+
 _Example of using JavaScript to list all documents in a database:_
 
 ```javascript
@@ -300,6 +314,8 @@ db.list(function (err, body, headers) {
 });
 ```
 {:codeblock}
+
+-->
 
 _Example of using HTTP to list all documents in a database that match at least one of the specified keys:_
 
@@ -404,6 +420,8 @@ curl https://$USERNAME.cloudant.com/$DATABASE/_changes \
 ```
 {:codeblock}
 
+<!--
+
 _Example of using JavaScript to get a list of changes made to documents in a database:_
 
 ```javascript
@@ -417,6 +435,8 @@ account.db.changes($DATABASE, function (err, body, headers) {
 });
 ```
 {:codeblock}
+
+-->
 
 ### Changes in a distributed database
 
@@ -686,6 +706,8 @@ curl https://$USERNAME.cloudant.com/$DATABASE \
 ```
 {:codeblock}
 
+<!--
+
 _Example of using JavaScript to delete a Cloudant database:_
 
 ```javascript
@@ -699,6 +721,8 @@ account.db.destroy($DATABASE, function (err, body, headers) {
 });
 ```
 {:codeblock}
+
+-->
 
 The response confirms successful deletion of the database or describes any errors that occurred,
 for example if you try to delete a database that does not exist.
