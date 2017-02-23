@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-01-10"
+lastupdated: "2017-01-21"
 
 ---
 
@@ -535,9 +535,13 @@ several built-in filters available:
 
 *   `_design`: The `_design` filter accepts only changes to design documents.
 *   `_doc_ids`: This filter accepts only changes for documents whose ID is specified in the `doc_ids` parameter.
+    
+    >   **Note**: The `_docs_ids` parameter works only with versions of Cloudant that are compatible with CouchDB 2.0.
 *   `_selector`: Accepts only changes for documents that match a specified selector,
     which is defined by using the same [selector syntax](cloudant_query.html#selector-syntax) that is used
     for [`_find`](cloudant_query.html#finding-documents-using-an-index).
+    
+    >   **Note**: The `_selector` parameter works only with versions of Cloudant that are compatible with CouchDB 2.0.
 *   `_view`: Enables use of an existing [map function](creating_views.html#a-simple-view) as the filter.
 
 ### The `since` argument
