@@ -1,6 +1,20 @@
-# What's new for Cloudant users
+---
 
-Read about new features available in Cloudant.
+copyright:
+  years: 2017
+lastupdated: "2017-02-23"
+
+---
+
+{:new_window: target="_blank"}
+{:shortdesc: .shortdesc}
+{:screen: .screen}
+{:codeblock: .codeblock}
+{:pre: .pre}
+
+# What's new in Cloudant
+
+Read about the new features available in Cloudant.
 
 CouchDB 1.x supports the following features:
 
@@ -27,7 +41,7 @@ Active tasks
 Views
 
 -   Unicode normalization of key values is consistent between reduced and non-reduced view results. If raw collation is specified in a design document, result order might change as the result of this fix.
--   When you query a view or `_all_docs` database, it is an error to specify the `keys` parameter and any of the `key`, `startkey` and `endkey` parameters.
+-   When you query a view or `_all_docs` database, it is an error to specify the `keys` parameter and any of the `key`, `startkey`, and `endkey` parameters.
 -   It is an error to pass `startkey` and `endkey` parameters to a view if it is impossible for any row to match. For example, when the `startkey` parameter is higher than the `endkey` parameter for `descending=false`, or when the `startkey` parameter is lower than the `endkey` parameter for `descending=true`, Cloudant returns the `400 Bad Request` error.
 
 Design documents
