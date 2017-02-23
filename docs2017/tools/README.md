@@ -45,15 +45,16 @@ modify the `docs2017/scripts/Makefile` variables:
 Style
 -----
 
-Sample code illustrating how to invoke a capability should be provided in the following order:
+Sample code illustrating how to invoke a capability should be provided in the
+following order:
 
-_Example of &lt;activity&gt;, using HTTP:_
+_Example of using an HTTP request to &lt;activity&gt;:_
 
-_Example of &lt;activity&gt;, using the command line:_
+_Example of using the command line to &lt;activity&gt;:_
 
-_Example of &lt;activity&gt;, using Javascript:_
+_Example of using JavaScript to &lt;activity&gt;:_
 
-_Example of &lt;activity&gt;, using Python:_
+_Example of using Python to &lt;activity&gt;:_
 
 ```
 Sample code line 1
