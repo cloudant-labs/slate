@@ -14,24 +14,23 @@ lastupdated: "2017-02-23"
 
 # What's new in Cloudant
 
-Read about the new features available in Cloudant.
+## Build 5638
 
-CouchDB 1.x supports the following features:
+-   Introduces new "stable" and "update" query parameters for views.
+-   Replicator no longer retries forever if it cannot write checkpoints to the source database.
+
+## Build 5421
 
 -   Changes feeds support view-based filters.
 -   Changes feeds support the `_doc_ids` filter.
 -   `POST` requests are supported for `_changes`.
 -   Both `_all_docs` and `_changes` support the `attachments=true` parameter.
 -   Support for the CouchDB 1.6 `_users` database features, including server-side password hashing when creating documents in the `_users` database.
-
-CouchDB 2.x and Cloudant support the following features:
-
 -   `/_bulk_get` endpoint to reduce the number of requests used in replication to mobile clients.
 -   Design document metadata contains an `update pending` field.
--   Views support stable/update keywords.
 
 
-# Breaking/behavior changes
+### Breaking/behavior changes
 
 Active tasks
 
