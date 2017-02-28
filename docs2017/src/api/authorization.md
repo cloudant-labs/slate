@@ -60,6 +60,8 @@ curl https://$USERNAME.cloudant.com/_api/v2/db/$DATABASE/_security
 ```
 {:codeblock}
 
+<!--
+
 _Example of using JavaScript to determine permissions,:_
 
 ```javascript
@@ -77,6 +79,8 @@ account.request({
 });
 ```
 {:codeblock}
+
+-->
 
 The `cloudant` field in the response object contains an object with keys that are the user names
 that have permission to interact with the database.
@@ -139,6 +143,8 @@ curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/_api/v2/db/$DATABASE/_se
 ```
 {:codeblock}
 
+<!--
+
 _Example of using JavaScript to send an authorization modification request:_
 
 ```javascript
@@ -159,6 +165,8 @@ account.request(
 );
 ```
 {:codeblock}
+
+-->
 
 The request must provide a document in JSON format,
 describing a `cloudant` field.
@@ -273,6 +281,8 @@ curl -X POST https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/_api/v2/api_keys
 ```
 {:codeblock}
 
+<!--
+
 _Example of using JavaScript to create an API key:_
 
 ```javascript
@@ -292,6 +302,8 @@ account.request(
 );
 ```
 {:codeblock}
+
+-->
 
 The response contains the generated key and password.
 
