@@ -454,7 +454,7 @@ a suitable `validate_doc_update` function would work as follows:
 2.	If the target database does _not_ have a copy of the current document, _and_ the update document has the `_deleted` property (indicating that it is a tombstone), then the update must be a tombstone _and_ it has been encountered before, so the update should be rejected.
 3.	Finally, if the function has not yet returned or thrown an error, allow the update to replicate to the target database, as some other condition applies.
 
-To use a `validate-doc-update` function to remove tombstone documents:
+To use a `validate_doc_update` function to remove tombstone documents:
 
 1.	Stop replication from the source to the target database.
 2.	If appropriate, delete the target database, then create a new target database.
