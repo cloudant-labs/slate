@@ -14,6 +14,9 @@ lastupdated: "2017-02-23"
 
 # What's new in Cloudant
 
+Keep up to date with the latest on Cloudant.
+{:shortdesc} 
+
 ## Build 5638
 
 -   Introduces new "stable" and "update" query parameters for views.
