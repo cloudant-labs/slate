@@ -60,27 +60,22 @@ curl https://$USERNAME.cloudant.com/_api/v2/db/$DATABASE/_security
 ```
 {:codeblock}
 
-<!--
+_Example of using JavaScript to determine permissions:_
 
-_Example of using JavaScript to determine permissions,:_
-
-```javascript
-var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
-account.request({
-	db: $DATABASE,
-	path: '_security'
-	},
-	function (err, body, headers) {
-		if (!err) {
-			console.log(body);
-		}
-	}
+``` javascript
+var Cloudant = require('cloudant');
+var cloudant = Cloudant("https://"+$USERNAME+":"+$PASSWORD+"@"+$ACCOUNT+".cloudant.com");
+var db = "$DATABASE";
+var my_database = cloudant.db.use(db);
+my_database.get_security(function(error, result) {
+    if (error) {
+        throw error;
+    }
+    console.log('Got security for ' + db);
+    console.log(result);
 });
 ```
 {:codeblock}
-
--->
 
 The `cloudant` field in the response object contains an object with keys that are the user names
 that have permission to interact with the database.
@@ -143,30 +138,31 @@ curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/_api/v2/db/$DATABASE/_se
 ```
 {:codeblock}
 
-<!--
-
 _Example of using JavaScript to send an authorization modification request:_
 
-```javascript
-var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
-account.request(
-	{
-		db: $DATABASE,
-		path: '_security',
-		method: 'PUT',
-		body: '$JSON'
-	},
-	function (err, body, headers) {
-		if (!err) {
-			console.log(body);
-		}
-	}
-);
+``` javascript
+var Cloudant = require('cloudant');
+var cloudant = Cloudant("https://"+$USERNAME+":"+$PASSWORD+"@"+$ACCOUNT+".cloudant.com");
+var db = "$DATABASE";
+var security = {
+    nobody: ['_reader'],
+    user : [ '_reader', '_writer', '_admin', '_replicator' ]
+};
+
+var my_database = cloudant.db.use(db);
+my_database.set_security(security, function(error, result) {
+    if (error) {
+      throw error;
+    }
+
+    console.log('Set security for ' + db);
+    console.log(result);
+    console.log('');
+
+});
+
 ```
 {:codeblock}
-
--->
 
 The request must provide a document in JSON format,
 describing a `cloudant` field.
@@ -281,29 +277,21 @@ curl -X POST https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/_api/v2/api_keys
 ```
 {:codeblock}
 
-<!--
-
 _Example of using JavaScript to create an API key:_
 
 ```javascript
-var nano = require('nano');
-var account = nano("https://$USERNAME:$PASSWORD@cloudant.com");
-account.request(
-	{
-		db: '_api',
-		path: 'v2/api_keys',
-		method: 'POST'
-	},
-	function (err, body) {
-		if (!err) {
-			console.log(body);
-		}
-	}
-);
+var Cloudant = require('cloudant');
+var cloudant = Cloudant("https://"+$USERNAME+":"+$PASSWORD+"@"+$ACCOUNT+".cloudant.com");
+cloudant.generate_api_key(function(error, api) {
+    if (error) {
+        throw error;
+    }
+    console.log('API key: %s', api.key);
+    console.log('Password for this key: %s', api.password);
+    console.log('');
+});
 ```
 {:codeblock}
-
--->
 
 The response contains the generated key and password.
 
