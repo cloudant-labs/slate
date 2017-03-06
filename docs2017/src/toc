@@ -1,22 +1,38 @@
-index.md
-    index.md
+{:navgroup: .navgroup}
+{:topicgroup: .topicgroup}
+
+{: .toc subcollection="cloudant" audience="service"}
+IBM Cloudant NoSQL DB for Bluemix
+
+{: .navgroup}
+[Learn](index.html)
     cloudant.md
-    offerings/index.md
+
+    {: .topicgroup}
+    [Offerings](offerings/index.html)
         offerings/bluemix.md
-    basics/index.md
-    libraries/index.md
-        libraries/supported.md
-        libraries/thirdparty.md
+
+    {: .topicgroup}
     [Tutorials](tutorials/index.html)
         tutorials/create_service.md
         tutorials/create_database.md
         tutorials/create_bmxapp.md
-            tutorials/create_bmxapp_prereq.md
-            tutorials/create_bmxapp_appenv.md
-            tutorials/create_bmxapp_createapp.md
-            tutorials/create_bmxapp_upload.md
-            tutorials/create_bmxapp_maintain.md
-    api/index.md
+        tutorials/create_bmxapp_prereq.md
+        tutorials/create_bmxapp_appenv.md
+        tutorials/create_bmxapp_createapp.md
+        tutorials/create_bmxapp_upload.md
+        tutorials/create_bmxapp_maintain.md
+
+{: .navgroup}
+[Reference](basics/index.html)
+
+    {: .topicgroup}
+    [Client Libraries](libraries/index.html)
+        libraries/supported.md
+        libraries/thirdparty.md
+
+    {: .topicgroup}
+    [API Reference](api/index.html)
         api/http.md
         api/compare.md
         api/account.md
@@ -39,17 +55,19 @@ index.md
         api/advanced.md
         api/monitoring.md
         api/backup.md
-    guides/index.md
-        guides/acurl.md
-        guides/backup-guide.md
-        guides/backup-guide-using-replication.md
-        guides/cap_theorem.md
-        guides/couchapps.md
-        guides/warehousing.md
-        guides/design_document_management.md
-        guides/mvcc.md
-        guides/transactions.md
-        guides/json.md
-        guides/managing_tasks.md
-        guides/model_data.md
-        guides/replication_guide.md
+
+{: .navgroup}
+[Howto](guides/index.html)
+    guides/acurl.md
+    guides/backup-guide.md
+    guides/backup-guide-using-replication.md
+    guides/cap_theorem.md
+    guides/couchapps.md
+    guides/warehousing.md
+    guides/design_document_management.md
+    guides/mvcc.md
+    guides/transactions.md
+    guides/json.md
+    guides/managing_tasks.md
+    guides/model_data.md
+    guides/replication_guide.md
