@@ -2,6 +2,11 @@
 
 ## Changelog
 
+### 2017-03-08
+
+Updated Vagrant image to latest Bluemix build tool.
+Updated Vagrant image with latest security patches.
+
 ### 2017-02-10
 
 Updated Vagrant image with latest security patches.
