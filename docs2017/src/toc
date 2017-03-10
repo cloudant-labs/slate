@@ -19,11 +19,11 @@ Cloudant NoSQL DB
 		tutorials/create_service.md
 		tutorials/create_database.md
 		tutorials/create_bmxapp.md
-		tutorials/create_bmxapp_prereq.md
-		tutorials/create_bmxapp_appenv.md
-		tutorials/create_bmxapp_createapp.md
-		tutorials/create_bmxapp_upload.md
-		tutorials/create_bmxapp_maintain.md
+			tutorials/create_bmxapp_prereq.md
+			tutorials/create_bmxapp_appenv.md
+			tutorials/create_bmxapp_createapp.md
+			tutorials/create_bmxapp_upload.md
+			tutorials/create_bmxapp_maintain.md
 	{: .navgroup-end}
 
 	{: .navgroup id="reference"}
@@ -63,7 +63,6 @@ Cloudant NoSQL DB
 	{: .navgroup-end}
 
 	{: .navgroup id="howto"}
-	guides/index.md
 	guides/acurl.md
 	guides/backup-guide.md
 	guides/backup-guide-using-replication.md
