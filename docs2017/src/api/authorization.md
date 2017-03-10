@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-02-27"
+lastupdated: "2017-03-10"
 
 ---
 
@@ -51,11 +51,11 @@ The roles can be assigned to user accounts or [API keys](#creating-api-keys).
 
 The three core roles are as follows:
 
-Role          | Description
---------------|------------
-`_admin`      | Change security settings, including adding roles.
-`_reader`     | Read documents from the database.
-`_writer`     | Create, update, and delete documents (except design documents) in the database.
+Role      | Description
+----------|------------
+`_admin`  | Change security settings, including adding roles.
+`_reader` | Read documents from the database.
+`_writer` | Create, update, and delete documents (except design documents) in the database.
 
 >   **Note:** The `_reader` and `_writer` roles are exclusive. If a user has the `_writer` role, they cannot read documents they create unless they _also_ have the `_reader` role.
 
@@ -74,16 +74,17 @@ but apply _only_ to the specific API endpoint.
 
 The focused roles are as follows:
 
-Role          | Description                                                       | API Endpoints
---------------|-------------------------------------------------------------------|--------------
-`_db_updates` | Use the global changes feed.                                      | [`_db_updates`](advanced.html#-get-_db_updates-)
-`_design`     | Create, read, update, and delete design documents.                | [`_design`](design_documents.html), [`_find`](cloudant_query.html#finding-documents-using-an-index), [`_index`](cloudant_query.html)
-`_replicator` | Replicate data within a database, including creating checkpoints. | [`_local`](replication.html#the-since_seq-field), [`_replicate`](replication.html#the-_replicate-endpoint), [`_replicator`](replication.html#replicator-database)
-`_security`   | Work with the `/$DATABASE/_security` endpoint.                    | [`_security`](#viewing-permissions)
-`_shards`     | Access to the `/$DATABASE/_shards` endpoint.                      | [`_shards`](advanced.html#-get-database-_shards-)
+Role          | Description                                                                                   | API Endpoints
+--------------|-----------------------------------------------------------------------------------------------|--------------
+`_db_updates` | Allows read access from the global changes feed.                                              | [`_db_updates`](advanced.html#-get-_db_updates-)
+`_design`     | Allows create, read, modify, or delete access to design documents.                            | [`_design`](design_documents.html), [`_find`](cloudant_query.html#finding-documents-using-an-index), [`_index`](cloudant_query.html)
+`_replicator` | Allows read access to replicate data from a database, and write access to create checkpoints. | [`_local`](replication.html#the-since_seq-field), [`_replicate`](replication.html#the-_replicate-endpoint), [`_replicator`](replication.html#replicator-database)
+`_security`   | Allows read and write access to the `/$DATABASE/_security` endpoint.                          | [`_security`](#viewing-permissions)
+`_shards`     | Allows read access to the `/$DATABASE/_shards` endpoint.                                      | [`_shards`](advanced.html#-get-database-_shards-)
 
+The nature of the access that is granted depends on the specific API endpoint.
 For example,
-the `_design` role allows a user or [API key](#creating-api-keys) to create,
+the `_design` role provides access that allows a user or [API key](#creating-api-keys) to create,
 read,
 modify,
 or delete design documents,
@@ -118,21 +119,22 @@ then an unauthenticated user might do more than the authenticated `alexone` user
 
 >   **Note:** It is important to understand that the `nobody` user name is _not_ way of providing a default set of permissions. Instead, the `nobody` user name is used to determine permissions for _unauthenticated_ users.
 
-### The role 'hierarchy'
+### Role restrictions
 
-Clearly,
-some roles are more 'powerful' than others.
+Some roles are meaningful only for certain environments or specific uses.
+The following table describes any restrictions that apply to a role.
 
-In the following list,
-roles that appear at the beginning of the list are more 'powerful' than roles that appear towards the end of the list.
-In general,
-a role is authorized to do more tasks than the roles underneath.
+Role          | Restrictions
+--------------|-------------
+`_admin`      |
+`_db_updates` | Only for {{site.data.keyword.cloudant_short_notm}} dedicated instances.
+`_design`     |
+`_reader`     |
+`_replicator` |
+`_security`   |
+`_shards`     | Only for {{site.data.keyword.cloudant_short_notm}} dedicated instances.
+`_writer`     |
 
-Role          | Authorized tasks
---------------|------------------|--------------
-`_admin`      | Many.            |
-`_writer`     |                  |
-`_reader`     | Few.          
 
 ### Determining the role to assign
 
@@ -345,7 +347,7 @@ _Example of an incorrect authorization modification request document:_
 >	**Note**: An earlier method of generating API keys by `POST`ing to
 the `https://cloudant.com/api/generate_api_key` endpoint is deprecated.
 
-API keys allow you to give access to a person or application without having to create a new Cloudant account.
+API keys allow you to give access to a person or application without having to create a new {{site.data.keyword.cloudant_short_notm}} account.
 An API key consists of a randomly generated username and password.
 The key is given the desired access permissions.
 
@@ -487,12 +489,12 @@ The updated list _must omit_ the API key.
 
 You can use the
 [_users database ![External link icon](../images/launch-glyph.svg "External link icon")](http://docs.couchdb.org/en/1.6.1/intro/security.html#authentication-database){:new_window}
-to manage roles in Cloudant.
+to manage roles in {{site.data.keyword.cloudant_short_notm}}.
 However,
-you must turn off Cloudant security for those roles first.
-To turn off Cloudant security,
+you must turn off {{site.data.keyword.cloudant_short_notm}} security for those roles first.
+To turn off {{site.data.keyword.cloudant_short_notm}} security,
 `PUT` a JSON document to the `_security` endpoint of the database.
-you must turn off Cloudant security for those roles first,
+you must turn off {{site.data.keyword.cloudant_short_notm}} security for those roles first,
 by sending a JSON document to the `_security` endpoint of the database.
 For example, `https://<username>.cloudant.com/<database>/_security`.
 
