@@ -870,7 +870,7 @@ Accept: application/json
 _Example of using the command line to do a bulk update:_
 
 ```sh
-curl -X POST "https://$USERNAME.cloudant.com/$DATABASE/_bulk_docs" \
+curl -X POST "https://$ACCOUNT:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/_bulk_docs" \
 	-d @request.json
 ```
 {:codeblock}
