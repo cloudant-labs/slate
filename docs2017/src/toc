@@ -10,10 +10,12 @@ Cloudant NoSQL DB
 
 	{: .topicgroup}
 	Offerings
+		offerings/index.md
 		offerings/bluemix.md
 
 	{: .topicgroup}
 	Tutorials
+		tutorials/index.md
 		tutorials/create_service.md
 		tutorials/create_database.md
 		tutorials/create_bmxapp.md
@@ -26,12 +28,16 @@ Cloudant NoSQL DB
 
 	{: .navgroup id="reference"}
 	basics/index.md
-	libraries/index.md
-	libraries/supported.md
-	libraries/thirdparty.md
-	
+
+	{: .topicgroup}
+	Libraries
+		libraries/index.md
+		libraries/supported.md
+		libraries/thirdparty.md
+
 	{: .topicgroup}
 	API Reference
+		api/index.md
 		api/http.md
 		api/compare.md
 		api/account.md
@@ -57,6 +63,7 @@ Cloudant NoSQL DB
 	{: .navgroup-end}
 
 	{: .navgroup id="howto"}
+	guides/index.md
 	guides/acurl.md
 	guides/backup-guide.md
 	guides/backup-guide-using-replication.md
