@@ -76,11 +76,9 @@ The focused roles are as follows:
 
 Role          | Description                                                                                   | API Endpoints
 --------------|-----------------------------------------------------------------------------------------------|--------------
-`_db_updates` | Allows read access from the global changes feed.                                              | [`_db_updates`](advanced.html#-get-_db_updates-)
 `_design`     | Allows create, read, modify, or delete access to design documents.                            | [`_design`](design_documents.html), [`_find`](cloudant_query.html#finding-documents-using-an-index), [`_index`](cloudant_query.html)
 `_replicator` | Allows read access to replicate data from a database, and write access to create checkpoints. | [`_local`](replication.html#the-since_seq-field), [`_replicate`](replication.html#the-_replicate-endpoint), [`_replicator`](replication.html#replicator-database)
 `_security`   | Allows read and write access to the `/$DATABASE/_security` endpoint.                          | [`_security`](#viewing-permissions)
-`_shards`     | Allows read access to the `/$DATABASE/_shards` endpoint.                                      | [`_shards`](advanced.html#-get-database-_shards-)
 
 The nature of the access that is granted depends on the specific API endpoint.
 For example,
@@ -98,7 +96,7 @@ including users you share databases with,
 and API keys you create,
 must be given a role explicitly to do corresponding tasks.
 
->   **Note:** The `_admin` role aggregates the permissions of the `_reader`, `_writer`, `_db_updates`, `_design`, `_replicator`, `_security`, and `_shards` roles.
+>   **Note:** The `_admin` role aggregates the permissions of the `_reader`, `_writer`, `_design`, `_replicator`, and `_security` roles.
 
 The special `nobody` user name applies for anyone or any application that tries to do tasks,
 but that did not authenticate with the system.
@@ -118,23 +116,6 @@ but an authenticated user account such as `alexone` is granted only the `_reader
 then an unauthenticated user might do more than the authenticated `alexone` user. 
 
 >   **Note:** It is important to understand that the `nobody` user name is _not_ way of providing a default set of permissions. Instead, the `nobody` user name is used to determine permissions for _unauthenticated_ users.
-
-### Role restrictions
-
-Some roles are meaningful only for certain environments or specific uses.
-The following table describes any restrictions that apply to a role.
-
-Role          | Restrictions
---------------|-------------
-`_admin`      |
-`_db_updates` | Only for {{site.data.keyword.cloudant_short_notm}} dedicated instances.
-`_design`     |
-`_reader`     |
-`_replicator` |
-`_security`   |
-`_shards`     | Only for {{site.data.keyword.cloudant_short_notm}} dedicated instances.
-`_writer`     |
-
 
 ### Determining the role to assign
 
