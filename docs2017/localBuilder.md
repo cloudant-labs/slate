@@ -2,6 +2,10 @@
 
 ## Changelog
 
+### 2017-03-13
+
+Updated VirtualBox requirement to 5.1.16.
+
 ### 2017-03-08
 
 Updated Vagrant image to latest Bluemix build tool.
@@ -28,7 +32,7 @@ Updated VirtualBox requirement to 5.1.14.
 ## Pre-requisites
 
 1.  Download and install [VirtualBox](https://www.virtualbox.org/wiki/Downloads).
-    Ensure you have at least version 5.1.14, or more recent.
+    Ensure you have at least version 5.1.16, or more recent.
 
 2.  Download and install [Vagrant](https://www.vagrantup.com/downloads.html).
     Ensure you have at least version 1.8.5, or more recent.
