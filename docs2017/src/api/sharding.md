@@ -6,7 +6,7 @@ tags:
 - toc
 ---
 
-## How is data stored in Cloudant?
+# How is data stored in Cloudant?
 
 Every database in Cloudant is formed of one or more distinct _shards_, where the number of shards is referred to as _Q_. A shard is a distinct subset of documents from the database and is physically stored in triplicate. Each shard copy is called a shard _replica_. Each shard replica is stored on a different server.
 
