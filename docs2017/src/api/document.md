@@ -107,7 +107,7 @@ see the topic on [Consistency](../guides/cap_theorem.html#consistency).
 ## Create
 
 To create a document,
-send a `POST` request with the document's JSON content to `https://$USERNAME.cloudant.com/$DATABASE`.
+send a `POST` request with the document's JSON content to `https://$ACCOUNT.cloudant.com/$DATABASE`.
 
 _Creating a document by using HTTP:_
 
@@ -120,7 +120,7 @@ Content-Type: application/json
 _Creating a document by using the command line:_
 
 ```sh
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE \
+curl https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE \
 	-X POST \
 	-H "Content-Type: application/json" \
 	-d "$JSON"
@@ -133,7 +133,7 @@ _Creating a document, using Javascript:_
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$ACCOUNT+".cloudant.com");
 var db = account.use($DATABASE);
 
 db.insert($JSON, function (err, body, headers) {
@@ -189,7 +189,7 @@ a [`202` response](http.html#202) is returned.
 ## Read
 
 To retrieve a document,
-send a GET request to `https://$USERNAME.cloudant.com/$DATABASE/$DOCUMENT_ID`.
+send a GET request to `https://$ACCOUNT.cloudant.com/$DATABASE/$DOCUMENT_ID`.
 
 If you do not know the `_id` for a particular document,
 you can [query the database](database.html#get-documents) for all documents.
@@ -218,7 +218,7 @@ GET /$DATABASE/$DOCUMENT_ID HTTP/1.1
 _Example of retrieving a document by using the command line:_
 
 ```sh
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/$DOCUMENT_ID
+curl https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE/$DOCUMENT_ID
 ```
 {:codeblock}
 
@@ -228,7 +228,7 @@ _Example of retrieving a document, using Javascript:_
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$ACCOUNT+".cloudant.com");
 var db = account.use($DATABASE);
 
 db.get($JSON._id, function (err, body, headers) {
@@ -292,7 +292,7 @@ by using the `include_docs` option.
 
 To update a document,
 send a `PUT` request with the updated JSON content *and* the most recent `_rev` value
-to `https://$USERNAME.cloudant.com/$DATABASE/$DOCUMENT_ID`.
+to `https://$ACCOUNT.cloudant.com/$DATABASE/$DOCUMENT_ID`.
 You can also use this `PUT` method to create a document,
 in which case you do not need to supply the most recent `_rev` value.
 
@@ -317,7 +317,7 @@ _Example of using the command line to update a document, :_
 
 ```sh
 # make sure $JSON contains the correct `_rev` value!
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/$DOCUMENT_ID \
+curl https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE/$DOCUMENT_ID \
 	-X PUT \
 	-H "Content-Type: application/json" \
 	-d "$JSON"
@@ -330,7 +330,7 @@ _Example of updating a document, using Javascript:_
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$ACCOUNT+".cloudant.com");
 var db = account.use($DATABASE);
 
 // make sure $JSON contains the correct `_rev` value!
@@ -383,7 +383,7 @@ _Example response after a successful update:_
 
 To delete a document,
 send a `DELETE` request with the document's most recent `_rev` in the query string,
-to `https://$USERNAME.cloudant.com/$DATABASE/$DOCUMENT_ID`.
+to `https://$ACCOUNT.cloudant.com/$DATABASE/$DOCUMENT_ID`.
 
 The response contains the ID and the new revision of the document,
 or an error message if the delete failed.
@@ -414,7 +414,7 @@ _Example of using the command line to delete a document:_
 
 ```sh
 # make sure $JSON contains the correct `_rev` value!
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/$DOCUMENT_ID?rev=$REV -X DELETE
+curl https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE/$DOCUMENT_ID?rev=$REV -X DELETE
 ```
 {:codeblock}
 
@@ -424,7 +424,7 @@ _Example of a delete request, using Javascript:_
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$ACCOUNT+".cloudant.com");
 var db = account.use($DATABASE);
 
 // make sure $JSON contains the correct `_rev` value!
@@ -673,7 +673,7 @@ Content-Type: application/json
 _Example of using the command line to create, update, or delete multiple documents:_
 
 ```sh
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/_bulk_docs \
+curl https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE/_bulk_docs \
 	-X POST \
 	-H "Content-Type: application/json" \
 	-d "$JSON"
@@ -686,7 +686,7 @@ _Example request to create, update, or delete multiple documents, using Javascri
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com");
+var account = nano("https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com");
 var db = account.use($DATABASE);
 
 db.bulk($JSON, function (err, body) {
@@ -871,7 +871,7 @@ Accept: application/json
 _Example of using the command line to do a bulk update:_
 
 ```sh
-curl -X POST "https://$USERNAME.cloudant.com/$DATABASE/_bulk_docs" \
+curl -X POST "https://$ACCOUNT.cloudant.com/$DATABASE/_bulk_docs" \
 	-d @request.json
 ```
 {:codeblock}
@@ -1043,10 +1043,10 @@ _Example error message from a validation function:_
 
 You might need to access all the available information about multiple documents.
 The `_bulk_get` endpoint is similar to the [`_all_docs`](database.html#get-documents) endpoint,
-but also returns a complete list of all the revision tokens for each document.
+but returns information about the requested documents only.
 
 Like the `_bulk_docs` endpoint,
-a JSON document includes an array that lists all the documents for which full information is required.
+a JSON document supplied in the request includes an array that identifes all the documents of interest.
 
 _Example of using HTTP to do a bulk get of document information:_
 
@@ -1059,8 +1059,8 @@ Accept: application/json
 _Example of using the command line to do a bulk update:_
 
 ```sh
-curl -X POST "https://$USERNAME.cloudant.com/$DATABASE/_bulk_get" \
-	-H "Content-Type: applicaiton/json" \
+curl -X POST "https://$ACCOUNT.cloudant.com/$DATABASE/_bulk_get" \
+	-H "Content-Type: application/json" \
 	-d @request.json
 ```
 {:codeblock}
