@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-03-01"
+lastupdated: "2017-03-15"
 
 ---
 
@@ -640,6 +640,8 @@ you must provide the document ID,
 revision information,
 and new document values.
 
+>	**Note:** A special case of bulk operations is the [`_bulk_get`]() endpoint.
+
 <div id="request-body"></div>
 
 ### Bulk request structure
@@ -861,7 +863,7 @@ to each affected document ID and revision combination within the request JSON st
 _Example of using HTTP to do a bulk update:_
 
 ```http
-POST /test/_bulk_docs HTTP/1.1
+POST /$DATABASE/_bulk_docs HTTP/1.1
 Accept: application/json
 ```
 {:codeblock}
@@ -1004,7 +1006,7 @@ When a document (or document revision) is not correctly committed to the databas
 you must check the `error` field to determine error type and course of action.
 The error is one of [`conflict`](#conflict) or [`forbidden`](#forbidden).
 
-### `conflict`
+#### `conflict`
 
 The document as submitted is in conflict.
 If you used the default bulk transaction mode,
@@ -1014,7 +1016,7 @@ You must resubmit the document to the database.
 Conflict resolution of documents added by using the bulk docs interface is identical
 to the resolution procedures used when you resolve conflict errors during replication.
 
-### `forbidden`
+#### `forbidden`
 
 Entries with this error type indicate that the validation routine that was applied
 to the document during submission returned an error.
@@ -1033,6 +1035,82 @@ _Example error message from a validation function:_
 	"id" : "7f7638c86173eb440b8890839ff35433",
 	"error" : "forbidden",
 	"reason" : "invalid recipe ingredient"
+}
+```
+{:codeblock}
+
+### The `_bulk_get` endpoint
+
+You might need to access all the available information about multiple documents.
+The `_bulk_get` endpoint is similar to the [`_all_docs`](database.html#get-documents) endpoint,
+but also returns a complete list of all the revision tokens for each document.
+
+Like the `_bulk_docs` endpoint,
+a JSON document includes an array that lists all the documents for which full information is required.
+
+_Example of using HTTP to do a bulk get of document information:_
+
+```http
+POST /$DATABASE/_bulk_get HTTP/1.1
+Accept: application/json
+```
+{:codeblock}
+
+_Example of using the command line to do a bulk update:_
+
+```sh
+curl -X POST "https://$USERNAME.cloudant.com/$DATABASE/_bulk_get" \
+	-H "Content-Type: applicaiton/json" \
+	-d @request.json
+```
+{:codeblock}
+
+_Example of a JSON object `POST`ed to the `_bulk_get` endpoint:_
+
+```json
+{
+	"docs": [
+		{
+			"id": "doc1"
+		},
+		{
+			"id": "doc3"
+		}
+	]
+}
+```
+{:codeblock}
+
+_Example JSON structure that is returned after bulk get:_
+
+```json
+{                                                         
+	"results": [                                                         
+		{                                                         
+			"id": "doc01",
+			"docs": [
+				{
+					"ok": {
+						"_id": "doc01",
+						"_rev": "1-f3751e2db1d92e13b0baa6bdeb874c8c",
+						"simplekey": "somedata"
+					}
+				}
+			]
+		},
+		{
+			"id": "doc03",
+			"docs": [
+				{
+					"ok": {
+						"_id": "doc03",
+						"_rev": "2-d4fc04ef748edf305a8c0ed347f269c4",
+						"simplekey": "somemoredata"
+					}
+				}
+			]
+		}
+	]
 }
 ```
 {:codeblock}
