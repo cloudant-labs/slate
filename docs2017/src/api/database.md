@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-03-02"
+lastupdated: "2017-03-15"
 
 ---
 
@@ -114,6 +114,47 @@ contact Cloudant support.
 
 > **Note**: It is not possible to modify the configuration that is used for databases
 on multi-tenant clusters.
+
+## Checking if a database exists
+
+It is sometimes useful to determine if a database exists.
+
+The simplest and quickest way to do this is by sending an HTTP `HEAD` request to the candidate database.
+The HTTP response code indicates whether the database exists.
+
+A [`200`](http.html#200) response code confirms that the database exists.
+A [`404`](http.html#404) response code confirms that the database does not exist.
+
+_Example of using the command line to confirm if a database exists:_
+
+```sh
+curl -I https://$USERNAME.cloudant.com/$DATABASE
+```
+{:codeblock}
+
+_Example (abbreviated) response if a database exists:_
+
+```http
+HTTP/1.1 200 OK
+...
+Content-Type: application/json
+Date: Wed, 15 Mar 2017 14:31:51 GMT
+Server: CouchDB/2.0.0 (Erlang OTP/17)
+...
+```
+{:codeblock}
+
+_Example (abbreviated) response if a database does not exist:_
+
+```http
+HTTP/1.1 404 Object Not Found
+...
+Content-Type: application/json
+Date: Wed, 15 Mar 2017 14:32:07 GMT
+Server: CouchDB/2.0.0 (Erlang OTP/17)
+...
+```
+{:codeblock}
 
 <div id="read"></div>
 
