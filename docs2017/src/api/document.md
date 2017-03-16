@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-03-15"
+lastupdated: "2017-03-16"
 
 ---
 
@@ -640,7 +640,7 @@ you must provide the document ID,
 revision information,
 and new document values.
 
->	**Note:** A special case of bulk operations is the [`_bulk_get`]() endpoint.
+>	**Note:** A special case of bulk operations is the [`_bulk_get`](#the-_bulk_get-endpoint) endpoint.
 
 <div id="request-body"></div>
 
