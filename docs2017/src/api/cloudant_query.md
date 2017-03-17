@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-03-16"
+lastupdated: "2017-03-17"
 
 ---
 
@@ -12,7 +12,7 @@ lastupdated: "2017-03-16"
 {:codeblock: .codeblock}
 {:pre: .pre}
 
-<!-- Acrolinx: 2017-03-16 -->
+<!-- Acrolinx: 2017-03-17 -->
 
 # Query
 
@@ -397,7 +397,7 @@ _Example of a response body with two indexes:_
 	for example `json`,
 	and $NAME is the name of the index.
 -	**Response Body**: JSON object that indicates successful deletion of the index,
-	or that describes any error encountered.
+	or that describes any error that was encountered.
 -	**Request Body**: None
 -	**Roles permitted**: `_writer`
 
@@ -415,7 +415,7 @@ _Example of a response body with two indexes:_
 -	**selector**: JSON object that describes the criteria that are used to select documents.
 	More information is provided in the section on [selectors](#selector-syntax).
 -	**limit (optional, default: 25)**: Maximum number of results returned.
--	**skip (optional, default: 0)**: Skip the first 'n' results, where 'n' is the value specified.
+-	**skip (optional, default: 0)**: Skip the first 'n' results, where 'n' is the value that is specified.
 -	**sort (optional, default: [])**: JSON array,
 	ordered according to the [sort syntax](#sort-syntax).
 -	**fields (optional, default: null)**: JSON array that uses
@@ -423,13 +423,13 @@ _Example of a response body with two indexes:_
 	Use this parameter to specify which fields of an object must be returned.
 	If it is omitted,
 	the entire object is returned.
--	**r (optional, default: 1)**: Read quorum needed for the result.
-	This defaults to 1,
-	in which case the document found in the index is returned.
+-	**r (optional, default: 1)**: The read quorum that is needed for the result.
+	The value defaults to 1,
+	in which case the document that was found in the index is returned.
 	If set to a higher value,
 	each document is read from at least that many replicas before it is returned in the results.
-	This is likely to take more time than using only the document stored locally with the index.
--	**bookmark (optional, default: null)**: A string that enables you to specify which page of results you require.
+	The request is likely to take more time than using only the document that is stored locally with the index.
+-	**bookmark (optional, default: null)**: A string used to specify which page of results you require.
 	*Only for indexes of type `text`.*
 -	**use_index (optional)**: Use this option to identify a specific index for query to run against,
 	rather than by using the Cloudant Query algorithm to find the best index.
@@ -463,12 +463,12 @@ _Example request in JSON format, for finding documents by using an index:_
 
 ### Response body
 
--	**docs**: Array of documents matching the search.
+-	**docs**: Array of documents that match the search.
 	In each matching document,
-	the fields specified in the `fields` part of the request body are listed,
+	the fields that are specified in the `fields` part of the request body are listed,
 	along with their values.
 
-_Example response when finding documents by using an index:_
+_Example response when using an index to find documents:_
 
 ```json
 {
@@ -497,7 +497,7 @@ Within this structure,
 you can apply conditional logic by using specially named fields.
 
 >   **Note**: While the Cloudant Query language has some similarities with MongoDB query documents,
-    these arise from a similarity of purpose and do not necessarily extend to commonality of function or result.
+    these similarities arise from a commonality of purpose and do not necessarily extend to equivalence of function or result.
 
 ### Selector basics
 
@@ -585,7 +585,7 @@ _Example of a more complex selector:_
 
 ## Subfields
 
-A more complex selector enables you to specify the values for field of nested objects,
+Use a more complex selector to specify the values for field of nested objects,
 or subfields.
 For example,
 you might use a standard JSON structure for specifying a field _and_ a subfield.
@@ -620,7 +620,7 @@ _Example of an equivalent field and subfield selector that uses dot notation:_
 
 Operators are identified by the use of a dollar sign (`$`) prefix in the name field.
 
-There are two core types of operators in the selector syntax:
+The selector syntax has two core types of operators:
 
 -	Combination operators.
 -	Condition operators.
@@ -645,7 +645,7 @@ The exact implicit operator is determined by the structure of the selector expre
 
 ## Implicit Operators
 
-There are two implicit operators:
+The two implicit operators are:
 
 -	'Equality'.
 -	'And'.
@@ -671,7 +671,7 @@ _Example selector that uses an operator to match any document, where the `year` 
 {:codeblock}
 
 In the following example,
-there must be a field `director` in a matching document,
+a matching document must have a field called `director`,
 *and* the field must have a value exactly equal to `Lars von Trier`.
 
 _Example of the implicit equality operator:_
@@ -699,9 +699,10 @@ _Example of an explicit equality operator:_
 
 In the following example that uses subfields,
 the required field `imdb` in a matching document *must* also have
-a subfield `rating` *and* the subfield *must* have a value equal to 8.
+a subfield `rating`,
+*and* the subfield *must* have a value equal to 8.
 
-_Example of implicit operator applied to a subfield test:_
+_Example of implicit operator that is applied to a subfield test:_
 
 ```json
 {
@@ -727,7 +728,7 @@ _Example of an explicit equality operator:_
 ```
 {:codeblock}
 
-_Example of the `$eq` operator used with full text indexing:_
+_Example of a `$eq` operator that is used with full text indexing:_
 
 ```json
 {
@@ -746,7 +747,7 @@ _Example of the `$eq` operator used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$eq` operator used with a database indexed on the field `year`:_
+_Example of a `$eq` operator that is used with a database that is indexed on the field `year`:_
 
 ```json
 {
@@ -814,7 +815,7 @@ must be stated explicitly.
 
 Combination operators are used to combine selectors.
 In addition to the common boolean operators found in most programming languages,
-there are two combination operators (`$all` and `$elemMatch`) that help you work with JSON arrays.
+two combination operators (`$all` and `$elemMatch`) help you work with JSON arrays.
 
 A combination operator takes a single argument.
 The argument is either another selector, or an array of selectors.
@@ -827,7 +828,7 @@ Operator     | Argument | Purpose
 `$and`       | Array    | Matches if all the selectors in the array match.
 `$elemMatch` | Selector | Matches and returns all documents that contain an array field with at least one element that matches all the specified query criteria.
 `$or`        | Array    | Matches if any of the selectors in the array match. All selectors must use the same index.
-`$not`       | Selector | Matches if the given selector does not match.
+`$not`       | Selector | Matches if the selector does not match.
 `$nor`       | Array    | Matches if none of the selectors in the array match.
 
 ### Examples of combination operators
@@ -836,7 +837,7 @@ Operator     | Argument | Purpose
 
 The `$and` operator matches if all the selectors in the array match.
 
-_Example of the `$and` operator, used with full text indexing:_
+_Example of the `$and` operator used with full text indexing:_
 
 ```json
 {
@@ -861,7 +862,7 @@ _Example of the `$and` operator, used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$and` operator, used with a primary index:_
+_Example of the `$and` operator used with a primary index:_
 
 ```json
 {
@@ -891,7 +892,7 @@ _Example of the `$and` operator, used with a primary index:_
 
 The `$or` operator matches if any of the selectors in the array match.
 
-_Example of the `$or` operator, used with full text indexing:_
+_Example of the `$or` operator used with full text indexing:_
 
 ```json
 {
@@ -910,7 +911,7 @@ _Example of the `$or` operator, used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$or` operator, used with a database indexed on the field `year`:_
+_Example of the `$or` operator used with a database indexed on the field `year`:_
 
 ```json
 {
@@ -932,9 +933,9 @@ _Example of the `$or` operator, used with a database indexed on the field `year`
 
 #### The `$not` operator
 
-The `$not` operator matches if the given selector does _not_ resolve to a value of `true`.
+The `$not` operator matches if the selector does _not_ resolve to a value of `true`.
 
-_Example of the `$not` operator, used with full text indexing:_
+_Example of the `$not` operator used with full text indexing:_
 
 ```json
 {
@@ -957,7 +958,7 @@ _Example of the `$not` operator, used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$not` operator, used with a database indexed on the field `year`:_
+_Example of the `$not` operator used with a database indexed on the field `year`:_
 
 ```json
 {
@@ -982,9 +983,9 @@ _Example of the `$not` operator, used with a database indexed on the field `year
 
 #### The `$nor` operator
 
-The `$nor` operator matches if the given selector does _not_ match.
+The `$nor` operator matches if the selector does _not_ match.
 
-_Example of the `$nor` operator, used with full text indexing:_
+_Example of the `$nor` operator used with full text indexing:_
 
 ```json
 {
@@ -1009,7 +1010,7 @@ _Example of the `$nor` operator, used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$nor` operator, used with a database indexed on the field `year`:_
+_Example of the `$nor` operator used with a database indexed on the field `year`:_
 
 ```json
 {
@@ -1038,7 +1039,7 @@ _Example of the `$nor` operator, used with a database indexed on the field `year
 
 The `$all` operator matches an array value if it contains _all_ the elements of the argument array.
 
-_Example of the `$all` operator, used with full text indexing:_
+_Example of the `$all` operator used with full text indexing:_
 
 ```json
 {
@@ -1058,7 +1059,7 @@ _Example of the `$all` operator, used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$all` operator, used with a primary database index:_
+_Example of the `$all` operator used with a primary database index:_
 
 ```json
 {
@@ -1082,9 +1083,9 @@ _Example of the `$all` operator, used with a primary database index:_
 #### The `$elemMatch` operator
 
 The `$elemMatch` operator matches and returns all documents that contain an array field
-with at least one element matching the supplied query criteria.
+with at least one element that matches the supplied query criteria.
 
-_Example of the `$elemMatch` operator, used with full text indexing:_
+_Example of the `$elemMatch` operator used with full text indexing:_
 
 ```json
 {
@@ -1103,7 +1104,7 @@ _Example of the `$elemMatch` operator, used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$elemMatch` operator, used with a primary database index:_
+_Example of the `$elemMatch` operator used with a primary database index:_
 
 ```json
 {
@@ -1127,7 +1128,7 @@ _Example of the `$elemMatch` operator, used with a primary database index:_
 ## Condition Operators
 
 Condition operators are specific to a field,
-and are used to evaluate the value stored in that field.
+and are used to evaluate the value that is stored in that field.
 For instance,
 the `$eq` operator matches when the specified field contains a value that is equal to the supplied argument.
 
@@ -1140,7 +1141,7 @@ Other condition operators require the argument to be in a specific JSON format.
 
 Operator type | Operator  | Argument             | Purpose
 --------------|-----------|----------------------|--------
-(In)equality  | `$lt`     | Any JSON             | The field is less than the argument.
+(In) equality | `$lt`     | Any JSON             | The field is less than the argument.
               | `$lte`    | Any JSON             | The field is less than or equal to the argument.
               | `$eq`     | Any JSON             | The field is equal to the argument.
               | `$ne`     | Any JSON             | The field is not equal to the argument.
@@ -1152,7 +1153,7 @@ Array         | `$in`     | Array of JSON values | The document field must exist
               | `$nin`    | Array of JSON values | The document field must not exist in the list provided.
               | `$size`   | Integer              | Special condition to match the length of an array field in a document. Non-array fields cannot match this condition.
 Miscellaneous | `$mod`    | [Divisor, Remainder] | Divisor and Remainder are both positive or negative integers. Non-integer values result in a [404 status](http.html#404). Matches documents where the expression (`field % Divisor == Remainder`) is true, and only when the document field is an integer.
-              | `$regex`  | String               | A regular expression pattern to match against the document field. Only matches when the field is a string value and matches the supplied regular expression.
+              | `$regex`  | String               | A regular expression pattern to match against the document field. Matches only when the field is a string value and matches the supplied regular expression.
 
 > **Note**: Regular expressions do not work with indexes,
 so they must not be used to filter large data sets.
@@ -1163,7 +1164,7 @@ so they must not be used to filter large data sets.
 
 The `$lt` operator matches if the specified field content is less than the argument.
 
-_Example of the `$lt` operator, used with full text indexing:_
+_Example of the `$lt` operator used with full text indexing:_
 
 ```json
 {
@@ -1184,7 +1185,7 @@ _Example of the `$lt` operator, used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$lt` operator, used with a database indexed on the field `year`:_
+_Example of the `$lt` operator used with a database indexed on the field `year`:_
 
 ```json
 {
@@ -1207,7 +1208,7 @@ _Example of the `$lt` operator, used with a database indexed on the field `year`
 
 The `$lte` operator matches if the specified field content is less than or equal to the argument.
 
-_Example of the `$lte` operator, used with full text indexing:_
+_Example of the `$lte` operator used with full text indexing:_
 
 ```json
 {
@@ -1228,7 +1229,7 @@ _Example of the `$lte` operator, used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$lte` operator, used with a database indexed on the field `year`:_
+_Example of the `$lte` operator used with a database indexed on the field `year`:_
 
 ```json
 {
@@ -1251,7 +1252,7 @@ _Example of the `$lte` operator, used with a database indexed on the field `year
 
 The `$eq` operator matches if the specified field content is equal to the supplied argument.
 
-_Example of the `$eq` operator, used with full text indexing:_
+_Example of the `$eq` operator used with full text indexing:_
 
 ```json
 {
@@ -1270,7 +1271,7 @@ _Example of the `$eq` operator, used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$eq` operator, used with a database indexed on the field `year`:_
+_Example of the `$eq` operator used with a database indexed on the field `year`:_
 
 ```json
 {
@@ -1296,7 +1297,7 @@ The `$ne` operator matches if the specified field content is not equal to the su
 > **Note**: The `$ne` operator cannot be the basic (lowest level) element in a selector
 when you use an index of type `json`.
 
-_Example of the `$ne` operator, used with full text indexing:_
+_Example of the `$ne` operator used with full text indexing:_
 
 ```json
 {
@@ -1315,7 +1316,7 @@ _Example of the `$ne` operator, used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$ne` operator, used with a primary index:_
+_Example of the `$ne` operator used with a primary index:_
 
 ```json
 {
@@ -1339,7 +1340,7 @@ _Example of the `$ne` operator, used with a primary index:_
 
 The `$gte` operator matches if the specified field content is greater than or equal to the argument.
 
-_Example of the `$gte` operator, used with full text indexing:_
+_Example of the `$gte` operator used with full text indexing:_
 
 ```json
 {
@@ -1360,7 +1361,7 @@ _Example of the `$gte` operator, used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$gte` operator, used with a database indexed on the field `year`:_
+_Example of the `$gte` operator used with a database indexed on the field `year`:_
 
 ```json
 {
@@ -1383,7 +1384,7 @@ _Example of the `$gte` operator, used with a database indexed on the field `year
 
 The `$gt` operator matches if the specified field content is greater than the argument.
 
-_Example of the `$gte` operator, used with full text indexing:_
+_Example of the `$gte` operator used with full text indexing:_
 
 ```json
 {
@@ -1404,7 +1405,7 @@ _Example of the `$gte` operator, used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$gt` operator, used with a database indexed on the field `year`:_
+_Example of the `$gt` operator used with a database indexed on the field `year`:_
 
 ```json
 {
@@ -1428,7 +1429,7 @@ _Example of the `$gt` operator, used with a database indexed on the field `year`
 The `$exists` operator matches if the field exists,
 regardless of its value.
 
-_Example of the `$exists` operator, used with full text indexing:_
+_Example of the `$exists` operator used with full text indexing:_
 
 ```json
 {
@@ -1447,7 +1448,7 @@ _Example of the `$exists` operator, used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$exists` operator, used with a database indexed on the field `year`:_
+_Example of the `$exists` operator used with a database indexed on the field `year`:_
 
 ```json
 {
@@ -1470,7 +1471,7 @@ _Example of the `$exists` operator, used with a database indexed on the field `y
 
 The `$type` operator requires that the specified document field is of the correct type.
 
-_Example of the `$type` operator, used with full text indexing:_
+_Example of the `$type` operator used with full text indexing:_
 
 ```json
 {
@@ -1511,7 +1512,7 @@ _Example of the `$type`, operator used with a primary index:_
 
 The `$in` operator requires that the document field _must_ exist in the list provided.
 
-_Example of the `$in` operator, used with full text indexing:_
+_Example of the `$in` operator used with full text indexing:_
 
 ```json
 {
@@ -1532,7 +1533,7 @@ _Example of the `$in` operator, used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$in` operator, used with a primary index:_
+_Example of the `$in` operator used with a primary index:_
 
 ```json
 {
@@ -1556,7 +1557,7 @@ _Example of the `$in` operator, used with a primary index:_
 
 The `$nin` operator requires that the document field must _not_ exist in the list provided.
 
-_Example of the `$nin` operator, used with full text indexing:_
+_Example of the `$nin` operator used with full text indexing:_
 
 ```json
 {
@@ -1578,7 +1579,7 @@ _Example of the `$nin` operator, used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$nin` operator, used with a primary index:_
+_Example of the `$nin` operator used with a primary index:_
 
 ```json
 {
@@ -1602,7 +1603,7 @@ _Example of the `$nin` operator, used with a primary index:_
 
 The `$size` operator matches the length of an array field in a document.
 
-_Example of the `$size` operator, used with full text indexing:_
+_Example of the `$size` operator used with full text indexing:_
 
 ```json
 {
@@ -1620,7 +1621,7 @@ _Example of the `$size` operator, used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$size` operator, used with a primary index:_
+_Example of the `$size` operator used with a primary index:_
 
 ```json
 {
@@ -1650,12 +1651,12 @@ They can be positive or negative integers.
 A query where the Divisor or Remainder is a non-integer returns a [404 status](http.html#404).
 
 >	**Note**: When you use negative integer values for the Divisor or Remainder,
-remember that the Cloudant `$mod` operator is similar to the
+the Cloudant `$mod` operator behaves in a similar way to the
 [Erlang `rem` modulo operator ![External link icon](../images/launch-glyph.svg "External link icon")](http://erlang.org/doc/reference_manual/expressions.html){:new_window},
 or the [`%` operator in C ![External link icon](../images/launch-glyph.svg "External link icon")](https://en.wikipedia.org/wiki/Operators_in_C_and_C%2B%2B){:new_window},
 and uses [truncated division ![External link icon](../images/launch-glyph.svg "External link icon")](https://en.wikipedia.org/wiki/Modulo_operation){:new_window}.
 
-_Example of the `$mod` operator, used with full text indexing:_
+_Example of the `$mod` operator used with full text indexing:_
 
 ```json
 {
@@ -1673,7 +1674,7 @@ _Example of the `$mod` operator, used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$mod` operator, used with a primary index:_
+_Example of the `$mod` operator used with a primary index:_
 
 ```json
 {
@@ -1698,7 +1699,7 @@ _Example of the `$mod` operator, used with a primary index:_
 
 The `$regex` operator matches when the field is a string value _and_ matches the supplied regular expression.
 
-_Example of the `$regex` operator, used with full text indexing:_
+_Example of the `$regex` operator used with full text indexing:_
 
 ```json
 {
@@ -1718,7 +1719,7 @@ _Example of the `$regex` operator, used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$regex` operator, used with a primary index:_
+_Example of the `$regex` operator used with a primary index:_
 
 ```json
 {
@@ -1743,12 +1744,10 @@ _Example of the `$regex` operator, used with a primary index:_
 
 ## Creating selector expressions
 
-We have seen examples of combining selector expressions,
-such as when you [use explicit `$and` and `$eq` operators](#combined-expressions).
 In general,
 whenever you have an operator that takes an argument,
 that argument can itself be another operator with arguments of its own.
-This enables us to build up more complex selector expressions.
+This expansion enables more complex selector expressions.
 
 However,
 not all operators can be used as the base or starting point of the selector expression
@@ -1807,8 +1806,8 @@ enabling the remainder of the selector expression to be applied.
 >	**Note**: The use of `{"_id": { "$gt":null } }` forces a full table scan of the database,
 and is not efficient for large databases.
 
-Most selector expressions work exactly as you would expect for the given operator.
-The matching algorithms used by the `$regex` operator are currently _based_ on
+Most selector expressions work exactly as you would expect for the operator.
+The matching algorithms that are used by the `$regex` operator are currently _based_ on
 the [Perl Compatible Regular Expression (PCRE) library ![External link icon](../images/launch-glyph.svg "External link icon")](https://en.wikipedia.org/wiki/Perl_Compatible_Regular_Expressions){:new_window}.
 However,
 not all of the PCRE library is implemented.
@@ -1843,7 +1842,7 @@ if provided,
 is the next level of sort.
 
 The sort field can be any field.
-Use dotted notation if wanted for sub-fields.
+Use dotted notation if wanted for subfields.
 
 The direction value is `asc` for ascending, and `desc` for descending.
 
@@ -1864,7 +1863,7 @@ _Example of simple sort syntax:_
 ```
 {:codeblock}
 
-_Example of simple sort, assuming default ascending direction for both fields:_
+_Example of simple sort, assuming default direction of 'ascending' for both fields:_
 
 ```json
 [
@@ -1880,7 +1879,7 @@ in the required direction.
 To use sorting, ensure that:
 
 -	At least one of the sort fields is included in the selector.
--	There is an index already defined,
+-	An index is already defined,
 	with all the sort fields in the same order.
 -	Each object in the sort array has a single key.
 
@@ -1907,22 +1906,23 @@ for example:
 
 If possible,
 an attempt is made to discover the field type based on the selector.
-In ambiguous cases the field type must be provided explicitly.
+In ambiguous cases,
+the field type must be provided explicitly.
 
 The following table clarifies when the field type must be specified:
 
-Index used by query                       | Field type requirement
+Index that is used by query               | Field type requirement
 ------------------------------------------|-----------------------
 JSON index                                | It is not necessary to specify the type of sort fields in the query.
 Text index of all fields in all documents | Specify the type of any sort field in the query if the database contains any documents in which the sort field has one type _and also_ contains some documents in which the sort field has a different type.
 Any other text index                      | Specify the type of all sort fields in the query.
 
->	**Note**: Remember that a text index of all fields
+>	**Note**: A text index of all fields
 in all documents is created when you use the syntax:
 [`"index": {}`](#the-index-field).
 
 >	**Note**: The sorting order is undefined when fields contain different data types.
-This is an important difference between text and view indexes.
+This characteristic is an important difference between text and view indexes.
 Sorting behavior for fields with different data types might change in future versions.
 
 _Example of a simple query that uses sorting:_
@@ -1946,16 +1946,16 @@ _Example of a simple query that uses sorting:_
 
 ## Filtering fields
 
-It is possible to specify exactly which fields are returned for a document when selecting from a database.
+It is possible to specify exactly which fields are returned for a document when you select from a database.
 The two advantages are:
 
 - Your results are limited to only those parts of the document that are required for your application.
 - A reduction in the size of the response.
 
-The fields returned are specified as an array.
+The fields to be returned are specified as an array.
 
 >	**Note**: Only the specified filter fields are included in the response.
-There is no automatic inclusion of the `_id` or other metadata fields when a field list is included.
+`_id` or other metadata fields are not automatically included.
 
 _Example of selective retrieval of fields from matching documents:_
 
@@ -1979,21 +1979,21 @@ _Example of selective retrieval of fields from matching documents:_
 Cloudant Query chooses which index to use for responding to a query,
 unless you specify an index at query time.
 
-When choosing which index to use,
+When you specify an index to use,
 Cloudant Query uses the following logic:
 
--	If there are two or more `json` type indexes on the same fields,
+-	If two or more `json` type indexes exist for the same fields,
 	the index with the smallest number of fields in the index is preferred.
-	If there are still two or more candidate indexes,
+	If the refinement still leaves two or more candidate indexes,
 	the index with the first alphabetical name is chosen.
 -	If a `json` type index _and_ a `text` type index might both satisfy a selector,
 	the `json` index is chosen by default.
 -	If a `json` type index _and_ a `text` type index the same field (for example `fieldone`),
-	but the selector can only be satisfied by using a `text` type index,
+	but the selector can be satisfied only by using a `text` type index,
 	then the `text` type index is chosen.
 
 For example,
-assume you have a `text` type index and a `json` type index for the field `foo`,
+assume that you have a `text` type index and a `json` type index for the field `foo`,
 and you want to use a selector similar to the following sample:
 
 ```json
@@ -2005,8 +2005,7 @@ and you want to use a selector similar to the following sample:
 ```
 {:codeblock}
 
-Cloudant Query uses the `text` type index,
-because a `json` type index cannot satisfy the selector.
+Cloudant Query uses the `text` type index because a `json` type index cannot satisfy the selector.
 
 However,
 you might use a different selector with the same indexes:
@@ -2028,7 +2027,7 @@ send a `POST` to the `_explain` endpoint for the database,
 with the query as data.
 The details of the index in use are shown in the `index` object within the result.
 
-_Example that uses HTTP to show how to identify the index used to answer a query:_
+_Example that uses HTTP to show how to identify the index that was used to answer a query:_
 
 ```http
 POST /movies/_explain HTTP/1.1
@@ -2043,7 +2042,7 @@ Content-Type: application/json
 ```
 {:codeblock}
 
-_Example that uses the command line to show how to identify the index used to answer a query:_
+_Example that uses the command line to show how to identify the index that was used to answer a query:_
 
 ```sh
 curl 'https://examples.cloudant.com/movies/_explain' \
@@ -2058,7 +2057,7 @@ curl 'https://examples.cloudant.com/movies/_explain' \
 ```
 {:codeblock}
 
-_Example response showing which index was used to answer a query:_
+_Example response that shows which index was used to answer a query:_
 
 ```json
 {
@@ -2134,25 +2133,25 @@ _Example query with instructions to use a specific index:_
 
 The basic premise for full text indexes is that a document
 is "expanded" into a list of key:value pairs that are indexed by Lucene.
-This allows us to make use of Lucene's search syntax as a basis for the query capability.
+This expansion enables the use of Lucene's search syntax as a basis for the query capability.
 
-While supporting enhanced searches,
-this technique does have certain limitations.
+This technique supports enhanced searches,
+but does have certain limitations.
 For example,
 it might not always be clear whether content for an expanded document came
 from individual elements or an array.
 
-The query mechanism resolves this by preferring to return 'false positive' results.
+The query mechanism resolves this uncertainty by preferring to return 'false positive' results.
 In other words,
-if a match would have been found as a result of searching for either an individual element,
+if a match was found as a result of searching for either an individual element,
 or an element from an array,
-then the match is considered to have succeeded.
+then the match is considered a success.
 
 <div id="selector-translation"></div>
 
 ### Selector conversion
 
-A standard Lucene search expression would not necessarily fully 'understand' Cloudant's JSON-based query syntax.
+A standard Lucene search expression would not necessarily fully 'understand' the JSON-based Cloudant query syntax.
 Therefore,
 a conversion between the two formats takes place.
 
@@ -2161,7 +2160,7 @@ the JSON query approximates to the English phrase:
 "match if the age expressed as a number is greater than five and less than or equal to infinity".
 The Lucene query corresponds to that phrase,
 where the text `_3a` within the fieldname corresponds to the `age:number` field,
-and is an example of the document content expansion mentioned earlier.
+and is an example of the document content expansion that was mentioned earlier.
 
 _Example query to be converted:_
 
@@ -2214,33 +2213,35 @@ _JSON query to be converted to Lucene:_
 {:codeblock}
 
 The first part of the JSON query is straightforward to convert to Lucene;
-we are testing that the `age` field has a numeric value greater than 5.
+the test determines if the `age` field has a numeric value greater than 5.
 The `{` character in the range expression means that the value 5 is not considered a match.
 
 To implement the `"twitter": {"$exists":true}` part of the JSON query in Lucene,
-we must determine if a `twitter` field exists.
+the first test is to determine whether a `twitter` field exists.
 However,
 the field might be either an array or an object.
-Therefore we must match when the value is an array _or_ an object.
+Therefore,
+the match must succeed when the value is an array _or_ an object.
 
-We do this by searching the `$fieldnames` field for entries that contain either `twitter.*` or `twitter:*`.
+This requirement means that the `$fieldnames` field must have entries that contain either `twitter.*` or `twitter:*`.
 The `.` character is represented in the query as the ASCII character sequence `_2e`.
 Similarly,
 the `:` character is represented in the query as the ASCII character sequence `_3a`.
-This means that we must use a two clause `OR` query for the `twitter` field,
+This representation requires the use of a two clause `OR` query for the `twitter` field,
 ending in `_2e*` and `_3a*`.
 Implementing this as two phrases instead of a single `twitter*` query prevents an accidental match
 with a field name such as `twitter_handle` or similar.
 
 The last of the three main clauses,
-where we search for `starch` or `protein`,
+which is a search for `starch` or `protein`,
 is more complicated.
 The `$in` operator has some special semantics for array values that are inherited from MongoDB's documented behavior.
 In particular,
-the `$in` operator applies to the value **OR** any of the values contained in an array named by the given field.
+the `$in` operator applies to the value **OR** any of the values contained in an array named by the field.
 In our example,
 this means that both `"type":"starch"` **AND** `"type":["protein"]` would match the example argument to `$in`.
-We saw earlier that `type_3astring` converts to `type:string`.
+Earlier,
+the `type_3astring` expression was converted to `type:string`.
 The second `type_2e_5b_5d_3astring` phrase converts to `type.[]:string`,
 which is an example of the expanded array indexing.
 
@@ -2318,9 +2319,9 @@ _Results after successful replication of the Cloudant Query movie database:_
 ```
 {:codeblock}
 
-Before we can search the content,
-we must index it.
-We do this by creating a text index for the documents.
+Before searching the content,
+it must be indexed,
+by creating a text index for the documents.
 
 _Example of using HTTP to create a _text_ index for your sample database:_
 
