@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-03-10"
+lastupdated: "2017-03-20"
 
 ---
 
@@ -12,7 +12,7 @@ lastupdated: "2017-03-10"
 {:codeblock: .codeblock}
 {:pre: .pre}
 
-<!-- Acrolinx: 2017-02-27 -->
+<!-- Acrolinx: 2017-03-20 -->
 
 # Authorization
 
@@ -57,7 +57,7 @@ Role      | Description
 `_reader` | Read documents from the database.
 `_writer` | Create, update, and delete documents (except design documents) in the database.
 
->   **Note:** The `_reader` and `_writer` roles are exclusive. If a user has the `_writer` role, they cannot read documents they create unless they _also_ have the `_reader` role.
+>   **Note:** The `_reader` and `_writer` roles are exclusive. If a user has the `_writer` role, they cannot read documents that they create unless they _also_ have the `_reader` role.
 
 You might want to assign more than one role.
 For example,
@@ -132,7 +132,7 @@ such as `_design` or `_security`.
 To see who has permissions to read,
 write,
 and manage the database,
-send a `GET` request to `https://$USERNAME.cloudant.com/_api/v2/db/$DATABASE/_security`.
+send a `GET` request to `https://$ACCOUNT.cloudant.com/_api/v2/db/$DATABASE/_security`.
 
 _Example of using an HTTP request to determine permissions:_
 
@@ -144,7 +144,7 @@ GET /_api/v2/db/$DATABASE/_security HTTP/1.1
 _Example of using a command line request to determine permissions:_
 
 ```sh
-curl https://$USERNAME.cloudant.com/_api/v2/db/$DATABASE/_security
+curl https://$ACCOUNT.cloudant.com/_api/v2/db/$DATABASE/_security
 ```
 {:codeblock}
 
@@ -154,7 +154,7 @@ _Example request to determine permissions, using Javascript:_
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$ACCOUNT+".cloudant.com");
 account.request({
 	db: $DATABASE,
 	path: '_security'
@@ -209,7 +209,7 @@ _Example response to request for permissions:_
 To modify who has permissions to read,
 write,
 or manage a database,
-send a `PUT` request to `https://$USERNAME.cloudant.com/_api/v2/db/$DATABASE/_security`.
+send a `PUT` request to `https://$ACCOUNT.cloudant.com/_api/v2/db/$DATABASE/_security`.
 To see what roles you can assign,
 see [Roles](#roles).
 
@@ -224,7 +224,7 @@ Content-Type: application/json
 _Example of using the command line to send an authorization modification request:_
 
 ```sh
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/_api/v2/db/$DATABASE/_security \
+curl https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/_api/v2/db/$DATABASE/_security \
 	-X PUT \
 	-H "Content-Type: application/json" \
 	-d "$JSON"
@@ -237,7 +237,7 @@ _Example of using JavaScript to send an authorization modification request:_
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$ACCOUNT+".cloudant.com");
 account.request(
 	{
 		db: $DATABASE,
@@ -328,9 +328,9 @@ _Example of an incorrect authorization modification request document:_
 >	**Note**: An earlier method of generating API keys by `POST`ing to
 the `https://cloudant.com/api/generate_api_key` endpoint is deprecated.
 
-API keys allow you to give access to a person or application without having to create a new {{site.data.keyword.cloudant_short_notm}} account.
-An API key consists of a randomly generated username and password.
-The key is given the desired access permissions.
+API keys allow a person or application to access a database without having to create a new {{site.data.keyword.cloudant_short_notm}} account.
+An API key consists of a randomly generated user name and password.
+The key is given the wanted access permissions.
 
 When generated,
 the API key can be used in the same way as a normal user account,
@@ -359,14 +359,14 @@ as described in the [IBM Knowledge Center ![External link icon](../images/launch
 _Example of using an HTTP request to create an API key:_
 
 ```http
-POST https://<username>.cloudant.com/_api/v2/api_keys HTTP/1.1
+POST https://$ACCOUNT.cloudant.com/_api/v2/api_keys HTTP/1.1
 ```
 {:codeblock}
 
 _Example of using a command line request to create an API key:_
 
 ```sh
-curl -X POST https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/_api/v2/api_keys
+curl -X POST https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/_api/v2/api_keys
 ```
 {:codeblock}
 
@@ -376,7 +376,7 @@ _Example of using JavaScript to create an API key:_
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://$USERNAME:$PASSWORD@cloudant.com");
+var account = nano("https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com");
 account.request(
 	{
 		db: '_api',
@@ -409,9 +409,10 @@ _Example response to request for an API key:_
 
 After you generate an API key,
 you can assign the API key to a database by sending a `PUT` request to
-`https://<username>.cloudant.com/_api/v2/db/<database>/_security`.
+`https://$ACCOUNT.cloudant.com/_api/v2/db/$DATABASE/_security`.
 When assigned to a database,
 the key can be granted access permissions.
+
 ## Using API keys
 
 API keys are typically generated by using an account that has at least one database.
@@ -427,7 +428,7 @@ It must be given permissions explicitly.
 
 After you generate the API key,
 grant the key access-specific permissions for a specific database by sending a `PUT` request to 
-`https://<username>.cloudant.com/_api/v2/db/<database>/_security`,
+`https://$ACCOUNT.cloudant.com/_api/v2/db/$DATABASE/_security`,
 as described in [modifying permissions](#modifying-permissions).
 
 The database does not have to be in the same account as the account used for generating the API key initially.
@@ -477,7 +478,7 @@ To turn off {{site.data.keyword.cloudant_short_notm}} security,
 `PUT` a JSON document to the `_security` endpoint of the database.
 you must turn off {{site.data.keyword.cloudant_short_notm}} security for those roles first,
 by sending a JSON document to the `_security` endpoint of the database.
-For example, `https://<username>.cloudant.com/<database>/_security`.
+For example, `https://$ACCOUNT.cloudant.com/$DATABASE/_security`.
 
 _Example of using HTTP to submit a modification request:_
 
@@ -490,7 +491,7 @@ Content-Type: application/json
 _Example of using the command line to submit a modification request:_
 
 ```sh
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/_security \
+curl https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE/_security \
 	-X PUT \
 	-H "Content-Type: application/json" \
 	-d @request-body.json
