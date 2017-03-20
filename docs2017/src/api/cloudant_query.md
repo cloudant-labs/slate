@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-03-17"
+lastupdated: "2017-03-20"
 
 ---
 
@@ -12,7 +12,7 @@ lastupdated: "2017-03-17"
 {:codeblock: .codeblock}
 {:pre: .pre}
 
-<!-- Acrolinx: 2017-03-17 -->
+<!-- Acrolinx: 2017-03-20 -->
 
 # Query
 
@@ -429,7 +429,7 @@ _Example of a response body with two indexes:_
 	If set to a higher value,
 	each document is read from at least that many replicas before it is returned in the results.
 	The request is likely to take more time than using only the document that is stored locally with the index.
--	**bookmark (optional, default: null)**: A string used to specify which page of results you require.
+-	**bookmark (optional, default: null)**: A string that is used to specify which page of results you require.
 	*Only for indexes of type `text`.*
 -	**use_index (optional)**: Use this option to identify a specific index for query to run against,
 	rather than by using the Cloudant Query algorithm to find the best index.
@@ -468,7 +468,7 @@ _Example request in JSON format, for finding documents by using an index:_
 	the fields that are specified in the `fields` part of the request body are listed,
 	along with their values.
 
-_Example response when using an index to find documents:_
+_Example response when you use an index to find documents:_
 
 ```json
 {
@@ -671,7 +671,7 @@ _Example selector that uses an operator to match any document, where the `year` 
 {:codeblock}
 
 In the following example,
-a matching document must have a field called `director`,
+a matching document must have a field that is called `director`,
 *and* the field must have a value exactly equal to `Lars von Trier`.
 
 _Example of the implicit equality operator:_
@@ -2213,7 +2213,7 @@ _JSON query to be converted to Lucene:_
 {:codeblock}
 
 The first part of the JSON query is straightforward to convert to Lucene;
-the test determines if the `age` field has a numeric value greater than 5.
+the test determines whether the `age` field has a numeric value greater than 5.
 The `{` character in the range expression means that the value 5 is not considered a match.
 
 To implement the `"twitter": {"$exists":true}` part of the JSON query in Lucene,
@@ -2229,17 +2229,16 @@ Similarly,
 the `:` character is represented in the query as the ASCII character sequence `_3a`.
 This representation requires the use of a two clause `OR` query for the `twitter` field,
 ending in `_2e*` and `_3a*`.
-Implementing this as two phrases instead of a single `twitter*` query prevents an accidental match
+Implementing this query as two phrases instead of a single `twitter*` query prevents an accidental match
 with a field name such as `twitter_handle` or similar.
 
-The last of the three main clauses,
-which is a search for `starch` or `protein`,
-is more complicated.
-The `$in` operator has some special semantics for array values that are inherited from MongoDB's documented behavior.
+The last of the three main clauses is a search for `starch` or `protein`.
+This search is more complicated.
+The `$in` operator has some special semantics for array values that are inherited from the way MongoDB's behaves.
 In particular,
-the `$in` operator applies to the value **OR** any of the values contained in an array named by the field.
+the `$in` operator applies to the value **OR** any of the values that are contained in an array that is named by the field.
 In our example,
-this means that both `"type":"starch"` **AND** `"type":["protein"]` would match the example argument to `$in`.
+the expression means that both `"type":"starch"` **AND** `"type":["protein"]` would match the example argument to `$in`.
 Earlier,
 the `type_3astring` expression was converted to `type:string`.
 The second `type_2e_5b_5d_3astring` phrase converts to `type.[]:string`,
@@ -2273,7 +2272,7 @@ _Corresponding Lucene query. The '#' comments are not valid Lucene syntax, but h
 To describe full text indexes,
 it is helpful to have a large collection of data to work with.
 A suitable collection is available in the example Cloudant Query movie database: `query-movies`.
-The sample database contains approximately 3,000 documents, and is just under 1 MB in size.
+The sample database contains approximately 3,000 documents, and is just under 1 MB.
 
 You can obtain a copy of this database in your database,
 giving it the name `my-movies`,
@@ -2319,9 +2318,8 @@ _Results after successful replication of the Cloudant Query movie database:_
 ```
 {:codeblock}
 
-Before searching the content,
-it must be indexed,
-by creating a text index for the documents.
+Before you can search the content,
+it must be indexed by creating a text index for the documents.
 
 _Example of using HTTP to create a _text_ index for your sample database:_
 
@@ -2346,7 +2344,7 @@ curl 'https://<user:password>@<user>.cloudant.com/my-movies/_index' \
 ```
 {:codeblock}
 
-_Example response after creating a text index:_
+_Example response after a text index is created successfully:_
 
 ```json
 {
@@ -2358,12 +2356,12 @@ _Example response after creating a text index:_
 The most obvious difference in the results you get when you use full text indexes is
 the inclusion of a large `bookmark` field.
 The reason is that text indexes are different from view-based indexes.
-For more flexibility when working with the results obtained from a full text query,
+For more flexibility when you work with the results that are obtained from a full text query,
 you can supply the `bookmark` value as part of the request body.
 Use the `bookmark` to specify which page of results you require.
 
->	**Note**: The actual `bookmark` value is very long,
-so the examples here have truncated `bookmark` values for reasons of clarity.
+>	**Note**: The actual `bookmark` value is long,
+so the examples here have values that are truncated for reasons of clarity.
 
 _Example of using HTTP to search for a specific document within the database:_
 
