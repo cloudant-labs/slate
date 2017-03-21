@@ -16,6 +16,7 @@ IBM Cloudant NoSQL DB for Bluemix
 	[Tutorials](tutorials/index.html)
 		tutorials/create_service.md
 		tutorials/create_database.md
+		tutorials/create_query.md
 		tutorials/create_bmxapp.md
 		tutorials/create_bmxapp_prereq.md
 		tutorials/create_bmxapp_appenv.md
