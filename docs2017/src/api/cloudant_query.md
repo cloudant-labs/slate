@@ -103,7 +103,7 @@ Code | Description
 
 ### Creating a "type=text" index
 
-While it is generally recommended that use default values when you create a single text index,
+While it is generally recommended that you use default values to create a single text index,
 there are a few useful index attributes that can be modified.
 
 Remember that for Full Text Indexes (FTIs),
@@ -316,7 +316,7 @@ and to query data using these indexes.
 
 The list of available methods and endpoints is as follows:
 
-Method   | Path                | Description
+Endpoints   | Path                | Description
 ---------|---------------------|------------
 `DELETE` | `/$DATABASE/_index` | Delete an index.
 `GET`    | `/$DATABASE/_index` | List all Cloudant Query indexes.
