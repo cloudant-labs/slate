@@ -23,7 +23,7 @@ Database contains JSON documents and design documents.
     Design documents - description 
 Describe Views and their elements
 Describe Indexes and their elements
-    Each database automatically includes a design document. Indexes are created in the design document. When you change the design document, the index is overwritten. To create an index of type JSON, make a POST request to the database. 
+    Each database automatically includes a design document. Indexes are created in the design document. To create an index of type JSON, make a POST request to the database. 
 Describe queries and their elements
 
 ## Creating a database using the Cloudant Dashboard
@@ -41,18 +41,19 @@ This tutorial is based on the simple `rolodex` database. Each index and query th
 7.  Create a new document by adding the following text after the "_id" line and inside the brackets.   
 
 
-Example document 1
+**Example document 1
 ```json
 {
-    "firstname": "Sally",
-    "lastname": "Brown",
-    “sex”: “female”
-    "address": "122 Main Street”, 
-    “city”: “Peoria”, 
-    “state”: “IL”,
-    “zipcode: 61602,
-    “areacode”: 309,
-    "phonenumber": “334-9354”
+  "_id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "firstname": "Sally",
+  "lastname": "Brown",
+  "sex": "female",
+  "address": "122 Main Street",
+  "city": "Peoria",
+  "state": "IL",
+  "zipcode": 61602,
+  "areacode": 309,
+  "phonenumber": "334-9354"
 }    
 ```
 
@@ -60,138 +61,147 @@ Example document 1
 8. Create nine more documents using the following text by inserting the text after the "_id" line and inside the brackets. 
 
 
-Example document 2
+**Example document 2
 ```json
 {
-    "firstname": "John",
-    "lastname": "Smith",
-    “sex”: “male”
-    "address": "123 Main Street”, 
-    “city”: “Peoria”, 
-    “state”: “IL”,
-    “zipcode: 61602, 
-    “areacode”: 309,
-    "phonenumber": “334-4614"
+  "_id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "firstname": "John",
+  "lastname": "Smith",
+  "sex": "male",
+  "address": "123 Main Street",
+  "city": "Peoria",
+  "state": "IL",
+  "zipcode": 61602,
+  "areacode": 309,
+  "phonenumber": "334-4614"
 }
 ```
 
-Example document 3
+**Example document 3
 ```json
 {
-    "firstname": "Greg",
-    "lastname": "Mason",
-    “sex”: “male”
-    "address": "124 Main Street”, 
-    “city”: “Peoria”, 
-    “state”: “IL”,
-    “zipcode: 61602,
-    “areacode”: 309,
-    "phonenumber": “334-4445”
+  "_id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "firstname": "Greg",
+  "lastname": "Mason",
+  "sex": "male",
+  "address": "124 Main Street",
+  "city": "Peoria",
+  "state": "IL",
+  "zipcode": 61602,
+  "areacode": 309,
+  "phonenumber": "334-4445"
 }
 ```
 
-Example document 4
+**Example document 4
 ```json
 {
-    "firstname": “Dan”,
-    "lastname": “Brown”,
-    “sex”: “male”
-    "address": "125 Main Street”, 
-    “city”: “Peoria”, 
-    “state”: “IL”,
-    “zipcode: 61602,
-    “areacode”: 309,
-    "phonenumber": “334-4275”
+  "_id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "firstname": "Dan",
+  "lastname": "Brown",
+  "sex": "male",
+  "address": "125 Main Street",
+  "city": "Peoria",
+  "state": "IL",
+  "zipcode": 61602,
+  "areacode": 309,
+  "phonenumber": "334-4275"
 }
 ```
 
-Example document 5
+**Example document 5
 ```json
 {
+  "_id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
     "firstname": "Janine",
     "lastname": "Lee",
-    “sex”: “female”
-    "address": "126 Second Street”, 
-    “city”: “San Mateo”, 
-    “state”: “CA”,
-    “zipcode: 94401,
-    “areacode”: 650,
-    "phonenumber": “726-9938”
+    "sex": "female",
+    "address": "126 Second Street", 
+    "city": "San Mateo", 
+    "state": "CA",
+    "zipcode": 94401,
+    "areacode": 650,
+    "phonenumber": "726-9938"
 }
 ```
 
-Example document 6
+**Example document 6
 ```json
 {
-    "firstname": "Sam",
-    "lastname": "Harris",
-    “sex”: “male”
-    "address": "125 Second Street”, 
-    “city”: “San Mateo”, 
-    “state”: “CA”,
-    “zipcode: 94401,
-    “areacode”: 650,
-    "phonenumber": "225-4444"
+  "_id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "firstname": "Sam",
+  "lastname": "Harris",
+  "sex": "male",
+  "address": "125 Second Street",
+  "city": "San Mateo",
+  "state": "CA",
+  "zipcode": 94401,
+  "areacode": 650,
+  "phonenumber": "225-4444"
 }
 ```
 
 Example document 7
 ```json
 {
-    "firstname": “Amanda”,
-    "lastname": “Green”,
-    “sex”: “female”
-    "address": "124 Second Street”, 
-    “city”: “San Mateo”, 
-    “state”: “CA”,
-    “zipcode: 94401,
-    “areacode”: 650,
-    "phonenumber": “613-8462”
+  "_id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "firstname": "Amanda",
+  "lastname": "Greene",
+  "sex": "female",
+  "address": "124 Second Street",
+  "city": "San Mateo",
+  "state": "CA",
+  "zipcode": 94401,
+  "areacode": 650,
+  "phonenumber": "613-8462"
 }
 ```
 
 Example document 8
 ```json
 {
-    "firstname": “Tammy”,
-    "lastname": “Smith”,
-    “sex”: “female”
-    "address": "122 Second Street”, 
-    “city”: “San Mateo”, 
-    “state”: “CA”,
-    “zipcode: 94401,
-    “areacode”: 650,
-    "phonenumber": "333-7310”
+  "_id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "firstname": "Tammy",
+    "lastname": "Smith",
+    "sex": "female",
+    "address": "122 Second Street", 
+    "city": "San Mateo", 
+    "state": "CA",
+    "zipcode": 94401,
+    "areacode": 650,
+    "phonenumber": "333-7310"
 }
 ```
 
 Example document 9
 ```json
 {
-    "firstname": “Patricia”,
-    "lastname": “Jones”,
-    “sex”: “female”
-    "address": "125 Second Street”, 
-    “city”: “San Mateo”, 
-    “state”: “CA”,
-    “zipcode: 94401,
-    “areacode”: 650,
-    "phonenumber": "336-4003”
+  "_id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "firstname": "Patricia"”",
+    "lastname": "Jones",
+    "sex": "female"
+    "address": "125 Second Street", 
+    "city": "San Mateo", 
+    "state": "CA",
+    "zipcode": 94401,
+    "areacode": 650,
+    "phonenumber": "336-4003"  
 }
 ```
 
 Example document 10
 ```json
 {
-    "firstname": “Nick”,
-    "lastname": “Brown”,
-    “sex”: “male”
-    "address": "126 Second Street”, 
-    “city”: “San Mateo”, 
-    “state”: “CA”,
-    “zipcode: 94401,
-    “areacode”: 650,
-    "phonenumber": "334-4841”
+  "_id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "firstname": "Nick",
+    "lastname": "Brown",
+    "sex": "male",
+    "address": "126 Second Street", 
+    "city": "San Mateo", 
+    "state": "CA",
+    "zipcode": 94401,
+    "areacode": 650,
+    "phonenumber": "334-4841"
 }
 ```
 
@@ -199,7 +209,10 @@ The `rolodex` database now contains ten JSON documents.
 
 ## Creating an index 
 With Cloudant Query, you can use the Primary Index out-of-the-box. You can also build indexes using MapReduce 
-Views (type=json) and Search Indexes (type=text). When you create an index, you must select the columns 
+Views (type=json) and Search Indexes (type=text). Index specifics are stored in design documents. 
+When you change the design document, the index is overwritten and recreated from scratch.
+
+When you create an index, you must select the columns 
 from the database table that you want to search. For example, the `rolodex` database contains the following 
 columns:
 
@@ -251,11 +264,26 @@ Return JSON confirms the index was created successfully.
     {
         "result" : "created"
     }
+NOT A TRURE RESPONSE    
+    {"total_rows":2,"indexes":[{"ddoc":null,"name":"_all_docs",
+    "type":"special","def":{"fields":[{"_id":"asc"}]}},{"ddoc":
+    "_design/a7ee061f1a2c0c6882258b2f1e148b714e79ccea","name":
+    "a7ee061f1a2c0c6882258b2f1e148b714e79ccea","type":"json",
+    "def":{"fields":[{"foo":"asc"}]}}]}
 ```
 
 [Describe index and fields fields.] The `index` field contains the settings that are specific to [NO IDEA-page 4 on queries.]
 
-###Creating a "type=text" index
+###Creating a design document
+[DESCRIPTION OF Design Doc here]
+
+1.  From the Dashboard, open the `rolodex` database.
+2.  On the Design Doc tab, click the create icon, +, and select New Doc. 
+3.  Replace the `_id` with `rolodex-index-design-doc` and click **Save Changes**.
+
+The index information will be stored in this design document.  
+
+####Creating a "type=text" index
 If you want the flexibility to search all your data, you can create a "type=text" index. 
 This index type automatically indexes all the fields of the documents in your database providing
 the ability to query and retrieve information from all the data in your database. This 
@@ -302,7 +330,7 @@ You can list all the indexes in a database using the GET endpoint.
 Return JSON lists the index in the database in the following manner.
 
 ```
-    [INSERT RETURN JSON]
+{"total_rows":2,"indexes":[{"ddoc":null,"name":"_all_docs","type":"special","def":{"fields":[{"_id":"asc"}]}},{"ddoc":"_design/a7ee061f1a2c0c6882258b2f1e148b714e79ccea","name":"a7ee061f1a2c0c6882258b2f1e148b714e79ccea","type":"json","def":{"fields":[{"foo":"asc"}]}}]}
 ```
 
 
@@ -313,7 +341,7 @@ Indexes are saved to the design document. Therefore, the index must be deleted f
 To delete the index we created, use the following DELETE string [?].
 
 ```
-    DELETE /rolodex/_index/$DDOC/JSON/$NAME
+    DELETE /rolodex/_index/$DDOC/JSON/$INDEX_NAME
 ```    
 
 Return JSON [shows the index was deleted].
@@ -329,8 +357,8 @@ Return JSON [shows the index was deleted].
 [Search for one document.]
 
 1.  Search for a specific document.
-    ```
 
+```
 POST /rolodex/_find
 {
     "selector": {
@@ -342,6 +370,7 @@ POST /rolodex/_find
          "limit": 10
          "skip": 0
     }        
+```
 
 
 
