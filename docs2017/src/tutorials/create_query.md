@@ -239,7 +239,7 @@ the index.
 1.  Create a JSON index in the `rolodex` database.
 2.  Make a `POST` request to the `_index` endpoint. 
 3.  In the request body for the JSON object, specify the `state` and `area code` fields.   
-4.  Set the `type` field to `json`. 
+4.  Set the `type` field equal to `json`. 
 
 
 ```json
@@ -264,7 +264,7 @@ Return JSON confirms the index was created successfully.
     {
         "result" : "created"
     }
-NOT A TRURE RESPONSE    
+NOT A TRUE RESPONSE    
     {"total_rows":2,"indexes":[{"ddoc":null,"name":"_all_docs",
     "type":"special","def":{"fields":[{"_id":"asc"}]}},{"ddoc":
     "_design/a7ee061f1a2c0c6882258b2f1e148b714e79ccea","name":
@@ -292,7 +292,7 @@ flexibility requires more storage resources and can take longer to create than a
 1.  Create a text index in the `rolodex` database.
 2.  Make a `POST` request to the `_index` endpoint.  
 3.  In the request body for the JSON object, specify the `sex`, `lastname`, and `areacode` fields.   
-4.  Set the `type` field to `text`. 
+4.  Set the `type` field equal to `text`. 
  
 ```json
 POST /rolodex/_index HTTP/1.1
@@ -321,7 +321,7 @@ Describe how to create a design doc that includes this index info. Describe defa
 
 ### Listing Cloudant Query indexes 
 
-You can list all the indexes in a database using the GET endpoint. 
+You can list all the indexes in a database by using the GET endpoint. 
 
 ```
     GET /rolodex/_index
@@ -330,6 +330,7 @@ You can list all the indexes in a database using the GET endpoint.
 Return JSON lists the index in the database in the following manner.
 
 ```
+[VERIFY content]
 {"total_rows":2,"indexes":[{"ddoc":null,"name":"_all_docs","type":"special","def":{"fields":[{"_id":"asc"}]}},{"ddoc":"_design/a7ee061f1a2c0c6882258b2f1e148b714e79ccea","name":"a7ee061f1a2c0c6882258b2f1e148b714e79ccea","type":"json","def":{"fields":[{"foo":"asc"}]}}]}
 ```
 
@@ -338,7 +339,7 @@ Return JSON lists the index in the database in the following manner.
 
 Indexes are saved to the design document. Therefore, the index must be deleted from the design document. You delete the index from the design document using the DELETE endpoint.
 
-To delete the index we created, use the following DELETE string [?].
+To delete the index we created, use the following DELETE request.
 
 ```
     DELETE /rolodex/_index/$DDOC/JSON/$INDEX_NAME
@@ -351,19 +352,35 @@ Return JSON [shows the index was deleted].
 ``` 
 
 
-
-
 ## Creating a query 
-[Search for one document.]
 
-1.  Search for a specific document.
+
+
+
+
+
+### Querying the rolodex database using selector syntax
+To build a query that searches for a document in the database when you have a 
+few specifics, you can include the fields in the query to retrieve it. For example, 
+in the `rolodex` database, if you know the state and last name included in one 
+of the documents, search for the state and last name in the query as is written
+in the example below. You can also include the fields you want returned in the 
+response and which of the return fields to sort by. 
+
+1.  Make a POST request and include the fields to search in the `selector` 
+    syntax as shown in the example below.
+2.  In the `fields` field, type in the name of the fields you want to see when
+    the response is returned.
+3.  Enter the value you want to sort by, limit the number of documents to 
+    search, and the number of documents to skip [true?] before the search 
+    aborts. 
 
 ```
 POST /rolodex/_find
 {
     "selector": {
-        "area code": 650
-        "last name": Brown
+        "state": "CA"
+        "last name": "Greene"
         }
          "fields": ["first name", "last name", "address", "area code", "phone number"],
          "sort": ["last name"],
@@ -371,11 +388,6 @@ POST /rolodex/_find
          "skip": 0
     }        
 ```
-
-
-
-### Querying the rolodex database using selector syntax
-[Using selector syntax and two operators. Search for people who live in Indiana.]
 
 ### Querying the rolodex database using operators
 [Search for people who live in California and have a 650 area code.]
