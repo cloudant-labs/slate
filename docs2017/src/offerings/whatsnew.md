@@ -70,5 +70,5 @@ Replication
 Result set
 
 -   The `_db_updates` endpoint returns a result set containing a key named  `db_name`. Previously, it returned a result set with a key named `dbname`.
--   Set limits for the maximum length of the document ID, including setting the value `infinity` so the length is not checked. Previously, it was not possibly to define a maximum document ID length. 
+-   Set the maximum length of the document ID, including setting the value `infinity` so the length is not checked. Previously, it was not possibly to define a maximum document ID length. 
     
