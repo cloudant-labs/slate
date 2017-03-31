@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-03-15"
+lastupdated: "2017-03-21"
 
 ---
 
@@ -300,11 +300,13 @@ click the corresponding icon.
 </tr>
 <tr>
 <td><code>POST&nbsp;/{db}/\_compact</code><p>
+<a href='http://docs.couchdb.org/en/2.0.0/api/database/compact.html#post--db-\_compact' target='_blank'><img src='../images/verySmallCouchDB2.png' alt='CouchDB 2.0'/></a>
 <a href='http://docs.couchdb.org/en/1.6.0/api/database/compact.html#post--db-\_compact' target='_blank'><img src='../images/verySmallCouchDB1.png' alt='CouchDB 1.6'/></a>
 </p></td><td>Request compaction of the specified database.</td>
 </tr>
 <tr>
 <td><code>POST&nbsp;/{db}/\_compact/{ddoc}</code><p>
+<a href='http://docs.couchdb.org/en/2.0.0/api/database/compact.html#post--db-\_compact-ddoc' target='_blank'><img src='../images/verySmallCouchDB2.png' alt='CouchDB 2.0'/></a>
 <a href='http://docs.couchdb.org/en/1.6.0/api/database/compact.html#post--db-\_compact-ddoc' target='_blank'><img src='../images/verySmallCouchDB1.png' alt='CouchDB 1.6'/></a>
 </p></td><td>Compact the view indexes associated with the specified design document.</td>
 </tr>
