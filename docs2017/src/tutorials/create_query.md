@@ -82,7 +82,7 @@ This tutorial is based on the simple `rolodex` database. Each index and query th
 {
   "_id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
   "firstname": "Greg",
-  "lastname": "Mason",
+  "lastname": "Greene",
   "sex": "male",
   "address": "124 Main Street",
   "city": "Peoria",
@@ -353,19 +353,23 @@ Return JSON [shows the index was deleted].
 
 
 ## Creating a query 
-
+You can build a query to search for documents in the database if 
+you have a few specifics by including the fields you are looking for in the 
+query. 
 
 
 
 
 
 ### Querying the rolodex database using selector syntax
-To build a query that searches for a document in the database when you have a 
-few specifics, you can include the fields in the query to retrieve it. For example, 
-in the `rolodex` database, if you know the state and last name included in one 
-of the documents, search for the state and last name in the query as is written
-in the example below. You can also include the fields you want returned in the 
-response and which of the return fields to sort by. 
+Write a query using the selector syntax to search the documents in the `rolodex` database. 
+in the `rolodex` database, if you want to find all the documents that include 
+`CA` and `Greene` and you know the documents in your database contain the fields 
+`state` and `last name`, write your query as shown in the example below. The example 
+also demonstrates what fields to search for, how to determine the fields that will 
+be included in the response, and how to sort the results. 
+
+Follow these steps to create a POST request for this query. 
 
 1.  Make a POST request and include the fields to search in the `selector` 
     syntax as shown in the example below.
@@ -379,14 +383,40 @@ response and which of the return fields to sort by.
 POST /rolodex/_find
 {
     "selector": {
-        "state": "CA"
         "last name": "Greene"
         }
-         "fields": ["first name", "last name", "address", "area code", "phone number"],
-         "sort": ["last name"],
+         "fields": ["firstname", "lastname", "city", "state"],
+         "sort": ["firstname"],
          "limit": 10
          "skip": 0
     }        
+```
+
+Example result from the search:
+
+```
+{
+  "docs": [
+    {
+        
+        "_id": "xxxxxxxxxxxxxxxxxxxxxxxx"
+        "_rev": "1-xxxxxxxxx"        
+        "firstname": "Amanda",
+        "lastname": "Greene",
+        "city": "San Mateo",        
+        "state": "CA"
+        }
+   {
+        "_id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "_rev": "1-xxxxxxxx"
+        "firstname": "Greg",
+        "lastname": "Greene",
+        "city": "Peoria",
+        "state": "IL",
+        }
+    
+     ]
+}
 ```
 
 ### Querying the rolodex database using operators
