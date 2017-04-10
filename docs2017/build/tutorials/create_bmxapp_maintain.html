@@ -1,0 +1,109 @@
+<html lang="en">
+<head>
+  <title>IBM&reg; Cloudant&reg; NoSQL DB for Bluemix&reg;</title>
+  <meta charset="utf-8"></meta>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+  <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+</head>
+
+<body>
+  <!-- Acrolinx: 2017-01-11 -->
+
+  <h1 id="creating-a-simple-bluemix-application-to-access-a-cloudant-database-maintaining-and-troubleshooting">Creating a simple Bluemix application to access a Cloudant database: maintaining and troubleshooting</h1>
+  <p class="shortdesc">This tutorial shows you how to maintain an IBM&reg; Bluemix&reg; application, hosted in your Bluemix service instance.</p>
+  <div id="maintenance"></div>
+  <h2 id="performing-basic-application-maintenance-tasks">Performing basic application maintenance tasks</h2>
+  <p>This section of the tutorial explains how to refresh, start, and stop, your Python applications on Bluemix.</p>
+  <h3 id="finding-the-status-of-your-application">Finding the status of your application</h3>
+  <p>The status of applications within your Bluemix service instance is displayed on the dashboard.</p>
+  <p>In the following example, The <code>Cloudant Python</code> application is not running, and has a <code>Stopped</code> state:<br>
+    <img src="images/img0037.png" alt="Screen capture showing dashboard for the application in a &#39;stopped&#39; state"></p>
+  <h3 id="starting-your-application">Starting your application</h3>
+  <blockquote>
+    <p> <strong>Note</strong>: If you attempt to start the tutorial application without first deleting the tutorial demonstration database, the application cannot work correctly. The application enters a cycle of attempting to start, failing because the database
+      exists, stopping, then attempting to start again. To solve the problem,
+      <a href="#stopping-your-application">stop the application</a>, then delete the tutorial demonstration database. The application can then start successfully.</p>
+  </blockquote>
+  <p>To start a stopped application, first click the application menu icon on the dashboard:<br>
+    <img src="images/img0038.png" alt="Screen capture showing dashboard with application management icon"></p>
+  <p>Next, click the <code>Start App</code> option in the menu:<br>
+    <img src="images/img0039.png" alt="Screen capture showing &#39;Start App&#39; option"></p>
+  <h3 id="stopping-your-application">Stopping your application</h3>
+  <p>To stop a running application, first click the application menu icon on the dashboard:<br>
+    <img src="images/img0040.png" alt="Screen capture showing dashboard with application management icon"></p>
+  <p>Next, click the <code>Stop App</code> option in the menu:<br>
+    <img src="images/img0041.png" alt="Screen capture showing &#39;Stop App&#39; option"></p>
+  <div id="troubleshooting"></div>
+  <h3 id="uploading-a-fresh-version-of-your-application">Uploading a fresh version of your application</h3>
+  <p>To upload a fresh version of your application, simply follow the <a href="create_bmxapp_upload.html">upload process</a>. The new version overwrites the older version of the application.</p>
+  <blockquote>
+    <p> <strong>Note</strong>: If the older version of the application is already running when you start the upload, Bluemix automatically stops the application first.</p>
+  </blockquote>
+  <h2 id="diagnosing-and-resolving-problems">Diagnosing and resolving problems</h2>
+  <p>This section of the tutorial provides some basic troubleshooting tips to help you identify, diagnose, and resolve some problems that you might encounter when you develop and deploy your first Bluemix applications.</p>
+  <p>A good source of advice on best practice for creating Bluemix or Cloud Foundry applications is
+    <a href="https://docs.cloudfoundry.org/devguide/deploy-apps/prepare-to-deploy.html" target="_blank">here <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>.</p>
+  <p>In particular, the advice on
+    <a href="https://docs.cloudfoundry.org/devguide/deploy-apps/prepare-to-deploy.html#filesystem" target="_blank">avoiding writes to the local file system <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>    is prudent.</p>
+  <blockquote>
+    <p> <strong>Note</strong>: For reasons of simplicity, this tutorial does write content to the local file system. However, the quantity of material is small. It is not expected to persist, and it is not &#39;mission critical&#39;.</p>
+  </blockquote>
+  <h3 id="using-the-application-log">Using the application log</h3>
+  <p>The most useful resource for diagnosing and resolving problems with Bluemix application is the log file.</p>
+  <p>The log file for a Bluemix application can be found on the <code>Logs</code> information page:<br>
+    <img src="images/img0042.png" alt="Screen capture showing the link to access the &#39;Logs&#39; information page"></p>
+  <p>Like most log files, a Bluemix application log contains details about what events occurred, and when.</p>
+  <p>The log also identifies which component was involved in the recorded event. The following table identifies key components:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Component label</th>
+        <th>Component</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>API</code></td>
+        <td>The Cloud Foundry system.</td>
+      </tr>
+      <tr>
+        <td><code>APP</code></td>
+        <td>Your application.</td>
+      </tr>
+      <tr>
+        <td><code>CELL</code></td>
+        <td>The container that holds your application within Bluemix.</td>
+      </tr>
+      <tr>
+        <td><code>RTR</code></td>
+        <td>The networking components carry messages to or from your application.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>For example, the following screen capture includes a number of typical events:<br>
+    <img src="images/img0043.png" alt="Screen capture showing indicative log information"></p>
+  <p>Note the events at the following times:</p>
+  <ul>
+    <li>At 1:56:56 PM, the application started successfully.</li>
+    <li>At 1:58:43 PM, the network received a simple HTTP request, to <code>GET /</code>.</li>
+    <li>Moments later, the application received the HTTP request, and replied to it.</li>
+    <li>At 2:13:46 PM, a request was received to stop the application.</li>
+    <li>At 2:13:48 PM, the application completed the process of halting.</li>
+  </ul>
+  <p>The application that is described in this tutorial is deliberately minimal. As a specific example, no attempt is made to determine whether the target database exists, and, if it does exist, to avoid attempting to create it again. The effect is that
+    if you try to run the tutorial application more than once, without removing the database beforehand, the application repeatedly fails and restarts.</p>
+  <p>You can see this effect in the following screen capture:<br>
+    <img src="images/img0044.png" alt="Screen capture showing error information within the log"></p>
+  <p>At 2:31:23 PM, the application detected a problem:<br>
+    <code>&quot;Database {0} already exists&quot;.format(dbname)</code></p>
+  <p>The remaining messages are what you expect from any Python application that encounters a problem.</p>
+  <p>In effect, the log shows you what component encountered a problem, and provides as much detail as possible. You must then apply normal application troubleshooting procedures to resolve the problem.</p>
+  <h2 id="end-of-tutorial">End of tutorial</h2>
+  <p>The tutorial is complete.</p>
+  <footer>
+    <div>
+      <p>Copyright &copy; 2015, 2017. All Rights Reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<html lang="en">
+<head>
+  <title>IBM&reg; Cloudant&reg; NoSQL DB for Bluemix&reg;</title>
+  <meta charset="utf-8"></meta>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+  <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+</head>
+
+<body>
+  <h1 id="json">JSON</h1>
+  <p class="shortdesc">The majority of requests and responses to and from Cloudant use the <a href="https://en.wikipedia.org/wiki/JSON" target="_blank">JavaScript Object Notation (JSON) <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>    for formatting the content and structure of the data and responses.</p>
+  <p>In Cloudant databases, the JSON object is used to represent a variety of structures, including all documents in a database.</p>
+  <p>Parsing JSON into a JavaScript object is supported through the <code>JSON.parse()</code> function in JavaScript, or through various <a href="../libraries/index.html">libraries</a> that perform the parsing of the content into a JavaScript object for
+    you.
+    <a href="../libraries/index.html">Libraries</a> for parsing and generating JSON are available for many major programming languages.</p>
+  <p>JSON is used because it is the simplest and easiest solution for working with data using a web browser. This is because JSON structures can be evaluated and used as JavaScript objects within the web browser environment. JSON also integrates with the
+    server-side JavaScript used within Cloudant. JSON documents are always UTF-8 encoded.</p>
+  <blockquote>
+    <p> <strong>Note</strong>: Care should be taken to ensure that:</p>
+  </blockquote>
+  <ul>
+    <li>Your JSON structures are valid. Invalid structures cause Cloudant to return an HTTP status code of <a href="../api/http.html#400">400 (bad request)</a>.</li>
+    <li>You normalize strings in JSON documents retrieved from Cloudant, before you compare them. This is because Unicode normalization might have been applied, so that a string stored and then retrieved is not identical on a binary level.</li>
+  </ul>
+  <p>JSON supports the same basic types as supported by JavaScript:</p>
+  <ul>
+    <li><a href="#numbers">Numbers</a></li>
+    <li><a href="#strings">Strings</a></li>
+    <li><a href="#booleans">Booleans</a></li>
+    <li><a href="#arrays">Arrays</a></li>
+    <li><a href="#objects">Objects</a></li>
+  </ul>
+  <h2 id="numbers">Numbers</h2>
+  <p>Numbers can be integer or floating point values.</p>
+  <p><em>Example of a number in JSON format:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs"><span class="hljs-number">123</span>
+</code></pre>
+  <h2 id="strings">Strings</h2>
+  <p>String should be enclosed by double-quotes. Strings support Unicode characters and backslash escaping.</p>
+  <p><em>Example of a string in JSON format:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs"><span class="hljs-string">"A String"</span>
+</code></pre>
+  <h2 id="booleans">Booleans</h2>
+  <p>A <code>true</code> or <code>false</code> value.</p>
+  <p><em>Example of a boolean in JSON format:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+  <span class="hljs-attr">"value"</span>: <span class="hljs-literal">true</span>
+}
+</code></pre>
+  <h2 id="arrays">Arrays</h2>
+  <p>A list of values enclosed in brackets. The values enclosed can be any valid JSON.</p>
+  <p><em>Example of an array in JSON format:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">[
+    <span class="hljs-string">"one"</span>,
+    <span class="hljs-number">2</span>,
+    <span class="hljs-string">"three"</span>,
+    [],
+    <span class="hljs-literal">true</span>,
+    {
+        <span class="hljs-attr">"foo"</span>:
+        <span class="hljs-string">"bar"</span>
+    }
+]
+</code></pre>
+  <p><em>Example of an array in JSON format (linear):</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">[ <span class="hljs-string">"one"</span>, <span class="hljs-number">2</span>, <span class="hljs-string">"three"</span>, [], <span class="hljs-literal">true</span>, { <span class="hljs-attr">"foo"</span>: <span class="hljs-string">"bar"</span> } ]
+</code></pre>
+  <h2 id="objects">Objects</h2>
+  <p>A set of key/value pairs, such as an associative array, or a hash. The key must be a string, but the value can be any of the supported JSON values.</p>
+  <p><em>Example of a JSON object:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"servings"</span> : <span class="hljs-number">4</span>,
+    <span class="hljs-attr">"subtitle"</span> : <span class="hljs-string">"Easy to make in advance, and then cook when ready"</span>,
+    <span class="hljs-attr">"cooktime"</span> : <span class="hljs-number">60</span>,
+    <span class="hljs-attr">"title"</span> : <span class="hljs-string">"Chicken Coriander"</span>
+}
+</code></pre>
+  <footer>
+    <div>
+      <p>Copyright &copy; 2015, 2017. All Rights Reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

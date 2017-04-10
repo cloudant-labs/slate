@@ -1,0 +1,225 @@
+<html lang="en">
+<head>
+  <title>IBM&reg; Cloudant&reg; NoSQL DB for Bluemix&reg;</title>
+  <meta charset="utf-8"></meta>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+  <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+</head>
+
+<body>
+  <h1 id="data-warehousing">Data Warehousing</h1>
+  <p class="shortdesc">A database is essential for storing data. But being able to apply that data for business purposes is what makes a database valuable: being able to retrieve relevant data, quickly and easily, and putting the data to work within your applications.</p>
+  <p>But many of the storage, processing, and analytics tasks you perform with the data are used again and again in your applications. Or they might be good examples of industry best practices.</p>
+  <p>So, it makes sense to extend standard database capabilities with additional features, supporting tasks such as reporting, or analytics.</p>
+  <p>For nearly 30 years, &#39;Data Warehouses&#39; have been the industry standard for data storage, reporting, and analytics, based on relational database technology. In general, a <a href="https://en.wikipedia.org/wiki/Data_warehouse" target="_blank">data warehouse is <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>:
+    &quot;... a central repository of integrated data from one or more sources. It stores current and historical data. It can be used for performing analysis and creating reports for knowledge workers throughout the enterprise.&quot;</p>
+  <p>The technologies that enable data storage, reporting, and analytics have emerged in recent years as a response to the need to process &#39;<a href="https://en.wikipedia.org/wiki/Big_data" target="_blank">Big Data <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>&#39;:
+    &quot;Big data is a term for data sets that are so large or complex that traditional data processing applications are inadequate.&quot;</p>
+  <p>At the same time, the properties and characteristics of Data Warehouses and related products mean that using relational database technology to enable the Data Warehouses is a popular choice, even for big data tasks.</p>
+  <p>There are many use cases that nicely illustrate the benefits of integrating Cloudant capabilities with a relational data warehouse, such as the following examples.</p>
+  <h2 id="joining-data">Joining data</h2>
+  <p>Joining data from multiple data stores for cross-domain analysis is a task that can be performed easily and efficiently using a relational data warehouse.</p>
+  <p>Data from different sources is prepared and transformed to a common format during the load of a data warehouse. Records are stored in tables, and operations are available to join those tables to enable combined analysis.</p>
+  <p>Doing the join in a relational data warehouse is especially useful if some of the data is already available in relational representation, for example master data or reference data.</p>
+  <h2 id="flexibility">Flexibility</h2>
+  <p>Cloudant databases are flexible at representing data. For example, they do not enforce a schema during read or write.</p>
+  <p>By contrast, a well-defined and rigorously enforced model is required for reporting and analytics tasks.</p>
+  <p>With your documents available in a relational warehouse you can base your model on a fixed set of table definitions. Only documents that fit the table schema can get loaded while violations are rejected. You can train your models with consistent data
+    using a fixed relational schema.</p>
+  <h2 id="data-integrity-assertion">Data integrity assertion</h2>
+  <p>Data Warehouses can use constraints to assert data integrity. For example:</p>
+  <ul>
+    <li>No two records can have the same primary key.</li>
+    <li>Foreign keys guarantee that records are complete.</li>
+    <li>Functions are available to validate records against business rules.</li>
+  </ul>
+  <p>Uniqueness, correctness, and completeness are essential requirements for any enterprise service. Loading your Cloudant documents into a data warehouse helps you meet these requirements.</p>
+  <h2 id="cloudant-and-data-warehousing">Cloudant and Data Warehousing</h2>
+  <p>Data Warehouses are a mature and important technology. Cloudant provides a tight integration with relational data warehouses, giving you the benefit of this technology.</p>
+  <p>IBM Cloudant has a basic warehousing capability built in, in the form of <a href="../api/using_views.html">MapReduce views</a> that enable you to perform a range of basic analytical tasks.</p>
+  <p>For more advanced warehousing tasks, you can leverage the full capabilities provided by the IBM cloud-based warehousing service <a href="http://www-01.ibm.com/software/data/dashdb/" target="_blank">IBM dashDB <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>.</p>
+  <p>When you use IBM Cloudant, you have integrated and easy access to advanced warehousing capabilities, such as:</p>
+  <ul>
+    <li>Seeing your JSON data in a relational database format.</li>
+    <li>Performing SQL-based queries on your data.</li>
+    <li>Building analytics from your data.</li>
+  </ul>
+  <p>These advanced warehousing capabilities are enabled through services such as IBM dashDB, which is a natural complement to Cloudant.</p>
+  <p>Alternatively, if you only need a relational data store for your documents, without the warehousing capabilities, you can load your Cloudant documents into the <a href="#ibm-db2-on-cloud">IBM DB2 on Cloud</a> service.</p>
+  <h2 id="ibm-dashdb">IBM dashDB</h2>
+  <p>IBM dashDB is a cloud-based data warehouse service, purpose-built for analytic work. While especially suited for Cloudant JSON data, dashDB can accept data from a variety of sources by examining the structure of data when it is loaded.</p>
+  <p>For more information, see the <a href="https://www.ibm.com/support/knowledgecenter/SS6NHC/com.ibm.swg.im.dashdb.kc.doc/welcome.html" target="_blank">IBM dashDB Cloud Data Warehouse documentation <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>.</p>
+  <h2 id="ibm-db2-on-cloud">IBM DB2 on Cloud</h2>
+  <p><a href="https://console.ng.bluemix.net/catalog/services/ibm-db2-on-cloud" target="_blank">IBM DB2 on Cloud <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a> provides you with a database on IBM&#39;s SoftLayer®
+    global cloud infrastructure. It offers you the rich features of an on-premise DB2 deployment, but without the cost, complexity, and risk of managing your own infrastructure.</p>
+  <p>For more information, see the <a href="https://console.ng.bluemix.net/docs/services/DB2OnCloud/index.html#DB2OnCloud" target="_blank">IBM DB2 on Cloud documentation <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>.</p>
+  <h2 id="creating-a-warehouse">Creating a warehouse</h2>
+  <p>There are two ways you can create a warehouse:</p>
+  <ol>
+    <li><a href="#use-cloudant-to-create-a-dashdb-warehouse">Use Cloudant to create a dashDB warehouse</a></li>
+    <li><a href="#connect-cloudant-to-an-existing-warehouse">Connect Cloudant to an existing warehouse</a></li>
+  </ol>
+  <h3 id="use-cloudant-to-create-a-dashdb-warehouse">Use Cloudant to create a dashDB warehouse</h3>
+  <p>The simplest method for creating a warehouse is for Cloudant to create a dashDB warehouse instance within Bluemix, on your behalf. Do this by clicking the <code>Create Warehouse</code> button on the <code>Warehouse</code> task within the <code>Integrations</code>    tab of your Cloudant dashboard.</p>
+  <p><img src="../images/createDashDBWH.png" alt="Screenshot of the &quot;Create a dashDB warehouse&quot; task within the Cloudant dashboard"></p>
+  <p>If you are not already logged in to Bluemix, you are asked to do so.</p>
+  <blockquote>
+    <p> <strong>Note</strong>: By default, Cloudant creates a dashDB instance on Bluemix for your warehouse.</p>
+  </blockquote>
+  <p><img src="../images/authenticateToBluemix.png" alt="Screenshot of the &quot;Authenticate to Bluemix&quot; task within the Cloudant dashboard"></p>
+  <p>When you have authenticated, you can request that a new dashDB instance is created using your Bluemix account. To do this:</p>
+  <ol>
+    <li>Provide the name you would like to use for the Warehouse in the <code>Warehouse Name</code> field.</li>
+    <li>Provide the name of your existing database within Cloudant, in the <code>Data Sources</code> field.</li>
+    <li>Ensure that the <code>Create new dashDB instance</code> option is selected on the form.</li>
+    <li>Click the <code>Create Warehouse</code> button.</li>
+  </ol>
+  <p><img src="../images/createWarehouse.png" alt="Screenshot of the &quot;Create Warehouse&quot; task within the Cloudant dashboard"></p>
+  <h3 id="connect-cloudant-to-an-existing-warehouse">Connect Cloudant to an existing warehouse</h3>
+  <p>Instead of using Cloudant to create the dashDB warehouse database, you can connect to an existing dashDB instance.</p>
+  <p>The process is similar to <a href="#use-cloudant-to-create-a-dashdb-warehouse">using Cloudant to create a dashDB warehouse</a>, however instead of selecting the <code>Create new dashDB instance</code> option, select the <code>dashDB service instance</code>    and choose the dashDB warehouse that already exists within Bluemix.</p>
+  <p><img src="../images/existingDashDBInstance.png" alt="Screenshot of the &quot;Connect to existing dashDB instance&quot; task within the Cloudant dashboard"></p>
+  <h3 id="using-a-db2-warehouse-instance">Using a DB2 warehouse instance</h3>
+  <p>If you prefer, you can connect to an existing DB2 warehouse instance instead of dashDB. Do this by selecting the <code>DB2</code> option within your Cloudant dashboard to connect to an existing DB2 instance.</p>
+  <p><img src="../images/createDB2WH.png" alt="Screenshot of the Create a DB2 warehouse&quot; task within the Cloudant dashboard"></p>
+  <p>If you want to connect to a DB2 instance, you must provide the following details:</p>
+  <ul>
+    <li>Host address.</li>
+    <li>Port number.</li>
+    <li>Database name.</li>
+    <li>User ID for the database.</li>
+    <li>Password for the User ID.</li>
+  </ul>
+  <blockquote>
+    <p> <strong>Note</strong>: The remainder of this topic refers to dashDB as the warehouse instance. However, the topic applies equally if you are using an instance of DB2. A tutorial is also available describing how to
+      <a href="https://developer.ibm.com/clouddataservices../dashdb/get/load-json-from-cloudant-database-in-to-dashdb/" target="_blank">load JSON data from Cloudant into dashDB <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>,
+      and includes examples of using DB2 as the warehouse database.</p>
+  </blockquote>
+  <h2 id="warehouse-schema">Warehouse schema</h2>
+  <p>When you first create a warehouse from within Cloudant, dashDB creates the best possible schema for the data within the database, helping ensure that each of the fields within your JSON documents has a corresponding entry within the new schema. Optionally,
+    when creating the warehouse, you can choose to <a href="#customizing-the-warehouse-schema">customize the schema</a> manually.</p>
+  <p>Once the schema is created, the warehouse is able to hold your data in a relational format. Cloudant then <a href="../api/replication.html">replicates</a> to perform an &#39;initial load&#39; of the database documents into the warehouse, giving you
+    a working collection of your data in the dashDB relational database.</p>
+  <p>Over time, your Cloudant database content might change. You can modify the schema of an existing warehouse.</p>
+  <blockquote>
+    <p> <strong>Note</strong>: If you modify the schema of an existing warehouse, the data from your Cloudant database must be replicated again into the warehouse database. In effect, modifying the schema causes a fresh &#39;initial load&#39; into the warehouse.</p>
+  </blockquote>
+  <h2 id="working-with-your-warehouse">Working with your warehouse</h2>
+  <p>With Cloudant warehousing, you can run &#39;traditional&#39; SQL queries, and view the results, all from within the dashDB console.</p>
+  <p><img src="../images/useDashDBdashboard.png" alt="Screenshot of the &quot;dashDB dashboard&quot; within Bluemix"></p>
+  <p>External applications can interact with the data in the same way as with any other relational database.</p>
+  <p>The advantage of dashDB is that you can perform other warehousing tasks, such as loading more data from other sources, and analyzing the data using built-in analytic tools. DashDB supports the
+    <a href="https://en.wikipedia.org/wiki/R_%28programming_language%29" target="_blank"><code>&#39;R&#39;</code> programming language <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a> and software environment
+    for statistical computing and graphics. This means you have access to algorithms that let you perform database analytic tasks such as linear regression, &#39;k-means&#39; clustering, and geospatial analysis.</p>
+  <p>The <code>RStudio</code> tool allows you to create <code>&#39;R&#39;</code> scripts which are then uploaded into dashDB, then run using your data.</p>
+  <p>For more information about working with dashDB, see the <a href="https://www.ibm.com/support/knowledgecenter/SS6NHC/com.ibm.swg.im.dashdb.kc.doc/welcome.html" target="_blank">IBM dashDB Cloud Data Warehouse documentation <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>.</p>
+  <h2 id="keeping-the-data-and-structure-fresh">Keeping the data and structure fresh</h2>
+  <p>Data is loaded from Cloudant into dashDB using a <a href="../api/replication.html">replication</a> process. This means that if your Cloudant data is updated or modified in some way, replication of the documents into dashDB must take place again to ensure
+    your analytic tasks continue to work using the most up-to-date information.</p>
+  <p>As with normal Cloudant replication, data is transferred one-way only: for a warehouse the transfer is from Cloudant to dashDB. After the initial load of data, the warehouse subscribes to data content changes in the Cloudant database. Any changes are
+    replicated from the Cloudant source to the dashDB target. This means that warehousing is a form of continuous replication from Cloudant to dashDB.</p>
+  <p>Over time, your Cloudant database might also have structural changes. This might include the addition or removal of fields from the JSON documents. When this happens, the schema used by the warehouse might become invalid, resulting in errors reported
+    when fresh data is replicated from Cloudant to dashDB.</p>
+  <p>To solve this problem, Cloudant warehousing has a &#39;rescan&#39; facility. This rescans the structure of the Cloudant database, and determines the new schema required in dashDB. The old tables within dashDB that were created during the previous scan
+    are then dropped, new tables created using the new schema, and finally the current Cloudant data is loaded as a fresh &#39;initial load&#39;.</p>
+  <p>To use the rescan facility, first ensure that your warehouse is not running. Do this as follows:</p>
+  <ol>
+    <li>Select the <code>Integrations</code> tab within the Cloudant dashboard.</li>
+    <li>Find the name of the Warehouse you want to rescan on the <code>Warehouse</code> task:<br><img src="../images/selectWarehouse.png" alt="Screenshot of the &quot;warehouse&quot; tab within the Cloudant dashboard"></li>
+    <li>Click on the name of the Warehouse. It is a link, and when clicked it opens the warehouse detail view:<br><img src="../images/viewWarehouseDetail.png" alt="Screenshot of the detailed warehouse view within the Cloudant dashboard"></li>
+    <li>Check the current status of the warehouse. A rotating green circle indicates that the warehouse is running. To stop the warehouse, click the <code>Stop Database</code> icon in the Actions column:<br><img src="../images/stopWarehouseDatabase.png" alt="Screenshot of the &quot;stop warehouse database&quot; icon within the Cloudant dashboard"></li>
+    <li>When the warehouse database is not running, the <code>Rescan</code> icon in the Action column is enabled:<br><img src="../images/rescanIcon.png" alt="Screenshot of the rescan icon within the Cloudant dashboard"></li>
+  </ol>
+  <h3 id="rescanning-the-source-database">Rescanning the source database</h3>
+  <p><img src="../images/rescanSource.png" alt="Screenshot of the window enabling you to rescan the warehouse source database."></p>
+  <p>When you click the <code>Rescan</code> icon, you have two choices:</p>
+  <ul>
+    <li>A straightforward scan of your database. This is the default action, and is very similar to the initial scan of your database performed when the warehouse was first created.</li>
+    <li>Customize the warehouse schema.</li>
+  </ul>
+  <p>If you choose the default action of a simple rescan, your source database is inspected and a fresh warehouse database schema is generated. As soon as the rescan completes, the warehouse is started.</p>
+  <p>If you want to customize the warehouse schema, enable the <code>Customize Schema</code> checkbox, before clicking the <code>Rescan</code> button.</p>
+  <p><img src="../images/rescanSource2.png" alt="Screen shot of &#39;Rescan Source&#39; panel, showing the &#39;Customize Schema&#39; option enabled."></p>
+  <p>The <code>Customize Schema</code> checkbox enables two options.</p>
+  <ol>
+    <li>The discovery algorithm used.</li>
+    <li>The sample size.</li>
+  </ol>
+  <h3 id="the-discovery-algorithm">The discovery algorithm</h3>
+  <p>The default option for rescanning is the <code>Union</code> algorithm. This uses all the attributes in all the sampled Cloudant database documents to create a single set of tables in the warehouse database. The result is that all the Cloudant database
+    documents can be stored in the warehouse database, but some rows in the database might not have content in some of the fields.</p>
+  <p>The alternative option for rescanning is the <code>Cluster</code> algorithm. This identifies documents within the Cloudant database that have the same set of attributes, then creates corresponding warehouse database table schemas.</p>
+  <h3 id="the-sample-size">The sample size</h3>
+  <p>This option determines how many documents within the Cloudant database are inspected as part of the schema determination.</p>
+  <p>The default value is 10,000 documents.</p>
+  <p>Setting the value too low introduces the risk that some Cloudant documents have attributes that are not detected, and are therefore omitted from the warehouse database structure.</p>
+  <p>Setting the value too high means that the scanning process to determine the warehouse database structure takes longer to complete.</p>
+  <h3 id="after-the-rescan">After the rescan</h3>
+  <p>Once the Cloudant database rescan has finished, the warehouse is not automatically started. Instead, it remains in a halted state, so that the warehouse database can be customized.</p>
+  <h2 id="customizing-the-warehouse-schema">Customizing the warehouse schema</h2>
+  <p>It is possible to modify the database schema that is determined automatically during the initial warehouse creation process, or after a rescan. To do this, ensure that you check the <code>Customize Schema</code> option during the creation process:</p>
+  <p><img src="../images/customizeSchema01.png" alt="Screen shot of warehouse creation panel, showing the &#39;Customize Schema&#39; option enabled."></p>
+  <p>The warehouse is created in dashDB as normal, however it is not started immediately. Instead, you have the opportunity to customize the schema before proceeding.</p>
+  <p>To do this, click the link for your warehouse:</p>
+  <p><img src="../images/openInDashDB.png" alt="Screen shot of `Open in dashDB` button."></p>
+  <p>The resulting display gives you a button to customize the schema used for your source database. Hovering over the Status indicator confirms that the schema is ready for customization:</p>
+  <p><img src="../images/customizeSchema02.png" alt="Screen shot of `Customize &lt;source database name&gt;` button."></p>
+  <p>Clicking on the &#39;Customize&#39; button results in a panel where you can modify the fields in the database schema:</p>
+  <p><img src="../images/customizeSchema03.png" alt="Screen shot of Customize Schema panel."></p>
+  <p>To reset the schema to the default, click the <code>Rescan</code> button:</p>
+  <p><img src="../images/customizeSchema04.png" alt="Screen shot of `Rescan` button."></p>
+  <p>When you are happy with the database schema for the warehouse, simply click the <code>Run</code> button:</p>
+  <p><img src="../images/customizeSchema05.png" alt="Screen shot of `Run` button."></p>
+  <p>The schema is saved, and the warehouse is started.</p>
+  <h3 id="customizing-an-existing-warehouse-schema">Customizing an existing warehouse schema</h3>
+  <p>If the database schema for your warehouse already exists, you have the <a href="#keeping-the-data-and-structure-fresh">option to customize it</a>.</p>
+  <h2 id="troubleshooting">Troubleshooting</h2>
+  <p>From time-to-time, you might encounter problems when using the warehousing facility. Information on some of these problems is provided later in this topic.</p>
+  <p>Additionally, discussion of some common errors or problems, as well as details of how to troubleshoot them, is available in <a href="http://stackoverflow.com/questions/tagged/cloudant+dashdb" target="_blank">Stack Overflow <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>.</p>
+  <p>If you need further help, and can&#39;t find solutions in Stack Overflow, please contact <a href="mailto:support@cloudant.com" target="_blank">Cloudant support <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>.</p>
+  <h3 id="exceptions-visible-in-the-dashboard">Exceptions visible in the dashboard</h3>
+  <p>Sometimes, the warehouse encounters an error condition. For example, if you try to create a warehouse using an existing DB2 database, but fail to enter the correct database details, then warehouse cannot be created successfully.</p>
+  <p>When an error condition exists, the status of the warehouse is changed to a red circle, indicating that there is a problem requiring your attention:</p>
+  <p><img src="../images/errorIndicator1.png" alt="Screen shot of error status indicator."></p>
+  <p>If you &#39;hover&#39; over the indicator, a little more information is supplied:</p>
+  <p><img src="../images/errorIndicator2.png" alt="Screen shot showing hover summary of error status."></p>
+  <p>When you click on the indicator, a window appears giving you more details about exactly what the problem is. In this example, the host details entered for the DB2 connection were not valid:</p>
+  <p><img src="../images/errorIndicator3.png" alt="Screen shot showing hover summary of error status."></p>
+  <h3 id="warnings-and-errors">Warnings and Errors</h3>
+  <p>Changes in the Cloudant database are replicated across into the warehouse database. It is possible that a change might not fit into the warehouse or its schema. Problems of this kind are detected and logged in the <code>OVERFLOW</code> table of the
+    warehouse database.</p>
+  <p>For example, if the warehouse schema has a <code>Movie_earnings_rank</code> field of type <code>VARCHAR</code>, and can hold up to 32 characters, but a change in the Cloudant database requires storage of 40 characters, then the field &#39;overflows&#39;.
+    This would produce a &#39;warning&#39; condtion, which is indicated in the status icon of the warehouse dashboard:</p>
+  <p><img src="../images/overflowWarning.png" alt="Screen shot showing warning message in status icon."></p>
+  <p>Looking in the indicated overflow table in the warehouse database, you see more details about the warning:</p>
+  <p><img src="../images/overflowWarningDetail.png" alt="Screen shot showing warning message detail in the Overflow table of the warehouse database."></p>
+  <p>In this example, the warning makes it clear that a truncation has occurred, affecting the <code>Movie_earnings_rank</code> field of the Cloudant document having an <code>_ID</code> of <code>70f6284d2a395396dbb3a60b4cf1cac2</code>.</p>
+  <p>There are two possible solution options:</p>
+  <ul>
+    <li>Correct the overflowing field within the Cloudant document.</li>
+    <li><a href="#customizing-the-warehouse-schema">Update the warehouse schema</a>.</li>
+  </ul>
+  <p>The option you choose depends on whether the extra content in the field is intentional or not. If you do require the extra content for your application, then it is necessary to
+    <a href="#customizing-the-warehouse-schema">update the warehouse schema</a> to remove the warning condition.</p>
+  <p>A more significant problem is if an entirely new field is introduced into a document in the Cloudant database, but the field does not have a counterpart in the warehouse database schema. This causes an &#39;error&#39; condition.</p>
+  <p>For example, a document in the Cloudant database might &#39;gain&#39; an extra field called <code>my key</code> that does not exist within the warehouse database schema:</p>
+  <p><img src="../images/extraField.png" alt="Screen shot showing additional &#39;my key&#39; field in a document."></p>
+  <p>The result is an error condition, which is indicated in the status icon of the warehouse dashboard:</p>
+  <p><img src="../images/overflowError.png" alt="Screen shot showing error message in status icon."></p>
+  <p>Looking in the indicated overflow table in the warehouse database, you see more details about the error:</p>
+  <p><img src="../images/overflowErrorDetail.png" alt="Screen shot showing error message detail in the Overflow table of the warehouse database."></p>
+  <p>In this example, the error makes it clear that a field has been encountered that was not present when the warehouse database schema was created. The field itself was detected in the Cloudant document having an <code>_ID</code> of <code>70f6284d2a395396dbb3a60b4cf1cac2</code>.</p>
+  <p>There are two possible solution options:</p>
+  <ul>
+    <li>Remove the extra field from the Cloudant document.</li>
+    <li><a href="#customizing-the-warehouse-schema">Update the warehouse schema</a>.</li>
+  </ul>
+  <p>The option you choose depends on whether the extra field is intentional or not. If you do require the extra field for your application, then it is necessary to <a href="#customizing-the-warehouse-schema">update the warehouse schema</a> to remove the
+    error condition.</p>
+  <footer>
+    <div>
+      <p>Copyright &copy; 2015, 2017. All Rights Reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

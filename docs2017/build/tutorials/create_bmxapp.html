@@ -1,0 +1,59 @@
+<html lang="en">
+<head>
+  <title>IBM&reg; Cloudant&reg; NoSQL DB for Bluemix&reg;</title>
+  <meta charset="utf-8"></meta>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+  <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+</head>
+
+<body>
+  <!-- Acrolinx: 2017-01-10 -->
+
+  <h1 id="creating-a-simple-bluemix-application-to-access-a-cloudant-database">Creating a simple Bluemix application to access a Cloudant database</h1>
+  <p class="shortdesc">This tutorial shows you how to create an IBM&reg; Bluemix&reg; application that uses the
+    <a href="https://www.python.org/" target="_blank">Python programming language <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a> to access an IBM&reg; Cloudant&reg; NoSQL DB for Bluemix&reg; database, hosted
+    in your Bluemix service instance.</p>
+  <h2 id="context">Context</h2>
+  <p>A significant advantage of Bluemix is that you can create and deploy applications within Bluemix itself. You do not have to find and maintain a server to run your applications.</p>
+  <p>If you are already using a Cloudant NoSQL DB database instance within Bluemix, it makes sense to have your applications there, too.
+  </p>
+  <p>Bluemix applications are typically created by using
+    <a href="https://en.wikipedia.org/wiki/Cloud_Foundry" target="_blank">Cloud Foundry <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a> technology. Cloud Foundry offers a Platform-as-a-Service (PaaS) capability
+    that simplifies the process of creating applications that can be deployed and run within a Cloud environment.</p>
+  <p><a href="create_database.html">A separate tutorial</a> showed you how to create a stand-alone Python application that uses a Cloudant NoSQL DB database instance within Bluemix. In this tutorial, you set up and create a small Python application hosted
+    within Bluemix. The application connects to your Cloudant NoSQL DB database instance, and creates a single, simple document.</p>
+  <p>Python code specific to each task is provided as part of this tutorial. A complete Python program, sufficient to demonstrate the concepts, is provided in the tutorial,
+    <a href="create_bmxapp_createapp.html#complete-listing">here</a>.</p>
+  <p>No attempt was made to create <em>efficient</em> Python code for this tutorial; the intention is to show simple and easy-to-understand working code that you can learn from and apply for your own applications.</p>
+  <p>Also, no attempt was made to address all possible checks or error conditions. Some example checks are included to illustrate some of the techniques, but you should apply normal best practices for checking and handling all warnings or error conditions
+    that are encountered by your own applications.</p>
+  <h2 id="task-overview">Task overview</h2>
+  <p>To create a working Python application on Bluemix that can access a Cloudant NoSQL DB database instance, you need to perform the following tasks:</p>
+  <ul>
+    <li><a href="create_bmxapp_appenv.html#creating">Create a Python application environment on Bluemix.</a></li>
+    <li><a href="create_bmxapp_appenv.html#connecting">Ensure that the Python application environment has a &#39;connection&#39; to a Cloudant NoSQL DB database instance.</a></li>
+    <li><a href="create_bmxapp_appenv.html#toolkits">(One-off task) Download and install the Cloud Foundry and Bluemix command line toolkits.</a></li>
+    <li><a href="create_bmxapp_appenv.html#starter">Download the &#39;starter&#39; application.</a></li>
+    <li><a href="create_bmxapp_createapp.html#theApp">Customize the starter application to create your own application for accessing the Cloudant NoSQL DB database instance.</a></li>
+    <li><a href="create_bmxapp_upload.html#uploading">Upload your application and test that it works.</a></li>
+    <li><a href="create_bmxapp_maintain.html#maintenance">Perform basic application maintenance tasks.</a></li>
+    <li><a href="create_bmxapp_maintain.html#troubleshooting">Diagnose and resolve problems (troubleshooting).</a></li>
+  </ul>
+  <h2 id="tutorial-structure">Tutorial structure</h2>
+  <p>The tutorial consists of five sections:</p>
+  <ol>
+    <li><a href="create_bmxapp_prereq.html">Pre-requisites</a></li>
+    <li><a href="create_bmxapp_appenv.html">The Application Environment</a></li>
+    <li><a href="create_bmxapp_createapp.html">Creating your Application</a></li>
+    <li><a href="create_bmxapp_upload.html">Uploading and running your Application</a></li>
+    <li><a href="create_bmxapp_maintain.html">Maintaining and troubleshooting your Application</a></li>
+  </ol>
+  <h2 id="the-next-step">The next step</h2>
+  <p>To begin the tutorial, start by <a href="create_bmxapp_prereq.html">checking the Pre-requisites</a>.</p>
+  <footer>
+    <div>
+      <p>Copyright &copy; 2015, 2017. All Rights Reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

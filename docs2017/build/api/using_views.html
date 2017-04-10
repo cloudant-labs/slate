@@ -1,0 +1,721 @@
+<html lang="en">
+<head>
+  <title>IBM&reg; Cloudant&reg; NoSQL DB for Bluemix&reg;</title>
+  <meta charset="utf-8"></meta>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+  <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+</head>
+
+<body>
+  <h1 id="using-views">Using Views</h1>
+  <p class="shortdesc">Use views to search for content within a database that matches specific criteria. The criteria are specified within the view definition, or supplied as arguments when you use the view.</p>
+  <h2 id="querying-a-view">Querying a view</h2>
+  <p>To query a view, submit a <code>GET</code> request with the following format:</p>
+  <ul>
+    <li><strong>Method</strong>: <code>GET /&lt;database&gt;/_design/&lt;design-doc&gt;/_view/&lt;view-name&gt;</code></li>
+    <li><strong>Request</strong>: None</li>
+    <li><strong>Response</strong>: JSON of the documents that are returned by the view</li>
+    <li><strong>Roles permitted</strong>: <code>_reader</code></li>
+  </ul>
+  <p>The request runs the specified <code>view-name</code> from the specified <code>design-doc</code> design document within the database.</p>
+  <h3 id="query-arguments">Query Arguments</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Argument</th>
+        <th>Description</th>
+        <th>Optional</th>
+        <th>Type</th>
+        <th>Default</th>
+        <th>Supported values</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>conflicts</code></td>
+        <td>Can be set only if <code>include_docs</code> is <code>true</code>. Adds information about conflicts to each document.</td>
+        <td>yes</td>
+        <td>Boolean</td>
+        <td>false</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>descending</code></td>
+        <td>Return the documents in &#39;descending by key&#39; order.</td>
+        <td>yes</td>
+        <td>Boolean</td>
+        <td>false</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>endkey</code></td>
+        <td>Stop returning records when the specified key is reached.</td>
+        <td>yes</td>
+        <td>String or JSON array</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>endkey_docid</code></td>
+        <td>Stop returning records when the specified document ID is reached.</td>
+        <td>yes</td>
+        <td>String</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>group</code></td>
+        <td>Using the <code>reduce</code> function, group the results to a group or single row.</td>
+        <td>yes</td>
+        <td>Boolean</td>
+        <td>false</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>group_level</code></td>
+        <td>Only applicable if the view uses complex keys: keys that are JSON arrays. Groups reduce results for the specified number of array fields.</td>
+        <td>yes</td>
+        <td>Numeric</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>include_docs</code></td>
+        <td>Include the full content of the documents in the response.</td>
+        <td>yes</td>
+        <td>Boolean</td>
+        <td>false</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>inclusive_end</code></td>
+        <td>Include rows with the specified <code>endkey</code>.</td>
+        <td>yes</td>
+        <td>Boolean</td>
+        <td>true</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>key</code></td>
+        <td>Return only documents that match the specified key. <strong>Note</strong>: Keys are JSON values, and must be URL encoded.</td>
+        <td>yes</td>
+        <td>JSON strings or arrays</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>keys</code></td>
+        <td>Return only documents that match the specified keys. <strong>Note</strong>: Keys are JSON values, and must be URL encoded.</td>
+        <td>yes</td>
+        <td>Array of JSON strings or arrays</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>limit</code></td>
+        <td>Limit the number of returned documents to the specified count.</td>
+        <td>yes</td>
+        <td>Numeric</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>reduce</code></td>
+        <td>Use the <code>reduce</code> function.</td>
+        <td>yes</td>
+        <td>Boolean</td>
+        <td>true</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>skip</code></td>
+        <td>Skip this number of rows from the start.</td>
+        <td>yes</td>
+        <td>Numeric</td>
+        <td>0</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>stable</code></td>
+        <td>Prefer view results from a &#39;stable&#39; set of shards. The results are from a view that is less likely to be updated soon.</td>
+        <td>yes</td>
+        <td>Boolean</td>
+        <td>false</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>stale</code></td>
+        <td>Allow the results from a stale view to be used. The request returns immediately, even if the view is not yet built. If this parameter is not given, a response is returned only after the view has been built.</td>
+        <td>yes</td>
+        <td>String</td>
+        <td>false</td>
+        <td><code>ok</code>: Allow stale views.<br><code>update_after</code>: Allow stale views, but update them immediately after the request.</td>
+      </tr>
+      <tr>
+        <td><code>startkey</code></td>
+        <td>Return records, starting with the specified key.</td>
+        <td>yes</td>
+        <td>String or JSON array</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>startkey_docid</code></td>
+        <td>Return records, starting with the specified document ID.</td>
+        <td>yes</td>
+        <td>String</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td> <code>update</code></td>
+        <td>Ensure that the view is updated before results are returned.</td>
+        <td>yes</td>
+        <td>String</td>
+        <td><code>true</code></td>
+        <td><code>false</code>: Return results before updating the view.<br><code>true</code>: Return results after updating the view.<br><code>lazy</code>: Return the view results without waiting for an update, but update them immediately after the request.</td>
+      </tr>
+    </tbody>
+  </table>
+  <blockquote>
+    <p> <strong>Note</strong>: Using <code>include_docs=true</code> might have <a href="#include_docs_caveat">performance implications</a>.</p>
+  </blockquote>
+  <p><em>Example of using HTTP to retrieve a list of the first five documents from a database, applying the user-created <code>by_title</code> view:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">GET</span> <span class="hljs-string">/&lt;database&gt;/_design/&lt;design-doc&gt;/_view/by_title?limit=5</span> HTTP/1.1
+<span class="hljs-attribute">Accept</span>: application/json
+<span class="hljs-attribute">Content-Type</span>: application/json
+</code></pre>
+  <p><em>Example of using the command line to retrieve a list of the first five documents from a database,
+applying the user-created <code>by_title</code> view:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl https://<span class="hljs-variable">$USERNAME</span>.cloudant.com/<span class="hljs-variable">$DATABASE</span>/_design/<span class="hljs-variable">$DESIGNDOCUMENT</span>/_view/by_title?<span class="hljs-built_in">limit</span>=5 \
+     -H <span class="hljs-string">"Content-Type: application/json"</span>
+</code></pre>
+  <p><em>Example response to request:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"offset"</span> : <span class="hljs-number">0</span>,
+    <span class="hljs-attr">"rows"</span> : [
+        {
+            <span class="hljs-attr">"id"</span> : <span class="hljs-string">"3-tiersalmonspinachandavocadoterrine"</span>,
+            <span class="hljs-attr">"key"</span> : <span class="hljs-string">"3-tier salmon, spinach and avocado terrine"</span>,
+            <span class="hljs-attr">"value"</span> : [
+                <span class="hljs-literal">null</span>,
+                <span class="hljs-string">"3-tier salmon, spinach and avocado terrine"</span>
+                ]
+        },
+        {
+            <span class="hljs-attr">"id"</span> : <span class="hljs-string">"Aberffrawcake"</span>,
+            <span class="hljs-attr">"key"</span> : <span class="hljs-string">"Aberffraw cake"</span>,
+            <span class="hljs-attr">"value"</span> : [
+                <span class="hljs-literal">null</span>,
+                <span class="hljs-string">"Aberffraw cake"</span>
+            ]
+        },
+        {
+            <span class="hljs-attr">"id"</span> : <span class="hljs-string">"Adukiandorangecasserole-microwave"</span>,
+            <span class="hljs-attr">"key"</span> : <span class="hljs-string">"Aduki and orange casserole - microwave"</span>,
+            <span class="hljs-attr">"value"</span> : [
+                <span class="hljs-literal">null</span>,
+                <span class="hljs-string">"Aduki and orange casserole - microwave"</span>
+            ]
+        },
+        {
+            <span class="hljs-attr">"id"</span> : <span class="hljs-string">"Aioli-garlicmayonnaise"</span>,
+            <span class="hljs-attr">"key"</span> : <span class="hljs-string">"Aioli - garlic mayonnaise"</span>,
+            <span class="hljs-attr">"value"</span> : [
+                <span class="hljs-literal">null</span>,
+                <span class="hljs-string">"Aioli - garlic mayonnaise"</span>
+            ]
+        },
+        {
+            <span class="hljs-attr">"id"</span> : <span class="hljs-string">"Alabamapeanutchicken"</span>,
+            <span class="hljs-attr">"key"</span> : <span class="hljs-string">"Alabama peanut chicken"</span>,
+            <span class="hljs-attr">"value"</span> : [
+                <span class="hljs-literal">null</span>,
+                <span class="hljs-string">"Alabama peanut chicken"</span>
+            ]
+        }
+    ],
+    <span class="hljs-attr">"total_rows"</span> : <span class="hljs-number">2667</span>
+}
+</code></pre>
+  <h2 id="indexes">Indexes</h2>
+  <p>When a view is defined in a design document, a corresponding index is also created, based on the information defined within the view. Use indexes to find documents by criteria other than their <code>_id</code> field. For example, you might select by
+    a field, or combination of fields, or by a value that is computed by using the contents of the document. The index is populated as soon as the design document is created. On large databases, this process might take a while.</p>
+  <p>The index content is updated incrementally and automatically when any one of the following three events occurs:</p>
+  <ul>
+    <li>A new document is added to the database.</li>
+    <li>An existing document is deleted from the database.</li>
+    <li>An existing document in the database is updated.</li>
+  </ul>
+  <p>View indexes are rebuilt entirely when the view definition changes, or when another view definition in the same design document changes. The rebuild ensures that changes to the view definitions are reflected in the view indexes. To ensure the rebuild
+    happens, a &#39;fingerprint&#39; of the view definition is created whenever the design document is updated. If the fingerprint changes, then the view indexes are rebuilt.</p>
+  <blockquote>
+    <p> <strong>Note</strong>: View index rebuilds occur whenever a change occurs to any one view from all the views that are defined in the design document. For example, if you have a design document with three views, and you update the design document,
+      all three view indexes within the design document are rebuilt.</p>
+  </blockquote>
+  <p>If the database was updated recently, the results might be delayed when the view is accessed. The delay is affected by the number of changes to the database, and whether the view index is not current because the database content was modified.</p>
+  <p>It is not possible to eliminate these delays. For newly created databases, you might reduce the delays by creating the view definition in the design document in your database before you insert or update documents. Creating the view definition in the
+    design document causes incremental updates to the index when the documents or inserted.</p>
+  <p>If speed of response is more important than having up-to-date data, an alternative is to allow users to access an old version of the view index. In effect, the user has an immediate response from &#39;stale&#39; index content, rather than waiting for
+    the index to be updated. Depending on the document contents, a stale view might not return the most recent information. Nevertheless, a stale view returns the results of the view query quickly, by using an existing version of the index.</p>
+  <h2 id="accessing-a-stale-view">Accessing a stale view</h2>
+  <p>If you are prepared to accept a response that is quicker, but might not have the most current data, you can use three options :</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Option</th>
+        <th>Purpose</th>
+        <th>Default value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>stable</code></td>
+        <td>Determine whether view results are obtained from a consistent or &#39;stable&#39; set of shards. Possible values include <code>true</code>, and <code>false</code>.</td>
+        <td><code>true</code></td>
+      </tr>
+      <tr>
+        <td><code>stale</code></td>
+        <td>Determine whether results from a stale view are permitted.</td>
+        <td><code>false</code></td>
+      </tr>
+      <tr>
+        <td><code>update</code></td>
+        <td>Determine whether the view is updated before the results are returned. Possible values include <code>true</code>, <code>false</code> and <code>lazy</code>.</td>
+        <td><code>true</code></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>The <code>stable</code> option indicates whether you would prefer to get results from a single, consistent set of shards. The default value is <code>false</code>. The <code>false</code> value means that all available shard replicas are queried. The
+    first response that is received is the one that is used. The benefit is that the response is not delayed if any individual shard replica is slow to respond. By contrast, setting <code>stable</code> to <code>true</code> forces the database to use a
+    single, consistent set of shards to respond to the query.</p>
+  <p>The <code>stale</code> option allows the results from a stale view to be used. The option makes the request return immediately, even if the view is still building. If this parameter is not given, or the value <code>false</code> is supplied, a response
+    is returned only after the view is built. The value <code>ok</code> allows stale views. The value <code>update_after</code> allows stale views, but updates them immediately after a response to the request is provided.</p>
+  <p>The <code>update</code> option indicates whether you are prepared to accept view results without waiting for the view to be updated. The default value is <code>true</code>, meaning that the view is updated before results are returned. The <code>lazy</code>    value means that the results are returned before the view is updated, but that the view must then be updated anyway.</p>
+  <p>When you specify <code>stable=true</code> with <code>update=false</code> or <code>update=lazy</code>, responses are consistent from request to request because a single, consistent set of shards is used to respond to the query. However, if one of those
+    shards is heavily loaded or slow to respond, the response time might be adversely affected.</p>
+  <p>When the default <code>stable=false</code> value applies, and you use either of <code>update=false</code> or <code>update=lazy</code>, indexes between shard replicas might not be synchronized. The effect would be that you might get different results,
+    depending on which replicas respond first.</p>
+  <p>In summary, if you want the quickest possible response, and are prepared to accept results that might not yet be synchronized, or are returned from the first shard replica to respond rather than your normal set of shards, then you might use the combination:
+    <code>stable=false&amp;update=false</code>.</p>
+  <p>Using a stale view has consequences. In particular, accessing a stale view returns the current (existing) version of the data in the view index, if it exists, without waiting for an update. The effect is that a stale view index result might be different
+    from different nodes in the cluster.</p>
+  <blockquote>
+    <p> <strong>Note</strong>: Cloudant automatically and actively works to keep views up-to-date always. The only time that you might notice a difference when you use the <code>stable</code> or <code>update</code> options is during an indexing backlog.</p>
+  </blockquote>
+  <h2 id="sorting-returned-rows">Sorting Returned Rows</h2>
+  <p>The data returned by a view query are in the form of an array. Each element within the array is sorted by using standard <a href="https://en.wikipedia.org/wiki/UTF-8" target="_blank">UTF-8 <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>    sorting. The sort is applied to the key defined in the view function.</p>
+  <p>The basic order of output is as follows:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Value</th>
+        <th>Order</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>null</code></td>
+        <td>First</td>
+      </tr>
+      <tr>
+        <td><code>false</code></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>true</code></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Numbers</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Text (lowercase)</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Text (uppercase)</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Arrays (according to the values of each element, by using the order given in this table)</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Objects (according to the values of keys, in key order by using the order given in this table)</td>
+        <td>Last</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>You can reverse the order of the returned view information by setting the <code>descending</code> query value <code>true</code>.</p>
+  <p><em>Example of using HTTP to request the last five records in reversed sort order:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">GET</span> <span class="hljs-string">/&lt;database&gt;/_design/&lt;design-doc&gt;/_view/by_title?limit=5&amp;descending=true</span> HTTP/1.1
+<span class="hljs-attribute">Accept</span>: application/json
+<span class="hljs-attribute">Content-Type</span>: application/json
+</code></pre>
+  <p><em>Example of requesting the last five records in reversed sort order, that uses the command line:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl https://<span class="hljs-variable">$USERNAME</span>.cloudant.com/<span class="hljs-variable">$DATABASE</span>/_design/<span class="hljs-variable">$DESIGNDOCUMENT</span>/_view/by_title?<span class="hljs-built_in">limit</span>=5&amp;descending=<span class="hljs-literal">true</span> \
+     -H <span class="hljs-string">"Content-Type: application/json"</span>
+</code></pre>
+  <p><em>Example response of requesting the last five records in reversed sort order:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"offset"</span> : <span class="hljs-number">0</span>,
+    <span class="hljs-attr">"rows"</span> : [
+        {
+            <span class="hljs-attr">"id"</span> : <span class="hljs-string">"Zucchiniinagrodolcesweet-sourcourgettes"</span>,
+            <span class="hljs-attr">"key"</span> : <span class="hljs-string">"Zucchini in agrodolce (sweet-sour courgettes)"</span>,
+            <span class="hljs-attr">"value"</span> : [
+                <span class="hljs-literal">null</span>,
+                <span class="hljs-string">"Zucchini in agrodolce (sweet-sour courgettes)"</span>
+            ]
+        },
+        {
+            <span class="hljs-attr">"id"</span> : <span class="hljs-string">"Zingylemontart"</span>,
+            <span class="hljs-attr">"key"</span> : <span class="hljs-string">"Zingy lemon tart"</span>,
+            <span class="hljs-attr">"value"</span> : [
+                <span class="hljs-literal">null</span>,
+                <span class="hljs-string">"Zingy lemon tart"</span>
+            ]
+        },
+        {
+            <span class="hljs-attr">"id"</span> : <span class="hljs-string">"Zestyseafoodavocado"</span>,
+            <span class="hljs-attr">"key"</span> : <span class="hljs-string">"Zesty seafood avocado"</span>,
+            <span class="hljs-attr">"value"</span> : [
+                <span class="hljs-literal">null</span>,
+                <span class="hljs-string">"Zesty seafood avocado"</span>
+            ]
+        },
+        {
+            <span class="hljs-attr">"id"</span> : <span class="hljs-string">"Zabaglione"</span>,
+            <span class="hljs-attr">"key"</span> : <span class="hljs-string">"Zabaglione"</span>,
+            <span class="hljs-attr">"value"</span> : [
+                <span class="hljs-literal">null</span>,
+                <span class="hljs-string">"Zabaglione"</span>
+            ]
+        },
+        {
+            <span class="hljs-attr">"id"</span> : <span class="hljs-string">"Yogurtraita"</span>,
+            <span class="hljs-attr">"key"</span> : <span class="hljs-string">"Yogurt raita"</span>,
+            <span class="hljs-attr">"value"</span> : [
+                <span class="hljs-literal">null</span>,
+                <span class="hljs-string">"Yogurt raita"</span>
+            ]
+        }
+    ],
+    <span class="hljs-attr">"total_rows"</span> : <span class="hljs-number">2667</span>
+}
+</code></pre>
+  <h2 id="specifying-start-and-end-keys">Specifying Start and End Keys</h2>
+  <p>The <code>startkey</code> and <code>endkey</code> query arguments can be used to specify the range of values that are returned when querying the view.</p>
+  <p>The sort direction is always applied first.</p>
+  <p>Next, filtering is applied by using the <code>startkey</code> and <code>endkey</code> query arguments. The combination of sorting and filtering means that it is possible to have empty view results because the sorting and filtering do not make sense
+    when combined.</p>
+  <p><em>Example of using HTTP to make a query that includes <code>startkey</code> and <code>endkey</code> query arguments:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">GET</span> <span class="hljs-string">/recipes/_design/recipes/_view/by_ingredient?startkey="alpha"&amp;endkey="beta"</span> HTTP/1.1
+<span class="hljs-attribute">Accept</span>: application/json
+<span class="hljs-attribute">Content-Type</span>: application/json
+</code></pre>
+  <p><em>Example of a query using the command line that includes <code>startkey</code> and <code>endkey</code> query arguments:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl https://<span class="hljs-variable">$USERNAME</span>.cloudant.com/<span class="hljs-variable">$DATABASE</span>/_design/<span class="hljs-variable">$DESIGNDOCUMENT</span>/_view/by_ingredient?startkey=<span class="hljs-string">"alpha"</span>&amp;endkey=<span class="hljs-string">"beta"</span> \
+     -H <span class="hljs-string">"Content-Type: application/json"</span>
+</code></pre>
+  <p>For example, if you have a database that returns 10 results when you use a <code>startkey</code> of <code>alpha</code> and an <code>endkey</code> of <code>beta</code>, you would get no results with a reversed order. The reason is that the entries in
+    the view are reversed before the key filter is applied.</p>
+  <p><em>Example that uses HTTP to illustrate why reversing the order of <code>startkey</code> and <code>endkey</code> might not yield any results:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">GET</span> <span class="hljs-string">/recipes/_design/recipes/_view/by_ingredient?descending=true&amp;startkey="beta"&amp;endkey="alpha"</span> HTTP/1.1
+<span class="hljs-attribute">Accept</span>: application/json
+<span class="hljs-attribute">Content-Type</span>: application/json
+</code></pre>
+  <p><em>Example illustrating why reversing the order of <code>startkey</code> and <code>endkey</code> might not yield any results,
+that uses the command line:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl https://<span class="hljs-variable">$USERNAME</span>.cloudant.com/<span class="hljs-variable">$DATABASE</span>/_design/<span class="hljs-variable">$DESIGNDOCUMENT</span>/_view/by_ingredient?descending=<span class="hljs-literal">true</span>&amp;startkey=<span class="hljs-string">"beta"</span>&amp;endkey=<span class="hljs-string">"alpha"</span> \
+     -H <span class="hljs-string">"Content-Type: application/json"</span>
+</code></pre>
+  <p>The <code>endkey</code> of <code>beta</code> is seen before the <code>startkey</code> of <code>alpha</code>, resulting in an empty list.</p>
+  <p><em>Example showing that the view request returns no entries,
+because <code>alpha</code> is alphabetically before <code>beta</code>,
+therefore the returned result is empty:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"total_rows"</span> : <span class="hljs-number">26453</span>,
+    <span class="hljs-attr">"rows"</span> : [],
+    <span class="hljs-attr">"offset"</span> : <span class="hljs-number">21882</span>
+}
+</code></pre>
+  <p>The solution is to reverse not just the sort order, but also the <code>startkey</code> and <code>endkey</code> parameter values.</p>
+  <p>The following example shows correct filtering and reversing the order of output, by using the <code>descending</code> query argument, and reversing the <code>startkey</code> and <code>endkey</code> query arguments.</p>
+  <p><em>Example that uses HTTP to apply correct filtering and sorting:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">GET</span> <span class="hljs-string">/recipes/_design/recipes/_view/by_ingredient?descending=true&amp;startkey="egg"&amp;endkey="carrots"</span> HTTP/1.1
+<span class="hljs-attribute">Accept</span>: application/json
+<span class="hljs-attribute">Content-Type</span>: application/json
+</code></pre>
+  <p><em>Example that uses the command line to apply correct filtering and sorting:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl https://<span class="hljs-variable">$USERNAME</span>.cloudant.com/<span class="hljs-variable">$DATABASE</span>/_design/<span class="hljs-variable">$DESIGNDOCUMENT</span>/_view/by_ingredient?descending=<span class="hljs-literal">true</span>&amp;startkey=<span class="hljs-string">"egg"</span>&amp;endkey=<span class="hljs-string">"carrots"</span> \
+    -H <span class="hljs-string">"Content-Type: application/json"</span>
+</code></pre>
+  <h2 id="querying-a-view-by-using-a-list-of-keys">Querying a view by using a list of keys</h2>
+  <p>You can also run a query by providing a list of keys to use.</p>
+  <p>Requesting information from a database in this way uses the specified <code>view-name</code> from the specified <code>design-doc</code> design document. Like the <code>keys</code> parameter for the <a href="#querying-a-view"><code>GET</code></a> method,
+    the <code>POST</code> method lets you specify the keys to use to retrieve the view results. In all other aspects, the <code>POST</code> method is identical to the <a href="#querying-a-view"><code>GET</code></a> API request. In particular, you can
+    use any of its query parameters.</p>
+  <p><em>Example HTTP request that returns all recipes,
+where the key for the view matches either <code>claret</code> or <code>clear apple juice</code>:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">POST</span> <span class="hljs-string">/$DB/_design/$DDOC/_view/$VIEWNAME</span> HTTP/1.1
+<span class="hljs-attribute">Content-Type</span>: application/json
+</code></pre>
+  <p><em>Example of a request that returns all recipes,
+where the key for the view matches either <code>claret</code> or <code>clear apple juice</code>,
+that uses the command line:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl -X POST <span class="hljs-string">"https://<span class="hljs-variable">$USERNAME</span>:<span class="hljs-variable">$PASSWORD</span>@<span class="hljs-variable">$USERNAME</span>.cloudant.com/<span class="hljs-variable">$DB</span>/_design/<span class="hljs-variable">$DDOC</span>/_view/<span class="hljs-variable">$VIEWNAME</span>"</span> <span class="hljs-_">-d</span> @request.json
+</code></pre>
+  <p><em>Example JSON document that provides a list of keys to use in the query:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"keys"</span> : [
+        <span class="hljs-string">"claret"</span>,
+        <span class="hljs-string">"clear apple juice"</span>
+    ]
+}
+</code></pre>
+  <p>The response contains the standard view information, but only documents where the keys match.</p>
+  <p><em>Example response after running a query that uses a list of keys:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"total_rows"</span> : <span class="hljs-number">26484</span>,
+    <span class="hljs-attr">"rows"</span> : [
+        {
+            <span class="hljs-attr">"value"</span> : [
+              <span class="hljs-string">"Scotch collops"</span>
+            ],
+            <span class="hljs-attr">"id"</span> : <span class="hljs-string">"Scotchcollops"</span>,
+            <span class="hljs-attr">"key"</span> : <span class="hljs-string">"claret"</span>
+        },
+        {
+            <span class="hljs-attr">"value"</span> : [
+              <span class="hljs-string">"Stand pie"</span>
+            ],
+            <span class="hljs-attr">"id"</span> : <span class="hljs-string">"Standpie"</span>,
+            <span class="hljs-attr">"key"</span> : <span class="hljs-string">"clear apple juice"</span>
+        }
+    ],
+    <span class="hljs-attr">"offset"</span> : <span class="hljs-number">6324</span>
+}
+</code></pre>
+  <div id="include_docs_caveat"></div>
+  <h2 id="multi-document-fetching">Multi-document Fetching</h2>
+  <p>Combining a <code>POST</code> request to a view with the <code>include_docs=true</code> query argument enables you to retrieve multiple documents from a database.</p>
+  <p>For a client application, this technique is more efficient than using multiple <a href="#querying-a-view"><code>GET</code></a> API requests.</p>
+  <p>However,
+    <code>include_docs=true</code> might require extra processing time when compared to accessing the view on its own.</p>
+  <p>The reason is that by using <code>include_docs=true</code> in a search, all of the result documents must be retrieved to construct the response for the client application. In effect, a whole series of document <code>GET</code> requests are run, each
+    of which competes for resources with other application requests.</p>
+  <p>One way to mitigate this effect is by retrieving results directly from the Lucene index files. Do this by omitting <code>include_docs=true</code>. Instead, in your design document specify <code>store=true</code> and <code>index=false</code> on the fields
+    you want retrieved by your query.</p>
+  <p>For example, in your index function, you might use the following design specification:</p>
+  <pre class="codeblock"><code class="lang-javascript hljs">index(<span class="hljs-string">"name"</span>, doc.name, {<span class="hljs-string">"store"</span>: <span class="hljs-literal">true</span>, <span class="hljs-string">"index"</span>: <span class="hljs-literal">false</span>});
+</code></pre>
+  <p>You might use the same approach for view indexes.</p>
+  <p><em>Example request using HTTP to obtain the full content of documents that match the listed keys:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">POST</span> <span class="hljs-string">/recipes/_design/recipes/_view/by_ingredient?include_docs=true</span> HTTP/1.1
+<span class="hljs-attribute">Content-Type</span>: application/json
+</code></pre>
+  <p><em>Example JSON document that lists the keys to match:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"keys"</span> : [
+        <span class="hljs-string">"claret"</span>,
+        <span class="hljs-string">"clear apple juice"</span>
+    ]
+}
+</code></pre>
+  <p><em>Example request using the command line to obtain the full content of documents that match the listed keys:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl <span class="hljs-string">"https://<span class="hljs-variable">$USERNAME</span>:<span class="hljs-variable">$PASSWORD</span>@<span class="hljs-variable">$USERNAME</span>.cloudant.com/<span class="hljs-variable">$DB</span>/_design/<span class="hljs-variable">$DDOC</span>/_view/by_ingredient?include_docs=true"</span>
+    -X POST \
+    -H <span class="hljs-string">"Content-Type: application/json"</span> \
+    <span class="hljs-_">-d</span> <span class="hljs-string">"{ "</span>keys<span class="hljs-string">" : [ "</span>claret<span class="hljs-string">", "</span>clear apple juice<span class="hljs-string">" ] }"</span>
+</code></pre>
+  <p><em>Example (abbreviated) response, returning the full document for each recipe that matches a provided key:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"offset"</span> : <span class="hljs-number">6324</span>,
+    <span class="hljs-attr">"rows"</span> : [
+        {
+            <span class="hljs-attr">"doc"</span> : {
+                <span class="hljs-attr">"_id"</span> : <span class="hljs-string">"Scotchcollops"</span>,
+                <span class="hljs-attr">"_rev"</span> : <span class="hljs-string">"1-bcbdf724f8544c89697a1cbc4b9f0178"</span>,
+                <span class="hljs-attr">"cooktime"</span> : <span class="hljs-string">"8"</span>,
+                <span class="hljs-attr">"ingredients"</span> : [
+                    {
+                        <span class="hljs-attr">"ingredient"</span> : <span class="hljs-string">"onion"</span>,
+                        <span class="hljs-attr">"ingredtext"</span> : <span class="hljs-string">"onion, peeled and chopped"</span>,
+                        <span class="hljs-attr">"meastext"</span> : <span class="hljs-string">"1"</span>
+                    },
+                    ...
+                ],
+                <span class="hljs-attr">"keywords"</span> : [
+                    <span class="hljs-string">"cook method.hob, oven, grill@hob"</span>,
+                    <span class="hljs-string">"diet@wheat-free"</span>,
+                    <span class="hljs-string">"diet@peanut-free"</span>,
+                    <span class="hljs-string">"special collections@classic recipe"</span>,
+                    <span class="hljs-string">"cuisine@british traditional"</span>,
+                    <span class="hljs-string">"diet@corn-free"</span>,
+                    <span class="hljs-string">"diet@citrus-free"</span>,
+                    <span class="hljs-string">"special collections@very easy"</span>,
+                    <span class="hljs-string">"diet@shellfish-free"</span>,
+                    <span class="hljs-string">"main ingredient@meat"</span>,
+                    <span class="hljs-string">"occasion@christmas"</span>,
+                    <span class="hljs-string">"meal type@main"</span>,
+                    <span class="hljs-string">"diet@egg-free"</span>,
+                    <span class="hljs-string">"diet@gluten-free"</span>
+                ],
+                <span class="hljs-attr">"preptime"</span> : <span class="hljs-string">"10"</span>,
+                <span class="hljs-attr">"servings"</span> : <span class="hljs-string">"4"</span>,
+                <span class="hljs-attr">"subtitle"</span> : <span class="hljs-string">"This recipe ... short time."</span>,
+                <span class="hljs-attr">"title"</span> : <span class="hljs-string">"Scotch collops"</span>,
+                <span class="hljs-attr">"totaltime"</span> : <span class="hljs-string">"18"</span>
+            },
+            <span class="hljs-attr">"id"</span> : <span class="hljs-string">"Scotchcollops"</span>,
+            <span class="hljs-attr">"key"</span> : <span class="hljs-string">"claret"</span>,
+            <span class="hljs-attr">"value"</span> : [
+                <span class="hljs-string">"Scotch collops"</span>
+            ]
+        },
+        {
+            <span class="hljs-attr">"doc"</span> : {
+                <span class="hljs-attr">"_id"</span> : <span class="hljs-string">"Standpie"</span>,
+                <span class="hljs-attr">"_rev"</span> : <span class="hljs-string">"1-bff6edf3ca2474a243023f2dad432a5a"</span>,
+                <span class="hljs-attr">"cooktime"</span> : <span class="hljs-string">"92"</span>,
+                <span class="hljs-attr">"ingredients"</span> : [
+                  ...
+                ],
+                <span class="hljs-attr">"keywords"</span> : [
+                    <span class="hljs-string">"diet@dairy-free"</span>,
+                    <span class="hljs-string">"diet@peanut-free"</span>,
+                    <span class="hljs-string">"special collections@classic recipe"</span>,
+                    <span class="hljs-string">"cuisine@british traditional"</span>,
+                    <span class="hljs-string">"diet@corn-free"</span>,
+                    <span class="hljs-string">"diet@citrus-free"</span>,
+                    <span class="hljs-string">"occasion@buffet party"</span>,
+                    <span class="hljs-string">"diet@shellfish-free"</span>,
+                    <span class="hljs-string">"occasion@picnic"</span>,
+                    <span class="hljs-string">"special collections@lunchbox"</span>,
+                    <span class="hljs-string">"main ingredient@meat"</span>,
+                    <span class="hljs-string">"convenience@serve with salad for complete meal"</span>,
+                    <span class="hljs-string">"meal type@main"</span>,
+                    <span class="hljs-string">"cook method.hob, oven, grill@hob / oven"</span>,
+                    <span class="hljs-string">"diet@cow dairy-free"</span>
+                ],
+                <span class="hljs-attr">"preptime"</span> : <span class="hljs-string">"30"</span>,
+                <span class="hljs-attr">"servings"</span> : <span class="hljs-string">"6"</span>,
+                <span class="hljs-attr">"subtitle"</span> : <span class="hljs-string">"Serve this pie with pickled vegetables and potato salad."</span>,
+                <span class="hljs-attr">"title"</span> : <span class="hljs-string">"Stand pie"</span>,
+                <span class="hljs-attr">"totaltime"</span> : <span class="hljs-string">"437"</span>
+            },
+            <span class="hljs-attr">"id"</span> : <span class="hljs-string">"Standpie"</span>,
+            <span class="hljs-attr">"key"</span> : <span class="hljs-string">"clear apple juice"</span>,
+            <span class="hljs-attr">"value"</span> : [
+              <span class="hljs-string">"Stand pie"</span>
+            ]
+        }
+    ],
+    <span class="hljs-attr">"total_rows"</span> : <span class="hljs-number">26484</span>
+}
+</code></pre>
+  <h2 id="sending-several-queries-to-a-view">Sending several queries to a view</h2>
+  <p>To send several view queries in one request, use a <code>POST</code> request to <code>/$DATABASE/_design/$DESIGNDOC/_view/$VIEW</code>.</p>
+  <p>The request body is a JSON object that contains only the <code>queries</code> field. It holds an array of query objects with fields for the parameters of the query. The field names and their meaning are the same as the query parameters of a regular
+    view request.</p>
+  <p>The JSON object that is returned in the response contains only the <code>results</code> field, which holds an array of result objects: one result for each query.</p>
+  <p>Each result object contains the same fields as the response to a regular view request.</p>
+  <p><em>Example request using HTTP that contains several queries:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">POST</span> <span class="hljs-string">/$DB/_design/$DESIGNDOC/_view/$VIEW</span> HTTP/1.1
+<span class="hljs-attribute">Content-Type</span>: application/json
+</code></pre>
+  <p><em>Example request containing several queries, that uses the command line:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl https://<span class="hljs-variable">$USERNAME</span>:<span class="hljs-variable">$PASSWORD</span>@<span class="hljs-variable">$USERNAME</span>.cloudant.com/<span class="hljs-variable">$DB</span>/_design/<span class="hljs-variable">$DESIGNDOC</span>/_view/<span class="hljs-variable">$VIEW</span> -H <span class="hljs-string">'Content-Type: application/json'</span> <span class="hljs-_">-d</span> @request-body.json
+    <span class="hljs-comment"># where request-body.json is a file containing JSON data describing the queries</span>
+</code></pre>
+  <p><em>Example JSON document that contains several queries:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    &quot;queries&quot;: [
+        {
+            ...
+        },
+        {
+            &quot;startkey&quot;: 1,
+            &quot;limit&quot;: 2
+        }
+    ]
+}
+</code></pre>
+  <p><em>Example response:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"results"</span>: [
+        {
+            <span class="hljs-attr">"total_rows"</span>: <span class="hljs-number">3</span>,
+            <span class="hljs-attr">"offset"</span>: <span class="hljs-number">0</span>,
+            <span class="hljs-attr">"rows"</span>: [
+                {
+                    <span class="hljs-attr">"id"</span>: <span class="hljs-string">"8fbb1250-6908-42e0-8862-aef60dc430a2"</span>,
+                    <span class="hljs-attr">"key"</span>: <span class="hljs-number">0</span>,
+                    <span class="hljs-attr">"value"</span>: {
+                        <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"8fbb1250-6908-42e0-8862-aef60dc430a2"</span>,
+                        <span class="hljs-attr">"_rev"</span>: <span class="hljs-string">"1-ad1680946839206b088da5d9ac01e4ef"</span>,
+                        <span class="hljs-attr">"foo"</span>: <span class="hljs-number">0</span>,
+                        <span class="hljs-attr">"bar"</span>: <span class="hljs-string">"foo"</span>
+                    }
+                },
+                {
+                    <span class="hljs-attr">"id"</span>: <span class="hljs-string">"d69fb42c-b3b1-4fae-b2ac-55a7453b4e41"</span>,
+                    <span class="hljs-attr">"key"</span>: <span class="hljs-number">1</span>,
+                    <span class="hljs-attr">"value"</span>: {
+                        <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"d69fb42c-b3b1-4fae-b2ac-55a7453b4e41"</span>,
+                        <span class="hljs-attr">"_rev"</span>: <span class="hljs-string">"1-abb9a4fc9f0f339efbf667ace66ee6a0"</span>,
+                        <span class="hljs-attr">"foo"</span>: <span class="hljs-number">1</span>,
+                        <span class="hljs-attr">"bar"</span>: <span class="hljs-string">"bar"</span>
+                    }
+                },
+                {
+                    <span class="hljs-attr">"id"</span>: <span class="hljs-string">"d1fa85cd-cd18-4790-8230-decf99e1f60f"</span>,
+                    <span class="hljs-attr">"key"</span>: <span class="hljs-number">2</span>,
+                    <span class="hljs-attr">"value"</span>: {
+                        <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"d1fa85cd-cd18-4790-8230-decf99e1f60f"</span>,
+                        <span class="hljs-attr">"_rev"</span>: <span class="hljs-string">"1-d075a71f2d47af7d4f64e4a367160e2a"</span>,
+                        <span class="hljs-attr">"foo"</span>: <span class="hljs-number">2</span>,
+                        <span class="hljs-attr">"bar"</span>: <span class="hljs-string">"baz"</span>
+                    }
+                }
+            ]
+        },
+        {
+            <span class="hljs-attr">"total_rows"</span>: <span class="hljs-number">3</span>,
+            <span class="hljs-attr">"offset"</span>: <span class="hljs-number">1</span>,
+            <span class="hljs-attr">"rows"</span>: [
+                {
+                    <span class="hljs-attr">"id"</span>: <span class="hljs-string">"d69fb42c-b3b1-4fae-b2ac-55a7453b4e41"</span>,
+                    <span class="hljs-attr">"key"</span>: <span class="hljs-number">1</span>,
+                    <span class="hljs-attr">"value"</span>: {
+                        <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"d69fb42c-b3b1-4fae-b2ac-55a7453b4e41"</span>,
+                        <span class="hljs-attr">"_rev"</span>: <span class="hljs-string">"1-abb9a4fc9f0f339efbf667ace66ee6a0"</span>,
+                        <span class="hljs-attr">"foo"</span>: <span class="hljs-number">1</span>,
+                        <span class="hljs-attr">"bar"</span>: <span class="hljs-string">"bar"</span>
+                    }
+                },
+                {
+                    <span class="hljs-attr">"id"</span>: <span class="hljs-string">"d1fa85cd-cd18-4790-8230-decf99e1f60f"</span>,
+                    <span class="hljs-attr">"key"</span>: <span class="hljs-number">2</span>,
+                    <span class="hljs-attr">"value"</span>: {
+                        <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"d1fa85cd-cd18-4790-8230-decf99e1f60f"</span>,
+                        <span class="hljs-attr">"_rev"</span>: <span class="hljs-string">"1-d075a71f2d47af7d4f64e4a367160e2a"</span>,
+                        <span class="hljs-attr">"foo"</span>: <span class="hljs-number">2</span>,
+                        <span class="hljs-attr">"bar"</span>: <span class="hljs-string">"baz"</span>
+                    }
+                }
+            ]
+        }
+    ]
+}
+</code></pre>
+  <footer>
+    <div>
+      <p>Copyright &copy; 2015, 2017. All Rights Reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

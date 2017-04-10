@@ -1,0 +1,1881 @@
+<html lang="en">
+<head>
+  <title>IBM&reg; Cloudant&reg; NoSQL DB for Bluemix&reg;</title>
+  <meta charset="utf-8"></meta>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+  <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+</head>
+
+<body>
+  <h1 id="query">Query</h1>
+  <p class="shortdesc">Cloudant Query is a declarative JSON querying syntax for Cloudant databases.</p>
+  <p>Cloudant Query wraps several index types, starting with the Primary Index out-of-the-box. Cloudant Query indexes can also be built using MapReduce Views (where the index type is <code>json</code>), and Search Indexes (where the index type is <code>text</code>).</p>
+  <p>If you know exactly what data you want to look for, or you want to keep storage and processing requirements to a minimum, you can specify how the index is created, by making it of type <code>json</code>.</p>
+  <p>But for maximum possible flexibility when looking for data, you would typically create an index of type <code>text</code>. Indexes of type <code>text</code> have a simple mechanism for automatically indexing all the fields in the documents.</p>
+  <blockquote>
+    <p> <strong>Note</strong>: While more flexible,
+      <code>text</code> indexes might take longer to create and require more storage resources than <code>json</code> indexes.</p>
+  </blockquote>
+  <h2 id="creating-an-index">Creating an index</h2>
+  <p>You can create an index with one of two types:</p>
+  <ul>
+    <li><code>&quot;type&quot;: &quot;json&quot;</code></li>
+    <li><code>&quot;type&quot;: &quot;text&quot;</code></li>
+  </ul>
+  <h3 id="creating-a-type-json-index">Creating a &quot;type=json&quot; index</h3>
+  <p>To create a JSON index in the database <code>$DATABASE</code>, make a <code>POST</code> request to <code>/$DATABASE/_index</code> with a JSON object describing the index in the request body. The <code>type</code> field of the JSON object has to be set
+    to <code>&quot;json&quot;</code>.</p>
+  <p><em>Example of requesting a new index of type <code>JSON</code>, using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">POST</span> <span class="hljs-string">/db/_index</span> HTTP/1.1
+<span class="hljs-attribute">Content-Type</span>: application/json
+</code></pre>
+  <p><em>Example of JSON object requesting a new index called <code>foo-index</code>, for the field called <code>foo</code>:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"index"</span>: {
+        <span class="hljs-attr">"fields"</span>: [<span class="hljs-string">"foo"</span>]
+    },
+    <span class="hljs-attr">"name"</span> : <span class="hljs-string">"foo-index"</span>,
+    <span class="hljs-attr">"type"</span> : <span class="hljs-string">"json"</span>
+}
+</code></pre>
+  <p><em>Example of returned JSON, confirming that the index has been created:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"result"</span>: <span class="hljs-string">"created"</span>
+}
+</code></pre>
+  <h4 id="request-body-format">Request Body format</h4>
+  <ul>
+    <li><strong>index</strong>:
+      <ul>
+        <li><strong>fields</strong>: A JSON array of field names following the <a href="#sort-syntax">sort syntax</a>. Nested fields are also allowed, for example <code>&quot;person.name&quot;</code>.</li>
+      </ul>
+    </li>
+    <li><strong>ddoc (optional)</strong>: Name of the design document in which the index is created. By default, each index is created in its own design document. Indexes can be grouped into design documents for efficiency. However, a change to one index
+      in a design document invalidates all other indexes in the same document.</li>
+    <li><strong>type (optional)</strong>: Can be <code>json</code> or <code>text</code>. Defaults to <code>json</code>. Geospatial indexes will be supported in the future.</li>
+    <li><strong>name (optional)</strong>: Name of the index. If no name is provided, a name is generated automatically.</li>
+  </ul>
+  <h4 id="return-codes">Return Codes</h4>
+  <table>
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>200</td>
+        <td>Index has been created successfully or already existed</td>
+      </tr>
+      <tr>
+        <td>400</td>
+        <td>Bad request: the request body does not have the specified format</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="creating-a-type-text-index">Creating a &quot;type=text&quot; index</h3>
+  <p>While it is generally recommended that you use default values to create a single text index, there are a few useful index attributes that can be modified.</p>
+  <p>Remember that for Full Text Indexes (FTIs),
+    <code>type</code> should be set to <code>text</code>.</p>
+  <p>The <code>name</code> and <code>ddoc</code> attributes are for grouping indexes into design documents, and allowing you to refer to them by a custom string value. If no values are supplied for these fields, they are automatically populated with a hash
+    value.</p>
+  <p>If you create multiple text indexes in a database, with the same <code>ddoc</code> value, you need to know at least the <code>ddoc</code> value as well as the <code>name</code> value. Creating multiple indexes with the same <code>ddoc</code> value places
+    them into the same design document. Generally, you should put each text index into its own design document.</p>
+  <p>For more details on how text indexes work, see the <a href="#note-about-text-indexes">note about <code>text</code> indexes</a>.</p>
+  <p><em>Example of JSON document requesting index creation:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"index"</span>: {
+        <span class="hljs-attr">"fields"</span>: [
+            {
+                <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Movie_name"</span>,
+                <span class="hljs-attr">"type"</span>: <span class="hljs-string">"string"</span>
+            }
+        ]
+    },
+    <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Movie_name-text"</span>,
+    <span class="hljs-attr">"type"</span>: <span class="hljs-string">"text"</span>
+}
+</code></pre>
+  <p><em>Example of JSON document requesting creation of a more complex index:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"type"</span>: <span class="hljs-string">"text"</span>,
+    <span class="hljs-attr">"name"</span>: <span class="hljs-string">"my-index"</span>,
+    <span class="hljs-attr">"ddoc"</span>: <span class="hljs-string">"my-index-design-doc"</span>,
+    <span class="hljs-attr">"index"</span>: {
+        <span class="hljs-attr">"default_field"</span>: {
+            <span class="hljs-attr">"enabled"</span>: <span class="hljs-literal">true</span>,
+            <span class="hljs-attr">"analyzer"</span>: <span class="hljs-string">"german"</span>
+        },
+        <span class="hljs-attr">"selector"</span>: {},
+        <span class="hljs-attr">"fields"</span>: [
+            {<span class="hljs-attr">"name"</span>: <span class="hljs-string">"married"</span>, <span class="hljs-attr">"type"</span>: <span class="hljs-string">"boolean"</span>},
+            {<span class="hljs-attr">"name"</span>: <span class="hljs-string">"lastname"</span>, <span class="hljs-attr">"type"</span>: <span class="hljs-string">"string"</span>},
+            {<span class="hljs-attr">"name"</span>: <span class="hljs-string">"year-of-birth"</span>, <span class="hljs-attr">"type"</span>: <span class="hljs-string">"number"</span>}
+        ]
+    }
+}
+</code></pre>
+  <h4 id="the-index-field">The <code>index</code> field</h4>
+  <p>The <code>index</code> field contains settings specific to text indexes.</p>
+  <p>To index all fields in all documents automatically, use the simple syntax:</p>
+  <pre class="codeblock"><code class="lang-json hljs">&quot;index&quot;: {}
+</code></pre>
+  <p>The indexing process traverses all of the fields in all the documents in the database.</p>
+  <p>An example of creating a text index for all fields in all documents in a database is <a href="#example-movies-demo-database">available</a>.</p>
+  <blockquote>
+    <p><strong>Note</strong>: Caution should be taken when indexing all fields in all documents for large data sets, as it might be a very resource-consuming activity.</p>
+  </blockquote>
+  <p><em>Example of JSON document requesting creation of an index of all fields in all documents:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"type"</span>: <span class="hljs-string">"text"</span>,
+    <span class="hljs-attr">"index"</span>: {}
+}
+</code></pre>
+  <h4 id="the-default_field-field">The <code>default_field</code> field</h4>
+  <p>The <code>default_field</code> value specifies how the <code>$text</code> operator can be used with the index.</p>
+  <p>The <code>default_field</code> contains two keys:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Key</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>analyzer</code></td>
+        <td>Specifies the Lucene analyzer to use. The default value is <code>&quot;standard&quot;</code>.</td>
+      </tr>
+      <tr>
+        <td><code>enabled</code></td>
+        <td>Enable or disable the <code>default_field index</code>. The default value is <code>true</code>.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>The <code>analyzer</code> key in the <code>default_field</code> specifies how the index analyzes text. The index can subsequently be queried using the <code>$text</code> operator. See the <a href="search.html#analyzers">Cloudant Search documentation</a>    for alternative analyzers. You might choose to use an alternative analyzer when documents are indexed in languages other than English, or when you have other special requirements for the analyser such as matching email addresses.</p>
+  <p>If the <code>default_field</code> is not specified, or is supplied with an empty object, it defaults to <code>true</code> and the <code>standard</code> analyzer is used.</p>
+  <h4 id="the-selector-field">The <code>selector</code> field</h4>
+  <p>The <code>selector</code> field can be used to limit the index to a specific set of documents that match a query. It uses the same syntax used for selectors in queries. This can be used if your application requires different documents to be indexed
+    in different ways, or if some documents should not be indexed at all. If you only need to distinguish documents by type, it is easier to use one index and add the type to the search query.</p>
+  <h4 id="the-fields-array">The <code>fields</code> array</h4>
+  <p>The <code>fields</code> array contains a list of fields that should be indexed for each document. If you know that an index queries only on specific fields, then this field can be used to limit the size of the index. Each field must also specify a type
+    to be indexed. The acceptable types are:</p>
+  <ul>
+    <li><code>&quot;boolean&quot;</code></li>
+    <li><code>&quot;string&quot;</code></li>
+    <li><code>&quot;number&quot;</code></li>
+  </ul>
+  <h4 id="the-index_array_lengths-field">The <code>index_array_lengths</code> field</h4>
+  <p>Cloudant Query text indexes have a property called <code>index_array_lengths</code>. If the property is not explicitly set, the default value is <code>true</code>.</p>
+  <p>If the field is set to <code>true</code>, the index performs additional work, scanning every document for any arrays and creating a field to hold the length for each array found.</p>
+  <p>You might prefer to set the <code>index_array_lengths</code> field to <code>false</code> if:</p>
+  <ul>
+    <li>You do not need to know the length of an array.</li>
+    <li>You do not use the <a href="#the-size-operator"><code>$size</code> operator</a>.</li>
+    <li>The documents in your database are complex, or not completely under your control, making it difficult to estimate the impact of the extra processing overhead to determine and store the array lengths.</li>
+  </ul>
+  <blockquote>
+    <p><strong>Note</strong>: The <a href="#the-size-operator"><code>$size</code> operator</a> requires that the <code>index_array_lengths</code> field is set to <code>true</code>, otherwise the operator cannot work.</p>
+  </blockquote>
+  <p><em>Example JSON document with suggested settings to optimize performance on production systems:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"default_field"</span>: {
+        <span class="hljs-attr">"enabled"</span>: <span class="hljs-literal">false</span>
+    },
+    <span class="hljs-attr">"index_array_lengths"</span>: <span class="hljs-literal">false</span>
+}
+</code></pre>
+  <h2 id="query-parameters">Query Parameters</h2>
+  <p>The format of the <code>selector</code> field is as described in the <a href="#selector-syntax">selector syntax</a>, with the exception of the new <code>$text</code> operator.</p>
+  <p>The <code>$text</code> operator is based on a Lucene search with a standard analyzer. This means the operator is not case sensitive, and matches on any words. However, the <code>$text</code> operator does not support full Lucene syntax, such as wildcards,
+    fuzzy matches, or proximity detection. For more information on the available Lucene syntax, see <a href="search.html#search">Cloudant Search documentation</a>. The <code>$text</code> operator applies to all strings found in the document. It is invalid
+    to place this operator in the context of a field name.</p>
+  <p>The <code>fields</code> array is a list of fields that should be returned for each document. The provided field names can use dotted notation to access subfields.</p>
+  <p><em>Example JSON document using all available query parameters:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$gt"</span>: <span class="hljs-number">2010</span>
+        }
+    },
+    <span class="hljs-attr">"fields"</span>: [<span class="hljs-string">"_id"</span>, <span class="hljs-string">"_rev"</span>, <span class="hljs-string">"year"</span>, <span class="hljs-string">"title"</span>],
+    <span class="hljs-attr">"sort"</span>: [{<span class="hljs-attr">"year"</span>: <span class="hljs-string">"asc"</span>}],
+    <span class="hljs-attr">"limit"</span>: <span class="hljs-number">10</span>,
+    <span class="hljs-attr">"skip"</span>: <span class="hljs-number">0</span>
+    }
+</code></pre>
+  <h2 id="working-with-indexes">Working with indexes</h2>
+  <p>Cloudant endpoints can be used to create, list, update, and delete indexes in a database, and to query data using these indexes.</p>
+  <p>The list of available methods and endpoints is as follows:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Methods</th>
+        <th>Path</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>DELETE</code></td>
+        <td><code>/$DATABASE/_index</code></td>
+        <td>Delete an index.</td>
+      </tr>
+      <tr>
+        <td><code>GET</code></td>
+        <td><code>/$DATABASE/_index</code></td>
+        <td>List all Cloudant Query indexes.</td>
+      </tr>
+      <tr>
+        <td><code>POST</code></td>
+        <td><code>/$DATABASE/_find</code></td>
+        <td>Find documents using an index.</td>
+      </tr>
+      <tr>
+        <td><code>POST</code></td>
+        <td><code>/$DATABASE/_index</code></td>
+        <td>Create a new index.</td>
+      </tr>
+    </tbody>
+  </table>
+  <h2 id="list-all-cloudant-query-indexes">List all Cloudant Query indexes</h2>
+  <ul>
+    <li><strong>Method</strong>: <code>GET</code></li>
+    <li><strong>URL Path</strong>: <code>/$DATABASE/_index</code></li>
+    <li><strong>Response Body</strong>: JSON object describing the indexes</li>
+    <li><strong>Roles permitted</strong>: <code>_reader</code></li>
+  </ul>
+  <p>When you make a <code>GET</code> request to <code>/$DATABASE/_index</code>, you get a list of all indexes used by Cloudant Query in the database, including the primary index. In addition to the information available through this API, indexes are also
+    stored in design documents index functions.</p>
+  <p>Design documents are regular documents that have an ID starting with <code>_design/</code>. They can be retrieved and modified in the same way as any other document, although this is not usually necessary when using Cloudant Query.</p>
+  <p>Design documents are discussed in more detail <a href="design_documents.html">here</a>.</p>
+  <h3 id="response-body-format">Response body format</h3>
+  <ul>
+    <li><strong>indexes</strong>: Array of indexes
+      <ul>
+        <li><strong>ddoc</strong>: ID of the design document the index belongs to. This ID can be used to retrieve the design document containing the index, by making a <code>GET</code> request to <code>/$DATABASE/$DDOC</code>, where <code>$DDOC</code> is
+          the value of this field.</li>
+        <li><strong>name</strong>: Name of the index.</li>
+        <li><strong>type</strong>: Type of the index. Currently <code>json</code> is the only supported type.</li>
+        <li><strong>def</strong>: Definition of the index, containing the indexed fields and the sort order: ascending or descending.</li>
+      </ul>
+    </li>
+  </ul>
+  <p><em>Example of a response body with two indexes:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"indexes"</span>: [
+        {
+            <span class="hljs-attr">"ddoc"</span>: <span class="hljs-string">"_design/2ec1805041b2c3dcdef1d07a8ea1dc51ba3decfa"</span>,
+            <span class="hljs-attr">"name"</span>: <span class="hljs-string">"foo-bar-index"</span>,
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"json"</span>,
+            <span class="hljs-attr">"def"</span>: {
+                <span class="hljs-attr">"fields"</span>: [
+                    {<span class="hljs-attr">"foo"</span>:<span class="hljs-string">"asc"</span>},
+                    {<span class="hljs-attr">"bar"</span>:<span class="hljs-string">"asc"</span>}
+                ]
+            }
+        },
+        {
+            <span class="hljs-attr">"ddoc"</span>: <span class="hljs-string">"_design/1f003ce73056238720c2e8f7da545390a8ea1dc5"</span>,
+            <span class="hljs-attr">"name"</span>: <span class="hljs-string">"baz-index"</span>,
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"json"</span>,
+            <span class="hljs-attr">"def"</span>: {
+                <span class="hljs-attr">"fields"</span>: [
+                    {<span class="hljs-attr">"baz"</span>:<span class="hljs-string">"desc"</span>}
+                ]
+            }
+        }
+    ]
+}
+</code></pre>
+  <h2 id="deleting-an-index">Deleting an index</h2>
+  <ul>
+    <li><strong>Method</strong>: <code>DELETE</code></li>
+    <li><strong>URL Path</strong>: <code>/$DATABASE/_index/$DDOC/$TYPE/$NAME</code> where <code>$DATABASE</code> is the name of the database, $DDOC is the ID of the design document, $TYPE is the type of the index, for example <code>json</code>, and $NAME
+      is the name of the index.</li>
+    <li><strong>Response Body</strong>: JSON object indicating successful deletion of the index, or describing any error encountered.</li>
+    <li><strong>Request Body</strong>: None</li>
+    <li><strong>Roles permitted</strong>: <code>_writer</code></li>
+  </ul>
+  <h2 id="finding-documents-using-an-index">Finding documents using an index</h2>
+  <ul>
+    <li><strong>Method</strong>: <code>POST</code></li>
+    <li><strong>URL Path</strong>: <code>/$DATABASE/_find</code></li>
+    <li><strong>Response Body</strong>: JSON object describing the query results.</li>
+    <li><strong>Roles permitted</strong>: <code>_reader</code></li>
+  </ul>
+  <h3 id="request-body">Request body</h3>
+  <ul>
+    <li><strong>selector</strong>: JSON object describing criteria used to select documents. More information provided in the section on <a href="#selector-syntax">selectors</a>.</li>
+    <li><strong>limit (optional, default: 25)</strong>: Maximum number of results returned.</li>
+    <li><strong>skip (optional, default: 0)</strong>: Skip the first &#39;n&#39; results, where &#39;n&#39; is the value specified.</li>
+    <li><strong>sort (optional, default: [])</strong>: JSON array, ordered according to the <a href="#sort-syntax">sort syntax</a>.</li>
+    <li><strong>fields (optional, default: null)</strong>: JSON array, following the field syntax as described in the following information. This parameter lets you specify which fields of an object should be returned. If it is omitted, the entire object
+      is returned.</li>
+    <li><strong>r (optional, default: 1)</strong>: Read quorum needed for the result. This defaults to 1, in which case the document found in the index is returned. If set to a higher value, each document is read from at least that many replicas before it
+      is returned in the results. This is likely to take more time than using only the document stored locally with the index.</li>
+    <li><strong>bookmark (optional, default: null)</strong>: A string that enables you to specify which page of results you require.
+      <em>Only for indexes of type <code>text</code>.</em></li>
+    <li><strong>use_index (optional)</strong>: Use this option to identify a specific index for query to run against, rather than using the Cloudant Query algorithm to find the best index. For more information, see <a href="#explain-plans">Explain Plans</a>.</li>
+  </ul>
+  <p>The <code>bookmark</code> field is used for paging through result sets. Every query returns an opaque string under the <code>bookmark</code> key that can then be passed back in a query to get the next page of results. If any part of the query other
+    than <code>bookmark</code> changes between requests, the results are undefined.</p>
+  <p>The <code>limit</code> and <code>skip</code> values are exactly as you would expect. Although <code>skip</code> is available, it is not intended to be used for paging. The reason is that the <code>bookmark</code> feature is more efficient.</p>
+  <p><em>Example request in JSON format, for finding documents using an index:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"year"</span>: {<span class="hljs-attr">"$gt"</span>: <span class="hljs-number">2010</span>}
+    },
+    <span class="hljs-attr">"fields"</span>: [<span class="hljs-string">"_id"</span>, <span class="hljs-string">"_rev"</span>, <span class="hljs-string">"year"</span>, <span class="hljs-string">"title"</span>],
+    <span class="hljs-attr">"sort"</span>: [{<span class="hljs-attr">"year"</span>: <span class="hljs-string">"asc"</span>}],
+    <span class="hljs-attr">"limit"</span>: <span class="hljs-number">10</span>,
+    <span class="hljs-attr">"skip"</span>: <span class="hljs-number">0</span>
+}
+</code></pre>
+  <h3 id="response-body">Response body</h3>
+  <ul>
+    <li><strong>docs</strong>: Array of documents matching the search. In each matching document, the fields specified in the <code>fields</code> part of the request body are listed, along with their values.</li>
+  </ul>
+  <p><em>Example response when finding documents using an index:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"docs"</span>:[
+        {
+            <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"2"</span>,
+            <span class="hljs-attr">"_rev"</span>: <span class="hljs-string">"1-9f0e70c7592b2e88c055c51afc2ec6fd"</span>,
+            <span class="hljs-attr">"foo"</span>: <span class="hljs-string">"test"</span>,
+            <span class="hljs-attr">"bar"</span>: <span class="hljs-number">2600000</span>
+            },
+        {
+            <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"1"</span>,
+            <span class="hljs-attr">"_rev"</span>: <span class="hljs-string">"1-026418c17a353a9b73a6ccac19c142a4"</span>,
+            <span class="hljs-attr">"foo"</span>:<span class="hljs-string">"another test"</span>,
+            <span class="hljs-attr">"bar"</span>:<span class="hljs-number">9800000</span>
+        }
+    ]
+}
+</code></pre>
+  <h2 id="selector-syntax">Selector Syntax</h2>
+  <p>The Cloudant Query language is expressed as a JSON object describing documents of interest. Within this structure, you can apply conditional logic using specially named fields.</p>
+  <blockquote>
+    <p> <strong>Note</strong>: While the Cloudant Query language has some similarities with MongoDB query documents, these arise from a similarity of purpose and do not necessarily extend to commonality of function or result.</p>
+  </blockquote>
+  <h3 id="selector-basics">Selector basics</h3>
+  <p>Elementary selector syntax requires you to specify one or more fields, and the corresponding values required for those fields. The following example selector matches all documents that have a <code>director</code> field containing the value <code>Lars von Trier</code>.</p>
+  <p><em>Example of a simple selector:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"director"</span>: <span class="hljs-string">"Lars von Trier"</span>
+    }
+}
+</code></pre>
+  <p>If you created a full text index by specifying <code>&quot;type&quot;:&quot;text&quot;</code> when the index was created, you can use the <code>$text</code> operator to select matching documents. In the following example, the full text index is inspected
+    to find any document that includes the word <code>Bond</code>.</p>
+  <p><em>An example of a simple selector for a full text index:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"$text"</span>: <span class="hljs-string">"Bond"</span>
+    }
+}
+</code></pre>
+  <p>In the following example, the full text index is inspected to find any document that includes the word &quot;Bond&quot;. In the response, the fields <code>title</code> or <code>cast</code> are returned for every matching object.</p>
+  <p><em>Example of a simple selector, inspecting specific fields:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"$text"</span>: <span class="hljs-string">"Bond"</span>,
+        <span class="hljs-attr">"fields"</span>: [
+            <span class="hljs-string">"title"</span>,
+            <span class="hljs-string">"cast"</span>
+        ]
+    }
+}
+</code></pre>
+  <p>You can create more complex selector expressions by combining operators. However, for Cloudant Query indexes of type <code>json</code>, you cannot use &#39;combination&#39; or &#39;array logical&#39; operators such as <code>$regex</code> as the <em>basis</em>    of a query. Only the equality operators such as <code>$eq</code>,
+    <code>$gt</code>,
+    <code>$gte</code>,
+    <code>$lt</code>, and <code>$lte</code> - but <em>not</em> <code>$ne</code> - can be used as the basis of a more complex query. For more information about creating complex selector expressions, see <a href="#creating-selector-expressions">Creating selector expressions</a>.</p>
+  <h3 id="selector-with-two-fields">Selector with two fields</h3>
+  <p>In the following example, the selector matches any document with a <code>name</code> field containing <code>Paul</code>,
+    <em>and</em> that also has a <code>location</code> field with the value &quot;Boston&quot;.</p>
+  <p><em>Example of a more complex selector:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Paul"</span>,
+        <span class="hljs-attr">"location"</span>: <span class="hljs-string">"Boston"</span>
+    }
+}
+</code></pre>
+  <h2 id="subfields">Subfields</h2>
+  <p>A more complex selector enables you to specify the values for field of nested objects, or subfields. For example, you might use a standard JSON structure for specifying a field <em>and</em> a subfield.</p>
+  <p><em>Example of a field and subfield selector, within a JSON object:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"imdb"</span>: {
+            <span class="hljs-attr">"rating"</span>: <span class="hljs-number">8</span>
+        }
+    }
+}
+</code></pre>
+  <p>An abbreviated equivalent uses a dot notation to combine the field and subfield names into a single name.</p>
+  <p><em>Example of an equivalent field and subfield selector using dot notation:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"imdb.rating"</span>: <span class="hljs-number">8</span>
+    }
+}
+</code></pre>
+  <h2 id="operators">Operators</h2>
+  <p>Operators are identified by the use of a dollar sign (<code>$</code>) prefix in the name field.</p>
+  <p>There are two core types of operators in the selector syntax:</p>
+  <ul>
+    <li>Combination operators.</li>
+    <li>Condition operators.</li>
+  </ul>
+  <p>In general, combination operators are applied at the topmost level of selection. They are used to combine conditions, or to create combinations of conditions, into one selector.</p>
+  <p>Every explicit operator has the form:</p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"$operator"</span>: <span class="hljs-string">"argument"</span>
+}
+</code></pre>
+  <p>A selector without an explicit operator is considered to have an implicit operator. The exact implicit operator is determined by the structure of the selector expression.</p>
+  <h2 id="implicit-operators">Implicit Operators</h2>
+  <p>There are two implicit operators:</p>
+  <ul>
+    <li>&#39;Equality&#39;.</li>
+    <li>&#39;And&#39;.</li>
+  </ul>
+  <p>In a selector, any field containing a JSON value but that has no operators in it, is considered to be an equality condition. The implicit equality test also applies for fields and subfields.</p>
+  <p>Any JSON object that is not the argument to a condition operator is an implicit <code>$and</code> operator on each field.</p>
+  <p><em>Example selector using an operator to match any document, where the <code>age</code> field has a value greater than 20:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$gt"</span>: <span class="hljs-number">2010</span>
+        }
+    }
+}
+</code></pre>
+  <p>In the following example, there must be a field <code>director</code> in a matching document,
+    <em>and</em> the field must have a value exactly equal to <code>Lars von Trier</code>.</p>
+  <p><em>Example of the implicit equality operator:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"director"</span>: <span class="hljs-string">"Lars von Trier"</span>
+}
+</code></pre>
+  <p>You can also make the equality operator explicit, as shown in the following example.</p>
+  <p><em>Example of an explicit equality operator:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"director"</span>: {
+        <span class="hljs-attr">"$eq"</span>: <span class="hljs-string">"Lars von Trier"</span>
+    }
+}
+</code></pre>
+  <p>In the following example using subfields, the required field <code>imdb</code> in a matching document <em>must</em> also have a subfield <code>rating</code> <em>and</em> the subfield <em>must</em> have a value equal to 8.</p>
+  <p><em>Example of implicit operator applied to a subfield test:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"imdb"</span>: {
+        <span class="hljs-attr">"rating"</span>: <span class="hljs-number">8</span>
+    }
+}
+</code></pre>
+  <p>You can make the equality operator explicit.</p>
+  <p><em>Example of an explicit equality operator:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"imdb"</span>: {
+            <span class="hljs-attr">"rating"</span>: { <span class="hljs-attr">"$eq"</span>: <span class="hljs-number">8</span> }
+        }
+    }
+}
+</code></pre>
+  <p><em>Example of the <code>$eq</code> operator used with full text indexing:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$eq"</span>: <span class="hljs-number">2001</span>
+        }
+    },
+    <span class="hljs-attr">"sort"</span>: [
+        <span class="hljs-string">"title:string"</span>
+    ],
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"title"</span>
+    ]
+}
+</code></pre>
+  <p><em>Example of the <code>$eq</code> operator used with a database indexed on the field <code>year</code>:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$eq"</span>: <span class="hljs-number">2001</span>
+        }
+    },
+    <span class="hljs-attr">"sort"</span>: [
+        <span class="hljs-string">"year"</span>
+    ],
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"year"</span>
+    ]
+}
+</code></pre>
+  <p>In the following example, the field <code>director</code> must be present and contain the value <code>Lars von Trier</code>
+    <em>and</em> the field <code>year</code> must exist and have the value <code>2003</code>.</p>
+  <p><em>Example of an implicit <code>$and</code> operator:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"director"</span>: <span class="hljs-string">"Lars von Trier"</span>,
+    <span class="hljs-attr">"year"</span>: <span class="hljs-number">2003</span>
+}
+</code></pre>
+  <div id="combined-expressions"></div>
+  <p>You can make both the <code>$and</code> operator and the equality operator explicit.</p>
+  <p><em>Example of using explicit <code>$and</code> and <code>$eq</code> operators:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"$and"</span>: [
+        {
+            <span class="hljs-attr">"director"</span>: {
+                <span class="hljs-attr">"$eq"</span>: <span class="hljs-string">"Lars von Trier"</span>
+            }
+        },
+        {
+            <span class="hljs-attr">"year"</span>: {
+                <span class="hljs-attr">"$eq"</span>: <span class="hljs-number">2003</span>
+            }
+        }
+    ]
+}
+</code></pre>
+  <h2 id="explicit-operators">Explicit operators</h2>
+  <p>All operators, apart from the <code>$eq</code> (equality) and <code>$and</code> and operators, must be stated explicitly.</p>
+  <h2 id="combination-operators">Combination Operators</h2>
+  <p>Combination operators are used to combine selectors. In addition to the common boolean operators found in most programming languages, there are two combination operators (<code>$all</code> and <code>$elemMatch</code>) that help you work with JSON arrays.</p>
+  <p>A combination operator takes a single argument. The argument is either another selector, or an array of selectors.</p>
+  <p>The list of combination operators:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Operator</th>
+        <th>Argument</th>
+        <th>Purpose</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>$all</code></td>
+        <td>Array</td>
+        <td>Matches an array value if it contains all the elements of the argument array.</td>
+      </tr>
+      <tr>
+        <td><code>$and</code></td>
+        <td>Array</td>
+        <td>Matches if all the selectors in the array match.</td>
+      </tr>
+      <tr>
+        <td><code>$elemMatch</code></td>
+        <td>Selector</td>
+        <td>Matches and returns all documents that contain an array field with at least one element that matches all the specified query criteria.</td>
+      </tr>
+      <tr>
+        <td><code>$or</code></td>
+        <td>Array</td>
+        <td>Matches if any of the selectors in the array match. All selectors must use the same index.</td>
+      </tr>
+      <tr>
+        <td><code>$not</code></td>
+        <td>Selector</td>
+        <td>Matches if the given selector does not match.</td>
+      </tr>
+      <tr>
+        <td><code>$nor</code></td>
+        <td>Array</td>
+        <td>Matches if none of the selectors in the array match.</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="examples-of-combination-operators">Examples of combination operators</h3>
+  <h4 id="the-and-operator">The <code>$and</code> operator</h4>
+  <p>The <code>$and</code> operator matches if all the selectors in the array match.</p>
+  <p><em>Example of the <code>$and</code> operator, used with full text indexing:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"$and"</span>: [
+            {
+                <span class="hljs-attr">"$text"</span>: <span class="hljs-string">"Schwarzenegger"</span>
+            },
+            {
+                <span class="hljs-attr">"year"</span>: {
+                    <span class="hljs-attr">"$in"</span>: [<span class="hljs-number">1984</span>, <span class="hljs-number">1991</span>]
+                }
+            }
+        ]
+    },
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"year"</span>,
+        <span class="hljs-string">"title"</span>,
+        <span class="hljs-string">"cast"</span>
+    ]
+}
+</code></pre>
+  <p><em>Example of the <code>$and</code> operator, used with a primary index:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"$and"</span>: [
+            {
+                <span class="hljs-attr">"_id"</span>: { <span class="hljs-attr">"$gt"</span>: <span class="hljs-literal">null</span> }
+            },
+            {
+                <span class="hljs-attr">"year"</span>: {
+                    <span class="hljs-attr">"$in"</span>: [<span class="hljs-number">2014</span>, <span class="hljs-number">2015</span>]
+                }
+            }
+        ]
+    },
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"year"</span>,
+        <span class="hljs-string">"_id"</span>,
+        <span class="hljs-string">"title"</span>
+    ],
+    <span class="hljs-attr">"limit"</span>: <span class="hljs-number">10</span>
+}
+</code></pre>
+  <h4 id="the-or-operator">The <code>$or</code> operator</h4>
+  <p>The <code>$or</code> operator matches if any of the selectors in the array match.</p>
+  <p><em>Example of the <code>$or</code> operator, used with full text indexing:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"$or"</span>: [
+            { <span class="hljs-attr">"director"</span>: <span class="hljs-string">"George Lucas"</span> },
+            { <span class="hljs-attr">"director"</span>: <span class="hljs-string">"Steven Spielberg"</span> }
+        ]
+    },
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"title"</span>,
+        <span class="hljs-string">"director"</span>,
+        <span class="hljs-string">"year"</span>
+    ]
+}
+</code></pre>
+  <p><em>Example of the <code>$or</code> operator, used with a database indexed on the field <code>year</code>:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"year"</span>: <span class="hljs-number">1977</span>,
+        <span class="hljs-attr">"$or"</span>: [
+            { <span class="hljs-attr">"director"</span>: <span class="hljs-string">"George Lucas"</span> },
+            { <span class="hljs-attr">"director"</span>: <span class="hljs-string">"Steven Spielberg"</span> }
+        ]
+    },
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"title"</span>,
+        <span class="hljs-string">"director"</span>,
+        <span class="hljs-string">"year"</span>
+    ]
+}
+</code></pre>
+  <h4 id="the-not-operator">The <code>$not</code> operator</h4>
+  <p>The <code>$not</code> operator matches if the given selector does <em>not</em> resolve to a value of <code>true</code>.</p>
+  <p><em>Example of the <code>$not</code> operator, used with full text indexing:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$gte"</span>: <span class="hljs-number">1900</span>
+        },
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$lte"</span>: <span class="hljs-number">1903</span>
+        },
+        <span class="hljs-attr">"$not"</span>: {
+            <span class="hljs-attr">"year"</span>: <span class="hljs-number">1901</span>
+        }
+    },
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"title"</span>,
+        <span class="hljs-string">"year"</span>
+    ]
+}
+</code></pre>
+  <p><em>Example of the <code>$not</code> operator, used with a database indexed on the field <code>year</code>:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$gte"</span>: <span class="hljs-number">1900</span>
+        },
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$lte"</span>: <span class="hljs-number">1903</span>
+        },
+        <span class="hljs-attr">"$not"</span>: {
+            <span class="hljs-attr">"year"</span>: <span class="hljs-number">1901</span>
+        }
+    },
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"title"</span>,
+        <span class="hljs-string">"year"</span>
+    ]
+}
+</code></pre>
+  <h4 id="the-nor-operator">The <code>$nor</code> operator</h4>
+  <p>The <code>$nor</code> operator matches if the given selector does <em>not</em> match.</p>
+  <p><em>Example of the <code>$nor</code> operator, used with full text indexing:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$gte"</span>: <span class="hljs-number">1900</span>
+        },
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$lte"</span>: <span class="hljs-number">1910</span>
+        },
+        <span class="hljs-attr">"$nor"</span>: [
+            { <span class="hljs-attr">"year"</span>: <span class="hljs-number">1901</span> },
+            { <span class="hljs-attr">"year"</span>: <span class="hljs-number">1905</span> },
+            { <span class="hljs-attr">"year"</span>: <span class="hljs-number">1907</span> }
+        ]
+    },
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"title"</span>,
+        <span class="hljs-string">"year"</span>
+    ]
+}
+</code></pre>
+  <p><em>Example of the <code>$nor</code> operator, used with a database indexed on the field <code>year</code>:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$gte"</span>: <span class="hljs-number">1900</span>
+        },
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$lte"</span>: <span class="hljs-number">1910</span>
+        },
+        <span class="hljs-attr">"$nor"</span>: [
+            { <span class="hljs-attr">"year"</span>: <span class="hljs-number">1901</span> },
+            { <span class="hljs-attr">"year"</span>: <span class="hljs-number">1905</span> },
+            { <span class="hljs-attr">"year"</span>: <span class="hljs-number">1907</span> }
+        ]
+    },
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"title"</span>,
+        <span class="hljs-string">"year"</span>
+    ]
+}
+</code></pre>
+  <h4 id="the-all-operator">The <code>$all</code> operator</h4>
+  <p>The <code>$all</code> operator matches an array value if it contains <em>all</em> the elements of the argument array.</p>
+  <p><em>Example of the <code>$all</code> operator, used with full text indexing:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"genre"</span>: {
+            <span class="hljs-attr">"$all"</span>: [<span class="hljs-string">"Comedy"</span>,<span class="hljs-string">"Short"</span>]
+        }
+    },
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"title"</span>,
+        <span class="hljs-string">"genre"</span>
+    ],
+    <span class="hljs-attr">"sort"</span>: [
+        <span class="hljs-string">"title:string"</span>
+    ]
+}
+</code></pre>
+  <p><em>Example of the <code>$all</code> operator, used with a primary database index:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"_id"</span>: {
+            <span class="hljs-attr">"$gt"</span>: <span class="hljs-literal">null</span>
+        },
+        <span class="hljs-attr">"genre"</span>: {
+            <span class="hljs-attr">"$all"</span>: [<span class="hljs-string">"Comedy"</span>,<span class="hljs-string">"Short"</span>]
+        }
+    },
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"title"</span>,
+        <span class="hljs-string">"genre"</span>
+    ],
+    <span class="hljs-attr">"limit"</span>: <span class="hljs-number">10</span>
+}
+</code></pre>
+  <h4 id="the-elemmatch-operator">The <code>$elemMatch</code> operator</h4>
+  <p>The <code>$elemMatch</code> operator matches and returns all documents that contain an array field with at least one element matching the supplied query criteria.</p>
+  <p><em>Example of the <code>$elemMatch</code> operator, used with full text indexing:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"genre"</span>: {
+            <span class="hljs-attr">"$elemMatch"</span>: {
+                <span class="hljs-attr">"$eq"</span>: <span class="hljs-string">"Horror"</span>
+            }
+        }
+    },
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"title"</span>,
+        <span class="hljs-string">"genre"</span>
+    ]
+}
+</code></pre>
+  <p><em>Example of the <code>$elemMatch</code> operator, used with a primary database index:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"_id"</span>: { <span class="hljs-attr">"$gt"</span>: <span class="hljs-literal">null</span> },
+        <span class="hljs-attr">"genre"</span>: {
+            <span class="hljs-attr">"$elemMatch"</span>: {
+                <span class="hljs-attr">"$eq"</span>: <span class="hljs-string">"Horror"</span>
+            }
+        }
+    },
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"title"</span>,
+        <span class="hljs-string">"genre"</span>
+    ],
+    <span class="hljs-attr">"limit"</span>: <span class="hljs-number">10</span>
+}
+</code></pre>
+  <h2 id="condition-operators">Condition Operators</h2>
+  <p>Condition operators are specific to a field, and are used to evaluate the value stored in that field. For instance, the <code>$eq</code> operator matches when the specified field contains a value that is equal to the supplied argument.</p>
+  <p>The basic equality and inequality operators common to most programming languages are supported. In addition, some &#39;meta&#39; condition operators are available.</p>
+  <p>Some condition operators accept any valid JSON content as the argument. Other condition operators require the argument to be in a specific JSON format.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Operator type</th>
+        <th>Operator</th>
+        <th>Argument</th>
+        <th>Purpose</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>(In)equality</td>
+        <td><code>$lt</code></td>
+        <td>Any JSON</td>
+        <td>The field is less than the argument.</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><code>$lte</code></td>
+        <td>Any JSON</td>
+        <td>The field is less than or equal to the argument.</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><code>$eq</code></td>
+        <td>Any JSON</td>
+        <td>The field is equal to the argument.</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><code>$ne</code></td>
+        <td>Any JSON</td>
+        <td>The field is not equal to the argument.</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><code>$gte</code></td>
+        <td>Any JSON</td>
+        <td>The field is greater than or equal to the argument.</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><code>$gt</code></td>
+        <td>Any JSON</td>
+        <td>The field is greater than the argument.</td>
+      </tr>
+      <tr>
+        <td>Object</td>
+        <td><code>$exists</code></td>
+        <td>Boolean</td>
+        <td>Check whether the field exists or not, regardless of its value.</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><code>$type</code></td>
+        <td>String</td>
+        <td>Check the document field&#39;s type. Accepted values are <code>null</code>, <code>boolean</code>, <code>number</code>, <code>string</code>, <code>array</code>, and <code>object</code>.</td>
+      </tr>
+      <tr>
+        <td>Array</td>
+        <td><code>$in</code></td>
+        <td>Array of JSON values</td>
+        <td>The document field must exist in the list provided.</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><code>$nin</code></td>
+        <td>Array of JSON values</td>
+        <td>The document field must not exist in the list provided.</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><code>$size</code></td>
+        <td>Integer</td>
+        <td>Special condition to match the length of an array field in a document. Non-array fields cannot match this condition.</td>
+      </tr>
+      <tr>
+        <td>Miscellaneous</td>
+        <td><code>$mod</code></td>
+        <td>[Divisor, Remainder]</td>
+        <td>Divisor and Remainder are both positive or negative integers. Non-integer values result in a <a href="http.html#404">404 status</a>. Matches documents where (<code>field % Divisor == Remainder</code>) is true, and only when the document field
+          is an integer.</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><code>$regex</code></td>
+        <td>String</td>
+        <td>A regular expression pattern to match against the document field. Only matches when the field is a string value and matches the supplied regular expression.</td>
+      </tr>
+    </tbody>
+  </table>
+  <blockquote>
+    <p><strong>Note</strong>: Regular expressions do not work with indexes, so they should not be used to filter large data sets.</p>
+  </blockquote>
+  <h3 id="examples-of-condition-operators">Examples of condition operators</h3>
+  <h4 id="the-lt-operator">The <code>$lt</code> operator</h4>
+  <p>The <code>$lt</code> operator matches if the specified field content is less than the argument.</p>
+  <p><em>Example of the <code>$lt</code> operator, used with full text indexing:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$lt"</span>: <span class="hljs-number">1900</span>
+        }
+    },
+    <span class="hljs-attr">"sort"</span>: [
+        <span class="hljs-string">"year:number"</span>,
+        <span class="hljs-string">"title:string"</span>
+    ],
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"year"</span>,
+        <span class="hljs-string">"title"</span>
+    ]
+}
+</code></pre>
+  <p><em>Example of the <code>$lt</code> operator, used with a database indexed on the field <code>year</code>:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$lt"</span>: <span class="hljs-number">1900</span>
+        }
+    },
+    <span class="hljs-attr">"sort"</span>: [
+        <span class="hljs-string">"year"</span>
+    ],
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"year"</span>
+    ]
+}
+</code></pre>
+  <h4 id="the-lte-operator">The <code>$lte</code> operator</h4>
+  <p>The <code>$lte</code> operator matches if the specified field content is less than or equal to the argument.</p>
+  <p><em>Example of the <code>$lte</code> operator, used with full text indexing:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$lte"</span>: <span class="hljs-number">1900</span>
+        }
+    },
+    <span class="hljs-attr">"sort"</span>: [
+        <span class="hljs-string">"year:number"</span>,
+        <span class="hljs-string">"title:string"</span>
+    ],
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"year"</span>,
+        <span class="hljs-string">"title"</span>
+    ]
+}
+</code></pre>
+  <p><em>Example of the <code>$lte</code> operator, used with a database indexed on the field <code>year</code>:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$lte"</span>: <span class="hljs-number">1900</span>
+        }
+    },
+    <span class="hljs-attr">"sort"</span>: [
+        <span class="hljs-string">"year"</span>
+    ],
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"year"</span>
+    ]
+}
+</code></pre>
+  <h4 id="the-eq-operator">The <code>$eq</code> operator</h4>
+  <p>The <code>$eq</code> operator matches if the specified field content is equal to the supplied argument.</p>
+  <p><em>Example of the <code>$eq</code> operator, used with full text indexing:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$eq"</span>: <span class="hljs-number">2001</span>
+        }
+    },
+    <span class="hljs-attr">"sort"</span>: [
+        <span class="hljs-string">"title:string"</span>
+    ],
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"title"</span>
+    ]
+}
+</code></pre>
+  <p><em>Example of the <code>$eq</code> operator, used with a database indexed on the field <code>year</code>:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$eq"</span>: <span class="hljs-number">2001</span>
+        }
+    },
+    <span class="hljs-attr">"sort"</span>: [
+        <span class="hljs-string">"year"</span>
+    ],
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"year"</span>
+    ]
+}
+</code></pre>
+  <h4 id="the-ne-operator">The <code>$ne</code> operator</h4>
+  <p>The <code>$ne</code> operator matches if the specified field content is not equal to the supplied argument.</p>
+  <blockquote>
+    <p><strong>Note</strong>: The <code>$ne</code> operator cannot be the basic (lowest level) element in a selector when using an index of type <code>json</code>.</p>
+  </blockquote>
+  <p><em>Example of the <code>$ne</code> operator, used with full text indexing:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$ne"</span>: <span class="hljs-number">1892</span>
+        }
+    },
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"year"</span>
+    ],
+    <span class="hljs-attr">"sort"</span>: [
+        <span class="hljs-string">"year:number"</span>
+    ]
+}
+</code></pre>
+  <p><em>Example of the <code>$ne</code> operator, used with a primary index:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"_id"</span>: {
+            <span class="hljs-attr">"$gt"</span>: <span class="hljs-literal">null</span>
+        },
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$ne"</span>: <span class="hljs-number">1892</span>
+        }
+    },
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"year"</span>
+    ],
+    <span class="hljs-attr">"limit"</span>: <span class="hljs-number">10</span>
+}
+</code></pre>
+  <h4 id="the-gte-operator">The <code>$gte</code> operator</h4>
+  <p>The <code>$gte</code> operator matches if the specified field content is greater than or equal to the argument.</p>
+  <p><em>Example of the <code>$gte</code> operator, used with full text indexing:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$gte"</span>: <span class="hljs-number">2001</span>
+        }
+    },
+    <span class="hljs-attr">"sort"</span>: [
+        <span class="hljs-string">"year:number"</span>,
+        <span class="hljs-string">"title:string"</span>
+    ],
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"year"</span>,
+        <span class="hljs-string">"title"</span>
+    ]
+}
+</code></pre>
+  <p><em>Example of the <code>$gte</code> operator, used with a database indexed on the field <code>year</code>:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$gte"</span>: <span class="hljs-number">2001</span>
+        }
+    },
+    <span class="hljs-attr">"sort"</span>: [
+        <span class="hljs-string">"year"</span>
+    ],
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"year"</span>
+    ]
+}
+</code></pre>
+  <h4 id="the-gt-operator">The <code>$gt</code> operator</h4>
+  <p>The <code>$gt</code> operator matches if the specified field content is greater than the argument.</p>
+  <p><em>Example of the <code>$gte</code> operator, used with full text indexing:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$gt"</span>: <span class="hljs-number">2001</span>
+        }
+    },
+    <span class="hljs-attr">"sort"</span>: [
+        <span class="hljs-string">"year:number"</span>,
+        <span class="hljs-string">"title:string"</span>
+    ],
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"year"</span>,
+        <span class="hljs-string">"title"</span>
+    ]
+}
+</code></pre>
+  <p><em>Example of the <code>$gt</code> operator, used with a database indexed on the field <code>year</code>:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$gt"</span>: <span class="hljs-number">2001</span>
+        }
+    },
+    <span class="hljs-attr">"sort"</span>: [
+        <span class="hljs-string">"year"</span>
+    ],
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"year"</span>
+    ]
+}
+</code></pre>
+  <h4 id="the-exists-operator">The <code>$exists</code> operator</h4>
+  <p>The <code>$exists</code> operator matches if the field exists, regardless of its value.</p>
+  <p><em>Example of the <code>$exists</code> operator, used with full text indexing:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"year"</span>: <span class="hljs-number">2015</span>,
+        <span class="hljs-attr">"title"</span>: {
+            <span class="hljs-attr">"$exists"</span>: <span class="hljs-literal">true</span>
+        }
+    },
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"year"</span>,
+        <span class="hljs-string">"_id"</span>,
+        <span class="hljs-string">"title"</span>
+    ]
+}
+</code></pre>
+  <p><em>Example of the <code>$exists</code> operator, used with a database indexed on the field <code>year</code>:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"year"</span>: <span class="hljs-number">2015</span>,
+        <span class="hljs-attr">"title"</span>: {
+            <span class="hljs-attr">"$exists"</span>: <span class="hljs-literal">true</span>
+        }
+    },
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"year"</span>,
+        <span class="hljs-string">"_id"</span>,
+        <span class="hljs-string">"title"</span>
+    ]
+}
+</code></pre>
+  <h4 id="the-type-operator">The <code>$type</code> operator</h4>
+  <p>The <code>$type</code> operator requires that the specified document field is of the correct type.</p>
+  <p><em>Example of the <code>$type</code> operator, used with full text indexing:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$type"</span>: <span class="hljs-string">"number"</span>
+        }
+    },
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"year"</span>,
+        <span class="hljs-string">"_id"</span>,
+        <span class="hljs-string">"title"</span>
+    ]
+}
+</code></pre>
+  <p><em>Example of the <code>$type</code>, operator used with a primary index:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"_id"</span>: { <span class="hljs-attr">"$gt"</span>: <span class="hljs-literal">null</span> },
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$type"</span>: <span class="hljs-string">"number"</span>
+        }
+    },
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"year"</span>,
+        <span class="hljs-string">"_id"</span>,
+        <span class="hljs-string">"title"</span>
+    ]
+}
+</code></pre>
+  <h4 id="the-in-operator">The <code>$in</code> operator</h4>
+  <p>The <code>$in</code> operator requires that the document field <em>must</em> exist in the list provided.</p>
+  <p><em>Example of the <code>$in</code> operator, used with full text indexing:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$in"</span>: [<span class="hljs-number">2010</span>,<span class="hljs-number">2015</span>]
+        }
+    },
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"year"</span>,
+        <span class="hljs-string">"_id"</span>,
+        <span class="hljs-string">"title"</span>
+    ],
+    <span class="hljs-attr">"sort"</span>: [
+        <span class="hljs-string">"year:number"</span>
+    ]
+}
+</code></pre>
+  <p><em>Example of the <code>$in</code> operator, used with a primary index:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"_id"</span>: { <span class="hljs-attr">"$gt"</span>: <span class="hljs-literal">null</span> },
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$in"</span>: [<span class="hljs-number">2010</span>, <span class="hljs-number">2015</span>]
+        }
+    },
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"year"</span>,
+        <span class="hljs-string">"_id"</span>,
+        <span class="hljs-string">"title"</span>
+    ],
+    <span class="hljs-attr">"limit"</span>: <span class="hljs-number">10</span>
+}
+</code></pre>
+  <h4 id="the-nin-operator">The <code>$nin</code> operator</h4>
+  <p>The <code>$nin</code> operator requires that the document field must <em>not</em> exist in the list provided.</p>
+  <p><em>Example of the <code>$nin</code> operator, used with full text indexing:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$gt"</span>: <span class="hljs-number">2009</span>,
+            <span class="hljs-attr">"$nin"</span>: [<span class="hljs-number">2010</span>, <span class="hljs-number">2015</span>]
+        }
+    },
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"year"</span>,
+        <span class="hljs-string">"_id"</span>,
+        <span class="hljs-string">"title"</span>
+    ],
+    <span class="hljs-attr">"sort"</span>: [
+        <span class="hljs-string">"year:number"</span>
+    ]
+}
+</code></pre>
+  <p><em>Example of the <code>$nin</code> operator, used with a primary index:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"_id"</span>: { <span class="hljs-attr">"$gt"</span>: <span class="hljs-literal">null</span> },
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$nin"</span>: [<span class="hljs-number">2010</span>, <span class="hljs-number">2015</span>]
+        }
+    },
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"year"</span>,
+        <span class="hljs-string">"_id"</span>,
+        <span class="hljs-string">"title"</span>
+    ],
+    <span class="hljs-attr">"limit"</span>: <span class="hljs-number">10</span>
+}
+</code></pre>
+  <h4 id="the-size-operator">The <code>$size</code> operator</h4>
+  <p>The <code>$size</code> operator matches the length of an array field in a document.</p>
+  <p><em>Example of the <code>$size</code> operator, used with full text indexing:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"genre"</span>: {
+            <span class="hljs-attr">"$size"</span>: <span class="hljs-number">4</span>
+        }
+    },
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"title"</span>,
+        <span class="hljs-string">"genre"</span>
+    ],
+    <span class="hljs-attr">"limit"</span>: <span class="hljs-number">1000</span>
+}
+</code></pre>
+  <p><em>Example of the <code>$size</code> operator, used with a primary index:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"_id"</span>: {
+            <span class="hljs-attr">"$gt"</span>: <span class="hljs-literal">null</span>
+        },
+        <span class="hljs-attr">"genre"</span>: {
+            <span class="hljs-attr">"$size"</span>: <span class="hljs-number">4</span>
+        }
+    },
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"title"</span>,
+        <span class="hljs-string">"genre"</span>
+    ],
+    <span class="hljs-attr">"limit"</span>: <span class="hljs-number">25</span>
+}
+</code></pre>
+  <h4 id="the-mod-operator">The <code>$mod</code> operator</h4>
+  <p>The <code>$mod</code> operator matches documents where (<code>field % Divisor == Remainder</code>) is true, and only when the document field is an integer. The Divisor and Remainder must be integers. They can be positive or negative integers. A query
+    where the Divisor or Remainder is a non-integer returns a <a href="http.html#404">404 status</a>.</p>
+  <blockquote>
+    <p> <strong>Note</strong>: When using negative integer values for the Divisor or Remainder, you should note that the Cloudant <code>$mod</code> operator is similar to the
+      <a href="http://erlang.org/doc/reference_manual/expressions.html" target="_blank">Erlang <code>rem</code> modulo operator <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>, or the <a href="https://en.wikipedia.org/wiki/Operators_in_C_and_C%2B%2B"
+        target="_blank"><code>%</code> operator in C <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>, and uses <a href="https://en.wikipedia.org/wiki/Modulo_operation" target="_blank">truncated division <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>.</p>
+  </blockquote>
+  <p><em>Example of the <code>$mod</code> operator, used with full text indexing:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$mod"</span>: [<span class="hljs-number">100</span>,<span class="hljs-number">0</span>]
+        }
+    },
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"title"</span>,
+        <span class="hljs-string">"year"</span>
+    ],
+    <span class="hljs-attr">"limit"</span>: <span class="hljs-number">50</span>
+}
+</code></pre>
+  <p><em>Example of the <code>$mod</code> operator, used with a primary index:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"_id"</span>: {
+            <span class="hljs-attr">"$gt"</span>: <span class="hljs-literal">null</span>
+        },
+        <span class="hljs-attr">"year"</span>: {
+            <span class="hljs-attr">"$mod"</span>: [<span class="hljs-number">100</span>,<span class="hljs-number">0</span>]
+        }
+    },
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"title"</span>,
+        <span class="hljs-string">"year"</span>
+    ],
+    <span class="hljs-attr">"limit"</span>: <span class="hljs-number">50</span>
+}
+</code></pre>
+  <h4 id="the-regex-operator">The <code>$regex</code> operator</h4>
+  <p>The <code>$regex</code> operator matches when the field is a string value <em>and</em> matches the supplied regular expression.</p>
+  <p><em>Example of the <code>$regex</code> operator, used with full text indexing:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"cast"</span>: {
+            <span class="hljs-attr">"$elemMatch"</span>: {
+                <span class="hljs-attr">"$regex"</span>: <span class="hljs-string">"^Robert"</span>
+            }
+        }
+    },
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"title"</span>,
+        <span class="hljs-string">"cast"</span>
+    ],
+    <span class="hljs-attr">"limit"</span>: <span class="hljs-number">10</span>
+}
+</code></pre>
+  <p><em>Example of the <code>$regex</code> operator, used with a primary index:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"_id"</span>: {
+            <span class="hljs-attr">"$gt"</span>: <span class="hljs-literal">null</span>
+        },
+        <span class="hljs-attr">"cast"</span>: {
+            <span class="hljs-attr">"$elemMatch"</span>: {
+                <span class="hljs-attr">"$regex"</span>: <span class="hljs-string">"^Robert"</span>
+            }
+        }
+    },
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"title"</span>,
+        <span class="hljs-string">"cast"</span>
+    ],
+    <span class="hljs-attr">"limit"</span>: <span class="hljs-number">10</span>
+}
+</code></pre>
+  <h2 id="creating-selector-expressions">Creating selector expressions</h2>
+  <p>We have seen examples of combining selector expressions, such as <a href="#combined-expressions">using explicit <code>$and</code> and <code>$eq</code> operators</a>. In general, whenever you have an operator that takes an argument, that argument can
+    itself be another operator with arguments of its own. This enables us to build up more complex selector expressions.</p>
+  <p>However, not all operators can be used as the base or starting point of the selector expression when using indexes of type <code>json</code>.</p>
+  <blockquote>
+    <p> <strong>Note</strong>: You cannot use combination or array logical operators such as <code>$regex</code> as the <em>basis</em> of a query when using indexes of type <code>json</code>. Only equality operators such as <code>$eq</code>, <code>$gt</code>,
+      <code>$gte</code>, <code>$lt</code>, and <code>$lte</code> (but not <code>$ne</code>) can be used as the basis of a query for <code>json</code> indexes.</p>
+  </blockquote>
+  <p>For example, if you try to perform a query that attempts to match all documents that have a field called <code>afieldname</code>, where the field contains a value beginning with the letter <code>A</code>, you get an <code>error: &quot;no_usable_index&quot;</code>    error message.</p>
+  <p><em>Example of an unsupported selector expression:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">    {
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"afieldname"</span>: {
+            <span class="hljs-attr">"$regex"</span>: <span class="hljs-string">"^A"</span>
+        }
+    }
+}
+</code></pre>
+  <p><em>Example response to an unsupported selector expression:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"error"</span>: <span class="hljs-string">"no_usable_index"</span>,
+    <span class="hljs-attr">"reason"</span>: <span class="hljs-string">"There is no operator in this selector can used with an index."</span>
+}
+</code></pre>
+  <p>A solution is to use an equality operator as the basis of the query. You can add a &#39;null&#39; or &#39;always true&#39; expression as the basis of the query. For example, you could first test that the document has an <code>_id</code> value:</p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"_id"</span>: {
+        <span class="hljs-attr">"$gt"</span>: <span class="hljs-literal">null</span>
+    }
+}
+</code></pre>
+  <p>This expression is always true, enabling the remainder of the selector expression to be applied.</p>
+  <blockquote>
+    <p> <strong>Note</strong>: Using <code>{&quot;_id&quot;: { &quot;$gt&quot;:null } }</code> forces a full table scan of the database, and is not efficient for large databases.</p>
+  </blockquote>
+  <p>Most selector expressions work exactly as you would expect for the given operator. The matching algorithms used by the <code>$regex</code> operator are currently <em>based</em> on the <a href="https://en.wikipedia.org/wiki/Perl_Compatible_Regular_Expressions"
+      target="_blank">Perl Compatible Regular Expression (PCRE) library <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>. However, not all of the PCRE library is implemented. Additionally, some parts of the
+    <code>$regex</code> operator go beyond what PCRE offers. For more information about what is implemented, see the <a href="http://erlang.org/doc/man/re.html" target="_blank">Erlang Regular Expression <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>    information.</p>
+  <p><em>Example use of an equality operator to enable a selector expression:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"_id"</span>: {
+            <span class="hljs-attr">"$gt"</span>: <span class="hljs-literal">null</span>
+        },
+        <span class="hljs-attr">"afieldname"</span>: {
+            <span class="hljs-attr">"$regex"</span>: <span class="hljs-string">"^A"</span>
+        }
+    }
+}
+</code></pre>
+  <h2 id="sort-syntax">Sort Syntax</h2>
+  <p>The <code>sort</code> field contains a list of field name and direction pairs, expressed as a basic array. The first field name and direction pair is the topmost level of sort. The second pair, if provided, is the next level of sort.</p>
+  <p>The sort field can be any field, using dotted notation if desired for sub-fields.</p>
+  <p>The direction value is <code>asc</code> for ascending, and <code>desc</code> for descending.</p>
+  <blockquote>
+    <p> <strong>Note</strong>: If you omit the direction value, the default <code>asc</code> is used.</p>
+  </blockquote>
+  <p><em>Example of simple sort syntax:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">[
+    {
+        <span class="hljs-attr">"fieldName1"</span>: <span class="hljs-string">"desc"</span>
+    },
+    {
+        <span class="hljs-attr">"fieldName2"</span>: <span class="hljs-string">"desc"</span>
+    }
+]
+</code></pre>
+  <p><em>Example of simple sort, assuming default ascending direction for both fields:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">[
+    <span class="hljs-string">"fieldNameA"</span>, <span class="hljs-string">"fieldNameB"</span>
+]
+</code></pre>
+  <p>A typical requirement is to search for some content using a selector, then to sort the results according to the specified field, in the required direction.</p>
+  <p>To use sorting, ensure that:</p>
+  <ul>
+    <li>At least one of the sort fields is included in the selector.</li>
+    <li>There is an index already defined, with all the sort fields in the same order.</li>
+    <li>Each object in the sort array has a single key.</li>
+  </ul>
+  <blockquote>
+    <p> <strong>Note</strong>: If an object in the sort array does not have a single key, the resulting sort order is implementation specific and might change.</p>
+    <p> <strong>Note</strong>: Currently, Cloudant Query does not support multiple fields with different sort orders, so the directions must be either all ascending or all descending.</p>
+  </blockquote>
+  <p>If the direction is ascending, you can use a string instead of an object to specify the sort fields.</p>
+  <p>For field names in text search sorts, it is sometimes necessary for a field type to be specified, for example:</p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"&lt;fieldname&gt;:string"</span>: <span class="hljs-string">"asc"</span>
+}
+</code></pre>
+  <p>If possible, an attempt is made to discover the field type based on the selector. In ambiguous cases the field type must be provided explicitly.</p>
+  <p>The following table clarifies when the field type must be specified:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Index used by query</th>
+        <th>Field type requirement</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>JSON index</td>
+        <td>It is not necessary to specify the type of sort fields in the query.</td>
+      </tr>
+      <tr>
+        <td>Text index of all fields in all documents</td>
+        <td>Specify the type of any sort field in the query if the database contains any documents in which the sort field has one type <em>and also</em> contains some documents in which the sort field has a different type.</td>
+      </tr>
+      <tr>
+        <td>Any other text index</td>
+        <td>Specify the type of all sort fields in the query.</td>
+      </tr>
+    </tbody>
+  </table>
+  <blockquote>
+    <p> <strong>Note</strong>: Remember that a text index of all fields in all documents is created when you use the syntax:
+      <a href="#the-index-field"><code>&quot;index&quot;: {}</code></a>.</p>
+    <p> <strong>Note</strong>: The sorting order is undefined when fields contain different data types. This is an important difference between text and view indexes. Sorting behavior for fields with different data types might change in future versions.</p>
+  </blockquote>
+  <p><em>Example of a simple query, using sorting:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"Actor_name"</span>: <span class="hljs-string">"Robert De Niro"</span>
+    },
+    <span class="hljs-attr">"sort"</span>: [
+        {
+            <span class="hljs-attr">"Actor_name"</span>: <span class="hljs-string">"asc"</span>
+        },
+        {
+            <span class="hljs-attr">"Movie_runtime"</span>: <span class="hljs-string">"asc"</span>
+        }
+    ]
+}
+</code></pre>
+  <h2 id="filtering-fields">Filtering fields</h2>
+  <p>It is possible to specify exactly which fields are returned for a document when selecting from a database. The two advantages are:</p>
+  <ul>
+    <li>Your results are limited to only those parts of the document that are required for your application.</li>
+    <li>A reduction in the size of the response.</li>
+  </ul>
+  <p>The fields returned are specified as an array.</p>
+  <blockquote>
+    <p> <strong>Note</strong>: Only the specified filter fields are included in the response. There is no automatic inclusion of the <code>_id</code> or other metadata fields when a field list is included.</p>
+  </blockquote>
+  <p><em>Example of selective retrieval of fields from matching documents:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"Actor_name"</span>: <span class="hljs-string">"Robert De Niro"</span>
+    },
+    <span class="hljs-attr">"fields"</span>: [
+        <span class="hljs-string">"Actor_name"</span>,
+        <span class="hljs-string">"Movie_year"</span>,
+        <span class="hljs-string">"_id"</span>,
+        <span class="hljs-string">"_rev"</span>
+    ]
+}
+</code></pre>
+  <h2 id="explain-plans">Explain Plans</h2>
+  <p>Cloudant Query chooses which index to use for responding to a query, unless you specify an index at query time.</p>
+  <p>When choosing which index to use, Cloudant Query uses the following logic:</p>
+  <ul>
+    <li>If there are two or more <code>json</code> type indexes on the same fields, the index with the smallest number of fields in the index is preferred. If there are still two or more candidate indexes, the index with the first alphabetical name is chosen.</li>
+    <li>If a <code>json</code> type index <em>and</em> a <code>text</code> type index could both satisfy a selector, the <code>json</code> index is chosen by default.</li>
+    <li>If a <code>json</code> type index <em>and</em> a <code>text</code> type index the same field (for example <code>fieldone</code>), but the selector can only be satisfied by using a <code>text</code> type index, then the <code>text</code> type index
+      is chosen.</li>
+  </ul>
+  <p>For example, assume you have a <code>text</code> type index and a <code>json</code> type index for the field <code>foo</code>, and you want to use a selector similar to the following:</p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"foo"</span>: {
+        <span class="hljs-attr">"$in"</span>: [<span class="hljs-string">"red"</span>,<span class="hljs-string">"blue"</span>,<span class="hljs-string">"green"</span>]
+    }
+}
+</code></pre>
+  <p>Cloudant Query uses the <code>text</code> type index, because a <code>json</code> type index cannot satisfy the selector.</p>
+  <p>However, you might use a different selector with the same indexes:</p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"foo"</span>: {
+        <span class="hljs-attr">"$gt"</span>: <span class="hljs-number">2</span>
+    }
+}
+</code></pre>
+  <p>In this example, Cloudant Query uses the <code>json</code> type index because both types of indexes could satisfy the selector.</p>
+  <p>To identify which index is being used by a particular query, send a <code>POST</code> to the <code>_explain</code> endpoint for the database, with the query as data. The details of the index in use are shown in the <code>index</code> object within the
+    result.</p>
+  <p><em>Example showing how to identify the index used to answer a query, using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs">POST /movies/_explain HTTP/1.1
+Host: examples.cloudant.com
+Content-Type: application/json
+{
+    &quot;selector&quot;: {
+        &quot;$text&quot;: &quot;Pacino&quot;,
+        &quot;year&quot;: 2010
+    }
+}
+</code></pre>
+  <p><em>Example showing how to identify the index used to answer a query, using the command line:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl <span class="hljs-string">'https://examples.cloudant.com/movies/_explain'</span> \
+    -X POST \
+    -H <span class="hljs-string">'Content-Type: application/json'</span> \
+    <span class="hljs-_">-d</span> <span class="hljs-string">'{
+        "selector": {
+            "$text": "Pacino",
+            "year": 2010
+        }
+    }'</span>
+</code></pre>
+  <p><em>Example response showing which index was used to answer a query:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"dbname"</span>: <span class="hljs-string">"examples/movies"</span>,
+    <span class="hljs-attr">"index"</span>: {
+        <span class="hljs-attr">"ddoc"</span>: <span class="hljs-string">"_design/32372935e14bed00cc6db4fc9efca0f1537d34a8"</span>,
+        <span class="hljs-attr">"name"</span>: <span class="hljs-string">"32372935e14bed00cc6db4fc9efca0f1537d34a8"</span>,
+        <span class="hljs-attr">"type"</span>: <span class="hljs-string">"text"</span>,
+        <span class="hljs-attr">"def"</span>: {
+            <span class="hljs-attr">"default_analyzer"</span>: <span class="hljs-string">"keyword"</span>,
+            <span class="hljs-attr">"default_field"</span>: {},
+            <span class="hljs-attr">"selector"</span>: {},
+            <span class="hljs-attr">"fields"</span>: []
+        }
+    },
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"$and"</span>: [
+            {
+                <span class="hljs-attr">"$default"</span>: {
+                    <span class="hljs-attr">"$text"</span>: <span class="hljs-string">"Pacino"</span>
+                }
+            },
+            {
+                <span class="hljs-attr">"year"</span>: {
+                    <span class="hljs-attr">"$eq"</span>: <span class="hljs-number">2010</span>
+                }
+            }
+        ]
+    },
+    <span class="hljs-attr">"opts"</span>: {
+        <span class="hljs-attr">"use_index"</span>: [],
+        <span class="hljs-attr">"bookmark"</span>: [],
+        <span class="hljs-attr">"limit"</span>: <span class="hljs-number">10000000000</span>,
+        <span class="hljs-attr">"skip"</span>: <span class="hljs-number">0</span>,
+        <span class="hljs-attr">"sort"</span>: {},
+        <span class="hljs-attr">"fields"</span>: <span class="hljs-string">"all_fields"</span>,
+        <span class="hljs-attr">"r"</span>: [
+            <span class="hljs-number">49</span>
+        ],
+        <span class="hljs-attr">"conflicts"</span>: <span class="hljs-literal">false</span>
+    },
+    <span class="hljs-attr">"limit"</span>: <span class="hljs-number">200</span>,
+    <span class="hljs-attr">"skip"</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">"fields"</span>: <span class="hljs-string">"all_fields"</span>,
+    <span class="hljs-attr">"query"</span>: <span class="hljs-string">"(($default:Pacino) AND (year_3anumber:2010))"</span>,
+    <span class="hljs-attr">"sort"</span>: <span class="hljs-string">"relevance"</span>
+}
+</code></pre>
+  <p>To instruct a query to use a specific index, add the <code>use_index</code> parameter to the query.</p>
+  <p>The value of the <code>use_index</code> parameter takes one of two formats:</p>
+  <ul>
+    <li><code>&quot;use_index&quot;: &quot;&lt;design_document&gt;&quot;</code></li>
+    <li><code>&quot;use_index&quot;: [&quot;&lt;design_document&gt;&quot;,&quot;&lt;index_name&quot;]</code></li>
+  </ul>
+  <p><em>Example query with instructions to use a specific index:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"selector"</span>: {
+        <span class="hljs-attr">"$text"</span>: <span class="hljs-string">"Pacino"</span>,
+        <span class="hljs-attr">"year"</span>: <span class="hljs-number">2010</span>
+    },
+    <span class="hljs-attr">"use_index"</span>: <span class="hljs-string">"_design/32372935e14bed00cc6db4fc9efca0f1537d34a8"</span>
+}
+</code></pre>
+  <h2 id="note-about-text-indexes">Note about <code>text</code> indexes</h2>
+  <p>The basic premise for full text indexes is that a document is &quot;expanded&quot; into a list of key:value pairs that are indexed by Lucene. This allows us to make use of Lucene&#39;s search syntax as a basis for the query capability.</p>
+  <p>While supporting enhanced searches, this technique does have certain limitations. For example, it might not always be clear whether content for an expanded document came from individual elements or an array.</p>
+  <p>The query mechanism resolves this by preferring to return &#39;false positive&#39; results. In other words, if a match would have been found as a result of searching for either an individual element, or an element from an array, then the match is considered
+    to have succeeded.</p>
+  <h3 id="selector-translation">Selector Translation</h3>
+  <p>A standard Lucene search expression would not necessarily fully &#39;understand&#39; Cloudant&#39;s JSON based query syntax. Therefore, a translation between the two formats takes place.</p>
+  <p>In the following example, the JSON query approximates to the English phrase: &quot;match if the age expressed as a number is greater than five and less than or equal to infinity&quot;. The Lucene query corresponds to that phrase, where the text <code>_3a</code>    within the fieldname corresponds to the <code>age:number</code> field, and is an example of the document content expansion mentioned earlier.</p>
+  <p><em>Example query to be translated:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"age"</span>: {
+        <span class="hljs-attr">"$gt"</span>: <span class="hljs-number">5</span>
+    }
+}
+</code></pre>
+  <p><em>The corresponding Lucene query:</em></p>
+  <pre class="codeblock"><code class="lang-javascript hljs">(age_3anumber:{<span class="hljs-number">5</span> TO <span class="hljs-literal">Infinity</span>])
+</code></pre>
+  <h3 id="a-more-complex-example">A more complex example</h3>
+  <p>The following example illustrates some important points.</p>
+  <p><em>JSON query to be converted to Lucene:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"$or"</span>: [
+        {
+            <span class="hljs-attr">"age"</span>: {
+                <span class="hljs-attr">"$gt"</span>: <span class="hljs-number">5</span>
+            }
+        },
+        {
+            <span class="hljs-attr">"twitter"</span>: {
+                <span class="hljs-attr">"$exists"</span>:<span class="hljs-literal">true</span>
+            }
+        },
+        {
+            <span class="hljs-attr">"type"</span>: {
+                <span class="hljs-attr">"$in"</span>: [
+                    <span class="hljs-string">"starch"</span>,
+                    <span class="hljs-string">"protein"</span>
+                ]
+            }
+        }
+    ]
+}
+</code></pre>
+  <p>The first part of the JSON query is straightforward to convert to Lucene; we are simply testing that the <code>age</code> field has a numeric value greater than 5. The <code>{</code> character in the range expression means that the value 5 is not considered
+    a match.</p>
+  <p>To implement the <code>&quot;twitter&quot;: {&quot;$exists&quot;:true}</code> part of the JSON query in Lucene, we must determine if a <code>twitter</code> field exists. However, the field could be either an array or an object. Therefore we must match
+    when the value is an array <em>or</em> an object.</p>
+  <p>We do this by searching the <code>$fieldnames</code> field for entries that contain either <code>twitter.*</code> or <code>twitter:*</code>. The <code>.</code> character is represented in the query as the ASCII character sequence <code>_2e</code>. Similarly,
+    the <code>:</code> character is represented in the query as the ASCII character sequence <code>_3a</code>. This means that we must use a two clause <code>OR</code> query for the <code>twitter</code> field, ending in <code>_2e*</code> and <code>_3a*</code>.
+    Implementing this as two phrases instead of a single <code>twitter*</code> query prevents an accidental match with a field name such as <code>twitter_handle</code> or similar.</p>
+  <p>The last of the three main clauses, where we search for <code>starch</code> or <code>protein</code>, is more complicated. The <code>$in</code> operator has some special semantics for array values that are inherited from MongoDB&#39;s documented behavior.
+    In particular, the <code>$in</code> operator applies to the value <strong>OR</strong> any of the values contained in an array named by the given field. In our example, this means that both <code>&quot;type&quot;:&quot;starch&quot;</code> <strong>AND</strong>    <code>&quot;type&quot;:[&quot;protein&quot;]</code> would match the example argument to <code>$in</code>. We saw earlier that <code>type_3astring</code> translates to <code>type:string</code>. The second <code>type_2e_5b_5d_3astring</code> phrase
+    translates to <code>type.[]:string</code>, which is an example of the expanded array indexing.</p>
+  <p><em>Corresponding Lucene query. The &#39;#&#39; comments are not valid Lucene syntax, but help explain the query construction:</em></p>
+  <pre class="codeblock"><code class="lang-javascript hljs">(
+    # Search for age &gt; 5
+    (age_3anumber:{5 TO Infinity])
+
+    # Search for documents containing the twitter field
+    (($fieldnames:twitter_2e*) OR ($fieldnames:twitter_3a*))
+
+    # Search for type = starch
+    (
+        ((type_3astring:starch) OR (type_2e_5b_5d_3astring:starch))
+
+        # Search for type = protein
+        ((type_3astring:protein) OR (type_2e_5b_5d_3astring:protein))
+    )
+)
+</code></pre>
+  <h2 id="example-movies-demo-database">Example: Movies Demo Database</h2>
+  <p>To describe full text indexes, it is helpful to have a large collection of data to work with. A suitable collection is available in the example Cloudant Query movie database: <code>query-movies</code>. The sample database contains approximately 3,000
+    documents, and is just under 1 MB in size.</p>
+  <p>You can obtain a copy of this database in your database, giving it the name <code>my-movies</code>, by running one of the following commands:</p>
+  <p><em>Obtaining a copy of the Cloudant Query movie database, using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs">POST /_replicator HTTP/1.1
+Host: user.cloudant.com
+Content-Type: application/json
+{
+    "source": "https://examples.cloudant.com/query-movies",
+    "target": "https://&lt;user:password&gt;@&lt;user&gt;.cloudant.com/my-movies",
+    "create_target": true,
+    "use_checkpoints": false
+}
+</code></pre>
+  <p><em>Obtaining a copy of the Cloudant Query movie database, using the command line:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl <span class="hljs-string">'https://&lt;user:password&gt;@&lt;user&gt;.cloudant.com/_replicator'</span> \
+    -X POST \
+    -H <span class="hljs-string">'Content-Type: application/json'</span> \
+    <span class="hljs-_">-d</span> <span class="hljs-string">'{
+        "source": "https://examples.cloudant.com/query-movies",
+        "target": "https://&lt;user:password&gt;@&lt;user&gt;.cloudant.com/my-movies",
+        "create_target": true,
+        "use_checkpoints": false
+    }'</span>
+</code></pre>
+  <p><em>Results after successful replication of the Cloudant Query movie database:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"ok"</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">"use_checkpoints"</span>: <span class="hljs-literal">false</span>
+}
+</code></pre>
+  <p>Before we can search the content, we must index it. We do this by creating a text index for the documents.</p>
+  <p><em>Creating a _text</em> index for your sample database, using HTTP:_</p>
+  <pre class="codeblock"><code class="lang-http hljs">POST /my-movies/_index HTTP/1.1
+Host: user.cloudant.com
+Content-Type: application/json
+{
+    &quot;index&quot;: {},
+    &quot;type&quot;: &quot;text&quot;
+}
+</code></pre>
+  <p><em>Creating a _text</em> index for your sample database, using the command line:_</p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl <span class="hljs-string">'https://&lt;user:password&gt;@&lt;user&gt;.cloudant.com/my-movies/_index'</span> \
+    -X POST \
+    -H <span class="hljs-string">'Content-Type: application/json'</span> \
+    <span class="hljs-_">-d</span> <span class="hljs-string">'{"index": {}, "type": "text"}'</span>
+</code></pre>
+  <p><em>Example response after creating a text index:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"result"</span>: <span class="hljs-string">"created"</span>
+}
+</code></pre>
+  <p>The most obvious difference in the results you get when using full text indexes is the inclusion of a large <code>bookmark</code> field. The reason is that text indexes are different to view-based indexes. For more flexibility when working with the
+    results obtained from a full text query, you can supply the <code>bookmark</code> value as part of the request body. Using the <code>bookmark</code> enables you to specify which page of results you require.</p>
+  <blockquote>
+    <p> <strong>Note</strong>: The actual <code>bookmark</code> value is very long, so the examples here have truncated <code>bookmark</code> values for reasons of clarity.</p>
+  </blockquote>
+  <p><em>Example of searching for a specific document within the database, using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs">POST /my-movies/_find HTTP/1.1
+Host: user.cloudant.com
+Content-Type: application/json
+{
+  &quot;selector&quot;: {
+    &quot;Person_name&quot;:&quot;Zoe Saldana&quot;
+  }
+}
+</code></pre>
+  <p><em>Example of searching for a specific document within the database, using the command line:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl -X POST -H <span class="hljs-string">"Content-Type: application/json"</span> \
+    https://&lt;user:password&gt;@&lt;user&gt;.cloudant.com/my-movies/_find \
+    <span class="hljs-_">-d</span> <span class="hljs-string">'{"selector": {"Person_name":"Zoe Saldana"}}'</span>
+</code></pre>
+  <p><em>Example result from the search:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"docs"</span>: [
+        {
+            <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"d9e6a7ae2363d6cfe81af75a3941110b"</span>,
+            <span class="hljs-attr">"_rev"</span>: <span class="hljs-string">"1-556aec0e89fa13769fbf59d651411528"</span>,
+            <span class="hljs-attr">"Movie_runtime"</span>: <span class="hljs-number">162</span>,
+            <span class="hljs-attr">"Movie_rating"</span>: <span class="hljs-string">"PG-13"</span>,
+            <span class="hljs-attr">"Person_name"</span>: <span class="hljs-string">"Zoe Saldana"</span>,
+            <span class="hljs-attr">"Movie_genre"</span>: <span class="hljs-string">"AVYS"</span>,
+            <span class="hljs-attr">"Movie_name"</span>: <span class="hljs-string">"Avatar"</span>,
+            <span class="hljs-attr">"Movie_earnings_rank"</span>: <span class="hljs-string">"1"</span>,
+            <span class="hljs-attr">"Person_pob"</span>: <span class="hljs-string">"New Jersey, USA"</span>,
+            <span class="hljs-attr">"Movie_year"</span>: <span class="hljs-number">2009</span>,
+            <span class="hljs-attr">"Person_dob"</span>: <span class="hljs-string">"1978-06-19"</span>
+        }
+    ],
+    <span class="hljs-attr">"bookmark"</span>: <span class="hljs-string">"g2wA ... Omo"</span>
+}
+</code></pre>
+  <p><em>Example of a slightly more complex search, using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs">POST /my-movies/_find HTTP/1.1
+Host: user.cloudant.com
+Content-Type: application/json
+{
+    &quot;selector&quot;: {
+        &quot;Person_name&quot;:&quot;Robert De Niro&quot;,
+        &quot;Movie_year&quot;: 1978
+    }
+}
+</code></pre>
+  <p><em>Example of a slightly more complex search, using the command line:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl -X POST -H <span class="hljs-string">"Content-Type: application/json"</span> \
+    https://&lt;user:password&gt;@&lt;user&gt;.cloudant.com/my-movies/_find \
+    <span class="hljs-_">-d</span> <span class="hljs-string">'{"selector": {"Person_name":"Robert De Niro", "Movie_year": 1978}}'</span>
+</code></pre>
+  <p><em>Example result from the search:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"docs"</span>: [
+        {
+            <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"d9e6a7ae2363d6cfe81af75a392eb9f2"</span>,
+            <span class="hljs-attr">"_rev"</span>: <span class="hljs-string">"1-9faa75d7ea524448b1456a6c69a4391a"</span>,
+            <span class="hljs-attr">"Movie_runtime"</span>: <span class="hljs-number">183</span>,
+            <span class="hljs-attr">"Movie_rating"</span>: <span class="hljs-string">"R"</span>,
+            <span class="hljs-attr">"Person_name"</span>: <span class="hljs-string">"Robert De Niro"</span>,
+            <span class="hljs-attr">"Movie_genre"</span>: <span class="hljs-string">"DW"</span>,
+            <span class="hljs-attr">"Movie_name"</span>: <span class="hljs-string">"Deer Hunter, The"</span>,
+            <span class="hljs-attr">"Person_pob"</span>: <span class="hljs-string">"New York, New York, USA"</span>,
+            <span class="hljs-attr">"Movie_year"</span>: <span class="hljs-number">1978</span>,
+            <span class="hljs-attr">"Person_dob"</span>: <span class="hljs-string">"1943-08-17"</span>
+        }
+    ],
+    <span class="hljs-attr">"bookmark"</span>: <span class="hljs-string">"g2w ... c2o"</span>
+}
+</code></pre>
+  <p><em>Example of searching within a range, using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs">POST /my-movies/_find HTTP/1.1
+Host: user.cloudant.com
+Content-Type: application/json
+{
+  &quot;selector&quot;: {
+    &quot;Person_name&quot;:&quot;Robert De Niro&quot;,
+    &quot;Movie_year&quot;: {
+      &quot;$in&quot;: [1974, 2009]
+    }
+  }
+}
+</code></pre>
+  <p><em>Example of searching within a range, using the command line:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl -X POST -H <span class="hljs-string">"Content-Type: application/json"</span> \
+    https://&lt;user:password&gt;@&lt;user&gt;.cloudant.com/my-movies/_find \
+    <span class="hljs-_">-d</span> <span class="hljs-string">'{"selector": {"Person_name":"Robert De Niro", "Movie_year": { "$in": [1974, 2009]}}}'</span>
+</code></pre>
+  <p><em>Example result from the search:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"docs"</span>: [
+        {
+            <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"d9e6a7ae2363d6cfe81af75a392eb9f2"</span>,
+            <span class="hljs-attr">"_rev"</span>: <span class="hljs-string">"1-9faa75d7ea524448b1456a6c69a4391a"</span>,
+            <span class="hljs-attr">"Movie_runtime"</span>: <span class="hljs-number">183</span>,
+            <span class="hljs-attr">"Movie_rating"</span>: <span class="hljs-string">"R"</span>,
+            <span class="hljs-attr">"Person_name"</span>: <span class="hljs-string">"Robert De Niro"</span>,
+            <span class="hljs-attr">"Movie_genre"</span>: <span class="hljs-string">"DW"</span>,
+            <span class="hljs-attr">"Movie_name"</span>: <span class="hljs-string">"Deer Hunter, The"</span>,
+            <span class="hljs-attr">"Person_pob"</span>: <span class="hljs-string">"New York, New York, USA"</span>,
+            <span class="hljs-attr">"Movie_year"</span>: <span class="hljs-number">1978</span>,
+            <span class="hljs-attr">"Person_dob"</span>: <span class="hljs-string">"1943-08-17"</span>
+        }
+    ],
+    <span class="hljs-attr">"bookmark"</span>: <span class="hljs-string">"g2w ... c2o"</span>
+}
+</code></pre>
+  <footer>
+    <div>
+      <p>Copyright &copy; 2015, 2017. All Rights Reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<html lang="en">
+<head>
+  <title>IBM&reg; Cloudant&reg; NoSQL DB for Bluemix&reg;</title>
+  <meta charset="utf-8"></meta>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+  <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+</head>
+
+<body>
+  <h1 id="api-reference">API Reference</h1>
+  <p class="shortdesc">The Cloudant API reference is intended to be a comprehensive and living catalog of Cloudant&#39;s capabilities. Contributions are welcome through <a href="https://github.com/cloudant-labs/slate" target="_blank">Cloudant Labs on GitHub <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>.</p>
+  <h2 id="for-the-curl-samples">For the cURL samples</h2>
+  <p>There are three ways you can supply the username and password data for a request.</p>
+  <ol>
+    <li>
+      <p>The <code>-u $USERNAME</code> parameter on its own causes cURL to ask you to enter your password interactively on the command line before performing the request. This option is used for the cURL examples in the Cloudant API reference.</p>
+    </li>
+    <li>
+      <p><strong>[Caution: This option is not secure]</strong> Entering the combination parameter <code>-u $USERNAME:$PASSWORD</code> as part of your command means that you are not asked to enter your password interactively. However, a plain text copy of
+        your password appears in the terminal log.
+        <br>
+        <br> A safer variation of this method lets you to define a curl control file, containing the following details:<br>
+        <code>--user &quot;$USERNAME:$PASSWORD&quot;</code><br>
+        <code>--globoff</code><br>
+        <code>--proto &quot;=https&quot;</code><br> You can then define an &#39;alias&#39; that enables the curl command to apply the control file, for example:<br>
+        <code>alias acurl=&quot;curl -s --config &lt;full_path_and_name_of_config_file&gt; &quot;</code><br> Remember to exclude the control file from backups, as it contains the password in clear text.</p>
+    </li>
+    <li>
+      <p><strong>[Caution: This option is not secure]</strong> For an <code>https</code> cURL request, you can supply the username and password as part of the URL:<br>
+        <code>... https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com ...</code><br> However, a plain text copy of your password appears in the terminal log.</p>
+    </li>
+  </ol>
+  <p>An alternative approach is to use a hashed version of your username and password combination, and supply that data in your cURL command. The guide on <a href="../guides/acurl.html">Authorized curl</a> explains how to create a more complex<code>acurl</code>    command that makes use of this technique, enabling you to enter commands such as:<br>
+    <code>acurl https://$USERNAME.cloudant.com</code></p>
+  <footer>
+    <div>
+      <p>Copyright &copy; 2015, 2017. All Rights Reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

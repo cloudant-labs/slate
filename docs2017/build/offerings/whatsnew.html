@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+  <title>IBM&reg; Cloudant&reg; NoSQL DB for Bluemix&reg;</title>
+  <meta charset="utf-8"></meta>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+  <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+</head>
+
+<body>
+  <h1 id="what-s-new-in-cloudant">What&#39;s new in Cloudant</h1>
+  <p class="shortdesc">Keep up to date with the latest on Cloudant.</p>
+  <h2 id="build-5638">Build 5638</h2>
+  <ul>
+    <li>Introduces new &quot;stable&quot; and &quot;update&quot; query parameters for views.</li>
+    <li>Replicator no longer retries forever if it cannot write checkpoints to the source database.</li>
+  </ul>
+  <h2 id="build-5421">Build 5421</h2>
+  <ul>
+    <li>Changes feeds support view-based filters.</li>
+    <li>Changes feeds support the <code>_doc_ids</code> filter.</li>
+    <li><code>POST</code> requests are supported for <code>_changes</code>.</li>
+    <li>Both <code>_all_docs</code> and <code>_changes</code> support the <code>attachments=true</code> parameter.</li>
+    <li>Support for the CouchDB 1.6 <code>_users</code> database features, including server-side password hashing when creating documents in the <code>_users</code> database.</li>
+    <li><code>/_bulk_get</code> endpoint to reduce the number of requests used in replication to mobile clients.</li>
+    <li>Design document metadata contains an <code>update pending</code> field.</li>
+  </ul>
+  <h3 id="breaking-behavior-changes">Breaking/behavior changes</h3>
+  <p>Active tasks</p>
+  <ul>
+    <li>Indexer entries in the <code>_active_tasks</code> response no longer report the <code>user</code> field.</li>
+    <li>Search indexer entries in the <code>_active_tasks</code> response no longer report the <code>user</code> field.</li>
+  </ul>
+  <p>Views</p>
+  <ul>
+    <li>Unicode normalization of key values is consistent between reduced and non-reduced view results. If raw collation is specified in a design document, result order might change as the result of this fix.</li>
+    <li>When you query a view or <code>_all_docs</code> database, it is an error to specify the <code>keys</code> parameter and any of the <code>key</code>, <code>startkey</code>, and <code>endkey</code> parameters.</li>
+    <li>It is an error to pass <code>startkey</code> and <code>endkey</code> parameters to a view if it is impossible for any row to match. For example, when the <code>startkey</code> parameter is higher than the <code>endkey</code> parameter for <code>descending=false</code>,
+      or when the <code>startkey</code> parameter is lower than the <code>endkey</code> parameter for <code>descending=true</code>, Cloudant returns the <code>400 Bad Request</code> error.</li>
+  </ul>
+  <p>Design documents</p>
+  <ul>
+    <li>Stricter validation of design documents. This should not cause problems with existing design documents, but malformed design documents will fail to save.</li>
+    <li>Views written in an unsupported language all respond with an <code>error</code> of <code>unknown_query_language</code>. Previously, the response was a <code>reason</code> of <code>unknown_query_language</code>.</li>
+    <li>When a null reducer is used to put a database design document, the system responds with the error reason of <code>&#39;(null)&#39;</code>, previously it returned <code>((new String(&quot;null&quot;)))</code>.</li>
+    <li>If <code>updates</code> is specified in a design document, it must not have a null value.</li>
+  </ul>
+  <p>Authentication</p>
+  <ul>
+    <li>The <code>_session</code> metadata <code>authentication_handlers</code> no longer contains <code>[&quot;delegated&quot;, &quot;local&quot;]</code>.</li>
+  </ul>
+  <p>Replication </p>
+  <ul>
+    <li>Replicator documents preserve the last error message in the <code>_replication_state_reason</code> JSON field. The field remains even after replication restarts and is in the <code>triggered</code> state. This change helps the replicator code detect
+      and avoid writing the same error to the document repeatedly.</li>
+  </ul>
+  <p>Result set</p>
+  <ul>
+    <li>The <code>_db_updates</code> endpoint returns a result set containing a key named <code>db_name</code>. Previously, it returned a result set with a key named <code>dbname</code>.</li>
+  </ul>
+  <footer>
+    <div>
+      <p>Copyright &copy; 2015, 2017. All Rights Reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
