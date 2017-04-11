@@ -85,17 +85,19 @@
       <topic href="tutorials/create_query.html#creating-a-database-using-the-cloudant-dashboard" label="Creating a database using the Cloudant Dashboard">
         <property name="type" value="anchor"/>
       </topic>
+      <topic href="tutorials/create_query.html#creating-a-design-document" label="Creating a design document">
+        <property name="type" value="anchor"/>
+      </topic>
       <topic href="tutorials/create_query.html#creating-an-index" label="Creating an index">
         <property name="type" value="anchor"/>
         <topic href="tutorials/create_query.html#creating-a-type-json-index" label="Creating a &quot;type=json&quot; index"></topic>
-        <topic href="tutorials/create_query.html#creating-a-design-document" label="Creating a design document"></topic>
+        <topic href="tutorials/create_query.html#creating-a-type-text-index" label="Creating a &quot;type=text&quot; index"></topic>
         <topic href="tutorials/create_query.html#listing-cloudant-query-indexes" label="Listing Cloudant Query indexes"></topic>
-        <topic href="tutorials/create_query.html#deleting-an-index" label="Deleting an index"></topic>
       </topic>
       <topic href="tutorials/create_query.html#creating-a-query" label="Creating a query">
         <property name="type" value="anchor"/>
-        <topic href="tutorials/create_query.html#querying-the-rolodex-database-using-selector-syntax" label="Querying the rolodex database using selector syntax"></topic>
-        <topic href="tutorials/create_query.html#querying-the-rolodex-database-using-operators" label="Querying the rolodex database using operators"></topic>
+        <topic href="tutorials/create_query.html#querying-the-database-using-selector-syntax" label="Querying the database using selector syntax"></topic>
+        <topic href="tutorials/create_query.html#querying-the-database-using-the-and-operator" label="Querying the database using the $and operator"></topic>
       </topic>
     </topic>
     <topic href="tutorials/create_bmxapp.html#creating-a-simple-bluemix-application-to-access-a-cloudant-database" label="Creating a simple Bluemix application to access a Cloudant database">

@@ -10,168 +10,151 @@
   <h1 id="creating-a-cloudant-query">Creating a Cloudant Query</h1>
   <p>This tutorial demonstrates how to create an index and extract specific data from the database using a query.</p>
   <p>[Description of query elements.]</p>
-  <p>Create a database Database contains JSON documents and design documents. JSON documents - description Design documents - description Describe Views and their elements Describe Indexes and their elements Each database automatically includes a design
-    document. Indexes are created in the design document. To create an index of type JSON, make a POST request to the database. Describe queries and their elements</p>
   <h2 id="creating-a-database-using-the-cloudant-dashboard">Creating a database using the Cloudant Dashboard</h2>
-  <p>This tutorial is based on the simple <code>rolodex</code> database. Each index and query that you create will use this database. </p>
+  <p>This tutorial is based on the <code>rolodex</code> database that you are going to create. </p>
   <ol>
-    <li>Create a Cloudant account here, <a href="https://cloudant.com/sign-in/">https://cloudant.com/sign-in/</a>. </li>
+    <li>Create a Cloudant account <a href="https://cloudant.com/sign-in/">here</a> if you do not already have one.</li>
     <li>Log in to the Cloudant Dashboard. </li>
     <li>Verify that the Databases tab is selected in the left navigation. </li>
     <li>Click <strong>Create Database</strong>. </li>
-    <li>Enter <code>rolodex</code> as the name for the database and click <strong>Create</strong>. The <code>rolodex</code> database is automatically opened. </li>
-    <li>Click <strong>Add New</strong> (+) next to All Documents and select <strong>New Doc</strong>. The New Document window opens. </li>
-    <li>Create a new document by adding the following text after the &quot;_id&quot; line and inside the brackets. </li>
+    <li>Enter <code>rolodex</code> as the name for the database and click <strong>Create</strong>. The <code>rolodex</code> database automatically opens. </li>
+    <li>Click <strong>+</strong> next to All Documents and select <strong>New Doc</strong>. The New Document window displays. </li>
+    <li>Create a new document by inserting the following text after the &quot;_id&quot; line and inside the brackets. </li>
   </ol>
-  <p>**Example document 1</p>
-  <pre><code class="lang-json hljs">{
-  <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"</span>,
-  <span class="hljs-attr">"firstname"</span>: <span class="hljs-string">"Sally"</span>,
-  <span class="hljs-attr">"lastname"</span>: <span class="hljs-string">"Brown"</span>,
-  <span class="hljs-attr">"sex"</span>: <span class="hljs-string">"female"</span>,
-  <span class="hljs-attr">"address"</span>: <span class="hljs-string">"122 Main Street"</span>,
-  <span class="hljs-attr">"city"</span>: <span class="hljs-string">"Peoria"</span>,
-  <span class="hljs-attr">"state"</span>: <span class="hljs-string">"IL"</span>,
-  <span class="hljs-attr">"zipcode"</span>: <span class="hljs-number">61602</span>,
-  <span class="hljs-attr">"areacode"</span>: <span class="hljs-number">309</span>,
-  <span class="hljs-attr">"phonenumber"</span>: <span class="hljs-string">"334-9354"</span>
-}
+  <pre><code class="lang-json hljs">  ,
+  &quot;firstname&quot;: &quot;Sally&quot;,
+  &quot;lastname&quot;: &quot;Brown&quot;,
+  &quot;sex&quot;: &quot;female&quot;,
+  &quot;address&quot;: &quot;122 Main Street&quot;,
+  &quot;city&quot;: &quot;Peoria&quot;,
+  &quot;state&quot;: &quot;IL&quot;,
+  &quot;zipcode&quot;: 61602,
+  &quot;areacode&quot;: 309,
+  &quot;phonenumber&quot;: &quot;334-9354&quot;
 </code></pre>
   <ol>
-    <li>Create nine more documents using the following text by inserting the text after the &quot;_id&quot; line and inside the brackets. </li>
+    <li>Repeat the steps 6 and 7 to create nine new documents using the text below. </li>
   </ol>
-  <p>**Example document 2</p>
-  <pre><code class="lang-json hljs">{
-  <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"</span>,
-  <span class="hljs-attr">"firstname"</span>: <span class="hljs-string">"John"</span>,
-  <span class="hljs-attr">"lastname"</span>: <span class="hljs-string">"Smith"</span>,
-  <span class="hljs-attr">"sex"</span>: <span class="hljs-string">"male"</span>,
-  <span class="hljs-attr">"address"</span>: <span class="hljs-string">"123 Main Street"</span>,
-  <span class="hljs-attr">"city"</span>: <span class="hljs-string">"Peoria"</span>,
-  <span class="hljs-attr">"state"</span>: <span class="hljs-string">"IL"</span>,
-  <span class="hljs-attr">"zipcode"</span>: <span class="hljs-number">61602</span>,
-  <span class="hljs-attr">"areacode"</span>: <span class="hljs-number">309</span>,
-  <span class="hljs-attr">"phonenumber"</span>: <span class="hljs-string">"334-4614"</span>
-}
+  <p>Document 1</p>
+  <pre><code class="lang-json hljs">   ,
+  &quot;firstname&quot;: &quot;John&quot;,
+  &quot;lastname&quot;: &quot;Smith&quot;,
+  &quot;sex&quot;: &quot;male&quot;,
+  &quot;address&quot;: &quot;123 Main Street&quot;,
+  &quot;city&quot;: &quot;Peoria&quot;,
+  &quot;state&quot;: &quot;IL&quot;,
+  &quot;zipcode&quot;: 61602,
+  &quot;areacode&quot;: 309,
+  &quot;phonenumber&quot;: &quot;334-4614&quot;
 </code></pre>
-  <p>**Example document 3</p>
-  <pre><code class="lang-json hljs">{
-  <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"</span>,
-  <span class="hljs-attr">"firstname"</span>: <span class="hljs-string">"Greg"</span>,
-  <span class="hljs-attr">"lastname"</span>: <span class="hljs-string">"Greene"</span>,
-  <span class="hljs-attr">"sex"</span>: <span class="hljs-string">"male"</span>,
-  <span class="hljs-attr">"address"</span>: <span class="hljs-string">"124 Main Street"</span>,
-  <span class="hljs-attr">"city"</span>: <span class="hljs-string">"Peoria"</span>,
-  <span class="hljs-attr">"state"</span>: <span class="hljs-string">"IL"</span>,
-  <span class="hljs-attr">"zipcode"</span>: <span class="hljs-number">61602</span>,
-  <span class="hljs-attr">"areacode"</span>: <span class="hljs-number">309</span>,
-  <span class="hljs-attr">"phonenumber"</span>: <span class="hljs-string">"334-4445"</span>
-}
+  <p>Document 2</p>
+  <pre><code class="lang-json hljs">   ,
+  &quot;firstname&quot;: &quot;Greg&quot;,
+  &quot;lastname&quot;: &quot;Greene&quot;,
+  &quot;sex&quot;: &quot;male&quot;,
+  &quot;address&quot;: &quot;124 Main Street&quot;,
+  &quot;city&quot;: &quot;Peoria&quot;,
+  &quot;state&quot;: &quot;IL&quot;,
+  &quot;zipcode&quot;: 61602,
+  &quot;areacode&quot;: 309,
+  &quot;phonenumber&quot;: &quot;334-4445&quot;
 </code></pre>
-  <p>**Example document 4</p>
-  <pre><code class="lang-json hljs">{
-  <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"</span>,
-  <span class="hljs-attr">"firstname"</span>: <span class="hljs-string">"Dan"</span>,
-  <span class="hljs-attr">"lastname"</span>: <span class="hljs-string">"Brown"</span>,
-  <span class="hljs-attr">"sex"</span>: <span class="hljs-string">"male"</span>,
-  <span class="hljs-attr">"address"</span>: <span class="hljs-string">"125 Main Street"</span>,
-  <span class="hljs-attr">"city"</span>: <span class="hljs-string">"Peoria"</span>,
-  <span class="hljs-attr">"state"</span>: <span class="hljs-string">"IL"</span>,
-  <span class="hljs-attr">"zipcode"</span>: <span class="hljs-number">61602</span>,
-  <span class="hljs-attr">"areacode"</span>: <span class="hljs-number">309</span>,
-  <span class="hljs-attr">"phonenumber"</span>: <span class="hljs-string">"334-4275"</span>
-}
+  <p>Document 3</p>
+  <pre><code class="lang-json hljs">   ,
+  &quot;firstname&quot;: &quot;Dan&quot;,
+  &quot;lastname&quot;: &quot;Brown&quot;,
+  &quot;sex&quot;: &quot;male&quot;,
+  &quot;address&quot;: &quot;125 Main Street&quot;,
+  &quot;city&quot;: &quot;Peoria&quot;,
+  &quot;state&quot;: &quot;IL&quot;,
+  &quot;zipcode&quot;: 61602,
+  &quot;areacode&quot;: 309,
+  &quot;phonenumber&quot;: &quot;334-4275&quot;
 </code></pre>
-  <p>**Example document 5</p>
-  <pre><code class="lang-json hljs">{
-  <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"</span>,
-    <span class="hljs-attr">"firstname"</span>: <span class="hljs-string">"Janine"</span>,
-    <span class="hljs-attr">"lastname"</span>: <span class="hljs-string">"Lee"</span>,
-    <span class="hljs-attr">"sex"</span>: <span class="hljs-string">"female"</span>,
-    <span class="hljs-attr">"address"</span>: <span class="hljs-string">"126 Second Street"</span>, 
-    <span class="hljs-attr">"city"</span>: <span class="hljs-string">"San Mateo"</span>, 
-    <span class="hljs-attr">"state"</span>: <span class="hljs-string">"CA"</span>,
-    <span class="hljs-attr">"zipcode"</span>: <span class="hljs-number">94401</span>,
-    <span class="hljs-attr">"areacode"</span>: <span class="hljs-number">650</span>,
-    <span class="hljs-attr">"phonenumber"</span>: <span class="hljs-string">"726-9938"</span>
-}
+  <p>Document 4</p>
+  <pre><code class="lang-json hljs">   ,
+    &quot;firstname&quot;: &quot;Janine&quot;,
+    &quot;lastname&quot;: &quot;Lee&quot;,
+    &quot;sex&quot;: &quot;female&quot;,
+    &quot;address&quot;: &quot;126 Second Street&quot;, 
+    &quot;city&quot;: &quot;San Mateo&quot;, 
+    &quot;state&quot;: &quot;CA&quot;,
+    &quot;zipcode&quot;: 94401,
+    &quot;areacode&quot;: 650,
+    &quot;phonenumber&quot;: &quot;726-9938&quot;
 </code></pre>
-  <p>**Example document 6</p>
-  <pre><code class="lang-json hljs">{
-  <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"</span>,
-  <span class="hljs-attr">"firstname"</span>: <span class="hljs-string">"Sam"</span>,
-  <span class="hljs-attr">"lastname"</span>: <span class="hljs-string">"Harris"</span>,
-  <span class="hljs-attr">"sex"</span>: <span class="hljs-string">"male"</span>,
-  <span class="hljs-attr">"address"</span>: <span class="hljs-string">"125 Second Street"</span>,
-  <span class="hljs-attr">"city"</span>: <span class="hljs-string">"San Mateo"</span>,
-  <span class="hljs-attr">"state"</span>: <span class="hljs-string">"CA"</span>,
-  <span class="hljs-attr">"zipcode"</span>: <span class="hljs-number">94401</span>,
-  <span class="hljs-attr">"areacode"</span>: <span class="hljs-number">650</span>,
-  <span class="hljs-attr">"phonenumber"</span>: <span class="hljs-string">"225-4444"</span>
-}
+  <p>Document 5</p>
+  <pre><code class="lang-json hljs">   ,
+  &quot;firstname&quot;: &quot;Sam&quot;,
+  &quot;lastname&quot;: &quot;Harris&quot;,
+  &quot;sex&quot;: &quot;male&quot;,
+  &quot;address&quot;: &quot;125 Second Street&quot;,
+  &quot;city&quot;: &quot;San Mateo&quot;,
+  &quot;state&quot;: &quot;CA&quot;,
+  &quot;zipcode&quot;: 94401,
+  &quot;areacode&quot;: 650,
+  &quot;phonenumber&quot;: &quot;225-4444&quot;
 </code></pre>
-  <p>Example document 7</p>
-  <pre><code class="lang-json hljs">{
-  <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"</span>,
-  <span class="hljs-attr">"firstname"</span>: <span class="hljs-string">"Amanda"</span>,
-  <span class="hljs-attr">"lastname"</span>: <span class="hljs-string">"Greene"</span>,
-  <span class="hljs-attr">"sex"</span>: <span class="hljs-string">"female"</span>,
-  <span class="hljs-attr">"address"</span>: <span class="hljs-string">"124 Second Street"</span>,
-  <span class="hljs-attr">"city"</span>: <span class="hljs-string">"San Mateo"</span>,
-  <span class="hljs-attr">"state"</span>: <span class="hljs-string">"CA"</span>,
-  <span class="hljs-attr">"zipcode"</span>: <span class="hljs-number">94401</span>,
-  <span class="hljs-attr">"areacode"</span>: <span class="hljs-number">650</span>,
-  <span class="hljs-attr">"phonenumber"</span>: <span class="hljs-string">"613-8462"</span>
-}
+  <p>Document 6</p>
+  <pre><code class="lang-json hljs">   ,
+  &quot;firstname&quot;: &quot;Amanda&quot;,
+  &quot;lastname&quot;: &quot;Greene&quot;,
+  &quot;sex&quot;: &quot;female&quot;,
+  &quot;address&quot;: &quot;124 Second Street&quot;,
+  &quot;city&quot;: &quot;San Mateo&quot;,
+  &quot;state&quot;: &quot;CA&quot;,
+  &quot;zipcode&quot;: 94401,
+  &quot;areacode&quot;: 650,
+  &quot;phonenumber&quot;: &quot;613-8462&quot;
 </code></pre>
-  <p>Example document 8</p>
-  <pre><code class="lang-json hljs">{
-  <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"</span>,
-    <span class="hljs-attr">"firstname"</span>: <span class="hljs-string">"Tammy"</span>,
-    <span class="hljs-attr">"lastname"</span>: <span class="hljs-string">"Smith"</span>,
-    <span class="hljs-attr">"sex"</span>: <span class="hljs-string">"female"</span>,
-    <span class="hljs-attr">"address"</span>: <span class="hljs-string">"122 Second Street"</span>, 
-    <span class="hljs-attr">"city"</span>: <span class="hljs-string">"San Mateo"</span>, 
-    <span class="hljs-attr">"state"</span>: <span class="hljs-string">"CA"</span>,
-    <span class="hljs-attr">"zipcode"</span>: <span class="hljs-number">94401</span>,
-    <span class="hljs-attr">"areacode"</span>: <span class="hljs-number">650</span>,
-    <span class="hljs-attr">"phonenumber"</span>: <span class="hljs-string">"333-7310"</span>
-}
+  <p>Document 7</p>
+  <pre><code class="lang-json hljs">    ,
+    &quot;firstname&quot;: &quot;Tammy&quot;,
+    &quot;lastname&quot;: &quot;Smith&quot;,
+    &quot;sex&quot;: &quot;female&quot;,
+    &quot;address&quot;: &quot;122 Second Street&quot;, 
+    &quot;city&quot;: &quot;San Mateo&quot;, 
+    &quot;state&quot;: &quot;CA&quot;,
+    &quot;zipcode&quot;: 94401,
+    &quot;areacode&quot;: 650,
+    &quot;phonenumber&quot;: &quot;333-7310&quot;
 </code></pre>
-  <p>Example document 9</p>
-  <pre><code class="lang-json hljs">{
-  &quot;_id&quot;: &quot;xxxxxxxxxxxxxxxxxxxxxxxxxxxxx&quot;,
-    &quot;firstname&quot;: &quot;Patricia&quot;”&quot;,
+  <p>Document 8</p>
+  <pre><code class="lang-json hljs">    ,
+    &quot;firstname&quot;: &quot;Patricia&quot;,
     &quot;lastname&quot;: &quot;Jones&quot;,
-    &quot;sex&quot;: &quot;female&quot;
+    &quot;sex&quot;: &quot;female&quot;,
     &quot;address&quot;: &quot;125 Second Street&quot;, 
     &quot;city&quot;: &quot;San Mateo&quot;, 
     &quot;state&quot;: &quot;CA&quot;,
     &quot;zipcode&quot;: 94401,
     &quot;areacode&quot;: 650,
-    &quot;phonenumber&quot;: &quot;336-4003&quot;  
-}
+    &quot;phonenumber&quot;: &quot;336-4003&quot;
 </code></pre>
-  <p>Example document 10</p>
-  <pre><code class="lang-json hljs">{
-  <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"</span>,
-    <span class="hljs-attr">"firstname"</span>: <span class="hljs-string">"Nick"</span>,
-    <span class="hljs-attr">"lastname"</span>: <span class="hljs-string">"Brown"</span>,
-    <span class="hljs-attr">"sex"</span>: <span class="hljs-string">"male"</span>,
-    <span class="hljs-attr">"address"</span>: <span class="hljs-string">"126 Second Street"</span>, 
-    <span class="hljs-attr">"city"</span>: <span class="hljs-string">"San Mateo"</span>, 
-    <span class="hljs-attr">"state"</span>: <span class="hljs-string">"CA"</span>,
-    <span class="hljs-attr">"zipcode"</span>: <span class="hljs-number">94401</span>,
-    <span class="hljs-attr">"areacode"</span>: <span class="hljs-number">650</span>,
-    <span class="hljs-attr">"phonenumber"</span>: <span class="hljs-string">"334-4841"</span>
-}
+  <p>Document 9</p>
+  <pre><code class="lang-json hljs">    ,
+    &quot;firstname&quot;: &quot;Nick&quot;,
+    &quot;lastname&quot;: &quot;Brown&quot;,
+    &quot;sex&quot;: &quot;male&quot;,
+    &quot;address&quot;: &quot;126 Second Street&quot;, 
+    &quot;city&quot;: &quot;San Mateo&quot;, 
+    &quot;state&quot;: &quot;CA&quot;,
+    &quot;zipcode&quot;: 94401,
+    &quot;areacode&quot;: 650,
+    &quot;phonenumber&quot;: &quot;334-4841&quot;
 </code></pre>
   <p>The <code>rolodex</code> database now contains ten JSON documents. </p>
+  <h2 id="creating-a-design-document">Creating a design document</h2>
+  <p>You configure a search index or a MapReduce view by adding Design Documents to the database. Design Documents contain instructions about how the view or index must be built. When you change the Design Document, the index is overwritten and recreated
+    from scratch.</p>
+  <ol>
+    <li>From the Dashboard, open the <code>rolodex</code> database.</li>
+    <li>On the Design Doc tab, click <strong>+</strong> and select <strong>New Doc</strong>. </li>
+    <li>Replace the <code>_id</code> with <code>rolodex-index-design-doc</code> and click <strong>Create Document</strong>. The Design Document is added to the list of documents in the database. </li>
+  </ol>
+  <p>The index and view information for this tutorial will be stored in this Design Document. </p>
   <h2 id="creating-an-index">Creating an index</h2>
-  <p>With Cloudant Query, you can use the Primary Index out-of-the-box. You can also build indexes using MapReduce Views (type=json) and Search Indexes (type=text). Index specifics are stored in design documents. When you change the design document, the
-    index is overwritten and recreated from scratch.</p>
-  <p>When you create an index, you must select the columns from the database table that you want to search. For example, the <code>rolodex</code> database contains the following columns:
-  </p>
+  <p>With Cloudant Query, you can build indexes using MapReduce Views (type=json) and Search Indexes (type=text). The <code>rolodex</code> database contains the following columns:</p>
   <ul>
     <li>Firstname</li>
     <li>Lastname</li>
@@ -183,12 +166,11 @@
     <li>Areacode</li>
     <li>Phone number</li>
   </ul>
-  <p>When you create an index, it is important to select the columns that will improve your searches. The following examples show how to create an index to reduce your data set and the load on your environment. </p>
   <h3 id="creating-a-type-json-index">Creating a &quot;type=json&quot; index</h3>
-  <p>If you know the type of data you want to search for or if you want to minimize storage and processing requirements, you can use a &quot;type=json&quot; index and specify how to create the index. </p>
+  <p>Creating an index can reduce the load on your environment as well as the size of your data set. You select a subset of the columns listed in the table in the database to do this. You select the columns by specifying them in the <code>fields</code> parameter
+    as shown in the request below. </p>
   <ol>
-    <li>Create a JSON index in the <code>rolodex</code> database.</li>
-    <li>Make a <code>POST</code> request to the <code>_index</code> endpoint. </li>
+    <li>Create an index with <code>type=JSON</code> specified by making a <code>POST</code> request to the <code>_index</code> endpoint.</li>
     <li>In the request body for the JSON object, specify the <code>state</code> and <code>area code</code> fields. </li>
     <li>Set the <code>type</code> field equal to <code>json</code>. </li>
   </ol>
@@ -210,30 +192,14 @@ Content-Type: application/json
   <pre><code class="hljs">    {
         &quot;result&quot; : &quot;created&quot;
     }
-NOT A TRUE RESPONSE    
-    {&quot;total_rows&quot;:2,&quot;indexes&quot;:[{&quot;ddoc&quot;:null,&quot;name&quot;:&quot;_all_docs&quot;,
-    &quot;type&quot;:&quot;special&quot;,&quot;def&quot;:{&quot;fields&quot;:[{&quot;_id&quot;:&quot;asc&quot;}]}},{&quot;ddoc&quot;:
-    &quot;_design/a7ee061f1a2c0c6882258b2f1e148b714e79ccea&quot;,&quot;name&quot;:
-    &quot;a7ee061f1a2c0c6882258b2f1e148b714e79ccea&quot;,&quot;type&quot;:&quot;json&quot;,
-    &quot;def&quot;:{&quot;fields&quot;:[{&quot;foo&quot;:&quot;asc&quot;}]}}]}
 </code></pre>
-  <p>[Describe index and fields fields.] The <code>index</code> field contains the settings that are specific to [NO IDEA-page 4 on queries.]</p>
-  <h3 id="creating-a-design-document">Creating a design document</h3>
-  <p>[DESCRIPTION OF Design Doc here]</p>
+  <h3 id="creating-a-type-text-index">Creating a &quot;type=text&quot; index</h3>
+  <p>If you want to search all your data, you can create a &quot;type=text&quot; index. A &quot;type=text&quot; index automatically indexes all the documents and fields in your database which allows you to query and retrieve information from all the data
+    in your database. </p>
   <ol>
-    <li>From the Dashboard, open the <code>rolodex</code> database.</li>
-    <li>On the Design Doc tab, click the create icon, +, and select New Doc. </li>
-    <li>Replace the <code>_id</code> with <code>rolodex-index-design-doc</code> and click <strong>Save Changes</strong>.</li>
-  </ol>
-  <p>The index information will be stored in this design document. </p>
-  <h4 id="creating-a-type-text-index">Creating a &quot;type=text&quot; index</h4>
-  <p>If you want the flexibility to search all your data, you can create a &quot;type=text&quot; index. This index type automatically indexes all the fields of the documents in your database providing the ability to query and retrieve information from all
-    the data in your database. This flexibility requires more storage resources and can take longer to create than a JSON index. </p>
-  <ol>
-    <li>Create a text index in the <code>rolodex</code> database.</li>
-    <li>Make a <code>POST</code> request to the <code>_index</code> endpoint. </li>
+    <li>Create a text type index by making a <code>POST</code> request to the <code>_index</code> enpoint.</li>
     <li>In the request body for the JSON object, specify the <code>sex</code>, <code>lastname</code>, and <code>areacode</code> fields. </li>
-    <li>Set the <code>type</code> field equal to <code>text</code>. </li>
+    <li>Set the <code>type</code> equal to <code>text</code> to specify a text type index. </li>
   </ol>
   <pre><code class="lang-json hljs">POST /rolodex/_index HTTP/1.1
 Content-Type: application/json
@@ -255,73 +221,103 @@ Content-Type: application/json
         }   
 }
 </code></pre>
-  <p>[Describe why the type, name, ddoc, and index are in their current order. Describe how to create a design doc that includes this index info. Describe default_field and selector.]</p>
   <h3 id="listing-cloudant-query-indexes">Listing Cloudant Query indexes</h3>
-  <p>You can list all the indexes in a database by using the GET endpoint. </p>
+  <p>Now, list all the indexes in the <code>rolodex</code> database by using the GET command. </p>
   <pre><code class="hljs">    GET /rolodex/_index
 </code></pre>
-  <p>Return JSON lists the index in the database in the following manner.</p>
-  <pre><code class="hljs">[VERIFY content]
-{&quot;total_rows&quot;:2,&quot;indexes&quot;:[{&quot;ddoc&quot;:null,&quot;name&quot;:&quot;_all_docs&quot;,&quot;type&quot;:&quot;special&quot;,&quot;def&quot;:{&quot;fields&quot;:[{&quot;_id&quot;:&quot;asc&quot;}]}},{&quot;ddoc&quot;:&quot;_design/a7ee061f1a2c0c6882258b2f1e148b714e79ccea&quot;,&quot;name&quot;:&quot;a7ee061f1a2c0c6882258b2f1e148b714e79ccea&quot;,&quot;type&quot;:&quot;json&quot;,&quot;def&quot;:{&quot;fields&quot;:[{&quot;foo&quot;:&quot;asc&quot;}]}}]}
-</code></pre>
-  <h3 id="deleting-an-index">Deleting an index</h3>
-  <p>Indexes are saved to the design document. Therefore, the index must be deleted from the design document. You delete the index from the design document using the DELETE endpoint.</p>
-  <p>To delete the index we created, use the following DELETE request.</p>
-  <pre><code class="hljs">    DELETE /rolodex/_index/$DDOC/JSON/$INDEX_NAME
-</code></pre>
-  <p>Return JSON [shows the index was deleted].</p>
-  <pre><code class="hljs">     [INSERT RETURN JSON]
+  <p>Return JSON lists the indexes in the database.</p>
+  <pre><code class="hljs">{&quot;total_rows&quot;:2,&quot;indexes&quot;:[{&quot;ddoc&quot;:null,&quot;name&quot;:&quot;_all_docs&quot;,&quot;type&quot;:&quot;special&quot;,&quot;def&quot;:{&quot;fields&quot;:[{&quot;_id&quot;:&quot;asc&quot;}]}},{&quot;ddoc&quot;:&quot;_design/a7ee061f1a2c0c6882258b2f1e148b714e79ccea&quot;,&quot;name&quot;:&quot;a7ee061f1a2c0c6882258b2f1e148b714e79ccea&quot;,&quot;type&quot;:&quot;json&quot;,&quot;def&quot;:{&quot;fields&quot;:[{&quot;foo&quot;:&quot;asc&quot;}]}}]}
 </code></pre>
   <h2 id="creating-a-query">Creating a query</h2>
-  <p>You can build a query to search for documents in the database if you have a few specifics by including the fields you are looking for in the query. </p>
-  <h3 id="querying-the-rolodex-database-using-selector-syntax">Querying the rolodex database using selector syntax</h3>
-  <p>Write a query using the selector syntax to search the documents in the <code>rolodex</code> database. in the <code>rolodex</code> database, if you want to find all the documents that include
-    <code>CA</code> and <code>Greene</code> and you know the documents in your database contain the fields
-    <code>state</code> and <code>last name</code>, write your query as shown in the example below. The example also demonstrates what fields to search for, how to determine the fields that will be included in the response, and how to sort the results.
-    </p>
-  <p>Follow these steps to create a POST request for this query. </p>
+  <p>You can narrow the data you search by using <a href="cloudant_query.html#selector-syntax">selector syntax</a> or operators, (<a href="cloudant_query.html#implicit-operators">implicit</a> or <a href="cloudant_query.html#explicit-operators">explicit</a>)
+    when you write your query statement. </p>
+  <h3 id="querying-the-database-using-selector-syntax">Querying the database using selector syntax</h3>
+  <p>The following request uses selector syntax to search the <code>rolodex</code> database. This query will find documents with the last name is <code>Greene</code>. </p>
+  <p>In this example, you must type in the name of the field to search after the <code>selector</code> field. In this case, type in the lastname field and tthe selector syntax uses the field to search, </p>
   <ol>
-    <li>Make a POST request and include the fields to search in the <code>selector</code> syntax as shown in the example below.</li>
-    <li>In the <code>fields</code> field, type in the name of the fields you want to see when the response is returned.</li>
-    <li>Enter the value you want to sort by, limit the number of documents to search, and the number of documents to skip [true?] before the search aborts. </li>
+    <li>After <code>selector</code>, type in <code>&quot;lastname&quot;: &quot;Greene&quot;</code> to find all the documents with the last name Greene.</li>
+    <li>Type in <code>firstname</code> and <code>lastname</code>. These are the fields that display with the results. </li>
+    <li>Type in <code>lastname</code> to sort the results&#39; list by the last name.</li>
   </ol>
   <pre><code class="hljs">POST /rolodex/_find
 {
     &quot;selector&quot;: {
-        &quot;last name&quot;: &quot;Greene&quot;
+        &quot;lastname&quot;: &quot;Greene&quot;
         }
-         &quot;fields&quot;: [&quot;firstname&quot;, &quot;lastname&quot;, &quot;city&quot;, &quot;state&quot;],
-         &quot;sort&quot;: [&quot;firstname&quot;],
-         &quot;limit&quot;: 10
-         &quot;skip&quot;: 0
+         &quot;fields&quot;: [&quot;firstname&quot;, &quot;lastname&quot;],
+         &quot;sort&quot;: [&quot;firstname&quot;]
     }
 </code></pre>
-  <p>Example result from the search:</p>
+  <p>Results from the search.</p>
   <pre><code class="hljs">{
   &quot;docs&quot;: [
-    {
-
-        &quot;_id&quot;: &quot;xxxxxxxxxxxxxxxxxxxxxxxx&quot;
-        &quot;_rev&quot;: &quot;1-xxxxxxxxx&quot;        
+    {     
         &quot;firstname&quot;: &quot;Amanda&quot;,
         &quot;lastname&quot;: &quot;Greene&quot;,
         &quot;city&quot;: &quot;San Mateo&quot;,        
         &quot;state&quot;: &quot;CA&quot;
         }
    {
-        &quot;_id&quot;: &quot;xxxxxxxxxxxxxxxxxxxxxxxxxxxxx&quot;,
-        &quot;_rev&quot;: &quot;1-xxxxxxxx&quot;
         &quot;firstname&quot;: &quot;Greg&quot;,
         &quot;lastname&quot;: &quot;Greene&quot;,
         &quot;city&quot;: &quot;Peoria&quot;,
         &quot;state&quot;: &quot;IL&quot;,
         }
-
      ]
 }
 </code></pre>
-  <h3 id="querying-the-rolodex-database-using-operators">Querying the rolodex database using operators</h3>
-  <p>[Search for people who live in California and have a 650 area code.]</p>
+  <h3 id="querying-the-database-using-the-and-operator">Querying the database using the <code>$and</code> operator</h3>
+  <p>[Search for people who live in California and have a 650 area code.] The following request uses selector syntax and the explicit operator <code>$and</code>. In this case, the query will find the documents in the database with a female who has a 650
+    area code. </p>
+  <ol>
+    <li>After <code>selector</code>, type in <code>&quot;lastname&quot;: &quot;Greene&quot;</code> to find all the documents with the last name Greene.</li>
+    <li>Type in <code>firstname</code> and <code>lastname</code>. These are the fields that display with the results. </li>
+    <li>Type in <code>lastname</code> to sort the results&#39; list by the last name.</li>
+  </ol>
+  <pre><code class="hljs">POST /rolodex/_find
+{
+    &quot;selector&quot;: {
+        &quot;$and&quot;: [
+             {
+                &quot;$text&quot;: &quot;female&quot;
+            },
+            {
+                &quot;areacode&quot;: 650
+                }
+            }
+    ]
+   },
+        &quot;fields&quot;: [
+            &quot;firstname&quot;, &quot;lastname&quot;, &quot;areacode&quot;]  
+    }
+</code></pre>
+  <p>Results from the search. </p>
+  <pre><code class="hljs">{
+  &quot;docs&quot;: [
+ {     
+    &quot;firstname&quot;: &quot;Janine&quot;,
+    &quot;lastname&quot;: &quot;Lee&quot;,
+    &quot;areacode&quot;: 650
+       }
+ {
+    &quot;firstname&quot;: &quot;Amanda&quot;,
+    &quot;lastname&quot;: &quot;Greene&quot;,
+    &quot;areacode&quot;: 650        
+       }
+
+ {  
+     &quot;firstname&quot;: &quot;Tammy&quot;,
+     &quot;lastname&quot;: &quot;Smith&quot;,
+     &quot;areacode&quot;: 650 
+       }
+ {
+    &quot;firstname&quot;: &quot;Patricia&quot;,
+    &quot;lastname&quot;: &quot;Jones&quot;,
+       &quot;areacode&quot;: 650 
+       }
+     ]
+}
+</code></pre>
   <footer>
     <div>
       <p>Copyright &copy; 2015, 2017. All Rights Reserved.</p>
