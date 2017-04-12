@@ -162,7 +162,7 @@ search and retrieve information from any field in the database.
 You select a subset of the columns listed in the database table to do this. To specify the columns, 
 add them to the `fields` parameter as shown in the example. 
 
-1.  Create a text type index by making a `POST` request to the `_index` enpoint.
+1.  Create a text type index by making a `POST` request to the `_index` endpoint.
 2.  In the request body for the JSON object, specify the `sex`, `lastname`, and `areacode` fields.   
 3.  Set the `type` equal to `text` to specify a text type index. 
 
@@ -214,7 +214,7 @@ When you write your query statement, you can narrow the data you search by using
 
 
 
-### Querying the database using selector syntax
+### Searching the database using a JSON index
 
 When you use [selector syntax](cloudant_query.html#selector-syntax), you must specify at least one field and 
 its corresponding value. When the query runs, it uses these values to search for matches in the database. The 
@@ -267,40 +267,28 @@ Results from the search.
 }
 ```
 
-### Querying the database using operators
+### Querying the database using a text index
 
 [Search for people who live in California and have a 650 area code.]
-The following `POST` request uses selector syntax with the explicit `$and` and `$text` operators. 
-In this case, the query searches the database to find documents where the value in the `sex` field is 
-equal to `female` 
-and the value in the `areacode` field is equal to `650`. 
+Using operators in your query allows you to create a more granular search. Operators are described 
+[here](cloudant_query.html#query) under Query Parameters. In this example, the operators `$and`, `$text`, 
+and `$gt` define the search parameters. 
+
+    *   $and    Finds a match when all the selectors in the array match. 
+    *   $text   Matches any word or string in the document. It is not case sensitive. The $text operator is only available with the index "type=text". However, searching for field names is an invalid use of the $text operator. 
+    *   $gt     Finds matches greater than the specified value.  
 
 
-To find all the documents with the last name `Greene`, use the `POST` request below. The `fields`, 
-`firstname` and `lastname`, are the only columns that will be returned with the results. The `sort` field 
-determins how the results will be returned, in this case, by first name in ascending order. 
+In this example, the query searches for documents whose last name field equals `Brown` and age value is greater than `20`. 
+The results will contain the `firstname`, `lastname`, and `age` fields sorted in ascending order by `firstname`. 
 
-1.  After `selector`, type in `"lastname": "Greene"` to find all the documents with the last name Greene.
-2.  Type in `firstname` and `lastname`. 
-    These are the fields that display with the results. 
-3.  Type in `lastname` to sort the results' list by the last name.
-
-This example uses [operators](cloudant_query.html#operators), specifically the $and and $text operators. 
-
-    *   $and - This operator finds a match when all the selectors in the array match. 
-    *   $text -
-When the query runs, it uses these values to search for matches in the database. The 
-selector is a JSON object
-
-In this example, the query finds documents whose last name field equals`Greene`. The result set only contains 
-`firstname` and `lastname` fields. The `sort` field specifies the field to sort by, `firstname` and the sequence
-of the results, in this case, ascending. The result set in this example displays by first name in ascending order. 
 
 1.  From the Databases tab in the Cloudant Dashbaord, click `rolodex` to open the database.
 2.  Click on the index created earlier, `JSONindex`.
 3.  Enter the selector statement below into the Query field and click **Query**.
     The search results display.    
-    
+
+            
 ```json
 POST /rolodex/_find
 {
@@ -316,8 +304,13 @@ POST /rolodex/_find
     ]
    },
         "fields": [
-            "firstname", "lastname", "age"]  
-    }        
+            "firstname", "lastname", "age"],
+  "sort": [
+    {
+      "firstname": "asc"
+    }
+  ]            
+ }        
 ```
 
 
@@ -332,14 +325,9 @@ Results from the search.
     "age": "21"
        },
 {
-  "firstname": "Greg",
-  "lastname": "Greene",
-  "age": "35"
-       },  
-{
-  "firstname": "Amanda",
-  "lastname": "Greene",
-  "age": "44"
+    "firstname": "Sally",
+    "lastname": "Brown",
+    "age": "16"
        }
   ]
 }
