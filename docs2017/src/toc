@@ -46,6 +46,7 @@ Cloudant NoSQL DB
 		api/cors.md
 		api/database.md
 		api/document.md
+		api/sharding.md
 		api/attachments.md
 		api/cloudant_query.md
 		api/design_documents.md
