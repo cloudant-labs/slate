@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-03-16"
+lastupdated: "2017-04-20"
 
 ---
 
@@ -313,7 +313,7 @@ PUT /$DATABASE/$DOCUMENT_ID HTTP/1.1
 ```
 {:codeblock}
 
-_Example of using the command line to update a document, :_
+_Example of using the command line to update a document:_
 
 ```sh
 # make sure $JSON contains the correct `_rev` value!
@@ -394,14 +394,19 @@ This error prevents you overwriting data that were changed by other clients.
 If the write [quorum](#quorum) cannot be met,
 a [`202` response](http.html#202) is returned.
 
->	**Note**: Cloudant does not completely delete the specified document.
-Instead,
-it leaves a [tombstone](#-tombstone-documents) with basic information about the document.
+Deleting a document does not _remove_ the document from the database.
+Deleting a document marks it with status `_deleted=true`.
+The deleted document is still listed within the [`_changes` feed](database.html#get-changes).
+
+In addition,
+deleting a document leaves a [tombstone](#-tombstone-documents) with basic information about the document.
 The tombstone is required so that the delete action can be replicated to other copies of the database.
 Since the tombstones stay in the database indefinitely,
 creating new documents and deleting them increases the disk space usage of a database.
 They might also increase the query time for the primary index,
 which is used to look up documents by their ID.
+
+>   **Note**: To remove a document fully, as if it had never existed, use a [`_purge` command](#purge).
 
 _Example of using HTTP to delete a document:_
 
@@ -627,6 +632,101 @@ so replication of `validate_doc_update` functions is not normally a problem for 
 However,
 other clients might replicate the design documents or `validate_doc_update` functions,
 potentially resulting in unwanted side effects.
+
+## Purge
+
+Unlike [deleting a document](#delete),
+purging a document removes all references to that document from the database.
+Following a purge,
+the affected documents are no longer available or listed using the [`_all_docs`](database.html#get-documents)
+or [`_changes`](database.html#get-changes) commands.
+
+A purge affects only the most recent or 'leaf' version of a document.
+It does not matter whether the document still exists,
+or has already been [deleted](#delete).
+
+There are two main reasons you might want to purge rather than delete a document:
+
+1.  You want to remove a document that is not needed anymore.
+    Purging all leaf revisions of a document causes the complete purging of the document.
+    Purging enables the database to reclaim the disk space used by a documents.
+    The disk space is reclaimed after the database runs an internal compaction task.
+2.  You want to get rid of conflicts.
+    If a document has several revision branches,
+    for example after two separate applications have independently updated the document,
+    purging all but one of these branches leads to the partial purging of the document.
+    The document remains available in the database,
+    but in a new form without the purged branches and revisions.
+    A new record is created in the [`_changes`](database.html#get-changes) for this document.
+
+### Purging and replication
+
+Documents that are completely purged cannot be replicated to other databases.
+The reason is that replication with external databases depends on the [`_changes`](database.html#get-changes) feed.
+If a document is completely purged,
+there is no record of it in the feed,
+so it cannot be replicated to external databases.
+
+If the document still exists on an external database,
+you must run a separate purge of the document on the external database.
+
+If a document was partially purged in a database,
+corresponding records are created in the `_changes` feed.
+These changes are replicated to external databases.
+
+### Purging documents
+
+_Example of using HTTP to purge a collection of documents:_
+
+```http
+POST /$DATABASE/_purge HTTP/1.1
+```
+{:codeblock}
+
+_Example of using the command line to purge a collection of documents:_
+
+```sh
+# make sure $JSON contains the correct `_rev` value!
+curl https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE/_purge \
+	-X PUT \
+	-H "Content-Type: application/json" \
+	-d "$JSON"
+```
+{:codeblock}
+
+_Example of JSON data that describes a collection of documents to purge:_
+
+```json
+{
+  "doc1":[
+    "3-410e46c04b51b4c3304ed232790a49da",
+    "3-420e46c04b51b4c3304ed232790a35db"
+    ],
+  "doc2":[
+    "2-a39d6d63f29a956ae39930f84dd71ec3"
+    ],
+  "doc3":[
+    "1-bdca7a3ac9503bf6e46d7d7a782e8f03"
+    ]
+}
+```
+{:codeblock}
+
+The response contains the ID and the new revision of the document,
+or an error message if the update failed.
+
+_Example response after a successful update:_
+
+```json
+{
+	"ok":true,
+	"id":"apple",
+	"rev":"2-9176459034"
+}
+```
+{:codeblock}
+
+
 
 ## Bulk Operations
 
