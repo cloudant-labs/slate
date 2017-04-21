@@ -1,7 +1,7 @@
 {:navgroup: .navgroup}
 {:topicgroup: .topicgroup}
 
-{: .toc subcollection="cloudant" audience="service"}
+{: .toc subcollection="cloudant" audience="service" href="/docs/services/Cloudant/index.html"}
 Cloudant NoSQL DB
 
 	{: .navgroup id="learn"}
@@ -12,6 +12,7 @@ Cloudant NoSQL DB
 	Offerings
 		offerings/index.md
 		offerings/bluemix.md
+		offerings/whatsnew.md
 
 	{: .topicgroup}
 	Tutorials
@@ -46,6 +47,7 @@ Cloudant NoSQL DB
 		api/cors.md
 		api/database.md
 		api/document.md
+		api/sharding.md
 		api/attachments.md
 		api/cloudant_query.md
 		api/design_documents.md
@@ -63,6 +65,7 @@ Cloudant NoSQL DB
 	{: .navgroup-end}
 
 	{: .navgroup id="howto"}
+	guides/index.md
 	guides/acurl.md
 	guides/backup-guide.md
 	guides/backup-guide-using-replication.md
@@ -77,3 +80,4 @@ Cloudant NoSQL DB
 	guides/model_data.md
 	guides/replication_guide.md
 	{: .navgroup-end}
+
