@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-03-20"
+lastupdated: "2017-04-24"
 
 ---
 
@@ -12,7 +12,7 @@ lastupdated: "2017-03-20"
 {:codeblock: .codeblock}
 {:pre: .pre}
 
-<!-- Acrolinx: 2017-03-20 -->
+<!-- Acrolinx: 2017-04-24 -->
 
 # Query
 
@@ -191,7 +191,7 @@ _Example of JSON document that requests creation of an index of all fields in al
 ```json
 {
 	"type": "text",
-	"index": {}
+	"index": { }
 }
 ```
 {:codeblock}
@@ -256,7 +256,7 @@ You might prefer to set the `index_array_lengths` field to `false` if:
 -	You do not use the [`$size` operator](#the-size-operator).
 -	The documents in your database are complex,
 	or not completely under your control,
-	making it difficult to estimate the impact of the extra processing that is required to determine and store the array lengths.
+	making it difficult to estimate the impact of the extra processing that is needed to determine and store the array lengths.
 
 > **Note**: The [`$size` operator](#the-size-operator) requires that the `index_array_lengths` field is set to `true`,
 otherwise the operator cannot work.
@@ -332,7 +332,7 @@ Method   | Path                | Description
 -	**Method**: `GET`
 -	**URL Path**: `/$DATABASE/_index`
 -	**Response Body**: JSON object that describes the indexes
--	**Roles permitted**: `_reader`
+-	**Roles**: `_reader`
 
 When you make a `GET` request to `/$DATABASE/_index`,
 you get a list of all indexes used by Cloudant Query in the database,
@@ -399,7 +399,7 @@ _Example of a response body with two indexes:_
 -	**Response Body**: JSON object that indicates successful deletion of the index,
 	or that describes any error that was encountered.
 -	**Request Body**: None
--	**Roles permitted**: `_writer`
+-	**Roles**: `_writer`
 
 <div id="finding-documents-using-an-index"></div>
 
@@ -408,7 +408,7 @@ _Example of a response body with two indexes:_
 -	**Method**: `POST`
 -	**URL Path**: `/$DATABASE/_find`
 -	**Response Body**: JSON object that describes the query results.
--	**Roles permitted**: `_reader`
+-	**Roles**: `_reader`
 
 ### Request body
 
@@ -502,7 +502,7 @@ you can apply conditional logic by using specially named fields.
 ### Selector basics
 
 Elementary selector syntax requires you to specify one or more fields,
-and the corresponding values required for those fields.
+and the corresponding values needed for those fields.
 The following example selector matches all
 documents that have a `director` field that contains the value `Lars von Trier`.
 
@@ -698,7 +698,7 @@ _Example of an explicit equality operator:_
 {:codeblock}
 
 In the following example that uses subfields,
-the required field `imdb` in a matching document *must* also have
+the field `imdb` in a matching document *must* also have
 a subfield `rating`,
 *and* the subfield *must* have a value equal to 8.
 
@@ -814,30 +814,97 @@ must be stated explicitly.
 ## Combination Operators
 
 Combination operators are used to combine selectors.
-In addition to the common boolean operators found in most programming languages,
-two combination operators (`$all` and `$elemMatch`) help you work with JSON arrays.
+In addition to the common Boolean operators found in most programming languages,
+three combination operators (`$all`, `$allMatch`, and `$elemMatch`) help you work with JSON arrays.
 
 A combination operator takes a single argument.
 The argument is either another selector, or an array of selectors.
 
 The list of combination operators:
 
-Operator     | Argument | Purpose
--------------|----------|--------
-`$all`       | Array    | Matches an array value if it contains all the elements of the argument array.
-`$and`       | Array    | Matches if all the selectors in the array match.
-`$elemMatch` | Selector | Matches and returns all documents that contain an array field with at least one element that matches all the specified query criteria.
-`$or`        | Array    | Matches if any of the selectors in the array match. All selectors must use the same index.
-`$not`       | Selector | Matches if the selector does not match.
-`$nor`       | Array    | Matches if none of the selectors in the array match.
+Operator                                | Argument | Purpose
+----------------------------------------|----------|--------
+[`$all`](#the-all-operator)             | Array    | Matches an array value if it contains all the elements of the argument array.
+[`$allMatch`](#the-allmatch-operator)   | Selector | Matches and returns all documents that contain an array field, where all the elements match all the specified query criteria.
+[`$and`](#the-and-operator)             | Array    | Matches if all the selectors in the array match.
+[`$elemMatch`](#the-elemmatch-operator) | Selector | Matches and returns all documents that contain an array field with at least one element that matches all the specified query criteria.
+[`$nor`](#the-nor-operator)             | Array    | Matches if none of the selectors in the array match.
+[`$not`](#the-not-operator)             | Selector | Matches if the selector does not match.
+[`$or`](#the-or-operator)               | Array    | Matches if any of the selectors in the array match. All selectors must use the same index.
 
 ### Examples of combination operators
+
+#### The `$all` operator
+
+The `$all` operator matches an array value if it contains _all_ the elements of the argument array.
+
+_Example of using the `$all` operator with full text indexing:_
+
+```json
+{
+	"selector": {
+		"genre": {
+			"$all": ["Comedy","Short"]
+		}
+	},
+	"fields": [
+		"title",
+		"genre"
+	],
+	"sort": [
+		"title:string"
+	]
+}
+```
+{:codeblock}
+
+_Example of using the `$all` operator with a primary database index:_
+
+```json
+{
+	"selector": {
+		"_id": {
+			"$gt": null
+		},
+		"genre": {
+			"$all": ["Comedy","Short"]
+		}
+	},
+	"fields": [
+		"title",
+		"genre"
+	],
+	"limit": 10
+}
+```
+{:codeblock}
+
+#### The `$allMatch` operator
+
+The `$allMatch` matches and returns all documents that contain an array field,
+where all the elements in the array field match the supplied query criteria.
+
+_Example of using the `$allMatch` operator with the primary index (`_all_docs`):_
+
+```json
+{
+    "_id": {
+      "$gt": null
+    },
+    "genre": {
+        "$allMatch": {
+          "$eq": "Horror"
+        }
+    }
+}
+```
+{:codeblock}
 
 #### The `$and` operator
 
 The `$and` operator matches if all the selectors in the array match.
 
-_Example of the `$and` operator used with full text indexing:_
+_Example of using the `$and` operator with full text indexing:_
 
 ```json
 {
@@ -862,7 +929,7 @@ _Example of the `$and` operator used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$and` operator used with a primary index:_
+_Example of using the `$and` operator with a primary index:_
 
 ```json
 {
@@ -888,204 +955,12 @@ _Example of the `$and` operator used with a primary index:_
 ```
 {:codeblock}
 
-#### The `$or` operator
-
-The `$or` operator matches if any of the selectors in the array match.
-
-_Example of the `$or` operator used with full text indexing:_
-
-```json
-{
-	"selector": {
-		"$or": [
-			{ "director": "George Lucas" },
-			{ "director": "Steven Spielberg" }
-		]
-	},
-	"fields": [
-		"title",
-		"director",
-		"year"
-	]
-}
-```
-{:codeblock}
-
-_Example of the `$or` operator used with a database indexed on the field `year`:_
-
-```json
-{
-	"selector": {
-		"year": 1977,
-		"$or": [
-			{ "director": "George Lucas" },
-			{ "director": "Steven Spielberg" }
-		]
-	},
-	"fields": [
-		"title",
-		"director",
-		"year"
-	]
-}
-```
-{:codeblock}
-
-#### The `$not` operator
-
-The `$not` operator matches if the selector does _not_ resolve to a value of `true`.
-
-_Example of the `$not` operator used with full text indexing:_
-
-```json
-{
-	"selector": {
-		"year": {
-			"$gte": 1900
-		},
-		"year": {
-			"$lte": 1903
-		},
-		"$not": {
-			"year": 1901
-		}
-	},
-	"fields": [
-		"title",
-		"year"
-	]
-}
-```
-{:codeblock}
-
-_Example of the `$not` operator used with a database indexed on the field `year`:_
-
-```json
-{
-	"selector": {
-		"year": {
-			"$gte": 1900
-		},
-		"year": {
-			"$lte": 1903
-		},
-		"$not": {
-			"year": 1901
-		}
-	},
-	"fields": [
-		"title",
-		"year"
-	]
-}
-```
-{:codeblock}
-
-#### The `$nor` operator
-
-The `$nor` operator matches if the selector does _not_ match.
-
-_Example of the `$nor` operator used with full text indexing:_
-
-```json
-{
-	"selector": {
-		"year": {
-			"$gte": 1900
-		},
-		"year": {
-			"$lte": 1910
-		},
-		"$nor": [
-			{ "year": 1901 },
-			{ "year": 1905 },
-			{ "year": 1907 }
-		]
-	},
-	"fields": [
-		"title",
-		"year"
-	]
-}
-```
-{:codeblock}
-
-_Example of the `$nor` operator used with a database indexed on the field `year`:_
-
-```json
-{
-	"selector": {
-		"year": {
-			"$gte": 1900
-		},
-		"year": {
-			"$lte": 1910
-		},
-		"$nor": [
-			{ "year": 1901 },
-			{ "year": 1905 },
-			{ "year": 1907 }
-		]
-	},
-	"fields": [
-		"title",
-		"year"
-	]
-}
-```
-{:codeblock}
-
-#### The `$all` operator
-
-The `$all` operator matches an array value if it contains _all_ the elements of the argument array.
-
-_Example of the `$all` operator used with full text indexing:_
-
-```json
-{
-	"selector": {
-		"genre": {
-			"$all": ["Comedy","Short"]
-		}
-	},
-	"fields": [
-		"title",
-		"genre"
-	],
-	"sort": [
-		"title:string"
-	]
-}
-```
-{:codeblock}
-
-_Example of the `$all` operator used with a primary database index:_
-
-```json
-{
-	"selector": {
-		"_id": {
-			"$gt": null
-		},
-		"genre": {
-			"$all": ["Comedy","Short"]
-		}
-	},
-	"fields": [
-		"title",
-		"genre"
-	],
-	"limit": 10
-}
-```
-{:codeblock}
-
 #### The `$elemMatch` operator
 
 The `$elemMatch` operator matches and returns all documents that contain an array field
 with at least one element that matches the supplied query criteria.
 
-_Example of the `$elemMatch` operator used with full text indexing:_
+_Example of using the `$elemMatch` operator with full text indexing:_
 
 ```json
 {
@@ -1104,7 +979,7 @@ _Example of the `$elemMatch` operator used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$elemMatch` operator used with a primary database index:_
+_Example of using the `$elemMatch` operator with a primary database index:_
 
 ```json
 {
@@ -1121,6 +996,153 @@ _Example of the `$elemMatch` operator used with a primary database index:_
 		"genre"
 	],
 	"limit": 10
+}
+```
+{:codeblock}
+
+#### The `$nor` operator
+
+The `$nor` operator matches if the selector does _not_ match.
+
+_Example of using the `$nor` operator with full text indexing:_
+
+```json
+{
+	"selector": {
+		"year": {
+			"$gte": 1900
+		},
+		"year": {
+			"$lte": 1910
+		},
+		"$nor": [
+			{ "year": 1901 },
+			{ "year": 1905 },
+			{ "year": 1907 }
+		]
+	},
+	"fields": [
+		"title",
+		"year"
+	]
+}
+```
+{:codeblock}
+
+_Example of using the `$nor` operator with a database that is indexed on the field `year`:_
+
+```json
+{
+	"selector": {
+		"year": {
+			"$gte": 1900
+		},
+		"year": {
+			"$lte": 1910
+		},
+		"$nor": [
+			{ "year": 1901 },
+			{ "year": 1905 },
+			{ "year": 1907 }
+		]
+	},
+	"fields": [
+		"title",
+		"year"
+	]
+}
+```
+{:codeblock}
+
+#### The `$not` operator
+
+The `$not` operator matches if the selector does _not_ resolve to a value of `true`.
+
+_Example of using the `$not` operator with full text indexing:_
+
+```json
+{
+	"selector": {
+		"year": {
+			"$gte": 1900
+		},
+		"year": {
+			"$lte": 1903
+		},
+		"$not": {
+			"year": 1901
+		}
+	},
+	"fields": [
+		"title",
+		"year"
+	]
+}
+```
+{:codeblock}
+
+_Example of using the `$not` operator with a database that is indexed on the field `year`:_
+
+```json
+{
+	"selector": {
+		"year": {
+			"$gte": 1900
+		},
+		"year": {
+			"$lte": 1903
+		},
+		"$not": {
+			"year": 1901
+		}
+	},
+	"fields": [
+		"title",
+		"year"
+	]
+}
+```
+{:codeblock}
+
+#### The `$or` operator
+
+The `$or` operator matches if any of the selectors in the array match.
+
+_Example of using the `$or` operator with full text indexing:_
+
+```json
+{
+	"selector": {
+		"$or": [
+			{ "director": "George Lucas" },
+			{ "director": "Steven Spielberg" }
+		]
+	},
+	"fields": [
+		"title",
+		"director",
+		"year"
+	]
+}
+```
+{:codeblock}
+
+_Example of using the `$or` operator with a database that is indexed on the field `year`:_
+
+```json
+{
+	"selector": {
+		"year": 1977,
+		"$or": [
+			{ "director": "George Lucas" },
+			{ "director": "Steven Spielberg" }
+		]
+	},
+	"fields": [
+		"title",
+		"director",
+		"year"
+	]
 }
 ```
 {:codeblock}
@@ -1164,7 +1186,7 @@ so they must not be used to filter large data sets.
 
 The `$lt` operator matches if the specified field content is less than the argument.
 
-_Example of the `$lt` operator used with full text indexing:_
+_Example of using the `$lt` operator with full text indexing:_
 
 ```json
 {
@@ -1185,7 +1207,7 @@ _Example of the `$lt` operator used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$lt` operator used with a database indexed on the field `year`:_
+_Example of using the `$lt` operator with a database that is indexed on the field `year`:_
 
 ```json
 {
@@ -1208,7 +1230,7 @@ _Example of the `$lt` operator used with a database indexed on the field `year`:
 
 The `$lte` operator matches if the specified field content is less than or equal to the argument.
 
-_Example of the `$lte` operator used with full text indexing:_
+_Example of using the `$lte` operator with full text indexing:_
 
 ```json
 {
@@ -1229,7 +1251,7 @@ _Example of the `$lte` operator used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$lte` operator used with a database indexed on the field `year`:_
+_Example of using the `$lte` operator with a database that is indexed on the field `year`:_
 
 ```json
 {
@@ -1252,7 +1274,7 @@ _Example of the `$lte` operator used with a database indexed on the field `year`
 
 The `$eq` operator matches if the specified field content is equal to the supplied argument.
 
-_Example of the `$eq` operator used with full text indexing:_
+_Example of using the `$eq` operator with full text indexing:_
 
 ```json
 {
@@ -1271,7 +1293,7 @@ _Example of the `$eq` operator used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$eq` operator used with a database indexed on the field `year`:_
+_Example of using the `$eq` operator with a database that is indexed on the field `year`:_
 
 ```json
 {
@@ -1297,7 +1319,7 @@ The `$ne` operator matches if the specified field content is not equal to the su
 > **Note**: The `$ne` operator cannot be the basic (lowest level) element in a selector
 when you use an index of type `json`.
 
-_Example of the `$ne` operator used with full text indexing:_
+_Example of using the `$ne` operator with full text indexing:_
 
 ```json
 {
@@ -1316,7 +1338,7 @@ _Example of the `$ne` operator used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$ne` operator used with a primary index:_
+_Example of using the `$ne` operator with a primary index:_
 
 ```json
 {
@@ -1340,7 +1362,7 @@ _Example of the `$ne` operator used with a primary index:_
 
 The `$gte` operator matches if the specified field content is greater than or equal to the argument.
 
-_Example of the `$gte` operator used with full text indexing:_
+_Example of using the `$gte` operator with full text indexing:_
 
 ```json
 {
@@ -1361,7 +1383,7 @@ _Example of the `$gte` operator used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$gte` operator used with a database indexed on the field `year`:_
+_Example of using the `$gte` operator with a database that is indexed on the field `year`:_
 
 ```json
 {
@@ -1384,7 +1406,7 @@ _Example of the `$gte` operator used with a database indexed on the field `year`
 
 The `$gt` operator matches if the specified field content is greater than the argument.
 
-_Example of the `$gte` operator used with full text indexing:_
+_Example of using the `$gte` operator with full text indexing:_
 
 ```json
 {
@@ -1405,7 +1427,7 @@ _Example of the `$gte` operator used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$gt` operator used with a database indexed on the field `year`:_
+_Example of using the `$gt` operator with a database that is indexed on the field `year`:_
 
 ```json
 {
@@ -1429,7 +1451,7 @@ _Example of the `$gt` operator used with a database indexed on the field `year`:
 The `$exists` operator matches if the field exists,
 regardless of its value.
 
-_Example of the `$exists` operator used with full text indexing:_
+_Example of using the `$exists` operator with full text indexing:_
 
 ```json
 {
@@ -1448,7 +1470,7 @@ _Example of the `$exists` operator used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$exists` operator used with a database indexed on the field `year`:_
+_Example of using the `$exists` operator with a database that is indexed on the field `year`:_
 
 ```json
 {
@@ -1471,7 +1493,7 @@ _Example of the `$exists` operator used with a database indexed on the field `ye
 
 The `$type` operator requires that the specified document field is of the correct type.
 
-_Example of the `$type` operator used with full text indexing:_
+_Example of using the `$type` operator with full text indexing:_
 
 ```json
 {
@@ -1489,7 +1511,7 @@ _Example of the `$type` operator used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$type`, operator used with a primary index:_
+_Example of using the `$type` operator with a primary index:_
 
 ```json
 {
@@ -1512,7 +1534,7 @@ _Example of the `$type`, operator used with a primary index:_
 
 The `$in` operator requires that the document field _must_ exist in the list provided.
 
-_Example of the `$in` operator used with full text indexing:_
+_Example of using the `$in` operator with full text indexing:_
 
 ```json
 {
@@ -1533,7 +1555,7 @@ _Example of the `$in` operator used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$in` operator used with a primary index:_
+_Example of using the `$in` operator with a primary index:_
 
 ```json
 {
@@ -1557,7 +1579,7 @@ _Example of the `$in` operator used with a primary index:_
 
 The `$nin` operator requires that the document field must _not_ exist in the list provided.
 
-_Example of the `$nin` operator used with full text indexing:_
+_Example of using the `$nin` operator with full text indexing:_
 
 ```json
 {
@@ -1579,7 +1601,7 @@ _Example of the `$nin` operator used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$nin` operator used with a primary index:_
+_Example of using the `$nin` operator with a primary index:_
 
 ```json
 {
@@ -1603,7 +1625,7 @@ _Example of the `$nin` operator used with a primary index:_
 
 The `$size` operator matches the length of an array field in a document.
 
-_Example of the `$size` operator used with full text indexing:_
+_Example of using the `$size` operator with full text indexing:_
 
 ```json
 {
@@ -1621,7 +1643,7 @@ _Example of the `$size` operator used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$size` operator used with a primary index:_
+_Example of using the `$size` operator with a primary index:_
 
 ```json
 {
@@ -1656,7 +1678,7 @@ the Cloudant `$mod` operator behaves in a similar way to the
 or the [`%` operator in C ![External link icon](../images/launch-glyph.svg "External link icon")](https://en.wikipedia.org/wiki/Operators_in_C_and_C%2B%2B){:new_window},
 and uses [truncated division ![External link icon](../images/launch-glyph.svg "External link icon")](https://en.wikipedia.org/wiki/Modulo_operation){:new_window}.
 
-_Example of the `$mod` operator used with full text indexing:_
+_Example of using the `$mod` operator with full text indexing:_
 
 ```json
 {
@@ -1674,7 +1696,7 @@ _Example of the `$mod` operator used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$mod` operator used with a primary index:_
+_Example of using the `$mod` operator with a primary index:_
 
 ```json
 {
@@ -1699,7 +1721,7 @@ _Example of the `$mod` operator used with a primary index:_
 
 The `$regex` operator matches when the field is a string value _and_ matches the supplied regular expression.
 
-_Example of the `$regex` operator used with full text indexing:_
+_Example of using the `$regex` operator with full text indexing:_
 
 ```json
 {
@@ -1719,7 +1741,7 @@ _Example of the `$regex` operator used with full text indexing:_
 ```
 {:codeblock}
 
-_Example of the `$regex` operator used with a primary index:_
+_Example of using the `$regex` operator with a primary index:_
 
 ```json
 {
@@ -1874,7 +1896,7 @@ _Example of simple sort, assuming default direction of 'ascending' for both fiel
 
 A typical requirement is to search for some content by using a selector,
 then to sort the results according to the specified field,
-in the required direction.
+in the wanted direction.
 
 To use sorting, ensure that:
 
@@ -1949,7 +1971,7 @@ _Example of a simple query that uses sorting:_
 It is possible to specify exactly which fields are returned for a document when you select from a database.
 The two advantages are:
 
-- Your results are limited to only those parts of the document that are required for your application.
+- Your results are limited to only those parts of the document that are needed for your application.
 - A reduction in the size of the response.
 
 The fields to be returned are specified as an array.
@@ -2151,7 +2173,7 @@ then the match is considered a success.
 
 ### Selector conversion
 
-A standard Lucene search expression would not necessarily fully 'understand' the JSON-based Cloudant query syntax.
+A standard Lucene search expression might not fully implement the wanted JSON-based Cloudant query syntax.
 Therefore,
 a conversion between the two formats takes place.
 
@@ -2213,7 +2235,7 @@ _JSON query to be converted to Lucene:_
 {:codeblock}
 
 The first part of the JSON query is straightforward to convert to Lucene;
-the test determines whether the `age` field has a numeric value greater than 5.
+the test determines whether the `age` field has a numerical value greater than 5.
 The `{` character in the range expression means that the value 5 is not considered a match.
 
 To implement the `"twitter": {"$exists":true}` part of the JSON query in Lucene,
