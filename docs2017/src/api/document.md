@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-03-16"
+lastupdated: "2017-04-20"
 
 ---
 
@@ -313,7 +313,7 @@ PUT /$DATABASE/$DOCUMENT_ID HTTP/1.1
 ```
 {:codeblock}
 
-_Example of using the command line to update a document, :_
+_Example of using the command line to update a document:_
 
 ```sh
 # make sure $JSON contains the correct `_rev` value!
@@ -394,14 +394,19 @@ This error prevents you overwriting data that were changed by other clients.
 If the write [quorum](#quorum) cannot be met,
 a [`202` response](http.html#202) is returned.
 
->	**Note**: Cloudant does not completely delete the specified document.
-Instead,
-it leaves a [tombstone](#-tombstone-documents) with basic information about the document.
+Deleting a document does not _remove_ the document from the database.
+Deletion marks a document with status `_deleted=true`,
+and gives it a new revision value.
+The deleted document is still listed within the [`_changes` feed](database.html#get-changes).
+
+Deleting a document leaves a [tombstone](#-tombstone-documents) with basic information about the document.
 The tombstone is required so that the delete action can be replicated to other copies of the database.
 Since the tombstones stay in the database indefinitely,
 creating new documents and deleting them increases the disk space usage of a database.
 They might also increase the query time for the primary index,
 which is used to look up documents by their ID.
+
+>   **Note**: To remove a document fully, as if it had never existed, use a [`_purge` command](#purge).
 
 _Example of using HTTP to delete a document:_
 
@@ -627,6 +632,251 @@ so replication of `validate_doc_update` functions is not normally a problem for 
 However,
 other clients might replicate the design documents or `validate_doc_update` functions,
 potentially resulting in unwanted side effects.
+
+## Purge
+
+Unlike [deleting a document](#delete),
+purging a document removes all references to that document from the database.
+Following a purge,
+the affected documents are no longer available and cannot be listed using the [`_all_docs`](database.html#get-documents)
+or [`_changes`](database.html#get-changes) commands.
+When requesting a purge of a document,
+it does not matter whether a document still exists,
+or has already been [deleted](#delete).
+
+A purge request must identify the `leaf` version of a document.
+In other words,
+you must specify the _last_ revision of a document.
+You cannot request a purge of an earlier revision of a document.
+
+When a purge is requested,
+it affects the specified ('lead') version of a document,
+_and_ all its predecessor versions.
+This is necessary to ensure that all references to the document can be removed from the database.
+However,
+if a document version is _also_ present within another revision branch,
+then the purging process halts before removing the version that would 'orphan' the revision branch.
+
+<div id="sampleDocumentStructure"></div>
+
+For example,
+in the following diagram,
+an original document with revision value `1-7a7e4b29f3af401e69b6f86e4c26b727`
+was modified by two separate applications.
+These modifications resulted in two separate revision branches.
+
+![Document with two revision branches](../images/fb86021a.png)
+
+Suppose a decision is taken to purge the document branch
+ending in revision value `4-53b84f8bf5539a7fb7f8074d1f685e5e`.
+
+Beginning with the specified revision,
+all references to each 'ancestor' version of the document are removed from the database.
+However,
+the document with revision value `1-7a7e4b29f3af401e69b6f86e4c26b727` is
+an ancestor of revision `4-53b84f8bf5539a7fb7f8074d1f685e5e`
+_and_ revision `2-98e2b4ecd9a0da76fe8b83a83234ee71`.
+Therefore,
+document `1-7a7e4b29f3af401e69b6f86e4c26b727` is _not_ removed from the database.
+The resulting document structure looks like the following diagram.
+
+![Purged document with one remaining revision branches](../images/fb86021b.png)
+
+A subsequent request to purge the document with revision `2-98e2b4ecd9a0da76fe8b83a83234ee71`
+results in the removal of _all_ the revisions,
+because no revision branches are left in an orphan state by the purge.
+
+### Deciding between purge or delete
+
+There are two main reasons you might want to purge rather than delete a document:
+
+1.  You want to remove a document that is not needed anymore.
+    Purging all leaf revisions of a document causes the complete purging of the document.
+    Purging enables the database to reclaim the disk space used by a documents.
+    The disk space is reclaimed after the database runs an internal compaction task.
+2.  You want to get rid of conflicts.
+    If a document has several revision branches,
+    for example after two separate applications have independently updated the document,
+    purging all but one of these branches leads to the partial purging of the document.
+    The document remains available in the database,
+    but in a new form without the purged branches and revisions.
+    A new record is created in the [`_changes`](database.html#get-changes) for this document.
+
+### Purging and replication
+
+Documents that are completely purged cannot be replicated to other databases.
+The reason is that replication with external databases depends on the [`_changes`](database.html#get-changes) feed.
+If a document is completely purged,
+there is no record of it in the feed,
+so it cannot be replicated to external databases.
+
+If the document still exists on an external database,
+you must run a separate purge of the document on the external database.
+
+If a document was partially purged in a database,
+corresponding records are created in the `_changes` feed.
+These changes are replicated to external databases.
+
+### Purging documents
+
+Using the [previous example](#sampleDocumentStructure) document structure,
+suppose that an application needs to purge the document with revision value `4-53b84f8bf5539a7fb7f8074d1f685e5e`.
+
+To request a document purge,
+send a description of the required purge to the database `_purge` endpoint.
+
+_Example of using HTTP to request the purge of a document:_
+
+```http
+POST /$DATABASE/_purge HTTP/1.1
+```
+{:codeblock}
+
+_Example of using the command line to request the purge of a document:_
+
+```sh
+# make sure $JSON contains the correct `_rev` value!
+curl https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE/_purge \
+	-X PUT \
+	-H "Content-Type: application/json" \
+	-d "$JSON"
+```
+{:codeblock}
+
+Provide the description of which document revisions to purge using a JSON format document.
+For example,
+to purge the document with revision value `4-53b84f8bf5539a7fb7f8074d1f685e5e`,
+you might use a JSON document similar to the following example.
+
+_Example of JSON request to purge a document:_
+
+```json
+{
+  "doc1":[
+    "4-53b84f8bf5539a7fb7f8074d1f685e5e"
+  ]
+}
+```
+{:codeblock}
+
+The response contains the ID and the new revision of the document,
+or an error message if the update failed.
+
+If the purge request succeeds,
+the HTTP response code is [`201`](http.html#201) or [`202`](http.html#202).
+The difference is that a `202` response indicates that the request was accepted,
+but that the [quorum](#quorum) for the operation was not met.
+
+If the purge request does not succeed,
+the HTTP response code is [`500`](http.html#500).
+
+_Example `201` response after a successful request and quorum was reached:_
+
+```json
+{
+  "purged": {
+    "doc1": {
+      "ok": true,
+      "purged": [
+        "4-53b84f8bf5539a7fb7f8074d1f685e5e"
+      ]
+    }
+  }
+}
+```
+{:codeblock}
+
+_Example `202` response after a successful request, but quorum was not reached:_
+
+```json
+{
+  "purged": {
+    "doc1": {
+      "accepted": true,
+      "purged": [
+        "4-53b84f8bf5539a7fb7f8074d1f685e5e"
+      ]
+    }
+  }
+}
+```
+{:codeblock}
+
+_Example response after a successful request, but no documents were purged:_
+
+```json
+{
+  "purged": {
+    "doc1": {
+      "ok": true,
+      "purged": [ ]
+    }
+  }
+}
+```
+{:codeblock}
+
+<div><!-- Reset markdown --></div>
+
+<blockquote>
+<p><strong>Note</strong>: The last example does not list any documents in the <code>purged</code> array object.
+This indicates that the purge request applied to documents that were:
+<ul>
+<li>Not leaf revision documents.</li>
+<li>Already purged.</li>
+</ul>
+</p>
+</blockquote>
+
+<div><!-- Reset markdown --></div>
+
+_Example `500` response after a failed request to purge documents:_
+
+```json
+{
+  "error": "error",
+  "reason": "internal_server_error"
+}
+```
+{:codeblock}
+
+### Purging multiple documents
+
+You can request that multiple documents are purged at the same time.
+Each of the listed documents must be a leaf document.
+In other words,
+you must specify the most recent revision of each document,
+not an earlier revision.
+
+_Example of JSON request to purge two 'leaf' documents:_
+
+```json
+{
+  "doc1":[
+    "4-53b84f8bf5539a7fb7f8074d1f685e5e",
+    "2-98e2b4ecd9a0da76fe8b83a83234ee71"
+  ]
+}
+```
+{:codeblock}
+
+_Example response after a successful request to purge multiple documents:_
+
+```json
+{
+  "purged": {
+    "doc1": {
+      "ok": true,
+      "purged": [
+        "4-53b84f8bf5539a7fb7f8074d1f685e5e",
+        "2-98e2b4ecd9a0da76fe8b83a83234ee71"
+      ]
+    }
+  }
+}
+```
+{:codeblock}
+
 
 ## Bulk Operations
 
