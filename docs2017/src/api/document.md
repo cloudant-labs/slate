@@ -644,12 +644,20 @@ When requesting a purge of a document,
 it does not matter whether a document still exists,
 or has already been [deleted](#delete).
 
-A purge affects the specified version of a document,
+A purge request must identify the `leaf` version of a document.
+In other words,
+you must specify the _last_ revision of a document.
+You cannot request a purge of an earlier revision of a document.
+
+When a purge is requested,
+it affects the specified ('lead') version of a document,
 _and_ all its predecessor versions.
 This is necessary to ensure that all references to the document can be removed from the database.
 However,
 if a document version is _also_ present within another revision branch,
 then the purging process halts before removing the version that would 'orphan' the revision branch.
+
+<div id="sampleDocumentStructure"></div>
 
 For example,
 in the following diagram,
@@ -711,7 +719,7 @@ These changes are replicated to external databases.
 
 ### Purging documents
 
-Using the previous example,
+Using the [previous example](#sampleDocumentStructure) document structure,
 suppose that an application needs to purge the document with revision value `4-53b84f8bf5539a7fb7f8074d1f685e5e`.
 
 To request a document purge,
@@ -738,7 +746,7 @@ curl https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE/_purge \
 Provide the description of which document revisions to purge using a JSON format document.
 For example,
 to purge the document with revision value `4-53b84f8bf5539a7fb7f8074d1f685e5e`,
-uou might use a JSON document similar to the following example.
+you might use a JSON document similar to the following example.
 
 _Example of JSON request to purge a document:_
 
@@ -746,7 +754,7 @@ _Example of JSON request to purge a document:_
 {
   "doc1":[
     "4-53b84f8bf5539a7fb7f8074d1f685e5e"
-    ]
+  ]
 }
 ```
 {:codeblock}
@@ -754,14 +762,120 @@ _Example of JSON request to purge a document:_
 The response contains the ID and the new revision of the document,
 or an error message if the update failed.
 
-_Example response after a successful update:_
+If the purge request succeeds,
+the HTTP response code is [`201`](http.html#201) or [`202`](http.html#202).
+The difference is that a `202` response indicates that the request was accepted,
+but that the [quorum](#quorum) for the operation was not met.
+
+If the purge request does not succeed,
+the HTTP response code is [`500`](http.html#500).
+
+_Example `201` response after a successful request and quorum was reached:_
 
 ```json
 {
+  "purged": {
+    "doc1": {
+      "ok": true,
+      "purged": [
+        "4-53b84f8bf5539a7fb7f8074d1f685e5e"
+      ]
+    }
+  }
 }
 ```
 {:codeblock}
 
+_Example `202` response after a successful request, but quorum was not reached:_
+
+```json
+{
+  "purged": {
+    "doc1": {
+      "accepted": true,
+      "purged": [
+        "4-53b84f8bf5539a7fb7f8074d1f685e5e"
+      ]
+    }
+  }
+}
+```
+{:codeblock}
+
+_Example response after a successful request, but no documents were purged:_
+
+```json
+{
+  "purged": {
+    "doc1": {
+      "ok": true,
+      "purged": [ ]
+    }
+  }
+}
+```
+{:codeblock}
+
+<div><!-- Reset markdown --></div>
+
+<blockquote>
+<p><strong>Note</strong>: The last example does not list any documents in the <code>purged</code> array object.
+This indicates that the purge request applied to documents that were:
+<ul>
+<li>Not leaf revision documents.</li>
+<li>Already purged.</li>
+</ul>
+</p>
+</blockquote>
+
+<div><!-- Reset markdown --></div>
+
+_Example `500` response after a failed request to purge documents:_
+
+```json
+{
+  "error": "error",
+  "reason": "internal_server_error"
+}
+```
+{:codeblock}
+
+### Purging multiple documents
+
+You can request that multiple documents are purged at the same time.
+Each of the listed documents must be a leaf document.
+In other words,
+you must specify the most recent revision of each document,
+not an earlier revision.
+
+_Example of JSON request to purge two 'leaf' documents:_
+
+```json
+{
+  "doc1":[
+    "4-53b84f8bf5539a7fb7f8074d1f685e5e",
+    "2-98e2b4ecd9a0da76fe8b83a83234ee71"
+  ]
+}
+```
+{:codeblock}
+
+_Example response after a successful request to purge multiple documents:_
+
+```json
+{
+  "purged": {
+    "doc1": {
+      "ok": true,
+      "purged": [
+        "4-53b84f8bf5539a7fb7f8074d1f685e5e",
+        "2-98e2b4ecd9a0da76fe8b83a83234ee71"
+      ]
+    }
+  }
+}
+```
+{:codeblock}
 
 
 ## Bulk Operations
