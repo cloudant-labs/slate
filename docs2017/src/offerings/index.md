@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-03-16"
+lastupdated: "2017-04-25"
 
 ---
 
@@ -87,3 +87,23 @@ including:
 -   [Installation and Configuration ![External link icon](../images/launch-glyph.svg "External link icon")](http://www.ibm.com/support/knowledgecenter/SSTPQH_1.0.0/com.ibm.cloudant.local.install.doc/topics/clinstall_extract_install_cloudant_local.html?lang=en){:new_window}.
 -   [Maintenance Tasks ![External link icon](../images/launch-glyph.svg "External link icon")](http://www-01.ibm.com/support/knowledgecenter/SSTPQH_1.0.0/com.ibm.cloudant.local.install.doc/topics/clinstall_maintenance_tasks_overview.html?lang=en){:new_window}.
 -   [Tuning replication parameters ![External link icon](../images/launch-glyph.svg "External link icon")](http://www-01.ibm.com/support/knowledgecenter/SSTPQH_1.0.0/com.ibm.cloudant.local.install.doc/topics/clinstall_tuning_parameters_replication_cases.html?lang=en){:new_window}.
+
+## [Security](security.html)
+
+Data access control,
+encryption,
+and data backup features enable customers in financial services,
+government,
+e-commerce,
+telecommunications,
+healthcare,
+and other security-minded industries to benefit from {{site.data.keyword.cloudantfull}}.
+
+## [Compliance](compliance.html)
+
+{{site.data.keyword.cloudant_short_notm}} provides a trustworthy and secure cloud database system.
+The service is built on best-in-industry standards,
+including ISO 27001:2013.
+
+More details on {{site.data.keyword.cloudant_short_notm}} Data Privacy and
+Governance [are available](dataprivacygovernance.html).

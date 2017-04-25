@@ -15,6 +15,12 @@ Cloudant NoSQL DB
 		offerings/whatsnew.md
 
 	{: .topicgroup}
+    Security
+    	offerings/security.md
+    	offerings/compliance.md
+    	offerings/dataprivacygovernance.md
+
+	{: .topicgroup}
 	Tutorials
 		tutorials/index.md
 		tutorials/create_service.md
@@ -29,12 +35,6 @@ Cloudant NoSQL DB
 
 	{: .navgroup id="reference"}
     basics/index.md
-
-	{: .topicgroup}
-    Security
-    	basics/security.md
-    	basics/compliance.md
-    	basics/dataprivacygovernance.md
 
 	{: .topicgroup}
 	Libraries
