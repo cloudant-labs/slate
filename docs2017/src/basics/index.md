@@ -22,9 +22,29 @@ The sections on [Client Libraries](../libraries/index.html#-client-libraries),
 [API Reference](../api/index.html#-api-reference),
 and [Guides](../guides/index.html#-guides) assume you know some basic things about Cloudant.
 
-## Connecting to Cloudant
+## [Security](security.html)
 
-To access {{site.data.keyword.cloudant}},
+Data access control,
+encryption,
+and data backup features enable customers in financial services,
+government,
+e-commerce,
+telecommunications,
+healthcare,
+and other security-minded industries to benefit from {{site.data.keyword.cloudantfull}}.
+
+## [Compliance](compliance.html)
+
+{{site.data.keyword.cloudant_short_notm}} provides a trustworthy and secure cloud database system.
+The service is built on best-in-industry standards,
+including ISO 27001:2013.
+
+More details on {{site.data.keyword.cloudant_short_notm}} Data Privacy and
+Governance [are available](dataprivacygovernance.html).
+
+### Connecting to Cloudant
+
+To access {{site.data.keyword.cloudant_short_notm}},
 you must have either a [{{site.data.keyword.cloudant}} account](../api/account.html),
 or an [{{site.data.keyword.Bluemix}} account](../offerings/bluemix.html).
 
