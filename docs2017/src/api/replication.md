@@ -85,7 +85,7 @@ Field Name | Required | Description
 `proxy` | no | Proxy server URL.
 `query_params` | no | A field containing key:value pairs, for use in [filter function](design_documents.html#filter-functions).
 `selector` | no | Provide a simple filter to select the documents that are included in the replication. Using the `selector` option provides performance benefits compared with using the `filter` option. More information about `selector` is available [here](#selector-field).
-`since_seq` | no | Sequence from which the replication should start. More information about `since_seq` is available [here](#since-seq-field).
+`since_seq` | no | Override the incremental nature of replication. More information about `since_seq` is available [here](#since-seq-field).
 `use_checkpoints` | no | Indicate whether to create checkpoints. Checkpoints greatly reduce the time and resources needed for repeated replications. Setting this to `false` removes the requirement for write access to the `source` database. Defaults to `true`.
 `user_ctx` | no | An object containing the username and optionally an array of roles, for example: `"user_ctx": {"name": "jane", "roles": ["admin"]} `. This is needed for the replication to show up in the output of `/_active_tasks`.
 
@@ -159,13 +159,18 @@ for example as part of a replication.
 Setting the contents of the `since_seq` field to this value ensures that the replication starts from that point,
 rather than from the very beginning.
 
-This field is especially useful for creating incremental copies of databases. To do this:
+This field might be used for creating incremental copies of databases. To do this:
 
 1.	Find the ID of the [checkpoint](#checkpoints) document for the last replication. It is stored in the  `_replication_id` field of the replication document in the [`_replicator` database](#replicator-database).
 2.	Open the checkpoint document at `/<database>/_local/<_replication_id>`, where `<_replication_id>` is the ID you found in the previous step, and `<database>` is the name of the source or the target database. The document usually exists on both databases but might only exist on one.
 3.	Search for the `recorded_seq` field of the first element in the history array.
 4.	Set the `since_seq` field in the replication document to the value of the `recorded_seq` field.
 5.	Start replicating to a new database.
+
+However,
+by definition,
+using `since_seq` disables the normal replication checkpointing facility,
+so use `since_seq` with caution.
 
 <div id="replicator-database"></div>
 
