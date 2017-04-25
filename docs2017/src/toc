@@ -28,7 +28,13 @@ Cloudant NoSQL DB
 	{: .navgroup-end}
 
 	{: .navgroup id="reference"}
-	basics/index.md
+    basics/index.md
+
+	{: .topicgroup}
+    Security
+    	basics/security.md
+    	basics/compliance.md
+    	basics/dataprivacygovernance.md
 
 	{: .topicgroup}
 	Libraries
