@@ -103,6 +103,8 @@ do the following steps:
     the [`recorded_seq` field](backup-guide.html#get-the-recorded_seq-value)
     found in the previous step.
 
+>   **Note**: By definition, using the `since_seq` option bypasses the normal checkpointing facility. Only use `since_seq` with caution. 
+
 ## Restoring a database
 
 To restore a database from incremental backups,
