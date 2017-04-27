@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-04-20"
+lastupdated: "2017-04-27"
 
 ---
 
@@ -269,18 +269,18 @@ All parameters are *optional*.
 
 Name                | Type | Description | Default
 --------------------|------|-------------|--------
-`attachments`       | boolean | Includes attachments bodies in response. | false
-`att_encoding_info` | boolean | Includes encoding information in attachment stubs if the particular attachment is compressed. | false
-`atts_since`        | array of revision strings | Includes attachments only since specified revisions. Does not include attachments for specified revisions. | []
-`conflicts`         | boolean | Includes information about conflicts in document. | false
-`deleted_conflicts` | boolean | Includes information about deleted conflicted revisions. | false
-`latest`            | boolean | Forces retrieval of the most recent 'leaf' revision, no matter what revision was requested. | false
-`local_seq`         | boolean | Includes last update sequence number for the document. | false
-`meta`              | boolean | Acts same as specifying the `conflicts`, `deleted_conflicts` and `open_revs` query parameters. | false
-`open_revs`         | array or `all` | Retrieves documents of specified leaf revisions. Additionally, it accepts the value `all` to return all leaf revisions. | []
-`rev`               | string | Retrieves document of specified revision. | -
-`revs`              | boolean | Includes list of all known document revisions. | false
-`revs_info`         | boolean | Includes detailed information for all known document revisions. | false
+`attachments`       | Boolean | Includes attachments bodies in response. | False
+`att_encoding_info` | Boolean | Includes encoding information in attachment stubs if the particular attachment is compressed. | False
+`atts_since`        | Array of revision strings | Includes attachments only since specified revisions. Does not include attachments for specified revisions. | []
+`conflicts`         | Boolean | Includes information about conflicts in document. | False
+`deleted_conflicts` | Boolean | Includes information about deleted conflicted revisions. | False
+`latest`            | Boolean | Forces retrieval of the most recent 'leaf' revision, no matter what revision was requested. | False
+`local_seq`         | Boolean | Includes last update sequence number for the document. | False
+`meta`              | Boolean | Acts same as specifying the `conflicts`, `deleted_conflicts`, and `open_revs` query parameters. | False
+`open_revs`         | Array or `all` | Retrieves documents of specified leaf revisions. Additionally, it accepts the value `all` to return all leaf revisions. | []
+`rev`               | String | Retrieves document of specified revision. | -
+`revs`              | Boolean | Includes list of all known document revisions. | False
+`revs_info`         | Boolean | Includes detailed information for all known document revisions. | False
 
 ## Read Many
 
@@ -382,7 +382,7 @@ _Example response after a successful update:_
 ## Delete
 
 To delete a document,
-send a `DELETE` request with the document's most recent `_rev` in the query string,
+send a `DELETE` request with the document's most recent `_rev` in the query string
 to `https://$ACCOUNT.cloudant.com/$DATABASE/$DOCUMENT_ID`.
 
 The response contains the ID and the new revision of the document,
@@ -400,13 +400,13 @@ and gives it a new revision value.
 The deleted document is still listed within the [`_changes` feed](database.html#get-changes).
 
 Deleting a document leaves a [tombstone](#-tombstone-documents) with basic information about the document.
-The tombstone is required so that the delete action can be replicated to other copies of the database.
+The tombstone is needed so that the delete action can be replicated to other copies of the database.
 Since the tombstones stay in the database indefinitely,
 creating new documents and deleting them increases the disk space usage of a database.
 They might also increase the query time for the primary index,
 which is used to look up documents by their ID.
 
->   **Note**: To remove a document fully, as if it had never existed, use a [`_purge` command](#purge).
+>   **Note**: To remove a document fully, use a [`_purge` command](#purge).
 
 _Example of using HTTP to delete a document:_
 
@@ -460,7 +460,7 @@ Tombstone documents are small documents that are retained in place within a data
 Their purpose is to allow the deletion to be replicated.
 
 When the replication completes,
-the tombstones are no longer required.
+the tombstones are no longer needed.
 Automatic compaction helps ensure that only the minimal amount of data is retained and transferred during replication.
 Nevertheless,
 tombstone documents are not automatically removed,
@@ -480,7 +480,7 @@ you might want to remove the tombstones.
 To remove tombstones manually,
 do the following steps:
 
-1.	Create a database to hold the required documents.
+1.	Create a database to hold the database documents.
 	The new database is intended to hold all documents _except_ the tombstone documents.
 2.	Set up a [filtered replication](advanced_replication.html#filtered-replication) to
 	replicate documents from the original database to the new database.
@@ -515,7 +515,7 @@ If updates _are_ made during replication,
 it is possible that a complete document is replicated to the target database as normal,
 but is also deleted from the source database,
 leaving a tombstone.
-The problem is that the tombstone is not replicated across to the target database,
+The problem is that the tombstone is not replicated across to the target database
 because it is excluded by the filter.
 As a result,
 the document that was deleted from the source database is not deleted from the target database,
@@ -564,7 +564,7 @@ a suitable `validate_doc_update` function would work as follows:
 	then the update must be a tombstone _and_ it was encountered before,
 	so the update must be rejected.
 3.	Finally,
-	if the function did not return or throw an error,
+	if the function did not return or 'throw' an error,
 	allow the update to replicate to the target database,
 	as some other condition applies.
 
@@ -620,7 +620,7 @@ with the result that documents might never be deleted from the device.
 
 If you re-create a database,
 for example to be a new target for a replication,
-any clients that use the target database as a server _must_ work through _all_ the changes again,
+any clients that use the target database as a server _must_ work through _all_ the changes again
 because the database sequence numbers are likely to be different.
 
 >	**Note**: If you are using a `validate_doc_update` function,
@@ -638,11 +638,11 @@ potentially resulting in unwanted side effects.
 Unlike [deleting a document](#delete),
 purging a document removes all references to that document from the database.
 Following a purge,
-the affected documents are no longer available and cannot be listed using the [`_all_docs`](database.html#get-documents)
+the affected documents are no longer available and cannot be listed by using the [`_all_docs`](database.html#get-documents)
 or [`_changes`](database.html#get-changes) commands.
-When requesting a purge of a document,
+When you request a purge of a document,
 it does not matter whether a document still exists,
-or has already been [deleted](#delete).
+or was [deleted](#delete) previously.
 
 A purge request must identify the `leaf` version of a document.
 In other words,
@@ -650,12 +650,12 @@ you must specify the _last_ revision of a document.
 You cannot request a purge of an earlier revision of a document.
 
 When a purge is requested,
-it affects the specified ('lead') version of a document,
+it affects the specified ('leaf') version of a document,
 _and_ all its predecessor versions.
-This is necessary to ensure that all references to the document can be removed from the database.
+This effect is necessary to ensure that all references to the document can be removed from the database.
 However,
 if a document version is _also_ present within another revision branch,
-then the purging process halts before removing the version that would 'orphan' the revision branch.
+then the purging process halts before it removes the version that would 'orphan' the revision branch.
 
 <div id="sampleDocumentStructure"></div>
 
@@ -667,8 +667,8 @@ These modifications resulted in two separate revision branches.
 
 ![Document with two revision branches](../images/fb86021a.png)
 
-Suppose a decision is taken to purge the document branch
-ending in revision value `4-53b84f8bf5539a7fb7f8074d1f685e5e`.
+Suppose that a decision is taken to purge the document branch
+that ends in revision value `4-53b84f8bf5539a7fb7f8074d1f685e5e`.
 
 Beginning with the specified revision,
 all references to each 'ancestor' version of the document are removed from the database.
@@ -683,20 +683,20 @@ The resulting document structure looks like the following diagram.
 ![Purged document with one remaining revision branches](../images/fb86021b.png)
 
 A subsequent request to purge the document with revision `2-98e2b4ecd9a0da76fe8b83a83234ee71`
-results in the removal of _all_ the revisions,
+results in the removal of _all_ the revisions
 because no revision branches are left in an orphan state by the purge.
 
 ### Deciding between purge or delete
 
-There are two main reasons you might want to purge rather than delete a document:
+You might want to purge rather than delete a document for two reasons.
 
 1.  You want to remove a document that is not needed anymore.
     Purging all leaf revisions of a document causes the complete purging of the document.
-    Purging enables the database to reclaim the disk space used by a documents.
+    Purging enables the database to reclaim the disk space that is used by a document.
     The disk space is reclaimed after the database runs an internal compaction task.
 2.  You want to get rid of conflicts.
     If a document has several revision branches,
-    for example after two separate applications have independently updated the document,
+    for example after two separate applications updated the document independently,
     purging all but one of these branches leads to the partial purging of the document.
     The document remains available in the database,
     but in a new form without the purged branches and revisions.
@@ -704,18 +704,113 @@ There are two main reasons you might want to purge rather than delete a document
 
 ### Purging and replication
 
-Documents that are completely purged cannot be replicated to other databases.
-The reason is that replication with external databases depends on the [`_changes`](database.html#get-changes) feed.
-If a document is completely purged,
-there is no record of it in the feed,
-so it cannot be replicated to external databases.
+A document purge must be replicated to other databases.
 
-If the document still exists on an external database,
-you must run a separate purge of the document on the external database.
+This replication is made possible by an internal database purge record.
+The number of records that are stored is defined by a `purged_docs_limit` parameter.
+When a document purge is requested,
+the details of that request and its outcome are stored in the purge record.
 
-If a document was partially purged in a database,
-corresponding records are created in the `_changes` feed.
-These changes are replicated to external databases.
+During a replication between two databases,
+the database purge records are reconciled to ensure that
+the details of which documents were purged are replicated correctly and automatically.
+
+### Purging and indexes
+
+When a document is purged,
+the change might require an update to indexes within the database.
+
+If a document is not changed as a result of a purge request,
+no index change is needed.
+
+If a document is removed as a result of a purge request,
+then any index that originally included the document as part of the index scope is updated.
+
+If a purge request applies to a document that has more than one revision branch,
+and after the purge a different document revision applies rather than the one originally used in an index,
+then the index is updated.
+
+For example,
+looking at the [earlier revision branch structure](#sampleDocumentStructure),
+an index might include document revision `4-53b84f8bf5539a7fb7f8074d1f685e5e`.
+After the purge,
+revision `2-98e2b4ecd9a0da76fe8b83a83234ee71` remains.
+Therefore,
+the index is updated by using revision `2-98e2b4ecd9a0da76fe8b83a83234ee71`.
+
+### The `purged_docs_limit` parameter
+
+The `purged_docs_limit` parameter defines the number of purge request records that can be stored in a database.
+
+The default value is 1000.
+The default value means that at least the most recent 1000 purge requests are stored.
+The database might store older purge requests if other indexing or replication tasks are still processing
+these other purge requests.
+
+To find the current value of the `purged_docs_limit` parameter,
+send a `GET` request to the `_purged_docs_limit` endpoint of the database.
+
+_Example of using HTTP to find the value of the `purged_docs_limit` parameter:_
+
+```http
+GET /$DATABASE/_purged_docs_limit
+```
+{:codeblock}
+
+_Example of using the command line to find the value of the `purged_docs_limit` parameter:_
+
+```sh
+curl -X GET https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE/_purged_docs_limit
+```
+{:codeblock}
+
+_Example response after a successful request to get the value of the `purged_docs_limit` parameter:_
+
+```json
+{
+	"????": "????"
+}
+```
+{:codeblock}
+
+To set the value of the `purged_docs_limit` parameter,
+send a `PUT` request to the `_purged_docs_limit` endpoint of the database,
+with a JSON document that includes the wanted value.
+
+_Example of using HTTP to set the value of the `purged_docs_limit` parameter:_
+
+```http
+PUT /$DATABASE/_purged_docs_limit
+```
+{:codeblock}
+
+_Example of using the command line to set the value of the `purged_docs_limit` parameter:_
+
+```sh
+curl https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE/_purged_docs_limit \
+	-X PUT \
+	-H "Content-Type: application/json" \
+	-d "$JSON"
+```
+{:codeblock}
+
+_Example of JSON data that contains the wanted value of the `purged_docs_limit` parameter:_
+
+```json
+{
+	"????": "????"
+}
+```
+{:codeblock}
+
+_Example response after a successful change to the value of the `purged_docs_limit` parameter:_
+
+```json
+{
+	"ok":true
+}
+```
+{:codeblock}
 
 ### Purging documents
 
@@ -723,7 +818,7 @@ Using the [previous example](#sampleDocumentStructure) document structure,
 suppose that an application needs to purge the document with revision value `4-53b84f8bf5539a7fb7f8074d1f685e5e`.
 
 To request a document purge,
-send a description of the required purge to the database `_purge` endpoint.
+send a description of the purge to the database `_purge` endpoint.
 
 _Example of using HTTP to request the purge of a document:_
 
@@ -743,7 +838,7 @@ curl https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE/_purge \
 ```
 {:codeblock}
 
-Provide the description of which document revisions to purge using a JSON format document.
+Provide the description of which document revisions to purge by using a JSON format document.
 For example,
 to purge the document with revision value `4-53b84f8bf5539a7fb7f8074d1f685e5e`,
 you might use a JSON document similar to the following example.
@@ -820,7 +915,7 @@ _Example response after a successful request, but no documents were purged:_
 
 <blockquote>
 <p><strong>Note</strong>: The last example does not list any documents in the <code>purged</code> array object.
-This indicates that the purge request applied to documents that were:
+The empty array indicates that the purge request was describing documents that were:
 <ul>
 <li>Not leaf revision documents.</li>
 <li>Already purged.</li>
@@ -877,6 +972,9 @@ _Example response after a successful request to purge multiple documents:_
 ```
 {:codeblock}
 
+### Database compaction after a purge
+
+Storage space that was used by purged documents is reclaimed automatically when a database compaction runs.
 
 ## Bulk Operations
 
@@ -1106,8 +1204,7 @@ _Example response content after successful bulk insert of three documents:_
 The bulk document update procedure is similar to the insertion procedure,
 except that you must specify the document ID and current revision for every document in the bulk update JSON string.
 
-Optionally,
-you can delete documents during a bulk update by adding a `_deleted` field with a value of `true`
+You might also choose to delete documents during a bulk update by adding a `_deleted` field with a value of `true`
 to each affected document ID and revision combination within the request JSON structure.
 
 _Example of using HTTP to do a bulk update:_
@@ -1296,9 +1393,9 @@ The `_bulk_get` endpoint is similar to the [`_all_docs`](database.html#get-docum
 but returns information about the requested documents only.
 
 Like the `_bulk_docs` endpoint,
-a JSON document supplied in the request includes an array that identifes all the documents of interest.
+the JSON document that is supplied in the request includes an array that identifies all the documents of interest.
 
-_Example of using HTTP to do a bulk get of document information:_
+_Example of using HTTP to do a 'bulk get' of document information:_
 
 ```http
 POST /$DATABASE/_bulk_get HTTP/1.1
@@ -1306,7 +1403,7 @@ Accept: application/json
 ```
 {:codeblock}
 
-_Example of using the command line to do a bulk update:_
+_Example of using the command line to do a 'bulk get':_
 
 ```sh
 curl -X POST "https://$ACCOUNT.cloudant.com/$DATABASE/_bulk_get" \
@@ -1315,7 +1412,7 @@ curl -X POST "https://$ACCOUNT.cloudant.com/$DATABASE/_bulk_get" \
 ```
 {:codeblock}
 
-_Example of a JSON object `POST`ed to the `_bulk_get` endpoint:_
+_Example of a JSON object that is used to request a 'bulk get' of two documents:_
 
 ```json
 {
@@ -1331,7 +1428,7 @@ _Example of a JSON object `POST`ed to the `_bulk_get` endpoint:_
 ```
 {:codeblock}
 
-_Example JSON structure that is returned after bulk get:_
+_Example JSON structure that is returned after a 'bulk get':_
 
 ```json
 {                                                         
@@ -1391,8 +1488,8 @@ Cloudant does _not_ support Time to Live functions.
 The reason is that Cloudant documents are only 'soft' deleted,
 not deleted.
 The soft deletion involves replacing the original document with a [smaller record](#-tombstone-documents).
-This small record or 'tombstone' is required for replication purposes;
-it helps ensure that the correct revision to use can be identified during replication.
+This small record or 'tombstone' is needed for replication purposes.
+The record helps ensure that the correct revision to use can be identified during replication.
 
 If the TTL capability was available in Cloudant,
 the resulting potential increase in short-lived documents and soft deletion records
