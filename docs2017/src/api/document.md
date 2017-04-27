@@ -830,7 +830,6 @@ POST /$DATABASE/_purge HTTP/1.1
 _Example of using the command line to request the purge of a document:_
 
 ```sh
-# make sure $JSON contains the correct `_rev` value!
 curl https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE/_purge \
 	-X PUT \
 	-H "Content-Type: application/json" \
