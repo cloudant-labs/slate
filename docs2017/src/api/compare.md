@@ -535,7 +535,7 @@ click the corresponding icon.
 </tr>
 <tr>
 <td><code>GET&nbsp;/{db}/\_local/{docid}</code><p>
-<!-- <a href='https://docs.cloudant.com/' target='_blank'><img src='../images/verySmallCloudant.png' alt='Cloudant'/></a> -->
+<a href='document.html#read' target='_blank'><img src='../images/verySmallCloudant.png' alt='Cloudant'/></a>
 <a href='http://docs.couchdb.org/en/2.0.0/api/local.html#get--db-\_local-docid' target='_blank'><img src='../images/verySmallCouchDB2.png' alt='CouchDB 2.0'/></a>
 <a href='http://docs.couchdb.org/en/1.6.0/api/local.html#get--db-\_local-docid' target='_blank'><img src='../images/verySmallCouchDB1.png' alt='CouchDB 1.6'/></a>
 </p></td><td>Get the specified local document.</td>
@@ -549,7 +549,7 @@ click the corresponding icon.
 </tr>
 <tr>
 <td><code>DELETE&nbsp;/{db}/\_local/{docid}</code><p>
-<!-- <a href='https://docs.cloudant.com/' target='_blank'><img src='../images/verySmallCloudant.png' alt='Cloudant'/></a> -->
+<a href='document.html#delete target='_blank'><img src='../images/verySmallCloudant.png' alt='Cloudant'/></a>
 <a href='http://docs.couchdb.org/en/2.0.0/api/local.html#delete--db-\_local-docid' target='_blank'><img src='../images/verySmallCouchDB2.png' alt='CouchDB 2.0'/></a>
 <a href='http://docs.couchdb.org/en/1.6.0/api/local.html#delete--db-\_local-docid' target='_blank'><img src='../images/verySmallCouchDB1.png' alt='CouchDB 1.6'/></a>
 </p></td><td>Delete the specified local document.</td>
