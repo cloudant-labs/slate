@@ -2,7 +2,7 @@
 
 copyright:
   years: 2017
-lastupdated: "2017-04-25"
+lastupdated: "2017-04-28"
 
 ---
 
@@ -12,7 +12,7 @@ lastupdated: "2017-04-25"
 {:codeblock: .codeblock}
 {:pre: .pre}
 
-<!-- Acrolinx: 2017-01-16 -->
+<!-- Acrolinx: 2017-04-28 -->
 
 # Cloudant Security Compliance
 
@@ -25,18 +25,9 @@ including ISO 27001:2013.
 ## Top-Tier Physical systems
 
 The {{site.data.keyword.cloudant_short_notm}} DBaaS is physically hosted
-on Tier-1 cloud infrastructure providers such as IBM (SoftLayer) and Amazon.
+on Tier-1 cloud infrastructure providers such as {{site.data.keyword.BluSoftlayer_full}} and Amazon.
 Therefore,
-your data is protected by the network and physical security measures that are employed by these hosts,
-including (but not limited to):
-
--   Certifications: Compliance with SSAE16, SOC1, ISAE 3402, ISO 27001, CSA, and other standards.
--	Identity and access management.
--	'24 x 7' physical security of data centers and network operations center monitoring.
--	Server hardening.
--	Full-system virus scanning and patching of systems.
--	{{site.data.keyword.cloudant_short_notm}} gives you the flexibility to choose or switch
-    among the different providers as your SLA and cost requirements change.
+your data is protected by the network and physical security measures that are employed by these providers.
 
 ## HIPAA
 

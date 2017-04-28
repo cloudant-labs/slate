@@ -2,7 +2,7 @@
 
 copyright:
   years: 2017
-lastupdated: "2017-04-25"
+lastupdated: "2017-04-28"
 
 ---
 
@@ -12,7 +12,7 @@ lastupdated: "2017-04-25"
 {:codeblock: .codeblock}
 {:pre: .pre}
 
-<!-- Acrolinx: 2017-02-01 -->
+<!-- Acrolinx: 2017-04-28 -->
 
 # Security
 
@@ -31,7 +31,7 @@ The {{site.data.keyword.cloudant_short_notm}} DBaaS is
 physically hosted on Tier-1 cloud infrastructure providers such as
 {{site.data.keyword.BluSoftlayer_full}} and Amazon.
 Therefore,
-your data is protected by the network and physical security measures that are employed by these partners,
+your data is protected by the network and physical security measures that are employed by those providers,
 including (but not limited to):
 
 -   Certifications: Compliance with SSAE16,
@@ -41,7 +41,7 @@ including (but not limited to):
     CSA,
     and other standards.
 -   Access and identity management.
--   '24 x 7' physical security of data centers and network operations center monitoring.
+-   General physical security of data centers and network operations center monitoring.
 -   Server hardening.
 -   {{site.data.keyword.cloudant_short_notm}} gives you the flexibility to
     choose or switch among the different providers
@@ -94,10 +94,3 @@ to help you maintain data quality and availability:
     {{site.data.keyword.cloudant_short_notm}} (in JSON format)
     to other locations or sources (such as your own data center)
     for added data redundancy.
--	[Backup](../guides/backup-guide.html): {{site.data.keyword.cloudant_short_notm}}
-    Enterprise users can request that their databases be
-    backed up incrementally to a cluster of their choice,
-    to protect against data corruption or deletion.
-    Backup enables database restoration from a previous time,
-    and document-level compare and restore by using the dashboard.
-    >   **Note**: This form of backup is not available for a {{site.data.keyword.Bluemix_notm}} {{site.data.keyword.cloudant_short_notm}} instance.
