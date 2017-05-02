@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-01-06"
+lastupdated: "2017-05-02"
 
 ---
 
@@ -14,8 +14,10 @@ lastupdated: "2017-01-06"
 
 # Back up your data
 
->   **Note**: This guide refers to a *Beta* daily incremental backup capability,
-    available only on request to Enterprise customers.
+>   **Note**: This guide refers to a *deprecated* daily incremental backup capability,
+    previously available only on request to Enterprise customers.
+    For current backup guidance,
+    see [CouchBackup](couchbackup.html).
 
 This capability:
 -   Is not enabled by default.

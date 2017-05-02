@@ -66,8 +66,9 @@ Cloudant NoSQL DB
 	{: .navgroup id="howto"}
 	guides/index.md
 	guides/acurl.md
-	guides/backup-guide.md
-	guides/backup-guide-using-replication.md
+	guides/couchbackup.md
+		guides/backup-guide.md
+		guides/backup-guide-using-replication.md
 	guides/cap_theorem.md
 	guides/couchapps.md
 	guides/warehousing.md
