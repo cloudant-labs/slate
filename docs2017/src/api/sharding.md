@@ -1,20 +1,28 @@
 ---
-layout: post
-date:   2016-11-04
-title: Sharding
-tags:
-- toc
+
+copyright:
+  years: 2017
+lastupdated: "2017-05-02"
+
 ---
+
+{:new_window: target="_blank"}
+{:shortdesc: .shortdesc}
+{:screen: .screen}
+{:codeblock: .codeblock}
+{:pre: .pre}
+
+<!-- Acrolinx: 2017-MM-DD -->
 
 # How is data stored in Cloudant?
 
 Every database in Cloudant is formed of one or more distinct _shards_, where the number of shards is referred to as _Q_. A shard is a distinct subset of documents from the database and is physically stored in triplicate. Each shard copy is called a shard _replica_. Each shard replica is stored on a different server.
 
-![sharding](images/sharding-database.png)
+![sharding](../images/sharding_database.png)
 
 A document is assigned to a particular shard using consistent hashing of its ID, so will always reside on a given shard and a given set of servers.
 
-![document consistent hashing](images/sharding-document.png)
+![document consistent hashing](../images/sharding_document.png)
 
 One caveat to a document being always on the same set of servers is that sometimes shards will be _rebalanced_ which involves moving replicas to different servers; the number of shards and replicas stays the same, and documents remain assigned to the same shard, but where each shard replica is stored changes.
 
