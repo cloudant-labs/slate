@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-04-27"
+lastupdated: "2017-05-02"
 
 ---
 
@@ -12,7 +12,7 @@ lastupdated: "2017-04-27"
 {:codeblock: .codeblock}
 {:pre: .pre}
 
-<!-- Acrolinx: 2017-04-27 -->
+<!-- Acrolinx: 2017-05-02-->
 
 # Documents
 
@@ -647,7 +647,9 @@ or was [deleted](#delete) previously.
 A purge request must identify the `leaf` version of a document.
 In other words,
 you must specify the _last_ revision of a document.
-You cannot request a purge of an earlier revision of a document.
+If you request a purge of an earlier revision of a document,
+while a more recent revision still exists,
+nothing happens.
 
 When a purge is requested,
 it affects the specified ('leaf') version of a document,
@@ -704,21 +706,51 @@ You might want to purge rather than delete a document for two reasons.
 
 ### Purging and replication
 
-A document purge must be replicated to other databases.
+A document purge from a database must be replicated to other copies of the database.
 
-This replication is made possible by an internal database purge record.
+Where the copy is a system-level replica of a database
+that was created automatically as part of the distributed nature of Cloudant,
+then a document purge from one copy is automatically replicated to the other copies.
+
+This automatic replication is made possible by an internal database purge record.
 The number of records that are stored is defined by a `purged_docs_limit` parameter.
 When a document purge is requested,
 the details of that request and its outcome are stored in the purge record.
 
-During a replication between two databases,
+During a replication,
 the database purge records are reconciled to ensure that
 the details of which documents were purged are replicated correctly and automatically.
 
+However,
+if you created your own copy of a database,
+perhaps where a database contains a subset of information from another database,
+then a document purge is not automatically replicated.
+This is because the 'subset' database is not a replica of the original database.
+Therefore,
+if your application requests a document purge in a database,
+the application must also ensure that a corresponding document purge is requested for all other relevant databases.
+
+This check is especially important when a document purge removes all revisions of a document.
+Replication to external databases depends on the information in the `_changes` feed.
+If all revisions of a document within a database are purged,
+no information about the document appears within the `_changes` feed.
+Therefore,
+after all revisions of a document are purged from within a database,
+automatic replication of the purge might not be possible by using the `_changes` feed alone.
+
+> **Note:** The safest approach after you request a document purge is to specifically request the corresponding purge
+on all other external copies of the database.
+A purge request for a document that was already purged has no effect.
+In particular,
+no error is generated if the document was already purged.
+
 ### Purging and indexes
 
-When a document is purged,
+If a document is purged,
 the change might require an update to indexes within the database.
+
+Depending on which documents are affected by a purge request,
+it might not be necessary to rebuild an index.
 
 If a document is not changed as a result of a purge request,
 no index change is needed.
@@ -764,12 +796,12 @@ curl -X GET https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE/_purged_
 ```
 {:codeblock}
 
+The value that is returned is a simple string that contains the numerical value of the parameter.
+
 _Example response after a successful request to get the value of the `purged_docs_limit` parameter:_
 
-```json
-{
-	"????": "????"
-}
+```sh
+1000
 ```
 {:codeblock}
 
@@ -794,12 +826,10 @@ curl https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE/_purged_docs_li
 ```
 {:codeblock}
 
-_Example of JSON data that contains the wanted value of the `purged_docs_limit` parameter:_
+_Example of JSON data that contains the new value of the `purged_docs_limit` parameter:_
 
 ```json
-{
-	"????": "????"
-}
+1500
 ```
 {:codeblock}
 
@@ -831,7 +861,7 @@ _Example of using the command line to request the purge of a document:_
 
 ```sh
 curl https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE/_purge \
-	-X PUT \
+	-X POST \
 	-H "Content-Type: application/json" \
 	-d "$JSON"
 ```
@@ -854,7 +884,8 @@ _Example of JSON request to purge a document:_
 {:codeblock}
 
 The response contains the ID and the new revision of the document,
-or an error message if the update failed.
+if any,
+or an error message if the purge request failed.
 
 If the purge request succeeds,
 the HTTP response code is [`201`](http.html#201) or [`202`](http.html#202).
@@ -941,6 +972,20 @@ Each of the listed documents must be a leaf document.
 In other words,
 you must specify the most recent revision of each document,
 not an earlier revision.
+
+_Example of JSON request to purge two separate documents:_
+
+```json
+{
+  "doc1":[
+    "1-9c65296036141e575d32ba9c034dd3ee"
+  ],
+  "doc2":[
+    "2-55b6a1b251902a2c249b667dab1c6692"
+  ]
+}
+```
+{:codeblock}
 
 _Example of JSON request to purge two 'leaf' documents:_
 
@@ -1348,7 +1393,7 @@ Field    | Description                        | Type
 `error`  | Error type.                        | String
 `reason` | Error string with extended reason. | String
 
-When a document (or document revision) is not correctly committed to the database because of an error,
+If a document or document revision is not correctly committed to the database because of an error,
 you must check the `error` field to determine error type and course of action.
 The error is one of [`conflict`](#conflict) or [`forbidden`](#forbidden).
 
