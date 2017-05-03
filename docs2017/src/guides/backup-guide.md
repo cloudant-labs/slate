@@ -499,6 +499,8 @@ This checkpoint is another database with an internal name.
 The replication process for a database starts by finding the value of the `since_seq` parameter.
 The parameter indicates where the last replication finished.
 
+>   **Note**: By definition, using the `since_seq` option disables the normal replication checkpointing facility. Only use `since_seq` with caution. 
+
 The following steps outline how incremental backups are created:
 
 1.  [Find the ID of the checkpoint document for the last replication.](#find-the-id-of-the-checkpoint-document-for-the-last-replication)
