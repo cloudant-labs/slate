@@ -484,6 +484,7 @@ However,
 you must turn off {{site.data.keyword.cloudant_short_notm}} security for those roles first.
 To turn off {{site.data.keyword.cloudant_short_notm}} security,
 `PUT` a JSON document to the `_security` endpoint of the database.
+For example, `https://$ACCOUNT.cloudant.com/$DATABASE/_security`.
 
 _Example of using HTTP to submit a modification request:_
 
