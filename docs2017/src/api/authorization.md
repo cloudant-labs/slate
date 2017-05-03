@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-03-09"
+lastupdated: "2017-03-20"
 
 ---
 
@@ -12,39 +12,127 @@ lastupdated: "2017-03-09"
 {:codeblock: .codeblock}
 {:pre: .pre}
 
-<!-- Acrolinx: 2017-03-09 -->
+<!-- Acrolinx: 2017-03-20 -->
 
 # Authorization
 
-After you [authenticate](authentication.html),
-the next test is to decide whether you can do certain tasks.
-This process is called authorization.
+After [authenticating](authentication.html),
+the next test is to decide whether you are allowed to do certain tasks.
+This decision is called authorization.
 {:shortdesc}
+
+When you authenticate with the {{site.data.keyword.cloudant}} system,
+it 'knows' who you are.
+The next question is: what tasks are you allowed to do?
+
+One way of answering that question might be to have a complete list of all the possible tasks that you are allowed to
+do,
+for each aspect of a {{site.data.keyword.cloudant_short_notm}} system such as a database or a document.
+Although simple,
+this approach would require many lengthy lists.
+Keeping those lists correct and complete would be impractical.
+
+A better approach uses the idea of 'roles'.
+The various tasks can be grouped into collections that are typical of some generic roles.
+For example,
+the task of creating or deleting a database is characteristic of someone with an administrative role.
+Similarly,
+the task or creating or updating a document is characteristic of someone with a 'writing' role.
+
+Rather than explicitly listing every task you can do,
+you are given one or more roles.
+If you have a role,
+then you can do all the tasks that are associated with that role.
 
 ## Roles
 
-Role          | Description
---------------|------------
-`_reader`     | Gives the user permission to read documents from the database.
-`_writer`     | Gives the user permission to create, update, and delete documents (except design documents) in the database.
-`_admin`      | Gives the user the ability to change security settings, including adding roles.
-`_replicator` | Gives the user permission to replicate a database, including creating checkpoints.
-`_db_updates` | Gives the user permission to use the global changes feed.
-`_design`     | Gives the user permission to read design documents.
-`_shards`     | Gives the user access to the `/$DATABASE/_shards` endpoint.
-`_security`   | Gives the user permission to read from the `/_api/v2/db/$DATABASE/_security` endpoint
+{{site.data.keyword.cloudant_short_notm}} has a number of roles available.
+The roles can be assigned to user accounts or [API keys](#creating-api-keys).
 
-The credentials that you use to log in to the dashboard automatically have `_admin` permissions to all databases you create.
+The three core roles are as follows:
+
+Role      | Description
+----------|------------
+`_admin`  | Change security settings, including adding roles.
+`_reader` | Read documents from the database.
+`_writer` | Create, update, and delete documents (except design documents) in the database.
+
+>   **Note:** The `_reader` and `_writer` roles are exclusive. If a user has the `_writer` role, they cannot read documents that they create unless they _also_ have the `_reader` role.
+
+You might want to assign more than one role.
+For example,
+a user might need to read from or write to documents within a database,
+but would not need full administrative control of the database.
+To fulfill this requirement,
+the user's account is granted the `_reader` and `_writer` roles,
+but not the `_admin` role.
+
+A number of 'focused' roles are also available.
+These provide permissions for specific API endpoints.
+The focused role permissions are similar to the core role permissions,
+but apply _only_ to the specific API endpoint.
+
+The focused roles are as follows:
+
+Role          | Description                                                                                   | API Endpoints
+--------------|-----------------------------------------------------------------------------------------------|--------------
+`_design`     | Allows create, read, modify, or delete access to design documents.                            | [`_design`](design_documents.html), [`_find`](cloudant_query.html#finding-documents-using-an-index), [`_index`](cloudant_query.html)
+`_replicator` | Allows read access to replicate data from a database, and write access to create checkpoints. | [`_local`](replication.html#the-since_seq-field), [`_replicate`](replication.html#the-_replicate-endpoint), [`_replicator`](replication.html#replicator-database)
+`_security`   | Allows read and write access to the `/$DATABASE/_security` endpoint.                          | [`_security`](#viewing-permissions)
+
+The nature of the access that is granted depends on the specific API endpoint.
+For example,
+the `_design` role provides access that allows a user or [API key](#creating-api-keys) to create,
+read,
+modify,
+or delete design documents,
+but has the advantage of not requiring assignment of the more widely applicable `_reader` or `_writer` roles.
+This distinction is useful because otherwise the authorized account would be able to read from or write to documents within the database,
+other than the design documents.
+
+The credentials that you use to log in to the dashboard automatically have the `_admin` role for all databases you create.
 Everyone and everything else,
-including users you share databases with and API keys you create,
-must be given a permission level explicitly.
+including users you share databases with,
+and API keys you create,
+must be given a role explicitly to do corresponding tasks.
+
+>   **Note:** The `_admin` role aggregates the permissions of the `_reader`, `_writer`, `_design`, `_replicator`, and `_security` roles.
+
+The special `nobody` user name applies for anyone or any application that tries to do tasks,
+but that did not authenticate with the system.
+In other words,
+the `nobody` user name applies to all unauthenticated connection attempts.
+For example,
+if an application attempts to read data from a database,
+but did not identify itself,
+the task can proceed only if the `nobody` user has the role `_reader`.
+
+It is possible to grant more powerful roles to an <i>un</i>authenticated user than to an authenticated user.
+For example,
+if the `nobody` user name is intentionally granted `_admin`,
+`_reader`,
+and `_writer` roles,
+but an authenticated user account such as `alexone` is granted only the `_reader` role,
+then an unauthenticated user might do more than the authenticated `alexone` user. 
+
+>   **Note:** It is important to understand that the `nobody` user name is _not_ way of providing a default set of permissions. Instead, the `nobody` user name is used to determine permissions for _unauthenticated_ users.
+
+### Determining the role to assign
+
+When you determine the role or roles to assign to a user account or API key,
+it is best to give the lowest possible role necessary to do the tasks that are expected of that account or API key.
+
+If the tasks are for a specific aspect,
+such as working with design documents or the security settings,
+then it might be possible to assign one of the focused roles,
+such as `_design` or `_security`.
 
 ## Viewing Permissions
 
 To see who has permissions to read,
 write,
 and manage the database,
-send a `GET` request to `https://$USERNAME.cloudant.com/_api/v2/db/$DATABASE/_security`.
+send a `GET` request to `https://$ACCOUNT.cloudant.com/_api/v2/db/$DATABASE/_security`.
 
 _Example of using an HTTP request to determine permissions:_
 
@@ -53,20 +141,20 @@ GET /_api/v2/db/$DATABASE/_security HTTP/1.1
 ```
 {:codeblock}
 
-_Example of using the command line to determine permissions:_
+_Example of using a command line request to determine permissions:_
 
 ```sh
-curl https://$USERNAME.cloudant.com/_api/v2/db/$DATABASE/_security
+curl https://$ACCOUNT.cloudant.com/_api/v2/db/$DATABASE/_security
 ```
 {:codeblock}
 
 <!--
 
-_Example of using JavaScript to determine permissions,:_
+_Example request to determine permissions, using Javascript:_
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$ACCOUNT+".cloudant.com");
 account.request({
 	db: $DATABASE,
 	path: '_security'
@@ -90,7 +178,7 @@ any request made without authentication credentials.
 
 In the following example response,
 the `nobody` user name has `_reader` permissions.
-The effect is that the database is publicly readable.
+This combination means that the database is publicly readable to unauthenticated users.
 
 _Example response to request for permissions:_
 
@@ -121,7 +209,7 @@ _Example response to request for permissions:_
 To modify who has permissions to read,
 write,
 or manage a database,
-send a `PUT` request to `https://$USERNAME.cloudant.com/_api/v2/db/$DATABASE/_security`.
+send a `PUT` request to `https://$ACCOUNT.cloudant.com/_api/v2/db/$DATABASE/_security`.
 To see what roles you can assign,
 see [Roles](#roles).
 
@@ -136,7 +224,7 @@ Content-Type: application/json
 _Example of using the command line to send an authorization modification request:_
 
 ```sh
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/_api/v2/db/$DATABASE/_security \
+curl https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/_api/v2/db/$DATABASE/_security \
 	-X PUT \
 	-H "Content-Type: application/json" \
 	-d "$JSON"
@@ -149,7 +237,7 @@ _Example of using JavaScript to send an authorization modification request:_
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$ACCOUNT+".cloudant.com");
 account.request(
 	{
 		db: $DATABASE,
@@ -172,7 +260,8 @@ The request must provide a document in JSON format,
 describing a `cloudant` field.
 The field contains an object with keys that are the user names that have permission to interact with the database.
 The `nobody` user name indicates what permissions are available to unauthenticated users,
-that is, anybody.
+that is,
+anybody.
 
 In the following example request,
 the `nobody` user name is given `_reader` permissions.
@@ -219,7 +308,7 @@ If you do not run the `GET` command and retrieve the security object before you 
 the result might disrupt your environment.
 For example,
 if you want to add a `nobody` user with read-only access,
-the  following _incorrect_ request removes _all_ the other users with access to the database.
+the  following incorrect request removes _all_ the other users with access to the database.
 
 _Example of an incorrect authorization modification request document:_
 
@@ -392,9 +481,10 @@ You can use the
 [_users database ![External link icon](../images/launch-glyph.svg "External link icon")](http://docs.couchdb.org/en/1.6.1/intro/security.html#authentication-database){:new_window}
 to manage roles in {{site.data.keyword.cloudant_short_notm}}.
 However,
-you must turn off {{site.data.keyword.cloudant_short_notm}} security for those roles first,
-by sending a JSON document to the `_security` endpoint of the database.
-For example, `https://<username>.cloudant.com/<database>/_security`.
+you must turn off {{site.data.keyword.cloudant_short_notm}} security for those roles first.
+To turn off {{site.data.keyword.cloudant_short_notm}} security,
+`PUT` a JSON document to the `_security` endpoint of the database.
+For example, `https://$ACCOUNT.cloudant.com/$DATABASE/_security`.
 
 _Example of using HTTP to submit a modification request:_
 
@@ -407,7 +497,7 @@ Content-Type: application/json
 _Example of using the command line to submit a modification request:_
 
 ```sh
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/_security \
+curl https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE/_security \
 	-X PUT \
 	-H "Content-Type: application/json" \
 	-d @request-body.json
