@@ -1,0 +1,566 @@
+<html lang="en">
+<head>
+  <title>IBM&reg; Cloudant&reg; NoSQL DB for Bluemix&reg;</title>
+  <meta charset="utf-8"></meta>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+  <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+</head>
+
+<body>
+  <h1 id="advanced">Advanced</h1>
+  <p class="shortdesc">These endpoints provide information about the state of the cluster, details about revision history, and other miscellaneous tasks.</p>
+  <h2 id="-get-"><code>GET /</code></h2>
+  <ul>
+    <li><strong>Method</strong>: <code>GET</code></li>
+    <li><strong>Path</strong>: <code>/</code></li>
+    <li><strong>Response</strong>: Welcome message and version</li>
+  </ul>
+  <p>Accessing the root endpoint <code>/</code> returns meta information about the cluster. The response is a JSON object containing a welcome message and the version of the server. The <code>version</code> field contains the CouchDB version the server is
+    compatible with. The <code>vendor.cloudant_build</code> field contains the build number of Cloudant&#39;s CouchDb implementation.</p>
+  <p><em>Example request to get server meta information, using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-HTTP hljs"><span class="hljs-keyword">GET</span> <span class="hljs-string">/</span> HTTP/1.1
+<span class="hljs-attribute">HOST</span>: $ACCOUNT.cloudant.com
+</code></pre>
+  <p><em>Example request to get server meta information, using the command line:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl https://<span class="hljs-variable">$ACCOUNT</span>.cloudant.com/
+</code></pre>
+  <!--
+
+_Example request to get server meta information, using Javascript:_
+
+```javascript
+var nano = require('nano');
+var account = nano('https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com');
+account.request({
+    path: '/'
+}, function (err, body) {
+    if (!err) {
+        console.log(body);
+    }
+});
+```
+
+-->
+
+  <p><em>Example JSON response:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"couchdb"</span>: <span class="hljs-string">"Welcome"</span>,
+    <span class="hljs-attr">"version"</span>: <span class="hljs-string">"2.0.0"</span>,
+    <span class="hljs-attr">"vendor"</span>: {
+        <span class="hljs-attr">"name"</span>: <span class="hljs-string">"IBM Cloudant"</span>,
+        <span class="hljs-attr">"version"</span>: <span class="hljs-string">"5638"</span>,
+        <span class="hljs-attr">"variant"</span>: <span class="hljs-string">"paas"</span>
+    },
+    <span class="hljs-attr">"features"</span>: [
+        <span class="hljs-string">"geo"</span>
+    ]
+}
+</code></pre>
+  <h2 id="-get-_db_updates-"><code>GET /_db_updates</code></h2>
+  <blockquote>
+    <p><strong>Note</strong>: This endpoint is only available to customers with dedicated system accounts.</p>
+  </blockquote>
+  <p>The <code>/_db_updates</code> endpoint returns a list of changes to databases, similar to a global <a href="database.html#get-changes">changes feed</a>. Changes can be either updates to an existing database, creation of a new database, or deletion of
+    a database. Like the changes feed, the <code>/_db_updates</code> endpoint is not guaranteed to return changes in the correct order, and might contain changes more than once. Polling modes for this endpoint work like the polling modes for
+    <a href="database.html#get-changes">the changes feed</a>.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Argument</th>
+        <th>Description</th>
+        <th>Optional</th>
+        <th>Type</th>
+        <th>Default</th>
+        <th>Supported Values</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>descending</td>
+        <td>Whether results should be returned in descending order, in other words the most recent event appears first. By default, the oldest event is returned first.</td>
+        <td>yes</td>
+        <td>boolean</td>
+        <td>false</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>feed</td>
+        <td>Type of feed</td>
+        <td>yes</td>
+        <td>string</td>
+        <td>normal</td>
+        <td><code>continuous</code>: Continuous (non-polling) mode, <code>longpoll</code>: Long polling mode, <code>normal</code>: default polling mode</td>
+      </tr>
+      <tr>
+        <td>heartbeat</td>
+        <td>Time in milliseconds after which an empty line is sent during longpoll or continuous if there have been no changes</td>
+        <td>yes</td>
+        <td>numeric</td>
+        <td>60000</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>limit</td>
+        <td>Maximum number of results to return</td>
+        <td>yes</td>
+        <td>numeric</td>
+        <td>none</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>since</td>
+        <td>Start the results from changes immediately after the specified sequence number. If since is 0 (the default), the request returns all changes since the feature was activated.</td>
+        <td>yes</td>
+        <td>string</td>
+        <td>0</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>timeout</td>
+        <td>Number of milliseconds to wait for data in a <code>longpoll</code> or <code>continuous</code> feed before terminating the response. If both <code>heartbeat</code> and <code>timeout</code> are suppled, <code>heartbeat</code> supersedes <code>timeout</code>.</td>
+        <td>yes</td>
+        <td>numeric</td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <p><em>Example request to get a list of changes to the database, using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-HTTP hljs"><span class="hljs-keyword">GET</span> <span class="hljs-string">/_db_updates</span> HTTP/1.1
+</code></pre>
+  <p><em>Example request to get a list of changes to the database, using the command line:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl https://<span class="hljs-variable">$USERNAME</span>.cloudant.com/_db_updates \
+    -u <span class="hljs-variable">$USERNAME</span>
+</code></pre>
+  <!--
+
+_Example request to get a list of changes to the database, using Javascript:_
+
+```javascript
+var nano = require('nano');
+var account = nano('https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com');
+account.request({
+    path: '_db_updates'
+}, function (err, body) {
+    if (!err) {
+        console.log(body);
+    }
+});
+```
+
+-->
+
+  <p><em>Example response:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"results"</span>: [{
+        <span class="hljs-attr">"dbname"</span>: <span class="hljs-string">"$DATABASE_NAME"</span>,
+        <span class="hljs-attr">"type"</span>: <span class="hljs-string">"created"</span>,
+        <span class="hljs-attr">"account"</span>: <span class="hljs-string">"$USERNAME"</span>,
+        <span class="hljs-attr">"seq"</span>: <span class="hljs-string">"673-g1AAAAJAeJyN0Et..."</span>
+    }],
+    <span class="hljs-attr">"last_seq"</span>: <span class="hljs-string">"673-g1AAAAJAeJyN0Et..."</span>
+}
+</code></pre>
+  <h2 id="-get-database-_shards-"><code>GET /$DATABASE/_shards</code></h2>
+  <p>The <code>/$DATABASE/_shards</code> endpoint returns informations about the shards in the cluster, specifically what nodes contain what hash ranges.</p>
+  <p>The <code>shards</code> field in the response contains an object with keys that are the hash value range constituting each shard. Each value is the array of nodes containing that a copy of that shard.</p>
+  <p><em>Example request, using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-HTTP hljs"><span class="hljs-keyword">GET</span> <span class="hljs-string">/$DATABASE/_shards</span> HTTP/1.1
+</code></pre>
+  <p><em>Example request, using the command line:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl https://<span class="hljs-variable">$USERNAME</span>.cloudant.com/<span class="hljs-variable">$DATABASE</span>/_shards \
+    -u <span class="hljs-variable">$USERNAME</span>
+</code></pre>
+  <!--
+
+_Example request, using Javascript:_
+
+```javascript
+var nano = require('nano');
+var account = nano('https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com');
+account.request({
+    database: $DATABASE,
+    path: '_shards'
+}, function (err, body) {
+    if (!err) {
+        console.log(body);
+    }
+});
+```
+
+-->
+
+  <p><em>Example response:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"shards"</span>: {
+        <span class="hljs-attr">"00000000-3fffffff"</span>: [
+            <span class="hljs-string">"dbcore@db1.mead.cloudant.net"</span>,
+            <span class="hljs-string">"dbcore@db2.mead.cloudant.net"</span>,
+            <span class="hljs-string">"dbcore@db3.mead.cloudant.net"</span>
+        ],
+        <span class="hljs-attr">"40000000-7fffffff"</span>: [
+            <span class="hljs-string">"dbcore@db1.mead.cloudant.net"</span>,
+            <span class="hljs-string">"dbcore@db2.mead.cloudant.net"</span>,
+            <span class="hljs-string">"dbcore@db3.mead.cloudant.net"</span>
+        ],
+        <span class="hljs-attr">"80000000-bfffffff"</span>: [
+            <span class="hljs-string">"dbcore@db1.mead.cloudant.net"</span>,
+            <span class="hljs-string">"dbcore@db2.mead.cloudant.net"</span>,
+            <span class="hljs-string">"dbcore@db3.mead.cloudant.net"</span>
+        ],
+        <span class="hljs-attr">"c0000000-ffffffff"</span>: [
+            <span class="hljs-string">"dbcore@db1.mead.cloudant.net"</span>,
+            <span class="hljs-string">"dbcore@db2.mead.cloudant.net"</span>,
+            <span class="hljs-string">"dbcore@db3.mead.cloudant.net"</span>
+        ]
+    }
+}
+</code></pre>
+  <h2 id="-get-database-_missing_revs-"><code>GET /$DATABASE/_missing_revs</code></h2>
+  <p>When supplied with a list of document revisions, the <code>/$DATABASE/_missing_revs</code> endpoint returns a list of the document revisions that do not exist in the database.</p>
+  <p>The list of document revisions is supplied in a JSON document, similar to the following example:</p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"$DOCUMENT_ID"</span>: [
+        <span class="hljs-string">"$REV_1"</span>,
+        <span class="hljs-string">"$REV_2"</span>
+    ]
+}
+</code></pre>
+  <p><em>Example request, using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-HTTP hljs"><span class="hljs-keyword">GET</span> <span class="hljs-string">/$DATABASE/_missing_revs</span> HTTP/1.1
+<span class="hljs-attribute">Content-Type</span>: application/json
+</code></pre>
+  <p><em>Example request, using the command line:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl https://<span class="hljs-variable">$USERNAME</span>.cloudant.com/<span class="hljs-variable">$DATABASE</span>/_missing_revs \
+     -X POST \
+     -u <span class="hljs-string">"<span class="hljs-variable">$USERNAME</span>:<span class="hljs-variable">$PASSWORD</span>"</span> \
+     -H <span class="hljs-string">"Content-Type: application/json"</span> \
+     <span class="hljs-_">-d</span> @request-body.json
+</code></pre>
+  <!--
+
+_Example request, using Javascript:_
+
+```javascript
+var nano = require('nano');
+var account = nano('https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com');
+account.request({
+    database: $DATABASE,
+    path: '_missing_revs',
+    method: 'POST',
+    body: '$JSON'
+},
+function (err, body) {
+    if (!err) {
+        console.log(body);
+    }
+});
+```
+
+-->
+
+  <p><em>Example response:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"missed_revs"</span>:{
+        <span class="hljs-attr">"$DOCUMENT_ID"</span>: [
+            <span class="hljs-string">"$REV_1"</span>
+        ]
+    }
+}
+</code></pre>
+  <h2 id="-post-database-_revs_diff-"><code>POST /$DATABASE/_revs_diff</code></h2>
+  <p>When supplied with a set of document revision IDs, the <code>/$DATABASE/_revs_diff</code> endpoint returns the subset of those that do not correspond to revisions stored in the database.</p>
+  <p>The list of document revision IDs is supplied in a JSON document, similar to the following example:</p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"190f721ca3411be7aa9477db5f948bbb"</span>: [
+        <span class="hljs-string">"3-bb72a7682290f94a985f7afac8b27137"</span>,
+        <span class="hljs-string">"4-10265e5a26d807a3cfa459cf1a82ef2e"</span>,
+        <span class="hljs-string">"5-067a00dff5e02add41819138abb3284d"</span>
+    ]
+}
+</code></pre>
+  <p><em>Example request, using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-HTTP hljs"><span class="hljs-keyword">POST</span> <span class="hljs-string">/$DATABASE/_revs_diff</span> HTTP/1.1
+<span class="hljs-attribute">Content-Type</span>: application/json
+</code></pre>
+  <p><em>Example request, from the command line:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl https://<span class="hljs-variable">$USERNAME</span>.cloudant.com/<span class="hljs-variable">$DATABASE</span>/_revs_diff \
+    -X POST \
+    -u <span class="hljs-variable">$USERNAME</span> \
+    <span class="hljs-_">-d</span> <span class="hljs-string">"<span class="hljs-variable">$JSON</span>"</span>
+</code></pre>
+  <!--
+
+_Example request, using Javascript:_
+
+```javascript
+var nano = require('nano');
+var account = nano('https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com');
+account.request({
+    database: $DATABASE,
+    path: '_revs_diff',
+    method: 'POST',
+    body: '$JSON'
+}, function (err, body) {
+    if (!err) {
+        console.log(body);
+    }
+});
+```
+
+-->
+
+  <p><em>Example response:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"190f721ca3411be7aa9477db5f948bbb"</span>: {
+        <span class="hljs-attr">"missing"</span>: [
+            <span class="hljs-string">"3-bb72a7682290f94a985f7afac8b27137"</span>,
+            <span class="hljs-string">"5-067a00dff5e02add41819138abb3284d"</span>
+        ],
+        <span class="hljs-attr">"possible_ancestors"</span>: [
+            <span class="hljs-string">"4-10265e5a26d807a3cfa459cf1a82ef2e"</span>
+        ]
+    }
+}
+</code></pre>
+  <h2 id="-get-database-_revs_limit-"><code>GET /$DATABASE/_revs_limit</code></h2>
+  <p>Gets the number of past revisions of a document that Cloudant retains.</p>
+  <blockquote>
+    <p><strong>Note</strong>: Although the documents associated with past revisions are automatically removed, &quot;tombstones&quot; remain with the <code>_rev</code> value for that revision. If a document has more revisions than the value of <code>_revs_limit</code>,
+      Cloudant deletes the tombstones of the oldest revisions.</p>
+  </blockquote>
+  <p><em>Example request, using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-HTTP hljs"><span class="hljs-keyword">GET</span> <span class="hljs-string">/$DATABASE/_revs_limit</span> HTTP/1.1
+</code></pre>
+  <p><em>Example request, using the command line:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl https://<span class="hljs-variable">$USERNAME</span>.cloudant.com/<span class="hljs-variable">$DATABASE</span>/_revs_limit \
+    -X GET \
+    -u <span class="hljs-string">"<span class="hljs-variable">$USERNAME</span>:<span class="hljs-variable">$PASSWORD</span>"</span>
+</code></pre>
+  <!--
+
+_Example request, using Javascript:_
+
+```javascript
+var nano = require('nano');
+var account = nano('https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com');
+account.request({
+    path: '_revs_limit'
+}, function (err, body) {
+    if (!err) {
+        console.log(body);
+    }
+});
+```
+
+-->
+
+  <p><em>Example response:</em></p>
+  <pre class="codeblock"><code class="hljs">1000
+</code></pre>
+  <h2 id="-put-database-_revs_limit-"><code>PUT /$DATABASE/_revs_limit</code></h2>
+  <p>Sets the maximum number of past revisions of a document that Cloudant retains.</p>
+  <blockquote>
+    <p> <strong>Note</strong>: Although the documents associated with past revisions are automatically removed, &quot;tombstones&quot; remain with the <code>_rev</code> value for that revision. If a document has more revisions than the value of <code>_revs_limit</code>,
+      Cloudant deletes the tombstones of the oldest revisions.</p>
+  </blockquote>
+  <p><em>Example request, using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-HTTP hljs"><span class="hljs-keyword">PUT</span> <span class="hljs-string">/$DATABASE/_revs_limit</span> HTTP/1.1
+</code></pre>
+  <p><em>Example request, using the command line:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl https://<span class="hljs-variable">$USERNAME</span>.cloudant.com/_revs_limit \
+    -u <span class="hljs-variable">$USERNAME</span> \
+    -X PUT \
+    <span class="hljs-_">-d</span> 500
+</code></pre>
+  <!--
+
+_Example request, using Javascript:_
+
+```javascript
+var nano = require('nano');
+var account = nano('https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com');
+account.request({
+    path: '_revs_limit',
+    body: '500',
+    method: 'PUT'
+}, function (err, body) {
+    if (!err) {
+        console.log(body);
+    }
+});
+```
+
+-->
+
+  <p><em>Example response:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"ok"</span>: <span class="hljs-literal">true</span>
+}
+</code></pre>
+  <h2 id="-get-_membership-"><code>GET /_membership</code></h2>
+  <p>This endpoint returns the names of nodes in the cluster. Currently active clusters are indicated in the <code>cluster_nodes</code> field. The <code>all_nodes</code> field lists all the nodes, regardless of whether they are active or not.</p>
+  <ul>
+    <li><strong>Method</strong>: <code>GET</code></li>
+    <li><strong>Path</strong>: <code>/_membership</code></li>
+    <li><strong>Response</strong>: JSON document listing cluster nodes and all nodes</li>
+    <li><strong>Roles permitted</strong>: _admin</li>
+  </ul>
+  <p><em>Example request to list nodes in the cluster, using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">GET</span> <span class="hljs-string">/_membership</span> HTTP/1.1
+</code></pre>
+  <p><em>Example request to list nodes in the cluster, using the command line:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl https://<span class="hljs-variable">$USERNAME</span>.cloudant.com/_membership \
+    -u <span class="hljs-variable">$USERNAME</span>
+</code></pre>
+  <!--
+
+_Example request to list nodes in the cluster, using Javascript:_
+
+```javascript
+var nano = require('nano');
+var account = nano('https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com');
+account.request({
+    path: '_membership'
+}, function (err, body) {
+    if (!err) {
+        console.log(body);
+    }
+});
+```
+
+-->
+
+  <h3 id="response-structure">Response structure</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Field name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>cluster_nodes</code></td>
+        <td>Array of node names (strings) of the active nodes in the cluster.</td>
+      </tr>
+      <tr>
+        <td><code>all_nodes</code></td>
+        <td>Array of nodes names (strings) of all nodes in the cluster.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p><em>Example response:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"cluster_nodes"</span>: [
+        <span class="hljs-string">"dbcore@db1.testy004.cloudant.net"</span>,
+        <span class="hljs-string">"dbcore@db2.testy004.cloudant.net"</span>,
+        <span class="hljs-string">"dbcore@db3.testy004.cloudant.net"</span>
+    ],
+    <span class="hljs-attr">"all_nodes"</span>: [
+        <span class="hljs-string">"dbcore@db1.testy004.cloudant.net"</span>,
+        <span class="hljs-string">"dbcore@db2.testy004.cloudant.net"</span>,
+        <span class="hljs-string">"dbcore@db3.testy004.cloudant.net"</span>
+    ]
+}
+</code></pre>
+  <h2 id="-get-_uuids-"><code>GET /_uuids</code></h2>
+  <p>This endpoint is a general utility requests one or more Universally Unique Identifiers (UUIDs). The response is a JSON object providing a list of UUIDs.</p>
+  <ul>
+    <li><strong>Method</strong>: <code>GET</code></li>
+    <li><strong>Path</strong>: <code>/_uuids</code></li>
+    <li><strong>Response</strong>: JSON document containing a list of UUIDs</li>
+  </ul>
+  <table>
+    <thead>
+      <tr>
+        <th>Argument</th>
+        <th>Description</th>
+        <th>Optional</th>
+        <th>Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>count</code></td>
+        <td>Number of UUIDs to return</td>
+        <td>yes</td>
+        <td>Positive integer, greater than 0 and less than or equal to 1,000.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p><em>Example request for a single UUID, using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-HTTP hljs"><span class="hljs-keyword">GET</span> <span class="hljs-string">/_uuids</span> HTTP/1.1
+</code></pre>
+  <p><em>Example request for a single UUID, using the command line:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl https://<span class="hljs-variable">$USERNAME</span>.cloudant.com/_uuids \
+    -u <span class="hljs-variable">$USERNAME</span>
+</code></pre>
+  <!--
+
+_Example request for a single UUID, using Javascript:_
+
+```javascript
+var nano = require('nano');
+var account = nano('https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com');
+account.request({
+    path: '_uuids'
+}, function (err, body) {
+    if (!err) {
+        console.log(body);
+    }
+});
+```
+
+-->
+
+  <p><em>Example response to a request for a single UUID:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"uuids"</span> : [
+        <span class="hljs-string">"7e4b5a14b22ec1cf8e58b9cdd0000da3"</span>
+    ]
+}
+</code></pre>
+  <p><em>Example request for five UUIDs, using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-HTTP hljs"><span class="hljs-keyword">GET</span> <span class="hljs-string">/_uuids?count=5</span> HTTP/1.1
+</code></pre>
+  <p><em>Example request for five UUIDs, using the command line:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl https://<span class="hljs-variable">$USERNAME</span>.cloudant.com/_uuids?count=5 \
+    -u <span class="hljs-variable">$USERNAME</span>
+</code></pre>
+  <!--
+
+_Example request for five UUIDs, using Javascript:_
+
+```javascript
+var nano = require('nano');
+var account = nano('https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com');
+account.request({
+    path: '_uuids?count=5'
+}, function (err, body) {
+    if (!err) {
+        console.log(body);
+    }
+});
+```
+
+-->
+
+  <p><em>Example response to a request for five UUIDs:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"uuids"</span> : [
+        <span class="hljs-string">"c9df0cdf4442f993fc5570225b405a80"</span>,
+        <span class="hljs-string">"c9df0cdf4442f993fc5570225b405bd2"</span>,
+        <span class="hljs-string">"c9df0cdf4442f993fc5570225b405e42"</span>,
+        <span class="hljs-string">"c9df0cdf4442f993fc5570225b4061a0"</span>,
+        <span class="hljs-string">"c9df0cdf4442f993fc5570225b406a20"</span>
+    ]
+}
+</code></pre>
+  <footer>
+    <div>
+      <p>Copyright &copy; 2015, 2017. All Rights Reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

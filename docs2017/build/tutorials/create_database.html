@@ -1,0 +1,415 @@
+<html lang="en">
+<head>
+  <title>IBM&reg; Cloudant&reg; NoSQL DB for Bluemix&reg;</title>
+  <meta charset="utf-8"></meta>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+  <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+</head>
+
+<body>
+  <h1 id="creating-and-populating-a-simple-cloudant-database-on-bluemix">Creating and populating a simple Cloudant database on Bluemix</h1>
+  <p class="shortdesc">This tutorial shows you how to use the <a href="https://www.python.org/" target="_blank">Python programming language <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a> to create an IBM&reg; Cloudant&reg; NoSQL
+    DB for Bluemix&reg; database in your Bluemix service instance, and populate the database with a simple collection of data.</p>
+  <h2 id="pre-requisites">Pre-requisites</h2>
+  <p>Ensure that you have the following resources or information ready, before you start working through the tutorial.</p>
+  <h3 id="python">Python</h3>
+  <p>You must have a current installation of the <a href="https://www.python.org/" target="_blank">Python programming language <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a> installed on your system.</p>
+  <p>To check this, run the following command at a prompt:</p>
+  <pre class="pre"><code class="lang-sh hljs">python --version
+</code></pre>
+  <p>You should get a result similar to:</p>
+  <pre class="codeblock"><code class="hljs">Python 2.7.12
+</code></pre>
+  <h3 id="python-client-library-for-cloudant">Python Client Library for Cloudant</h3>
+  <p>There is an <a href="../libraries/supported.html#python">officially supported library</a> to enable your Python applications to work with Cloudant NoSQL DB on Bluemix.</p>
+  <p>You should install this using the instructions provided <a href="../libraries/supported.html#python">here</a>.</p>
+  <p>To check that you have the client library installed successfully, run the following command at a prompt:</p>
+  <pre class="pre"><code class="lang-sh hljs">pip freeze
+</code></pre>
+  <p>You should get a list of all the Python modules installed on your system. Inspect the list, looking for a Cloudant NoSQL DB entry similar to the following:</p>
+  <pre class="codeblock"><code class="hljs">cloudant==2.3.1
+</code></pre>
+  <h3 id="a-cloudant-service-instance-on-bluemix">A Cloudant service instance on Bluemix</h3>
+  <p>The process for creating a suitable service instance is described in <a href="create_service.html">this tutorial</a>.</p>
+  <p>Ensure that you have the following Service Credentials available for your service instance:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Field</th>
+        <th>Purpose</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>host</code></td>
+        <td>The hostname used by applications to locate the service instance.</td>
+      </tr>
+      <tr>
+        <td><code>username</code></td>
+        <td>The username required for applications to access the service instance.</td>
+      </tr>
+      <tr>
+        <td><code>password</code></td>
+        <td>The password required for applications to access the service instance.</td>
+      </tr>
+      <tr>
+        <td><code>port</code></td>
+        <td>The HTTP port number for accessing the service instance on the host. Normally 443 to force HTTPS access.</td>
+      </tr>
+      <tr>
+        <td><code>url</code></td>
+        <td>A string aggregating the other credential information into a single URL, suitable for use by applications.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>Information on finding the service credentials for your service instance is available <a href="create_service.html#locating-your-service-credentials">here</a>.</p>
+  <h2 id="context">Context</h2>
+  <p>This tutorial builds up a series of Python language instructions, suitable for the following tasks:</p>
+  <ol>
+    <li><a href="#connecting-to-a-cloudant-service-instance-on-bluemix">Connecting to a Cloudant NoSQL DB service instance on Bluemix</a>.</li>
+    <li><a href="#creating-a-database-within-the-service-instance">Creating a database within the service instance</a>.</li>
+    <li><a href="#storing-a-small-collection-of-data-as-documents-within-the-database">Storing a small collection of data as documents within the database</a>.</li>
+    <li><a href="#retrieving-a-complete-list-of-the-documents">Retrieving a complete list of the documents</a>.</li>
+    <li><a href="#deleting-the-database">Deleting the database</a>.</li>
+    <li><a href="#closing-the-connection-to-the-service-instance">Closing the connection to the service instance</a>.</li>
+  </ol>
+  <p>Python code specific to each task is provided as part of the task description in this tutorial.</p>
+  <p>A complete Python program to perform all the tasks is provided at the end of the tutorial,
+    <a href="#complete-listing">here</a>.</p>
+  <p>No attempt has been made to create <em>efficient</em> Python code for this tutorial; the intention is to show simple and easy-to-understand working code that you can learn from and apply for your own applications.</p>
+  <p>Also, no attempt has been made to address all possible checks or error conditions. Some example checks are shown here, to illustrate the techniques, but you should apply normal best practices for checking and handling all warning or error conditions
+    encountered by your own applications. </p>
+  <h2 id="connecting-to-a-cloudant-service-instance-on-bluemix">Connecting to a Cloudant service instance on Bluemix</h2>
+  <p>A Python application requires the Cloudant Client Library components to be able to connect to the service instance. These components are identified as normal <code>import</code> statements:</p>
+  <pre class="codeblock"><code class="lang-python hljs"><span class="hljs-keyword">from</span> cloudant.client <span class="hljs-keyword">import</span> Cloudant
+<span class="hljs-keyword">from</span> cloudant.error <span class="hljs-keyword">import</span> CloudantException
+<span class="hljs-keyword">from</span> cloudant.result <span class="hljs-keyword">import</span> Result, ResultByKey
+</code></pre>
+  <p>The application must have the <a href="create_service.html#locating-your-service-credentials">Service Credentials</a> for the service:</p>
+  <pre class="codeblock"><code class="lang-python hljs">serviceUsername = <span class="hljs-string">"353466e8-47eb-45ce-b125-4a4e1b5a4f7e-bluemix"</span>
+servicePassword = <span class="hljs-string">"49c0c343d225623956157d94b25d574586f26d1211e8e589646b4713d5de4801"</span>
+serviceURL = <span class="hljs-string">"https://353466e8-47eb-45ce-b125-4a4e1b5a4f7e-bluemix.cloudant.com"</span>
+</code></pre>
+  <blockquote>
+    <p> <strong>Note</strong>: The service credentials illustrated here were defined when a demonstration Cloudant service was created on Bluemix. The credentials are reproduced here to show how they would be used in a Python application. However, the demonstration
+      Cloudant service has been removed now, so these credentials will not work; you <em>must</em> supply and use your own service credentials.</p>
+  </blockquote>
+  <p>Once you have enabled the Python client library within your application, and identified the service credentials, you can establish a connection to the service instance:</p>
+  <pre class="codeblock"><code class="lang-python hljs">client = Cloudant(serviceUsername, servicePassword, url=serviceURL)
+client.connect()
+</code></pre>
+  <p>At this point, your Python application has access to the service instance on Bluemix.</p>
+  <h2 id="creating-a-database-within-the-service-instance">Creating a database within the service instance</h2>
+  <p>The next step is to create a database within the service instance, called <code>databasedemo</code>.</p>
+  <p>We do this by defining a variable in the Python application:</p>
+  <pre class="codeblock"><code class="lang-python hljs">databaseName = <span class="hljs-string">"databasedemo"</span>
+</code></pre>
+  <p>We then create the database:</p>
+  <pre class="codeblock"><code class="lang-python hljs">myDatabaseDemo = client.create_database(databaseName)
+</code></pre>
+  <p>It is helpful to check that the database was created successfully:</p>
+  <pre class="codeblock"><code class="lang-python hljs"><span class="hljs-keyword">if</span> myDatabaseDemo.exists():
+    <span class="hljs-keyword">print</span> <span class="hljs-string">"'{0}' successfully created.\n"</span>.format(databaseName)
+</code></pre>
+  <h2 id="storing-a-small-collection-of-data-as-documents-within-the-database">Storing a small collection of data as documents within the database</h2>
+  <p>We now want to store a small, simple collection of data in the database.</p>
+  <p>We start by identifying some data:</p>
+  <pre class="codeblock"><code class="lang-python hljs">sampleData = [
+    [<span class="hljs-number">1</span>, <span class="hljs-string">"one"</span>, <span class="hljs-string">"boiling"</span>, <span class="hljs-number">100</span>],
+    [<span class="hljs-number">2</span>, <span class="hljs-string">"two"</span>, <span class="hljs-string">"hot"</span>, <span class="hljs-number">40</span>],
+    [<span class="hljs-number">3</span>, <span class="hljs-string">"three"</span>, <span class="hljs-string">"warm"</span>, <span class="hljs-number">20</span>],
+    [<span class="hljs-number">4</span>, <span class="hljs-string">"four"</span>, <span class="hljs-string">"cold"</span>, <span class="hljs-number">10</span>],
+    [<span class="hljs-number">5</span>, <span class="hljs-string">"five"</span>, <span class="hljs-string">"freezing"</span>, <span class="hljs-number">0</span>]
+]
+</code></pre>
+  <p>Next, some ordinary Python code &#39;steps&#39; through the data, converting it into JSON documents. Each document is stored in the database:</p>
+  <pre class="codeblock"><code class="lang-python hljs"><span class="hljs-comment"># Create documents using the sample data.</span>
+<span class="hljs-comment"># Go through each row in the array</span>
+<span class="hljs-keyword">for</span> document <span class="hljs-keyword">in</span> sampleData:
+    <span class="hljs-comment"># Retrieve the fields in each row.</span>
+    number = document[<span class="hljs-number">0</span>]
+    name = document[<span class="hljs-number">1</span>]
+    description = document[<span class="hljs-number">2</span>]
+    temperature = document[<span class="hljs-number">3</span>]
+
+    <span class="hljs-comment"># Create a JSON document that represents</span>
+    <span class="hljs-comment"># all the data in the row.</span>
+    jsonDocument = {
+        <span class="hljs-string">"numberField"</span>: number,
+        <span class="hljs-string">"nameField"</span>: name,
+        <span class="hljs-string">"descriptionField"</span>: description,
+        <span class="hljs-string">"temperatureField"</span>: temperature
+    }
+
+    <span class="hljs-comment"># Create a document using the Database API.</span>
+    newDocument = myDatabaseDemo.create_document(jsonDocument)
+
+    <span class="hljs-comment"># Check that the document exists in the database.</span>
+    <span class="hljs-keyword">if</span> newDocument.exists():
+        <span class="hljs-keyword">print</span> <span class="hljs-string">"Document '{0}' successfully created."</span>.format(number)
+</code></pre>
+  <p>Notice that we check that each document was successfully created.</p>
+  <h2 id="retrieving-data">Retrieving data</h2>
+  <p>At this point, a small collection of data has been stored as documents within the database. We can now perform a series of queries, illustrating different ways of retrieving data from the database.</p>
+  <h3 id="a-minimal-retrieval-of-a-document">A minimal retrieval of a document</h3>
+  <p>To perform a minimal retrieval, we first request a list of all documents within the database. This list is returned as an array. We can then show the content of an element in the array.</p>
+  <p>In the sample code, we request the first document retrieved from the database:</p>
+  <pre class="codeblock"><code class="lang-python hljs">result_collection = Result(myDatabaseDemo.all_docs)
+<span class="hljs-keyword">print</span> <span class="hljs-string">"Retrieved minimal document:\n{0}\n"</span>.format(result_collection[<span class="hljs-number">0</span>])
+</code></pre>
+  <p>The result is similar to the following example:</p>
+  <pre class="codeblock"><code class="lang-json hljs">[
+    {
+        <span class="hljs-attr">"value"</span>: {
+            <span class="hljs-attr">"rev"</span>: <span class="hljs-string">"1-b2c48b89f48f1dc172d4db3f17ff6b9a"</span>
+        },
+        <span class="hljs-attr">"id"</span>: <span class="hljs-string">"14746fe384c7e2f06f7295403df89187"</span>,
+        <span class="hljs-attr">"key"</span>: <span class="hljs-string">"14746fe384c7e2f06f7295403df89187"</span>
+    }
+]
+</code></pre>
+  <blockquote>
+    <p> <strong>Note</strong>: The nature of NoSQL databases, such as Cloudant, means that simple notions of the first document stored in a database always being the first one returned in a list of results, do not necessarily apply.</p>
+  </blockquote>
+  <h3 id="full-retrieval-of-a-document">Full retrieval of a document</h3>
+  <p>To perform a full retrieval, we request a list of all documents within the database, and additionally specify that the document content must also be returned. We do this by using the <code>include_docs</code> option. As before, the results are returned
+    as an array. We can then show the details of an element in the array, this time including the full content of the document. </p>
+  <p>As before, we request the first document retrieved from the database:</p>
+  <pre class="codeblock"><code class="lang-python hljs">result_collection = Result(myDatabaseDemo.all_docs, include_docs=<span class="hljs-keyword">True</span>)
+<span class="hljs-keyword">print</span> <span class="hljs-string">"Retrieved minimal document:\n{0}\n"</span>.format(result_collection[<span class="hljs-number">0</span>])
+</code></pre>
+  <p>The result is similar to the following example:</p>
+  <pre class="codeblock"><code class="lang-json hljs">[
+    {
+        <span class="hljs-attr">"value"</span>: {
+          <span class="hljs-attr">"rev"</span>: <span class="hljs-string">"1-b2c48b89f48f1dc172d4db3f17ff6b9a"</span>
+        },
+        <span class="hljs-attr">"id"</span>: <span class="hljs-string">"14746fe384c7e2f06f7295403df89187"</span>,
+        <span class="hljs-attr">"key"</span>: <span class="hljs-string">"14746fe384c7e2f06f7295403df89187"</span>,
+        <span class="hljs-attr">"doc"</span>: {
+            <span class="hljs-attr">"temperatureField"</span>: <span class="hljs-number">10</span>,
+            <span class="hljs-attr">"descriptionField"</span>: <span class="hljs-string">"cold"</span>,
+            <span class="hljs-attr">"numberField"</span>: <span class="hljs-number">4</span>,
+            <span class="hljs-attr">"nameField"</span>: <span class="hljs-string">"four"</span>,
+            <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"14746fe384c7e2f06f7295403df89187"</span>,
+            <span class="hljs-attr">"_rev"</span>: <span class="hljs-string">"1-b2c48b89f48f1dc172d4db3f17ff6b9a"</span>
+        }
+    }
+]
+</code></pre>
+  <h2 id="calling-a-cloudant-api-endpoint-directly">Calling a Cloudant API endpoint directly</h2>
+  <p>We can also work with the Cloudant API endpoints directly, from within a Python application.</p>
+  <p>In this example code, we again request a list of all the documents, including their content. This time, however, we do so by invoking the Cloudant <a href="../api/database.html#get-documents"><code>/_all_docs</code> endpoint</a>.</p>
+  <p>First, we identify the endpoint to contact, and any parameters to supply along with the call:</p>
+  <pre class="codeblock"><code class="lang-python hljs">end_point = <span class="hljs-string">'{0}/{1}'</span>.format(serviceURL, databaseName + <span class="hljs-string">"/_all_docs"</span>)
+params = {<span class="hljs-string">'include_docs'</span>: <span class="hljs-string">'true'</span>}
+</code></pre>
+  <p>Next, we send the request to the service instance, then display the results:</p>
+  <pre class="codeblock"><code class="lang-python hljs">response = client.r_session.get(end_point, params=params)
+<span class="hljs-keyword">print</span> <span class="hljs-string">"{0}\n"</span>.format(response.json())
+</code></pre>
+  <p>The result is similar to the following <em>abbreviated</em> example:</p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"rows"</span>: [
+        {
+            <span class="hljs-attr">"value"</span>: {
+              <span class="hljs-attr">"rev"</span>: <span class="hljs-string">"1-b2c48b89f48f1dc172d4db3f17ff6b9a"</span>
+            },
+            <span class="hljs-attr">"id"</span>: <span class="hljs-string">"14746fe384c7e2f06f7295403df89187"</span>,
+            <span class="hljs-attr">"key"</span>: <span class="hljs-string">"14746fe384c7e2f06f7295403df89187"</span>,
+            <span class="hljs-attr">"doc"</span>: {
+                <span class="hljs-attr">"temperatureField"</span>: <span class="hljs-number">10</span>,
+                <span class="hljs-attr">"descriptionField"</span>: <span class="hljs-string">"cold"</span>,
+                <span class="hljs-attr">"numberField"</span>: <span class="hljs-number">4</span>,
+                <span class="hljs-attr">"nameField"</span>: <span class="hljs-string">"four"</span>,
+                <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"14746fe384c7e2f06f7295403df89187"</span>,
+                <span class="hljs-attr">"_rev"</span>: <span class="hljs-string">"1-b2c48b89f48f1dc172d4db3f17ff6b9a"</span>
+            }
+        },
+        ...
+        {
+            <span class="hljs-attr">"value"</span>:
+            {
+              <span class="hljs-attr">"rev"</span>: <span class="hljs-string">"1-7130413a8c7c5f1de5528fe4d373045c"</span>
+            },
+            <span class="hljs-attr">"id"</span>: <span class="hljs-string">"49baa66cc66b4dda86ffb2852ae78eb8"</span>,
+            <span class="hljs-attr">"key"</span>: <span class="hljs-string">"49baa66cc66b4dda86ffb2852ae78eb8"</span>,
+            <span class="hljs-attr">"doc"</span>: {
+                <span class="hljs-attr">"temperatureField"</span>: <span class="hljs-number">40</span>,
+                <span class="hljs-attr">"descriptionField"</span>: <span class="hljs-string">"hot"</span>,
+                <span class="hljs-attr">"numberField"</span>: <span class="hljs-number">2</span>,
+                <span class="hljs-attr">"nameField"</span>: <span class="hljs-string">"two"</span>,
+                <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"49baa66cc66b4dda86ffb2852ae78eb8"</span>,
+                <span class="hljs-attr">"_rev"</span>: <span class="hljs-string">"1-7130413a8c7c5f1de5528fe4d373045c"</span>
+            }
+        }
+    ],
+    <span class="hljs-attr">"total_rows"</span>: <span class="hljs-number">5</span>,
+    <span class="hljs-attr">"offset"</span>: <span class="hljs-number">0</span>
+}
+</code></pre>
+  <h2 id="deleting-the-database">Deleting the database</h2>
+  <p>When we have finished with the database, it can be deleted.</p>
+  <p>This is a simple step, as shown in the following sample Python code:</p>
+  <pre class="codeblock"><code class="lang-python hljs"><span class="hljs-keyword">try</span> :
+    client.delete_database(databaseName)
+<span class="hljs-keyword">except</span> CloudantException:
+    <span class="hljs-keyword">print</span> <span class="hljs-string">"There was a problem deleting '{0}'.\n"</span>.format(databaseName)
+<span class="hljs-keyword">else</span>:
+    <span class="hljs-keyword">print</span> <span class="hljs-string">"'{0}' successfully deleted.\n"</span>.format(databaseName)
+</code></pre>
+  <p>We have included some basic error handling to illustrate how problems might be caught and addressed.</p>
+  <h2 id="closing-the-connection-to-the-service-instance">Closing the connection to the service instance</h2>
+  <p>The final step is to disconnect the Python client application from the service instance:</p>
+  <pre class="codeblock"><code class="lang-python hljs">client.disconnect()
+</code></pre>
+  <h2 id="complete-listing">Complete listing</h2>
+  <p>The following code is a complete Python program to access a Cloudant NoSQL DB service instance on Bluemix, and perform a typical series of tasks:</p>
+  <ol>
+    <li>Connecting to the service instance.</li>
+    <li>Creating a database within the service instance.</li>
+    <li>Storing a small collection of data as documents within the database.</li>
+    <li>Retrieving a complete list of the documents.</li>
+    <li>Deleting the database.</li>
+    <li>Closing the connection to the service instance.</li>
+  </ol>
+  <pre class="codeblock"><code class="lang-python hljs"><span class="hljs-comment"># 1.  Connecting to the service instance.</span>
+
+<span class="hljs-comment"># Enable the required Python libraries.</span>
+
+<span class="hljs-keyword">from</span> cloudant.client <span class="hljs-keyword">import</span> Cloudant
+<span class="hljs-keyword">from</span> cloudant.error <span class="hljs-keyword">import</span> CloudantException
+<span class="hljs-keyword">from</span> cloudant.result <span class="hljs-keyword">import</span> Result, ResultByKey
+
+<span class="hljs-comment"># Useful variables</span>
+serviceUsername = <span class="hljs-string">"353466e8-47eb-45ce-b125-4a4e1b5a4f7e-bluemix"</span>
+servicePassword = <span class="hljs-string">"49c0c343d225623956157d94b25d574586f26d1211e8e589646b4713d5de4801"</span>
+serviceURL = <span class="hljs-string">"https://353466e8-47eb-45ce-b125-4a4e1b5a4f7e-bluemix.cloudant.com"</span>
+
+<span class="hljs-comment"># This is the name of the database we are working with.</span>
+databaseName = <span class="hljs-string">"databasedemo"</span>
+
+<span class="hljs-comment"># This is a simple collection of data,</span>
+<span class="hljs-comment"># to store within the database.</span>
+sampleData = [
+    [<span class="hljs-number">1</span>, <span class="hljs-string">"one"</span>, <span class="hljs-string">"boiling"</span>, <span class="hljs-number">100</span>],
+    [<span class="hljs-number">2</span>, <span class="hljs-string">"two"</span>, <span class="hljs-string">"hot"</span>, <span class="hljs-number">40</span>],
+    [<span class="hljs-number">3</span>, <span class="hljs-string">"three"</span>, <span class="hljs-string">"warm"</span>, <span class="hljs-number">20</span>],
+    [<span class="hljs-number">4</span>, <span class="hljs-string">"four"</span>, <span class="hljs-string">"cold"</span>, <span class="hljs-number">10</span>],
+    [<span class="hljs-number">5</span>, <span class="hljs-string">"five"</span>, <span class="hljs-string">"freezing"</span>, <span class="hljs-number">0</span>]
+]
+
+<span class="hljs-comment"># Start the demo.</span>
+<span class="hljs-keyword">print</span> <span class="hljs-string">"===\n"</span>
+
+<span class="hljs-comment"># Use the Cloudant library to create a Cloudant client.</span>
+client = Cloudant(serviceUsername, servicePassword, url=serviceURL)
+
+<span class="hljs-comment"># Connect to the server</span>
+client.connect()
+
+<span class="hljs-comment"># 2.  Creating a database within the service instance.</span>
+
+<span class="hljs-comment"># Create an instance of the database.</span>
+myDatabaseDemo = client.create_database(databaseName)
+
+<span class="hljs-comment"># Check that the database now exists.</span>
+<span class="hljs-keyword">if</span> myDatabaseDemo.exists():
+    <span class="hljs-keyword">print</span> <span class="hljs-string">"'{0}' successfully created.\n"</span>.format(databaseName)
+
+<span class="hljs-comment"># Space out the results.</span>
+<span class="hljs-keyword">print</span> <span class="hljs-string">"----\n"</span>
+
+<span class="hljs-comment"># 3.  Storing a small collection of data as documents within the database.</span>
+
+<span class="hljs-comment"># Create documents using the sample data.</span>
+<span class="hljs-comment"># Go through each row in the array</span>
+<span class="hljs-keyword">for</span> document <span class="hljs-keyword">in</span> sampleData:
+    <span class="hljs-comment"># Retrieve the fields in each row.</span>
+    number = document[<span class="hljs-number">0</span>]
+    name = document[<span class="hljs-number">1</span>]
+    description = document[<span class="hljs-number">2</span>]
+    temperature = document[<span class="hljs-number">3</span>]
+
+    <span class="hljs-comment"># Create a JSON document that represents</span>
+    <span class="hljs-comment"># all the data in the row.</span>
+    jsonDocument = {
+        <span class="hljs-string">"numberField"</span>: number,
+        <span class="hljs-string">"nameField"</span>: name,
+        <span class="hljs-string">"descriptionField"</span>: description,
+        <span class="hljs-string">"temperatureField"</span>: temperature
+    }
+
+    <span class="hljs-comment"># Create a document using the Database API.</span>
+    newDocument = myDatabaseDemo.create_document(jsonDocument)
+
+    <span class="hljs-comment"># Check that the document exists in the database.</span>
+    <span class="hljs-keyword">if</span> newDocument.exists():
+        <span class="hljs-keyword">print</span> <span class="hljs-string">"Document '{0}' successfully created."</span>.format(number)
+
+<span class="hljs-comment"># Space out the results.</span>
+<span class="hljs-keyword">print</span> <span class="hljs-string">"----\n"</span>
+
+<span class="hljs-comment"># 4.  Retrieving a complete list of the documents.</span>
+
+<span class="hljs-comment"># Simple and minimal retrieval of the first</span>
+<span class="hljs-comment"># document in the database.</span>
+result_collection = Result(myDatabaseDemo.all_docs)
+<span class="hljs-keyword">print</span> <span class="hljs-string">"Retrieved minimal document:\n{0}\n"</span>.format(result_collection[<span class="hljs-number">0</span>])
+
+<span class="hljs-comment"># Simple and full retrieval of the first</span>
+<span class="hljs-comment"># document in the database.</span>
+result_collection = Result(myDatabaseDemo.all_docs, include_docs=<span class="hljs-keyword">True</span>)
+<span class="hljs-keyword">print</span> <span class="hljs-string">"Retrieved full document:\n{0}\n"</span>.format(result_collection[<span class="hljs-number">0</span>])
+
+<span class="hljs-comment"># Space out the results.</span>
+<span class="hljs-keyword">print</span> <span class="hljs-string">"----\n"</span>
+
+<span class="hljs-comment"># Use a Cloudant API endpoint to retrieve</span>
+<span class="hljs-comment"># all the documents in the database,</span>
+<span class="hljs-comment"># including their content.</span>
+
+<span class="hljs-comment"># Define the end point and parameters</span>
+end_point = <span class="hljs-string">'{0}/{1}'</span>.format(serviceURL, databaseName + <span class="hljs-string">"/_all_docs"</span>)
+params = {<span class="hljs-string">'include_docs'</span>: <span class="hljs-string">'true'</span>}
+
+<span class="hljs-comment"># Issue the request</span>
+response = client.r_session.get(end_point, params=params)
+
+<span class="hljs-comment"># Display the response content</span>
+<span class="hljs-keyword">print</span> <span class="hljs-string">"{0}\n"</span>.format(response.json())
+
+<span class="hljs-comment"># Space out the results.</span>
+<span class="hljs-keyword">print</span> <span class="hljs-string">"----\n"</span>
+
+<span class="hljs-comment"># All done.</span>
+<span class="hljs-comment"># Time to tidy up.</span>
+
+<span class="hljs-comment"># 5.  Deleting the database.</span>
+
+<span class="hljs-comment"># Delete the test database.</span>
+<span class="hljs-keyword">try</span> :
+    client.delete_database(databaseName)
+<span class="hljs-keyword">except</span> CloudantException:
+    <span class="hljs-keyword">print</span> <span class="hljs-string">"There was a problem deleting '{0}'.\n"</span>.format(databaseName)
+<span class="hljs-keyword">else</span>:
+    <span class="hljs-keyword">print</span> <span class="hljs-string">"'{0}' successfully deleted.\n"</span>.format(databaseName)
+
+<span class="hljs-comment"># 6.  Closing the connection to the service instance.</span>
+
+<span class="hljs-comment"># Disconnect from the server</span>
+client.disconnect()
+
+<span class="hljs-comment"># Finish the demo.</span>
+<span class="hljs-keyword">print</span> <span class="hljs-string">"===\n"</span>
+
+<span class="hljs-comment"># Say good-bye.</span>
+exit()
+</code></pre>
+  <footer>
+    <div>
+      <p>Copyright &copy; 2015, 2017. All Rights Reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

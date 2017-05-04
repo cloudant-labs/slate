@@ -1,0 +1,245 @@
+<html lang="en">
+<head>
+  <title>IBM&reg; Cloudant&reg; NoSQL DB for Bluemix&reg;</title>
+  <meta charset="utf-8"></meta>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+  <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+</head>
+
+<body>
+  <!-- Acrolinx: 2017-04-20 -->
+
+  <div id="back-up-your-data-using-replication"></div>
+  <h1 id="back-up-your-data-by-using-replication">Back up your data by using replication</h1>
+  <p class="shortdesc">Database backups protect your data against potential loss or corruption.</p>
+  <p>You can use the Cloudant replication facility to create a database backup, and store it on a Cloudant cluster. You can then restore data, entire databases, or specific JSON documents, from these backups to your production cluster.</p>
+  <p>Using Cloudant replication, a database backup stores your database content to a checkpoint. It is possible to &#39;roll back&#39; to a specific checkpoint. The checkpoint is not specific to a precise time. Instead, it is a record of the database as
+    it was after specific changes occurred during the backup period. In this way, a backup can preserve the state of your database at a selected time.</p>
+  <h2 id="incremental-backups">Incremental backups</h2>
+  <p>If you are an Enterprise customer, a daily incremental backup capability is <a href="backup-guide.html">available</a>.</p>
+  <p>If you are not an Enterprise customer, or you prefer to create your own backups, you can use the Cloudant replication facility to create a database backup.</p>
+  <p>A simple approach is to replicate the entire database to a dated backup database. This method works and is easy to do. But if you need backups for multiple points in time, such as seven daily backups and four weekly ones, you must store a complete copy
+    of the database in each new backup database. A complete copy might require significant disk usage, especially if your database is large.</p>
+  <p>As an alternative, incremental backups are a good solution for storing only the documents that changed since the last backup.</p>
+  <p>The process is simple. Initially, you create a backup of the entire database. After the first backup, you run daily &#39;incremental&#39; backups, backing up <em>only</em> what changed in the database since the last backup. This replication becomes
+    a daily backup.</p>
+  <blockquote>
+    <p> <strong>Note</strong>: You can configure a backup to trigger at regular intervals. However, each interval must be 24 hours or more. In other words, you can run daily backups but not hourly backups.</p>
+  </blockquote>
+  <h2 id="creating-an-incremental-backup">Creating an incremental backup</h2>
+  <p>Incremental backups save only the differences or &#39;deltas&#39; between backups. Every 24 hours, the source database is replicated to a target database.</p>
+  <p>Replication uses sequence values to identify the documents that were changed during the 24-hour period. The backup operation works by using replication to get and store a checkpoint. A checkpoint is another document with an internal name. The backup
+    operation creates the name from a combination of the date and the backup task name. This name makes it easier to identify checkpoints during the recovery or roll up process.</p>
+  <p>To create an incremental backup, do the following steps:</p>
+  <ol>
+    <li>Find the ID of the checkpoint document for the last replication. It is stored in the <code>_replication_id</code> field of the replication document, found in the <code>_replicator</code> database.</li>
+    <li>Open the checkpoint document at <code>/&lt;database&gt;/_local/&lt;_replication_id&gt;</code>, where the <code>_replication_id</code> value is the ID you found in the previous step, and the <code>database</code> value is the name of the source or
+      the target database. The document usually exists on both databases, but might exist only on one.</li>
+    <li>Search for the <code>recorded_seq</code> field of the first element in the history array that is found in the checkpoint document.</li>
+    <li>Replicate to the new incremental backup database, setting the <a href="../api/replication.html#the-since_seq-field"><code>since_seq</code> field</a> in the replication document to the value of the <a href="backup-guide.html#get-the-recorded_seq-value"><code>recorded_seq</code> field</a>      found in the previous step.</li>
+  </ol>
+  <h2 id="restoring-a-database">Restoring a database</h2>
+  <p>To restore a database from incremental backups, you replicate each incremental backup to a new database, starting with the most recent increment.</p>
+  <p>You might start with the oldest backup, then apply the subsequent backups in order. However, replicating from the most recent incremental backup first is faster because updated documents are written only to the target database one time. Any documents
+    older than a copy already present in the new database are skipped.</p>
+  <h2 id="an-example">An example</h2>
+  <p>This example shows how to:</p>
+  <ol>
+    <li>Set up databases to use incremental backup.</li>
+    <li>Run a full backup.</li>
+    <li>Set up and run an incremental backup.</li>
+    <li>Restore a backup.</li>
+  </ol>
+  <div id="constants-used-in-this-guide"></div>
+  <h3 id="constants-that-are-used-here">Constants that are used here</h3>
+  <pre class="codeblock"><code class="lang-sh hljs"><span class="hljs-comment"># save base URL and the content type in shell variables</span>
+$ url=<span class="hljs-string">'https://&lt;username&gt;:&lt;password&gt;@&lt;username&gt;.cloudant.com'</span>
+$ ct=<span class="hljs-string">'Content-Type: application-json'</span>
+</code></pre>
+  <p>Assume that you need to back up one database. You want to create a full backup on Monday, and an incremental backup on Tuesday.</p>
+  <p>You can use the <code>curl</code> and <a href="http://stedolan.github.io/jq/" target="_blank"><code>jq</code> <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a> commands to run these operations. In practice,
+    you might use any HTTP client.</p>
+  <div id="step-1-check-you-have-three-databases"></div>
+  <h3 id="step-1-check-that-you-have-three-databases">Step 1: Check that you have three databases</h3>
+  <p>For this example, you require three databases:</p>
+  <ul>
+    <li>The original database, holding the data that you want to back up.</li>
+    <li>Two incremental databases, for Monday (<code>backup-monday</code>) and Tuesday (<code>backup-tuesday</code>).</li>
+  </ul>
+  <p><em>Example showing how to check that you have three databases to use in this example, by using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">PUT</span> <span class="hljs-string">/original</span> HTTP/1.1
+<span class="hljs-keyword">PUT</span> <span class="hljs-string">/backup-monday</span> HTTP/1.1
+<span class="hljs-keyword">PUT</span> <span class="hljs-string">/backup-tuesday</span> HTTP/1.1
+</code></pre>
+  <p><em>Example showing how to check that you have three databases to use in this example,
+by using the command line:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">$ curl -X PUT <span class="hljs-string">"<span class="hljs-variable">${url}</span>/original"</span>
+$ curl -X PUT <span class="hljs-string">"<span class="hljs-variable">${url}</span>/backup-monday"</span>
+$ curl -X PUT <span class="hljs-string">"<span class="hljs-variable">${url}</span>/backup-tuesday"</span>
+</code></pre>
+  <h3 id="step-2-create-the-_replicator-database">Step 2: Create the <code>_replicator</code> database</h3>
+  <p>If it does not exist, create the <code>_replicator</code> database.</p>
+  <p><em>Creating the <code>_replicator</code> database by using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">PUT</span> <span class="hljs-string">/_replicator</span> HTTP/1.1
+</code></pre>
+  <p><em>Creating the <code>_replicator</code> database by using the command line:</em></p>
+  <pre class="pre"><code class="lang-sh hljs">curl -X PUT <span class="hljs-string">"<span class="hljs-variable">${url}</span>/_replicator"</span>
+</code></pre>
+  <h3 id="step-3-back-up-the-entire-original-database">Step 3: Back up the entire (original) database</h3>
+  <p>On Monday, you want to back up all your data for the first time. Create this backup by replicating everything from <code>original</code> to <code>backup-monday</code>.</p>
+  <p><em>Running a full backup on Monday by using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">PUT</span> <span class="hljs-string">/_replicator/full-backup-monday</span> HTTP/1.1
+<span class="hljs-attribute">Content-Type</span>: application/json
+</code></pre>
+  <p><em>Running a full backup on Monday by using the command line:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">$ curl -X PUT <span class="hljs-string">"<span class="hljs-variable">${url}</span>/_replicator/full-backup-monday"</span> -H <span class="hljs-string">"<span class="hljs-variable">$ct</span>"</span> <span class="hljs-_">-d</span> @backup-monday.json
+<span class="hljs-comment"># where backup-monday.json describes the backup.</span>
+</code></pre>
+  <p><em>JSON document that describes the full backup:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"full-backup-monday"</span>,
+    <span class="hljs-attr">"source"</span>: <span class="hljs-string">"${url}/original"</span>,
+    <span class="hljs-attr">"target"</span>: <span class="hljs-string">"${url}/backup-monday"</span>
+}
+</code></pre>
+  <div id="step-4-get-checkpoint-id"></div>
+  <h3 id="step-4-prepare-incremental-backup-part-1-get-checkpoint-id">Step 4: Prepare incremental backup part 1 - Get checkpoint ID</h3>
+  <p>On Tuesday, you want to do an incremental backup, rather than another full backup.</p>
+  <p>To start the incremental backup, you need two values:</p>
+  <ul>
+    <li>The checkpoint ID.</li>
+    <li><a href="#step-5-prepare-incremental-backup-part-2-get-recorded_seq-value">The <code>recorded_seq</code> value</a>.</li>
+  </ul>
+  <p>These values identify where the last backup ended, and determine where to start the next incremental backup. After you get these values, you can run the incremental backup.</p>
+  <p>You start by finding the checkpoint ID value. This value is stored in the <code>_replication_id</code> field of the replication document, within the <code>_replicator</code> database.</p>
+  <p><em>Getting the checkpoint ID to help find the <code>recorded_seq</code> value, by using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs">GET /_replicator/full-backup-monday HTTP/1.1
+# Search for the value of _replication_id
+</code></pre>
+  <p><em>Getting the checkpoint ID to help find the <code>recorded_seq</code> value, by using the command line:</em></p>
+  <pre class="pre"><code class="lang-sh hljs">replication_id=$(curl <span class="hljs-string">"<span class="hljs-variable">${url}</span>/_replicator/full-backup-monday"</span> | jq -r <span class="hljs-string">'._replication_id'</span>)
+</code></pre>
+  <div id="step-5-get-recorded_seq-value"></div>
+  <h3 id="step-5-prepare-incremental-backup-part-2-get-recorded_seq-value">Step 5: Prepare incremental backup part 2 - Get <code>recorded_seq</code> value</h3>
+  <p>After you get the checkpoint ID, use it to get the <code>recorded_seq</code> value. This value is found in the first element of the history array in the <code>/_local/${replication_id}</code> document, within the original database.</p>
+  <p>You now have the <code>recorded_seq</code> value. This value identifies the last document that was replicated from the original database.</p>
+  <p><em>Getting the <code>recorded_seq</code> from original database by using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs">GET /original/_local/${replication_id} HTTP/1.1
+# Search for the first value of recorded_seq in the history array
+</code></pre>
+  <p><em>Getting the <code>recorded_seq</code> from original database by using the command line:</em></p>
+  <pre class="pre"><code class="lang-sh hljs">recorded_seq=$(curl <span class="hljs-string">"<span class="hljs-variable">${url}</span>/original/_local/<span class="hljs-variable">${replication_id}</span>"</span> | jq -r <span class="hljs-string">'.history[0].recorded_seq'</span>)
+</code></pre>
+  <h3 id="step-6-run-an-incremental-backup">Step 6: Run an incremental backup</h3>
+  <p>Now that you have the checkpoint ID and <code>recorded_seq</code>, you can start Tuesday&#39;s incremental backup. This backup replicates all the document changes made <em>since</em> the last replication.</p>
+  <p>When the replication finishes, you have a completed incremental backup. The backup consists of all the documents in the original database, and can be restored by retrieving the content of both the <code>backup-monday</code> <em>and</em> <code>backup-tuesday</code>    databases.</p>
+  <p><em>Running Tuesday&#39;s incremental backup by using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">PUT</span> <span class="hljs-string">/_replicator/incr-backup-tuesday</span> HTTP/1.1
+<span class="hljs-attribute">Content-Type</span>: application/json
+</code></pre>
+  <p><em>Running Tuesday&#39;s incremental backup by using the command line:</em></p>
+  <pre class="pre"><code class="lang-sh hljs">curl -X PUT <span class="hljs-string">"<span class="hljs-variable">${url}</span>/_replicator/incr-backup-tuesday"</span> -H <span class="hljs-string">"<span class="hljs-variable">${ct}</span>"</span> <span class="hljs-_">-d</span> @backup-tuesday.json
+</code></pre>
+  <p><em>JSON document that describes Tuesday&#39;s incremental backup:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"incr-backup-tuesday"</span>,
+    <span class="hljs-attr">"source"</span>: <span class="hljs-string">"${url}/original"</span>,
+    <span class="hljs-attr">"target"</span>: <span class="hljs-string">"${url}/backup-tuesday"</span>,
+    <span class="hljs-attr">"since_seq"</span>: <span class="hljs-string">"${recorded_seq}"</span>
+}
+</code></pre>
+  <h3 id="step-7-restore-the-monday-backup">Step 7: Restore the Monday backup</h3>
+  <p>To restore from a backup, you replicate the initial full backup, and any incremental backups, to a new database.</p>
+  <p>For example, to restore Monday&#39;s state, you would replicate from the <code>backup-monday</code> database.</p>
+  <p><em>Restoring from the <code>backup-monday</code> database by using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">PUT /_replicator/restore-monday HTTP/1.1
+Content-Type: application/json
+</code></pre>
+  <p><em>Restoring from the <code>backup-monday</code> database by using the command line:</em></p>
+  <pre class="pre"><code class="lang-sh hljs">curl -X PUT <span class="hljs-string">"<span class="hljs-variable">${url}</span>/_replicator/restore-monday"</span> -H <span class="hljs-string">"<span class="hljs-variable">$ct</span>"</span> <span class="hljs-_">-d</span> @restore-monday.json
+</code></pre>
+  <p><em>JSON document that describes the restore:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"restore-monday"</span>,
+    <span class="hljs-attr">"source"</span>: <span class="hljs-string">"${url}/backup-monday"</span>,
+    <span class="hljs-attr">"target"</span>: <span class="hljs-string">"${url}/restore"</span>,
+    <span class="hljs-attr">"create-target"</span>: <span class="hljs-literal">true</span>  
+}
+</code></pre>
+  <h3 id="step-8-restore-the-tuesday-backup">Step 8: Restore the Tuesday backup</h3>
+  <p>To restore Tuesday&#39;s database, you first replicate from <code>backup-tuesday</code> and then from <code>backup-monday</code>.</p>
+  <blockquote>
+    <p> <strong>Note</strong>: The order is not a typographical error; the intention really <em>is</em> to restore from Tuesday and <em>then</em> Monday.</p>
+  </blockquote>
+  <p>You might restore in chronological sequence, but by using the reverse order, documents that were updated on Tuesday need to be written to the target database one time only. Older versions of the document that are stored in the Monday database are ignored.</p>
+  <p><em>Restoring Tuesday&#39;s backup, getting the most recent changes first, by using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">PUT</span> <span class="hljs-string">/_replicator/restore-tuesday</span> HTTP/1.1
+<span class="hljs-attribute">Content-Type</span>: application/json
+</code></pre>
+  <p><em>Restoring Tuesday&#39;s backup, getting the most recent changes first, by using the command line:</em></p>
+  <pre class="pre"><code class="lang-sh hljs">curl -X PUT <span class="hljs-string">"<span class="hljs-variable">${url}</span>/_replicator/restore-tuesday"</span> -H <span class="hljs-string">"<span class="hljs-variable">$ct</span>"</span> <span class="hljs-_">-d</span> @restore-tuesday.json
+</code></pre>
+  <p><em>JSON document that requests restoration of the Tuesday backup:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"restore-tuesday"</span>,
+    <span class="hljs-attr">"source"</span>: <span class="hljs-string">"${url}/backup-tuesday"</span>,
+    <span class="hljs-attr">"target"</span>: <span class="hljs-string">"${url}/restore"</span>,
+    <span class="hljs-attr">"create-target"</span>: <span class="hljs-literal">true</span>  
+}
+</code></pre>
+  <p><em>Complete the recovery by restoring Monday&#39;s backup last by using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">PUT</span> <span class="hljs-string">/_replicator/restore-monday</span> HTTP/1.1
+<span class="hljs-attribute">Content-Type</span>: application/json
+</code></pre>
+  <p><em>Complete the recovery by restoring Monday&#39;s backup last by using the command line:</em></p>
+  <pre class="pre"><code class="lang-http hljs">curl -X PUT &quot;${url}/_replicator/restore-monday&quot; -H &quot;$ct&quot; -d @restore-monday.json
+</code></pre>
+  <p><em>JSON document that requests restoration of the Monday backup:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"restore-monday"</span>,
+    <span class="hljs-attr">"source"</span>: <span class="hljs-string">"${url}/backup-monday"</span>,
+    <span class="hljs-attr">"target"</span>: <span class="hljs-string">"${url}/restore"</span>
+}
+</code></pre>
+  <h2 id="suggestions">Suggestions</h2>
+  <p>While the previous information outlines the basic backup process, each application needs its own requirements and strategies for backups. The following suggestions might be helpful.</p>
+  <h3 id="scheduling-backups">Scheduling backups</h3>
+  <p>Replication jobs can significantly increase the load on a cluster. If you are backing up several databases, it is best to stagger the replication jobs for different times, or to a time when the cluster is less busy.</p>
+  <h4 id="changing-the-io-priority-of-a-backup">Changing the IO priority of a backup</h4>
+  <p>You can change the priority of backup jobs by adjusting the value of the <code>x-cloudant-io-priority</code> field within the replication document.</p>
+  <ol>
+    <li>In the source and target fields, change the <code>headers</code> object.</li>
+    <li>In the headers object, change the <code>x-cloudant-io-priority</code> field value to <code>&quot;low&quot;</code>.</li>
+  </ol>
+  <p><em>Example of JSON document that sets the IO priority:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"source"</span>: {
+        <span class="hljs-attr">"url"</span>: <span class="hljs-string">"https://user:pass@example.com/db"</span>,
+        <span class="hljs-attr">"headers"</span>: {
+            <span class="hljs-attr">"x-cloudant-io-priority"</span>: <span class="hljs-string">"low"</span>
+        }
+    },
+    <span class="hljs-attr">"target"</span>: {
+        <span class="hljs-attr">"url"</span>: <span class="hljs-string">"https://user:pass@example.net/db"</span>,
+        <span class="hljs-attr">"headers"</span>: {
+            <span class="hljs-attr">"x-cloudant-io-priority"</span>: <span class="hljs-string">"low"</span>
+        }
+    }
+}
+</code></pre>
+  <div id="design-documents"></div>
+  <h3 id="backing-up-design-documents">Backing up design documents</h3>
+  <p>If you include design documents in your backup, indexes are created on the backup destination. This practice slows down the backup process and uses unnecessary amounts of disk space. If you don&#39;t require indexes on your backup system, use a filter
+    function with your replications to filter out design documents. You might also use this filter function to exclude other documents that are not wanted.</p>
+  <h3 id="backing-up-multiple-databases">Backing up multiple databases</h3>
+  <p>If your application uses one database per user, or allows each user to create several databases, you need to create a backup job for each new database. Make sure that your replication jobs do not begin at the same time.</p>
+  <h2 id="need-help-">Need help?</h2>
+  <p>Replication and backups can be tricky. If you get stuck, check out the <a href="replication_guide.html">replication guide</a>, or contact the
+    <a href="mailto:support@cloudant.com" target="_blank">IBM Cloudant support team <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>.</p>
+  <footer>
+    <div>
+      <p>Copyright &copy; 2015, 2017. All Rights Reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

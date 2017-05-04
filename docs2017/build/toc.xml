@@ -1,0 +1,1198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?NLS TYPE="markdown.toc"?>
+<toc label="Cloudant NoSQL DB">
+  <property name="subcollection" value="cloudant"/>
+  <property name="audience" value="service"/>
+  <topic href="index.html#getting-started-with-cloudant" label="Getting started with Cloudant">
+    <property name="navgroup" value="learn"/>
+  </topic>
+  <topic href="cloudant.html#overview" label="Overview">
+    <property name="navgroup" value="learn"/>
+    <topic href="cloudant.html#contents" label="Contents">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="cloudant.html#contribute" label="Contribute">
+      <property name="type" value="anchor"/>
+    </topic>
+  </topic>
+  <topic label="Offerings">
+    <property name="navgroup" value="learn"/>
+    <property name="topicgroup" value="Offerings"/>
+    <topic href="offerings/index.html#cloudant-offerings" label="Cloudant Offerings">
+      <topic href="offerings/index.html#database-as-a-service" label="Database as a Service">
+        <property name="type" value="anchor"/>
+        <topic href="offerings/index.html#shared-plan" label="Shared Plan"></topic>
+        <topic href="offerings/index.html#enterprise-plan" label="Enterprise Plan"></topic>
+      </topic>
+      <topic href="offerings/index.html#cloudant-local" label="Cloudant Local">
+        <property name="type" value="anchor"/>
+      </topic>
+    </topic>
+    <topic href="offerings/bluemix.html#ibm-bluemix" label="IBM Bluemix">
+      <topic href="offerings/bluemix.html#bluemix-public" label="Bluemix Public">
+        <property name="type" value="anchor"/>
+        <topic href="offerings/bluemix.html#lite-plan" label="Lite plan"></topic>
+        <topic href="offerings/bluemix.html#standard-plan" label="Standard plan"></topic>
+        <topic href="offerings/bluemix.html#monitoring-usage" label="Monitoring usage"></topic>
+        <topic href="offerings/bluemix.html#hardware-specification" label="Hardware specification"></topic>
+        <topic href="offerings/bluemix.html#support" label="Support"></topic>
+      </topic>
+      <topic href="offerings/bluemix.html#bluemix-dedicated" label="Bluemix Dedicated">
+        <property name="type" value="anchor"/>
+      </topic>
+    </topic>
+    <topic href="offerings/whatsnew.html#what-s-new-in-cloudant" label="What&#39;s new in Cloudant">
+      <topic href="offerings/whatsnew.html#build-5638" label="Build 5638">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="offerings/whatsnew.html#build-5421" label="Build 5421">
+        <property name="type" value="anchor"/>
+        <topic href="offerings/whatsnew.html#breaking-behavior-changes" label="Breaking/behavior changes"></topic>
+      </topic>
+    </topic>
+  </topic>
+  <topic label="Tutorials">
+    <property name="navgroup" value="learn"/>
+    <property name="topicgroup" value="Tutorials"/>
+    <topic href="tutorials/index.html#tutorials" label="Tutorials">
+      <topic href="tutorials/index.html#creating-a-cloudant-instance-on-bluemix" label="Creating a Cloudant instance on Bluemix">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="tutorials/index.html#creating-and-populating-a-simple-cloudant-database-on-bluemix" label="Creating and populating a simple Cloudant database on Bluemix">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="tutorials/index.html#creating-a-bluemix-application-to-access-a-cloudant-database-on-bluemix" label="Creating a Bluemix application to access a Cloudant database on Bluemix">
+        <property name="type" value="anchor"/>
+      </topic>
+    </topic>
+    <topic href="tutorials/create_service.html#creating-a-cloudant-instance-on-bluemix" label="Creating a Cloudant instance on Bluemix">
+      <topic href="tutorials/create_service.html#creating-a-service-instance" label="Creating a service instance">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="tutorials/create_service.html#the-service-credentials" label="The service credentials">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="tutorials/create_service.html#locating-your-service-credentials" label="Locating your service credentials">
+        <property name="type" value="anchor"/>
+      </topic>
+    </topic>
+    <topic href="tutorials/create_database.html#creating-and-populating-a-simple-cloudant-database-on-bluemix" label="Creating and populating a simple Cloudant database on Bluemix">
+      <topic href="tutorials/create_database.html#pre-requisites" label="Pre-requisites">
+        <property name="type" value="anchor"/>
+        <topic href="tutorials/create_database.html#python" label="Python"></topic>
+        <topic href="tutorials/create_database.html#python-client-library-for-cloudant" label="Python Client Library for Cloudant"></topic>
+        <topic href="tutorials/create_database.html#a-cloudant-service-instance-on-bluemix" label="A Cloudant service instance on Bluemix"></topic>
+      </topic>
+      <topic href="tutorials/create_database.html#context" label="Context">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="tutorials/create_database.html#connecting-to-a-cloudant-service-instance-on-bluemix" label="Connecting to a Cloudant service instance on Bluemix">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="tutorials/create_database.html#creating-a-database-within-the-service-instance" label="Creating a database within the service instance">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="tutorials/create_database.html#storing-a-small-collection-of-data-as-documents-within-the-database" label="Storing a small collection of data as documents within the database">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="tutorials/create_database.html#retrieving-data" label="Retrieving data">
+        <property name="type" value="anchor"/>
+        <topic href="tutorials/create_database.html#a-minimal-retrieval-of-a-document" label="A minimal retrieval of a document"></topic>
+        <topic href="tutorials/create_database.html#full-retrieval-of-a-document" label="Full retrieval of a document"></topic>
+      </topic>
+      <topic href="tutorials/create_database.html#calling-a-cloudant-api-endpoint-directly" label="Calling a Cloudant API endpoint directly">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="tutorials/create_database.html#deleting-the-database" label="Deleting the database">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="tutorials/create_database.html#closing-the-connection-to-the-service-instance" label="Closing the connection to the service instance">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="tutorials/create_database.html#complete-listing" label="Complete listing">
+        <property name="type" value="anchor"/>
+      </topic>
+    </topic>
+    <topic href="tutorials/create_bmxapp.html#creating-a-simple-bluemix-application-to-access-a-cloudant-database" label="Creating a simple Bluemix application to access a Cloudant database">
+      <topic href="tutorials/create_bmxapp.html#context" label="Context">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="tutorials/create_bmxapp.html#task-overview" label="Task overview">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="tutorials/create_bmxapp.html#tutorial-structure" label="Tutorial structure">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="tutorials/create_bmxapp.html#the-next-step" label="The next step">
+        <property name="type" value="anchor"/>
+      </topic>
+    </topic>
+    <topic href="tutorials/create_bmxapp_prereq.html#creating-a-simple-bluemix-application-to-access-a-cloudant-database-prerequisites" label="Creating a simple Bluemix application to access a Cloudant database: Prerequisites">
+      <topic href="tutorials/create_bmxapp_prereq.html#prerequisites" label="Prerequisites">
+        <property name="type" value="anchor"/>
+        <topic href="tutorials/create_bmxapp_prereq.html#python" label="Python"></topic>
+        <topic href="tutorials/create_bmxapp_prereq.html#a-cloudant-service-instance-on-bluemix" label="A Cloudant service instance on Bluemix"></topic>
+        <topic href="tutorials/create_bmxapp_prereq.html#a-cloudant-database-application" label="A Cloudant database application"></topic>
+      </topic>
+      <topic href="tutorials/create_bmxapp_prereq.html#the-next-step" label="The next step">
+        <property name="type" value="anchor"/>
+      </topic>
+    </topic>
+    <topic href="tutorials/create_bmxapp_appenv.html#creating-a-simple-bluemix-application-to-access-a-cloudant-database-the-application-environment" label="Creating a simple Bluemix application to access a Cloudant database: the application environment">
+      <topic href="tutorials/create_bmxapp_appenv.html#creating-a-bluemix-application-environment" label="Creating a Bluemix application environment">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="tutorials/create_bmxapp_appenv.html#connecting-bluemix-applications-and-services" label="Connecting Bluemix applications and services">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="tutorials/create_bmxapp_appenv.html#the-cloud-foundry-and-bluemix-command-toolkits" label="The Cloud Foundry and Bluemix command toolkits">
+        <property name="type" value="anchor"/>
+        <topic href="tutorials/create_bmxapp_appenv.html#installing-the-cloud-foundry-toolkit" label="Installing the Cloud Foundry toolkit"></topic>
+        <topic href="tutorials/create_bmxapp_appenv.html#installing-the-bluemix-toolkit" label="Installing the Bluemix toolkit"></topic>
+      </topic>
+      <topic href="tutorials/create_bmxapp_appenv.html#the-starter-application" label="The &#39;starter&#39; application">
+        <property name="type" value="anchor"/>
+        <topic href="tutorials/create_bmxapp_appenv.html#the-procfile-file" label="The &#39;Procfile&#39; file"></topic>
+        <topic href="tutorials/create_bmxapp_appenv.html#the-manifest-yml-file" label="The &#39;manifest.yml&#39; file"></topic>
+        <topic href="tutorials/create_bmxapp_appenv.html#the-requirements-txt-file" label="The &#39;requirements.txt&#39; file"></topic>
+      </topic>
+      <topic href="tutorials/create_bmxapp_appenv.html#the-next-step" label="The next step">
+        <property name="type" value="anchor"/>
+      </topic>
+    </topic>
+    <topic href="tutorials/create_bmxapp_createapp.html#creating-a-simple-bluemix-application-to-access-a-cloudant-database-the-code" label="Creating a simple Bluemix application to access a Cloudant database: the code">
+      <topic href="tutorials/create_bmxapp_createapp.html#creating-your-application" label="Creating your application">
+        <property name="type" value="anchor"/>
+        <topic href="tutorials/create_bmxapp_createapp.html#essential-files" label="Essential files"></topic>
+        <topic href="tutorials/create_bmxapp_createapp.html#the-application-code" label="The application code"></topic>
+      </topic>
+      <topic href="tutorials/create_bmxapp_createapp.html#the-next-step" label="The next step">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="tutorials/create_bmxapp_createapp.html#complete-listing" label="Complete listing">
+        <property name="type" value="anchor"/>
+      </topic>
+    </topic>
+    <topic href="tutorials/create_bmxapp_upload.html#creating-a-simple-bluemix-application-to-access-a-cloudant-database-uploading-the-application" label="Creating a simple Bluemix application to access a Cloudant database: uploading the application">
+      <topic href="tutorials/create_bmxapp_upload.html#connecting-to-bluemix" label="Connecting to Bluemix">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="tutorials/create_bmxapp_upload.html#uploading-the-application" label="Uploading the application">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="tutorials/create_bmxapp_upload.html#testing-the-sample-application" label="Testing the sample application">
+        <property name="type" value="anchor"/>
+        <topic href="tutorials/create_bmxapp_upload.html#confirming-the-database-details" label="Confirming the database details"></topic>
+      </topic>
+      <topic href="tutorials/create_bmxapp_upload.html#the-next-step" label="The next step">
+        <property name="type" value="anchor"/>
+      </topic>
+    </topic>
+    <topic href="tutorials/create_bmxapp_maintain.html#creating-a-simple-bluemix-application-to-access-a-cloudant-database-maintaining-and-troubleshooting" label="Creating a simple Bluemix application to access a Cloudant database: maintaining and troubleshooting">
+      <topic href="tutorials/create_bmxapp_maintain.html#performing-basic-application-maintenance-tasks" label="Performing basic application maintenance tasks">
+        <property name="type" value="anchor"/>
+        <topic href="tutorials/create_bmxapp_maintain.html#finding-the-status-of-your-application" label="Finding the status of your application"></topic>
+        <topic href="tutorials/create_bmxapp_maintain.html#starting-your-application" label="Starting your application"></topic>
+        <topic href="tutorials/create_bmxapp_maintain.html#stopping-your-application" label="Stopping your application"></topic>
+        <topic href="tutorials/create_bmxapp_maintain.html#uploading-a-fresh-version-of-your-application" label="Uploading a fresh version of your application"></topic>
+      </topic>
+      <topic href="tutorials/create_bmxapp_maintain.html#diagnosing-and-resolving-problems" label="Diagnosing and resolving problems">
+        <property name="type" value="anchor"/>
+        <topic href="tutorials/create_bmxapp_maintain.html#using-the-application-log" label="Using the application log"></topic>
+      </topic>
+      <topic href="tutorials/create_bmxapp_maintain.html#end-of-tutorial" label="End of tutorial">
+        <property name="type" value="anchor"/>
+      </topic>
+    </topic>
+  </topic>
+  <topic href="basics/index.html#cloudant-basics" label="Cloudant Basics">
+    <property name="navgroup" value="reference"/>
+    <topic href="basics/index.html#connecting-to-cloudant" label="Connecting to Cloudant">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="basics/index.html#http-api" label="HTTP API">
+      <property name="type" value="anchor"/>
+      <topic href="basics/index.html#method-not-allowed-error" label="Method not allowed error"></topic>
+    </topic>
+    <topic href="basics/index.html#json" label="JSON">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="basics/index.html#distributed-systems" label="Distributed Systems">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="basics/index.html#replication" label="Replication">
+      <property name="type" value="anchor"/>
+    </topic>
+  </topic>
+  <topic label="Libraries">
+    <property name="navgroup" value="reference"/>
+    <property name="topicgroup" value="Libraries"/>
+    <topic href="libraries/index.html#client-libraries" label="Client Libraries"></topic>
+    <topic href="libraries/supported.html#supported-client-libraries" label="Supported client libraries">
+      <topic href="libraries/supported.html#mobile" label="Mobile">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="libraries/supported.html#java" label="Java">
+        <property name="type" value="anchor"/>
+        <topic href="libraries/supported.html#libraries-and-frameworks" label="Libraries and Frameworks"></topic>
+        <topic href="libraries/supported.html#examples-and-tutorials" label="Examples and Tutorials"></topic>
+      </topic>
+      <topic href="libraries/supported.html#node-js" label="Node.js">
+        <property name="type" value="anchor"/>
+        <topic href="libraries/supported.html#libraries-and-frameworks" label="Libraries and Frameworks"></topic>
+        <topic href="libraries/supported.html#examples-and-tutorials" label="Examples and Tutorials"></topic>
+      </topic>
+      <topic href="libraries/supported.html#python" label="Python">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="libraries/supported.html#swift" label="Swift">
+        <property name="type" value="anchor"/>
+      </topic>
+    </topic>
+    <topic href="libraries/thirdparty.html#third-party-client-libraries" label="Third-party client libraries">
+      <topic href="libraries/thirdparty.html#third-party-mobile-libraries" label="Third-party Mobile libraries">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="libraries/thirdparty.html#c-net" label="C# / .NET">
+        <property name="type" value="anchor"/>
+        <topic href="libraries/thirdparty.html#libraries-and-frameworks" label="Libraries and Frameworks"></topic>
+        <topic href="libraries/thirdparty.html#examples-and-tutorials" label="Examples and Tutorials"></topic>
+      </topic>
+      <topic href="libraries/thirdparty.html#php" label="PHP">
+        <property name="type" value="anchor"/>
+        <topic href="libraries/thirdparty.html#libraries-and-frameworks" label="Libraries and Frameworks"></topic>
+        <topic href="libraries/thirdparty.html#examples-and-tutorials" label="Examples and Tutorials"></topic>
+      </topic>
+      <topic href="libraries/thirdparty.html#javascript" label="JavaScript">
+        <property name="type" value="anchor"/>
+        <topic href="libraries/thirdparty.html#libraries-and-frameworks" label="Libraries and Frameworks"></topic>
+        <topic href="libraries/thirdparty.html#examples-and-tutorials" label="Examples and Tutorials"></topic>
+      </topic>
+      <topic href="libraries/thirdparty.html#ruby" label="Ruby">
+        <property name="type" value="anchor"/>
+        <topic href="libraries/thirdparty.html#libraries-and-frameworks" label="Libraries and Frameworks"></topic>
+        <topic href="libraries/thirdparty.html#examples-and-tutorials" label="Examples and Tutorials"></topic>
+      </topic>
+      <topic href="libraries/thirdparty.html#meteor" label="Meteor">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="libraries/thirdparty.html#apache-spark" label="Apache Spark">
+        <property name="type" value="anchor"/>
+      </topic>
+    </topic>
+  </topic>
+  <topic label="API Reference">
+    <property name="navgroup" value="reference"/>
+    <property name="topicgroup" value="API Reference"/>
+    <topic href="api/index.html#api-reference" label="API Reference">
+      <topic href="api/index.html#for-the-curl-samples" label="For the cURL samples">
+        <property name="type" value="anchor"/>
+      </topic>
+    </topic>
+    <topic href="api/http.html#http" label="HTTP">
+      <topic href="api/http.html#http-headers" label="HTTP Headers">
+        <property name="type" value="anchor"/>
+        <topic href="api/http.html#request-headers" label="Request headers"></topic>
+        <topic href="api/http.html#response-headers" label="Response Headers"></topic>
+      </topic>
+      <topic href="api/http.html#http-status-codes" label="HTTP Status Codes">
+        <property name="type" value="anchor"/>
+      </topic>
+    </topic>
+    <topic href="api/compare.html#comparison-of-cloudant-and-couchdb-api-endpoints" label="Comparison of Cloudant and CouchDB API endpoints"></topic>
+    <topic href="api/account.html#account" label="Account">
+      <topic href="api/account.html#ping" label="Ping">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/account.html#cors" label="CORS">
+        <property name="type" value="anchor"/>
+      </topic>
+    </topic>
+    <topic href="api/authentication.html#authentication" label="Authentication">
+      <topic href="api/authentication.html#basic-authentication" label="Basic Authentication">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/authentication.html#cookie-authentication" label="Cookie Authentication">
+        <property name="type" value="anchor"/>
+        <topic href="api/authentication.html#requesting-a-cookie" label="Requesting a cookie"></topic>
+        <topic href="api/authentication.html#getting-cookie-authenticated-information" label="Getting cookie-authenticated information"></topic>
+        <topic href="api/authentication.html#deleting-a-cookie" label="Deleting a cookie"></topic>
+      </topic>
+    </topic>
+    <topic href="api/authorization.html#authorization" label="Authorization">
+      <topic href="api/authorization.html#roles" label="Roles">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/authorization.html#viewing-permissions" label="Viewing Permissions">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/authorization.html#modifying-permissions" label="Modifying Permissions">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/authorization.html#creating-api-keys" label="Creating API Keys">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/authorization.html#using-api-keys" label="Using API keys">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/authorization.html#deleting-api-keys" label="Deleting API keys">
+        <property name="type" value="anchor"/>
+        <topic href="api/authorization.html#to-remove-an-api-key-by-using-the-dashboard" label="To remove an API key by using the Dashboard"></topic>
+        <topic href="api/authorization.html#to-remove-an-api-key-by-using-the-cloudant-api" label="To remove an API key by using the Cloudant API"></topic>
+      </topic>
+      <topic href="api/authorization.html#enabling-the-_users-database-with-cloudant" label="Enabling the _users database with Cloudant">
+        <property name="type" value="anchor"/>
+      </topic>
+    </topic>
+    <topic href="api/cors.html#cors" label="CORS">
+      <topic href="api/cors.html#browser-support" label="Browser support">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/cors.html#security" label="Security">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/cors.html#configuration-endpoints" label="Configuration endpoints">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/cors.html#json-format" label="JSON format">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/cors.html#setting-the-cors-configuration" label="Setting the CORS configuration">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/cors.html#reading-the-cors-configuration" label="Reading the CORS configuration">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/cors.html#dashboard" label="Dashboard">
+        <property name="type" value="anchor"/>
+      </topic>
+    </topic>
+    <topic href="api/database.html#databases" label="Databases">
+      <topic href="api/database.html#create" label="Create">
+        <property name="type" value="anchor"/>
+        <topic href="api/database.html#database-topology" label="Database topology"></topic>
+      </topic>
+      <topic href="api/database.html#getting-database-details" label="Getting database details">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/database.html#get-a-list-of-all-databases-in-the-account" label="Get a list of all databases in the account">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/database.html#get-documents" label="Get Documents">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/database.html#get-changes" label="Get Changes">
+        <property name="type" value="anchor"/>
+        <topic href="api/database.html#changes-in-a-distributed-database" label="Changes in a distributed database"></topic>
+        <topic href="api/database.html#the-feed-argument" label="The feed argument"></topic>
+        <topic href="api/database.html#the-filter-argument" label="The filter argument"></topic>
+        <topic href="api/database.html#the-since-argument" label="The since argument"></topic>
+        <topic href="api/database.html#responses-from-the-_changes-request" label="Responses from the _changes request"></topic>
+        <topic href="api/database.html#important-notes-about-_changes-" label="Important notes about _changes"></topic>
+        <topic href="api/database.html#using-post-to-get-changes" label="Using POST to get changes"></topic>
+      </topic>
+      <topic href="api/database.html#deleting-a-database" label="Deleting a database">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/database.html#backing-up-your-data" label="Backing up your data">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/database.html#using-a-different-domain" label="Using a different domain">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/database.html#creating-database-applications" label="Creating database applications">
+        <property name="type" value="anchor"/>
+      </topic>
+    </topic>
+    <topic href="api/document.html#documents" label="Documents">
+      <topic href="api/document.html#create" label="Create">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/document.html#read" label="Read">
+        <property name="type" value="anchor"/>
+        <topic href="api/document.html#query-parameters" label="Query Parameters"></topic>
+      </topic>
+      <topic href="api/document.html#read-many" label="Read Many">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/document.html#update" label="Update">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/document.html#delete" label="Delete">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/document.html#-tombstone-documents" label="&#39;Tombstone&#39; documents">
+        <property name="type" value="anchor"/>
+        <topic href="api/document.html#simple-removal-of-tombstone-documents" label="Simple removal of &#39;tombstone&#39; documents"></topic>
+        <topic href="api/document.html#advanced-removal-of-tombstone-documents" label="Advanced removal of tombstone documents"></topic>
+        <topic href="api/document.html#performance-implications-of-tombstone-removal" label="Performance implications of tombstone removal"></topic>
+      </topic>
+      <topic href="api/document.html#bulk-operations" label="Bulk Operations">
+        <property name="type" value="anchor"/>
+        <topic href="api/document.html#bulk-request-structure" label="Bulk request structure"></topic>
+        <topic href="api/document.html#bulk-request-responses" label="Bulk request responses"></topic>
+        <topic href="api/document.html#inserting-documents-in-bulk" label="Inserting documents in bulk"></topic>
+        <topic href="api/document.html#updating-documents-in-bulk" label="Updating Documents in Bulk"></topic>
+        <topic href="api/document.html#bulk-documents-transaction-semantics" label="Bulk Documents Transaction Semantics"></topic>
+        <topic href="api/document.html#bulk-document-validation-and-conflict-errors" label="Bulk Document Validation and Conflict Errors"></topic>
+        <topic href="api/document.html#the-_bulk_get-endpoint" label="The _bulk_get endpoint"></topic>
+      </topic>
+      <topic href="api/document.html#quorum-writing-and-reading-data" label="Quorum - writing and reading data">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/document.html#ttl-time-to-live" label="TTL - Time to Live">
+        <property name="type" value="anchor"/>
+      </topic>
+    </topic>
+    <topic href="api/attachments.html#attachments" label="Attachments">
+      <topic href="api/attachments.html#create-update" label="Create / Update">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/attachments.html#read" label="Read">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/attachments.html#delete" label="Delete">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/attachments.html#inline" label="Inline">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/attachments.html#performance-considerations" label="Performance considerations">
+        <property name="type" value="anchor"/>
+      </topic>
+    </topic>
+    <topic href="api/cloudant_query.html#query" label="Query">
+      <topic href="api/cloudant_query.html#creating-an-index" label="Creating an index">
+        <property name="type" value="anchor"/>
+        <topic href="api/cloudant_query.html#creating-a-type-json-index" label="Creating a &quot;type=json&quot; index"></topic>
+        <topic href="api/cloudant_query.html#creating-a-type-text-index" label="Creating a &quot;type=text&quot; index"></topic>
+      </topic>
+      <topic href="api/cloudant_query.html#query-parameters" label="Query Parameters">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/cloudant_query.html#working-with-indexes" label="Working with indexes">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/cloudant_query.html#list-all-cloudant-query-indexes" label="List all Cloudant Query indexes">
+        <property name="type" value="anchor"/>
+        <topic href="api/cloudant_query.html#response-body-format" label="Response body format"></topic>
+      </topic>
+      <topic href="api/cloudant_query.html#deleting-an-index" label="Deleting an index">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/cloudant_query.html#finding-documents-by-using-an-index" label="Finding documents by using an index">
+        <property name="type" value="anchor"/>
+        <topic href="api/cloudant_query.html#request-body" label="Request body"></topic>
+        <topic href="api/cloudant_query.html#response-body" label="Response body"></topic>
+      </topic>
+      <topic href="api/cloudant_query.html#selector-syntax" label="Selector Syntax">
+        <property name="type" value="anchor"/>
+        <topic href="api/cloudant_query.html#selector-basics" label="Selector basics"></topic>
+        <topic href="api/cloudant_query.html#selector-with-two-fields" label="Selector with two fields"></topic>
+      </topic>
+      <topic href="api/cloudant_query.html#subfields" label="Subfields">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/cloudant_query.html#operators" label="Operators">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/cloudant_query.html#implicit-operators" label="Implicit Operators">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/cloudant_query.html#explicit-operators" label="Explicit operators">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/cloudant_query.html#combination-operators" label="Combination Operators">
+        <property name="type" value="anchor"/>
+        <topic href="api/cloudant_query.html#examples-of-combination-operators" label="Examples of combination operators"></topic>
+      </topic>
+      <topic href="api/cloudant_query.html#condition-operators" label="Condition Operators">
+        <property name="type" value="anchor"/>
+        <topic href="api/cloudant_query.html#examples-of-condition-operators" label="Examples of condition operators"></topic>
+      </topic>
+      <topic href="api/cloudant_query.html#creating-selector-expressions" label="Creating selector expressions">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/cloudant_query.html#sort-syntax" label="Sort Syntax">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/cloudant_query.html#filtering-fields" label="Filtering fields">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/cloudant_query.html#explain-plans" label="Explain Plans">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/cloudant_query.html#note-about-text-indexes" label="Note about text indexes">
+        <property name="type" value="anchor"/>
+        <topic href="api/cloudant_query.html#selector-conversion" label="Selector conversion"></topic>
+        <topic href="api/cloudant_query.html#a-more-complex-example" label="A more complex example"></topic>
+      </topic>
+      <topic href="api/cloudant_query.html#example-movies-demonstration-database" label="Example: Movies demonstration database">
+        <property name="type" value="anchor"/>
+      </topic>
+    </topic>
+    <topic href="api/design_documents.html#design-documents" label="Design Documents">
+      <topic href="api/design_documents.html#creating-or-updating-a-design-document" label="Creating or updating a design document">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/design_documents.html#copying-a-design-document" label="Copying a Design Document">
+        <property name="type" value="anchor"/>
+        <topic href="api/design_documents.html#the-structure-of-the-copy-command" label="The structure of the copy command"></topic>
+        <topic href="api/design_documents.html#copying-from-a-specific-revision" label="Copying from a specific revision"></topic>
+        <topic href="api/design_documents.html#copying-to-an-existing-design-document" label="Copying to an existing design document"></topic>
+      </topic>
+      <topic href="api/design_documents.html#deleting-a-design-document" label="Deleting a design document">
+        <property name="type" value="anchor"/>
+        <topic href="api/design_documents.html#the-structure-of-the-delete-command" label="The structure of the delete command"></topic>
+      </topic>
+      <topic href="api/design_documents.html#views" label="Views">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/design_documents.html#rewrite-rules" label="Rewrite rules">
+        <property name="type" value="anchor"/>
+        <topic href="api/design_documents.html#example-rewrite-rules" label="Example rewrite rules"></topic>
+      </topic>
+      <topic href="api/design_documents.html#indexes" label="Indexes">
+        <property name="type" value="anchor"/>
+        <topic href="api/design_documents.html#general-notes-on-functions-in-design-documents" label="General notes on functions in design documents"></topic>
+      </topic>
+      <topic href="api/design_documents.html#list-functions" label="List Functions">
+        <property name="type" value="anchor"/>
+        <topic href="api/design_documents.html#head" label="head"></topic>
+        <topic href="api/design_documents.html#req" label="req"></topic>
+      </topic>
+      <topic href="api/design_documents.html#show-functions" label="Show Functions">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/design_documents.html#update-handlers" label="Update Handlers">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/design_documents.html#filter-functions" label="Filter Functions">
+        <property name="type" value="anchor"/>
+        <topic href="api/design_documents.html#predefined-filter-functions" label="Predefined filter functions"></topic>
+      </topic>
+      <topic href="api/design_documents.html#update-validators" label="Update Validators">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/design_documents.html#retrieving-information-about-a-design-document" label="Retrieving information about a design document">
+        <property name="type" value="anchor"/>
+        <topic href="api/design_documents.html#the-_info-endpoint" label="The _info endpoint"></topic>
+        <topic href="api/design_documents.html#the-_search_info-endpoint" label="The _search_info endpoint"></topic>
+      </topic>
+    </topic>
+    <topic href="api/creating_views.html#views-mapreduce-" label="Views (MapReduce)">
+      <topic href="api/creating_views.html#view-concepts" label="View concepts">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/creating_views.html#a-simple-view" label="A simple view">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/creating_views.html#map-function-examples" label="Map function examples">
+        <property name="type" value="anchor"/>
+        <topic href="api/creating_views.html#indexing-a-field" label="Indexing a field"></topic>
+        <topic href="api/creating_views.html#an-index-for-a-one-to-many-relationship" label="An index for a one to many relationship"></topic>
+        <topic href="api/creating_views.html#complex-keys" label="Complex Keys"></topic>
+      </topic>
+      <topic href="api/creating_views.html#reduce-functions" label="Reduce functions">
+        <property name="type" value="anchor"/>
+        <topic href="api/creating_views.html#built-in-reduce-functions" label="Built-in reduce functions"></topic>
+      </topic>
+      <topic href="api/creating_views.html#storing-the-view-definition" label="Storing the view definition">
+        <property name="type" value="anchor"/>
+      </topic>
+    </topic>
+    <topic href="api/using_views.html#using-views" label="Using Views">
+      <topic href="api/using_views.html#querying-a-view" label="Querying a view">
+        <property name="type" value="anchor"/>
+        <topic href="api/using_views.html#query-arguments" label="Query Arguments"></topic>
+      </topic>
+      <topic href="api/using_views.html#indexes" label="Indexes">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/using_views.html#accessing-a-stale-view" label="Accessing a stale view">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/using_views.html#sorting-returned-rows" label="Sorting Returned Rows">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/using_views.html#specifying-start-and-end-keys" label="Specifying Start and End Keys">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/using_views.html#querying-a-view-by-using-a-list-of-keys" label="Querying a view by using a list of keys">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/using_views.html#multi-document-fetching" label="Multi-document Fetching">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/using_views.html#sending-several-queries-to-a-view" label="Sending several queries to a view">
+        <property name="type" value="anchor"/>
+      </topic>
+    </topic>
+    <topic href="api/search.html#search" label="Search">
+      <topic href="api/search.html#index-functions" label="Index functions">
+        <property name="type" value="anchor"/>
+        <topic href="api/search.html#index-guard-clauses" label="Index Guard Clauses"></topic>
+      </topic>
+      <topic href="api/search.html#analyzers" label="Analyzers">
+        <property name="type" value="anchor"/>
+        <topic href="api/search.html#language-specific-analyzers" label="Language-Specific Analyzers"></topic>
+        <topic href="api/search.html#per-field-analyzers" label="Per-Field Analyzers"></topic>
+        <topic href="api/search.html#stop-words" label="Stop Words"></topic>
+        <topic href="api/search.html#testing-analyzer-tokenization" label="Testing analyzer tokenization"></topic>
+      </topic>
+      <topic href="api/search.html#queries" label="Queries">
+        <property name="type" value="anchor"/>
+        <topic href="api/search.html#query-parameters" label="Query Parameters"></topic>
+        <topic href="api/search.html#relevance" label="Relevance"></topic>
+        <topic href="api/search.html#posting-search-queries" label="POSTing search queries"></topic>
+      </topic>
+      <topic href="api/search.html#query-syntax" label="Query Syntax">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/search.html#faceting" label="Faceting">
+        <property name="type" value="anchor"/>
+        <topic href="api/search.html#counts" label="Counts"></topic>
+        <topic href="api/search.html#-drilldown-" label="drilldown"></topic>
+        <topic href="api/search.html#ranges" label="Ranges"></topic>
+      </topic>
+      <topic href="api/search.html#geographical-searches" label="Geographical searches">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/search.html#highlighting-search-terms" label="Highlighting Search Terms">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/search.html#search-index-metadata" label="Search index metadata">
+        <property name="type" value="anchor"/>
+      </topic>
+    </topic>
+    <topic href="api/cloudant-geo.html#cloudant-geospatial" label="Cloudant Geospatial">
+      <topic href="api/cloudant-geo.html#cloudant-geo-overview" label="Cloudant Geo overview">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/cloudant-geo.html#using-cloudant-geospatial-through-the-dashboard" label="Using Cloudant Geospatial through the Dashboard">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/cloudant-geo.html#geojson" label="GeoJSON">
+        <property name="type" value="anchor"/>
+        <topic href="api/cloudant-geo.html#-type-" label="type"></topic>
+        <topic href="api/cloudant-geo.html#-geometry-" label="geometry"></topic>
+      </topic>
+      <topic href="api/cloudant-geo.html#creating-a-cloudant-geo-index" label="Creating a Cloudant Geo Index">
+        <property name="type" value="anchor"/>
+        <topic href="api/cloudant-geo.html#-geoidx-an-example-cloudant-geo-index" label="geoidx: An example Cloudant Geo index"></topic>
+        <topic href="api/cloudant-geo.html#geospatial-indexing" label="Geospatial indexing"></topic>
+      </topic>
+      <topic href="api/cloudant-geo.html#obtaining-information-about-a-cloudant-geo-index" label="Obtaining information about a Cloudant geo index">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/cloudant-geo.html#querying-a-cloudant-geo-index" label="Querying a Cloudant Geo index">
+        <property name="type" value="anchor"/>
+        <topic href="api/cloudant-geo.html#query-geometry" label="Query Geometry"></topic>
+        <topic href="api/cloudant-geo.html#geometric-relation" label="Geometric Relation"></topic>
+        <topic href="api/cloudant-geo.html#nearest-neighbor-search" label="Nearest neighbor search"></topic>
+        <topic href="api/cloudant-geo.html#result-set" label="Result Set"></topic>
+      </topic>
+      <topic href="api/cloudant-geo.html#example-querying-a-cloudant-geo-index" label="Example: Querying a Cloudant Geo index">
+        <property name="type" value="anchor"/>
+        <topic href="api/cloudant-geo.html#simple-circle" label="Simple Circle"></topic>
+        <topic href="api/cloudant-geo.html#a-polygon-query" label="A polygon query"></topic>
+      </topic>
+    </topic>
+    <topic href="api/replication.html#replication" label="Replication">
+      <topic href="api/replication.html#important-notes" label="Important notes">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/replication.html#creating-replications" label="Creating replications">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/replication.html#replication-document-format" label="Replication document format">
+        <property name="type" value="anchor"/>
+        <topic href="api/replication.html#the-selector-field" label="The selector field"></topic>
+        <topic href="api/replication.html#the-since_seq-field" label="The since_seq field"></topic>
+      </topic>
+      <topic href="api/replication.html#the-_replicator-database" label="The _replicator database">
+        <property name="type" value="anchor"/>
+        <topic href="api/replication.html#creating-a-replication" label="Creating a replication"></topic>
+        <topic href="api/replication.html#-optional-creating-a-replication-to-two-bluemix-environments" label="(Optional) Creating a replication to two Bluemix environments"></topic>
+        <topic href="api/replication.html#monitoring-a-replication" label="Monitoring a replication"></topic>
+        <topic href="api/replication.html#cancelling-a-replication" label="Cancelling a replication"></topic>
+      </topic>
+      <topic href="api/replication.html#the-_replicate-endpoint" label="The /_replicate endpoint">
+        <property name="type" value="anchor"/>
+        <topic href="api/replication.html#return-codes" label="Return Codes"></topic>
+        <topic href="api/replication.html#avoiding-the-_replicate-endpoint" label="Avoiding the /_replicate endpoint"></topic>
+      </topic>
+      <topic href="api/replication.html#replication-operation" label="Replication Operation">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/replication.html#creating-a-target-database-during-replication" label="Creating a target database during replication">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/replication.html#canceling-replication" label="Canceling replication">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/replication.html#single-replication" label="Single Replication">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/replication.html#continuous-replication" label="Continuous Replication">
+        <property name="type" value="anchor"/>
+        <topic href="api/replication.html#canceling-continuous-replication" label="Canceling Continuous Replication"></topic>
+      </topic>
+      <topic href="api/replication.html#example-replication-sequence" label="Example replication sequence">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/replication.html#replication-database-maintenance" label="Replication database maintenance">
+        <property name="type" value="anchor"/>
+      </topic>
+    </topic>
+    <topic href="api/advanced_replication.html#advanced-replication" label="Advanced replication">
+      <topic href="api/advanced_replication.html#replication-status" label="Replication Status">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/advanced_replication.html#authentication" label="Authentication">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/advanced_replication.html#filtered-replication" label="Filtered Replication">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/advanced_replication.html#named-document-replication" label="Named Document Replication">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/advanced_replication.html#replicating-through-a-proxy" label="Replicating through a proxy">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/advanced_replication.html#the-user_ctx-property-and-delegations" label="The user_ctx property and delegations">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/advanced_replication.html#performance-related-options" label="Performance related options">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/advanced_replication.html#attachments" label="Attachments">
+        <property name="type" value="anchor"/>
+      </topic>
+    </topic>
+    <topic href="api/active_tasks.html#active-tasks" label="Active tasks">
+      <topic href="api/active_tasks.html#retrieving-a-list-of-active-tasks" label="Retrieving a list of active tasks">
+        <property name="type" value="anchor"/>
+        <topic href="api/active_tasks.html#specific-response-fields-for-compaction-tasks" label="Specific response fields for compaction tasks"></topic>
+        <topic href="api/active_tasks.html#specific-response-fields-for-replication-tasks" label="Specific response fields for replication tasks"></topic>
+        <topic href="api/active_tasks.html#specific-response-fields-for-indexing-tasks" label="Specific response fields for indexing tasks"></topic>
+      </topic>
+    </topic>
+    <topic href="api/vhosts.html#virtual-hosts" label="Virtual hosts">
+      <topic href="api/vhosts.html#listing-virtual-hosts" label="Listing virtual hosts">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/vhosts.html#creating-a-virtual-host" label="Creating a virtual host">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/vhosts.html#deleting-a-virtual-host" label="Deleting a virtual host">
+        <property name="type" value="anchor"/>
+      </topic>
+    </topic>
+    <topic href="api/advanced.html#advanced" label="Advanced">
+      <topic href="api/advanced.html#-get-" label="GET /">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/advanced.html#-get-_db_updates-" label="GET /_db_updates">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/advanced.html#-get-database-_shards-" label="GET /$DATABASE/_shards">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/advanced.html#-get-database-_missing_revs-" label="GET /$DATABASE/_missing_revs">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/advanced.html#-post-database-_revs_diff-" label="POST /$DATABASE/_revs_diff">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/advanced.html#-get-database-_revs_limit-" label="GET /$DATABASE/_revs_limit">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/advanced.html#-put-database-_revs_limit-" label="PUT /$DATABASE/_revs_limit">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/advanced.html#-get-_membership-" label="GET /_membership">
+        <property name="type" value="anchor"/>
+        <topic href="api/advanced.html#response-structure" label="Response structure"></topic>
+      </topic>
+      <topic href="api/advanced.html#-get-_uuids-" label="GET /_uuids">
+        <property name="type" value="anchor"/>
+      </topic>
+    </topic>
+    <topic href="api/monitoring.html#monitoring-a-cloudant-cluster" label="Monitoring a Cloudant cluster">
+      <topic href="api/monitoring.html#monitoring-metrics-overview" label="Monitoring metrics overview">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/monitoring.html#syntax-of-the-monitoring-request" label="Syntax of the monitoring request">
+        <property name="type" value="anchor"/>
+        <topic href="api/monitoring.html#results-format" label="Results format"></topic>
+        <topic href="api/monitoring.html#with-format-json-default-" label="With format=json (default)"></topic>
+        <topic href="api/monitoring.html#with-format-raw-" label="With format=raw"></topic>
+      </topic>
+      <topic href="api/monitoring.html#monitoring-endpoints" label="Monitoring endpoints">
+        <property name="type" value="anchor"/>
+      </topic>
+      <topic href="api/monitoring.html#examples-of-monitoring-requests" label="Examples of monitoring requests">
+        <property name="type" value="anchor"/>
+        <topic href="api/monitoring.html#disk_use" label="disk_use"></topic>
+        <topic href="api/monitoring.html#kv_emits" label="kv_emits"></topic>
+        <topic href="api/monitoring.html#map_doc" label="map_doc"></topic>
+        <topic href="api/monitoring.html#rate-status_code" label="rate/status_code"></topic>
+        <topic href="api/monitoring.html#rate-verb" label="rate/verb"></topic>
+        <topic href="api/monitoring.html#response_time" label="response_time"></topic>
+        <topic href="api/monitoring.html#rps" label="rps"></topic>
+        <topic href="api/monitoring.html#wps" label="wps"></topic>
+      </topic>
+    </topic>
+    <topic href="api/backup.html#back-up-your-data" label="Back up your data"></topic>
+  </topic>
+  <topic href="guides/index.html#guides" label="Guides">
+    <property name="navgroup" value="howto"/>
+  </topic>
+  <topic href="guides/acurl.html#authorized-curl-acurl-" label="Authorized curl: acurl">
+    <property name="navgroup" value="howto"/>
+    <topic href="guides/acurl.html#encode-username-and-password" label="Encode username and password">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/acurl.html#create-an-alias" label="Create an alias">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/acurl.html#activate-the-alias" label="Activate the alias">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/acurl.html#testing-acurl-" label="Testing acurl">
+      <property name="type" value="anchor"/>
+    </topic>
+  </topic>
+  <topic href="guides/backup-guide.html#back-up-your-data" label="Back up your data">
+    <property name="navgroup" value="howto"/>
+    <topic href="guides/backup-guide.html#concepts" label="Concepts">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/backup-guide.html#incremental-backups" label="Incremental backups">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/backup-guide.html#roll-ups" label="Roll ups">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/backup-guide.html#restores" label="Restores">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/backup-guide.html#using-the-dashboard" label="Using the Dashboard">
+      <property name="type" value="anchor"/>
+      <topic href="guides/backup-guide.html#viewing-database-backup-status" label="Viewing database backup status"></topic>
+      <topic href="guides/backup-guide.html#viewing-document-backup-status" label="Viewing document backup status"></topic>
+      <topic href="guides/backup-guide.html#viewing-differences-between-document-backup-versions-and-restoring" label="Viewing differences between document backup versions, and restoring"></topic>
+    </topic>
+    <topic href="guides/backup-guide.html#using-the-api" label="Using the API">
+      <property name="type" value="anchor"/>
+      <topic href="guides/backup-guide.html#task-configuration" label="Task configuration"></topic>
+      <topic href="guides/backup-guide.html#determining-backup-tasks-for-specific-databases" label="Determining backup tasks for specific databases"></topic>
+      <topic href="guides/backup-guide.html#list-of-databases" label="List of databases"></topic>
+      <topic href="guides/backup-guide.html#restore-a-document" label="Restore a document"></topic>
+    </topic>
+    <topic href="guides/backup-guide.html#how-backup-using-incremental-replication-works" label="How backup using incremental replication works">
+      <property name="type" value="anchor"/>
+      <topic href="guides/backup-guide.html#find-the-id-of-the-checkpoint-document-for-the-last-replication" label="Find the ID of the checkpoint document for the last replication"></topic>
+      <topic href="guides/backup-guide.html#get-the-recorded_seq-value" label="Get the recorded_seq value"></topic>
+      <topic href="guides/backup-guide.html#run-an-incremental-backup" label="Run an incremental backup"></topic>
+    </topic>
+    <topic href="guides/backup-guide.html#known-limitations" label="Known limitations">
+      <property name="type" value="anchor"/>
+    </topic>
+  </topic>
+  <topic href="guides/backup-guide-using-replication.html#back-up-your-data-by-using-replication" label="Back up your data by using replication">
+    <property name="navgroup" value="howto"/>
+    <topic href="guides/backup-guide-using-replication.html#incremental-backups" label="Incremental backups">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/backup-guide-using-replication.html#creating-an-incremental-backup" label="Creating an incremental backup">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/backup-guide-using-replication.html#restoring-a-database" label="Restoring a database">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/backup-guide-using-replication.html#an-example" label="An example">
+      <property name="type" value="anchor"/>
+      <topic href="guides/backup-guide-using-replication.html#constants-that-are-used-here" label="Constants that are used here"></topic>
+      <topic href="guides/backup-guide-using-replication.html#step-1-check-that-you-have-three-databases" label="Step 1: Check that you have three databases"></topic>
+      <topic href="guides/backup-guide-using-replication.html#step-2-create-the-_replicator-database" label="Step 2: Create the _replicator database"></topic>
+      <topic href="guides/backup-guide-using-replication.html#step-3-back-up-the-entire-original-database" label="Step 3: Back up the entire (original) database"></topic>
+      <topic href="guides/backup-guide-using-replication.html#step-4-prepare-incremental-backup-part-1-get-checkpoint-id" label="Step 4: Prepare incremental backup part 1 - Get checkpoint ID"></topic>
+      <topic href="guides/backup-guide-using-replication.html#step-5-prepare-incremental-backup-part-2-get-recorded_seq-value" label="Step 5: Prepare incremental backup part 2 - Get recorded_seq value"></topic>
+      <topic href="guides/backup-guide-using-replication.html#step-6-run-an-incremental-backup" label="Step 6: Run an incremental backup"></topic>
+      <topic href="guides/backup-guide-using-replication.html#step-7-restore-the-monday-backup" label="Step 7: Restore the Monday backup"></topic>
+      <topic href="guides/backup-guide-using-replication.html#step-8-restore-the-tuesday-backup" label="Step 8: Restore the Tuesday backup"></topic>
+    </topic>
+    <topic href="guides/backup-guide-using-replication.html#suggestions" label="Suggestions">
+      <property name="type" value="anchor"/>
+      <topic href="guides/backup-guide-using-replication.html#scheduling-backups" label="Scheduling backups"></topic>
+      <topic href="guides/backup-guide-using-replication.html#backing-up-design-documents" label="Backing up design documents"></topic>
+      <topic href="guides/backup-guide-using-replication.html#backing-up-multiple-databases" label="Backing up multiple databases"></topic>
+    </topic>
+    <topic href="guides/backup-guide-using-replication.html#need-help-" label="Need help?">
+      <property name="type" value="anchor"/>
+    </topic>
+  </topic>
+  <topic href="guides/cap_theorem.html#cap-theorem" label="CAP Theorem">
+    <property name="navgroup" value="howto"/>
+    <topic href="guides/cap_theorem.html#tradeoffs-in-partition-tolerance" label="Tradeoffs in Partition Tolerance">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/cap_theorem.html#changing-the-approach" label="Changing the approach">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/cap_theorem.html#application-availability-versus-consistency-in-the-enterprise" label="Application availability versus consistency in the enterprise">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/cap_theorem.html#from-theory-to-implementation" label="From theory to implementation">
+      <property name="type" value="anchor"/>
+    </topic>
+  </topic>
+  <topic href="guides/couchapps.html#couchapps" label="CouchApps">
+    <property name="navgroup" value="howto"/>
+    <topic href="guides/couchapps.html#a-couchapp-is-appropriate-if-" label="A CouchApp is appropriate if...">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/couchapps.html#a-3-tier-application-is-appropriate-if-" label="A 3-tier application is appropriate if...">
+      <property name="type" value="anchor"/>
+    </topic>
+  </topic>
+  <topic href="guides/warehousing.html#data-warehousing" label="Data Warehousing">
+    <property name="navgroup" value="howto"/>
+    <topic href="guides/warehousing.html#joining-data" label="Joining data">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/warehousing.html#flexibility" label="Flexibility">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/warehousing.html#data-integrity-assertion" label="Data integrity assertion">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/warehousing.html#cloudant-and-data-warehousing" label="Cloudant and Data Warehousing">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/warehousing.html#ibm-dashdb" label="IBM dashDB">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/warehousing.html#ibm-db2-on-cloud" label="IBM DB2 on Cloud">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/warehousing.html#creating-a-warehouse" label="Creating a warehouse">
+      <property name="type" value="anchor"/>
+      <topic href="guides/warehousing.html#use-cloudant-to-create-a-dashdb-warehouse" label="Use Cloudant to create a dashDB warehouse"></topic>
+      <topic href="guides/warehousing.html#connect-cloudant-to-an-existing-warehouse" label="Connect Cloudant to an existing warehouse"></topic>
+      <topic href="guides/warehousing.html#using-a-db2-warehouse-instance" label="Using a DB2 warehouse instance"></topic>
+    </topic>
+    <topic href="guides/warehousing.html#warehouse-schema" label="Warehouse schema">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/warehousing.html#working-with-your-warehouse" label="Working with your warehouse">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/warehousing.html#keeping-the-data-and-structure-fresh" label="Keeping the data and structure fresh">
+      <property name="type" value="anchor"/>
+      <topic href="guides/warehousing.html#rescanning-the-source-database" label="Rescanning the source database"></topic>
+      <topic href="guides/warehousing.html#the-discovery-algorithm" label="The discovery algorithm"></topic>
+      <topic href="guides/warehousing.html#the-sample-size" label="The sample size"></topic>
+      <topic href="guides/warehousing.html#after-the-rescan" label="After the rescan"></topic>
+    </topic>
+    <topic href="guides/warehousing.html#customizing-the-warehouse-schema" label="Customizing the warehouse schema">
+      <property name="type" value="anchor"/>
+      <topic href="guides/warehousing.html#customizing-an-existing-warehouse-schema" label="Customizing an existing warehouse schema"></topic>
+    </topic>
+    <topic href="guides/warehousing.html#troubleshooting" label="Troubleshooting">
+      <property name="type" value="anchor"/>
+      <topic href="guides/warehousing.html#exceptions-visible-in-the-dashboard" label="Exceptions visible in the dashboard"></topic>
+      <topic href="guides/warehousing.html#warnings-and-errors" label="Warnings and Errors"></topic>
+    </topic>
+  </topic>
+  <topic href="guides/design_document_management.html#design-document-management" label="Design Document Management">
+    <property name="navgroup" value="howto"/>
+    <topic href="guides/design_document_management.html#multiple-views-in-the-same-design-document" label="Multiple views in the same design document">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/design_document_management.html#managing-changes-to-a-design-document" label="Managing changes to a design document">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/design_document_management.html#coordinating-changes-to-design-documents" label="Coordinating changes to Design Documents">
+      <property name="type" value="anchor"/>
+      <topic href="guides/design_document_management.html#versioned-design-documents" label="Versioned design documents"></topic>
+      <topic href="guides/design_document_management.html#-move-and-switch-design-documents" label="&#39;Move and switch&#39; design documents"></topic>
+    </topic>
+    <topic href="guides/design_document_management.html#move-and-switch-tooling" label="Move and Switch tooling">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/design_document_management.html#the-stale-parameter" label="The &#39;stale&#39; parameter">
+      <property name="type" value="anchor"/>
+    </topic>
+  </topic>
+  <topic href="guides/mvcc.html#document-versioning-and-mvcc" label="Document Versioning and MVCC">
+    <property name="navgroup" value="howto"/>
+    <topic href="guides/mvcc.html#revisions" label="Revisions">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/mvcc.html#distributed-databases-and-conflicts" label="Distributed Databases and Conflicts">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/mvcc.html#how-to-resolve-conflicts" label="How to resolve conflicts">
+      <property name="type" value="anchor"/>
+      <topic href="guides/mvcc.html#get-conflicting-revisions" label="Get conflicting revisions"></topic>
+      <topic href="guides/mvcc.html#merge-the-changes" label="Merge the changes"></topic>
+      <topic href="guides/mvcc.html#upload-the-new-revision" label="Upload the new revision"></topic>
+      <topic href="guides/mvcc.html#delete-old-revisions" label="Delete old revisions"></topic>
+    </topic>
+  </topic>
+  <topic href="guides/transactions.html#grouping-related-documents-together-in-cloudant" label="Grouping related documents together in Cloudant">
+    <property name="navgroup" value="howto"/>
+    <topic href="guides/transactions.html#generating-your-own-unique-identifiers-uuids-" label="Generating your own unique identifiers (UUIDs)">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/transactions.html#recording-payments" label="Recording payments">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/transactions.html#adding-additional-documents" label="Adding additional documents">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/transactions.html#advantages-of-storing-purchase-orders-in-cloudant" label="Advantages of storing purchase orders in Cloudant">
+      <property name="type" value="anchor"/>
+    </topic>
+  </topic>
+  <topic href="guides/json.html#json" label="JSON">
+    <property name="navgroup" value="howto"/>
+    <topic href="guides/json.html#numbers" label="Numbers">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/json.html#strings" label="Strings">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/json.html#booleans" label="Booleans">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/json.html#arrays" label="Arrays">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/json.html#objects" label="Objects">
+      <property name="type" value="anchor"/>
+    </topic>
+  </topic>
+  <topic href="guides/managing_tasks.html#managing-tasks" label="Managing tasks">
+    <property name="navgroup" value="howto"/>
+    <topic href="guides/managing_tasks.html#curl-and-jq-basics" label="curl and jq basics">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/managing_tasks.html#monitoring-view-builds-and-search-indexes" label="Monitoring view builds and search indexes">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/managing_tasks.html#estimating-the-time-to-complete-a-task" label="Estimating the time to complete a task">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/managing_tasks.html#monitoring-replication" label="Monitoring replication">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/managing_tasks.html#troubleshooting" label="Troubleshooting">
+      <property name="type" value="anchor"/>
+      <topic href="guides/managing_tasks.html#is-a-task-stuck-" label="Is a task stuck?"></topic>
+      <topic href="guides/managing_tasks.html#what-to-do-about-a-stuck-task-" label="What to do about a stuck task?"></topic>
+    </topic>
+  </topic>
+  <topic href="guides/model_data.html#my-top-5-tips-for-modelling-your-data-to-scale" label="My top 5 tips for modelling your data to scale">
+    <property name="navgroup" value="howto"/>
+    <topic href="guides/model_data.html#consider-immutable-data" label="Consider Immutable Data">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/model_data.html#why-this-helps" label="Why this helps">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/model_data.html#use-views-to-pre-calculate-results-rather-than-as-search-indexes" label="Use Views To Pre-Calculate Results Rather Than As Search Indexes">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/model_data.html#why-this-helps" label="Why this helps">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/model_data.html#de-normalise-your-data" label="De-Normalise Your Data">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/model_data.html#why-this-helps" label="Why this helps">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/model_data.html#avoid-conflicts-by-using-finer-grained-documents" label="Avoid Conflicts By Using Finer-Grained Documents">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/model_data.html#why-this-helps" label="Why this helps">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/model_data.html#build-in-conflict-resolution" label="Build In Conflict Resolution">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/model_data.html#why-this-helps" label="Why this helps">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/model_data.html#summary" label="Summary">
+      <property name="type" value="anchor"/>
+    </topic>
+  </topic>
+  <topic href="guides/replication_guide.html#replication" label="Replication">
+    <property name="navgroup" value="howto"/>
+    <topic href="guides/replication_guide.html#what-is-replication-" label="What is Replication?">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/replication_guide.html#how-to-start-replication-by-using-the-dashboard" label="How to start replication by using the Dashboard">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/replication_guide.html#how-to-run-replication-across-different-cloudant-accounts" label="How to run replication across different Cloudant accounts">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/replication_guide.html#is-replication-run-on-the-source-or-the-destination-" label="Is replication run on the source or the destination?">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/replication_guide.html#how-to-start-replication-by-using-the-cloudant-api" label="How to start replication by using the Cloudant API">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/replication_guide.html#how-does-replication-affect-the-list-of-changes-" label="How does replication affect the list of changes?">
+      <property name="type" value="anchor"/>
+      <topic href="guides/replication_guide.html#what-eventual-consistency-means-for-the-list-of-changes" label="What &#39;eventual consistency&#39; means for the list of changes"></topic>
+    </topic>
+    <topic href="guides/replication_guide.html#checkpoints" label="Checkpoints">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/replication_guide.html#permissions" label="Permissions">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/replication_guide.html#two-way-replication" label="Two-way replication">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/replication_guide.html#continuous-replication" label="Continuous replication">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/replication_guide.html#monitoring-replication" label="Monitoring replication">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/replication_guide.html#canceling-replication" label="Canceling replication">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/replication_guide.html#other-replication-use-cases" label="Other replication use-cases">
+      <property name="type" value="anchor"/>
+      <topic href="guides/replication_guide.html#apache-couchdb" label="Apache CouchDB"></topic>
+      <topic href="guides/replication_guide.html#pouchdb" label="PouchDB"></topic>
+      <topic href="guides/replication_guide.html#cloudantsync" label="CloudantSync"></topic>
+    </topic>
+    <topic href="guides/replication_guide.html#filtered-replication" label="Filtered Replication">
+      <property name="type" value="anchor"/>
+      <topic href="guides/replication_guide.html#replication-filter-functions" label="Replication filter functions"></topic>
+    </topic>
+    <topic href="guides/replication_guide.html#changes-feed" label="Changes feed">
+      <property name="type" value="anchor"/>
+    </topic>
+    <topic href="guides/replication_guide.html#replication-pitfalls" label="Replication Pitfalls">
+      <property name="type" value="anchor"/>
+      <topic href="guides/replication_guide.html#incorrect-user-permissions" label="Incorrect user permissions"></topic>
+      <topic href="guides/replication_guide.html#replication-document-is-conflicted" label="Replication document is conflicted"></topic>
+      <topic href="guides/replication_guide.html#many-simultaneous-replications" label="Many simultaneous replications"></topic>
+    </topic>
+    <topic href="guides/replication_guide.html#tuning-replication-speed" label="Tuning replication speed">
+      <property name="type" value="anchor"/>
+    </topic>
+  </topic>
+</toc>

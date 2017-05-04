@@ -1,0 +1,212 @@
+<html lang="en">
+<head>
+  <title>IBM&reg; Cloudant&reg; NoSQL DB for Bluemix&reg;</title>
+  <meta charset="utf-8"></meta>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+  <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+</head>
+
+<body>
+  <h1 id="http">HTTP</h1>
+  <p class="shortdesc">This section provides details of the <a href="#http-headers">HTTP Headers</a> and <a href="#http-status-codes">HTTP Status Codes</a> you need to know when using Cloudant.</p>
+  <h2 id="http-headers">HTTP Headers</h2>
+  <p>Because Cloudant uses HTTP for all external communication, you need to ensure that the correct HTTP request headers are supplied and processed on retrieval. This is to ensure that you get the correct format and encoding. Different environments and clients
+    are more or less strict on the effect of these HTTP headers, especially when they are not present. To reduce the likelihood of problems or unexpected behavior, you should be as specific as possible.</p>
+  <h3 id="request-headers">Request headers</h3>
+  <p>The supported HTTP request headers include:</p>
+  <ul>
+    <li><a href="#accept"><code>Accept</code></a></li>
+    <li><a href="#content-type"><code>Content-Type</code></a></li>
+    <li><a href="#content-encoding"><code>Content-Encoding</code></a></li>
+    <li><a href="#if-none-match"><code>If-None-Match</code></a></li>
+  </ul>
+  <h4 id="accept">Accept</h4>
+  <p>The <code>Accept</code> header specifies the list of potential data types returned by the server that would be accepted and understood by the client. The format is a list of one or more MIME types, separated by colons.</p>
+  <p>For the majority of requests, the accepted list should include JSON data (<code>application/json</code>).</p>
+  <p>For attachments, you can either specify the MIME type explicitly, or use <code>*/*</code> to specify that all file types are supported.</p>
+  <p>If the <code>Accept</code> header is not supplied, then the server assumes the<code>*/*</code> MIME type, which means that the client accepts all formats.</p>
+  <p>_Example of sending a request without an explicit <code>Accept</code> header, or when specifying <code>*/*</code>:</p>
+  <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">GET</span> <span class="hljs-string">/recipes</span> HTTP/1.1
+<span class="hljs-attribute">Host</span>: username.cloudant.com
+<span class="hljs-attribute">Accept</span>: */*
+</code></pre>
+  <p><em>Example of a returned header when the client is assumed to accept all formats:</em></p>
+  <blockquote>
+    <p> <strong>Note</strong>: The returned content type is <code>text/plain</code> even though the information returned by the request is in JSON format.</p>
+  </blockquote>
+  <pre class="codeblock"><code class="hljs">Server: CouchDB/1.0.2 (Erlang OTP/R14B)
+Date: Thu, 13 Jan 2011 13:39:34 GMT
+Content-Type: text/plain;charset=utf-8
+Content-Length: #7
+Cache-Control: must-revalidate
+</code></pre>
+  <p>The use of <code>Accept</code> in queries to Cloudant is not required, but is highly recommended as it helps to ensure that the data returned can be processed by the client.</p>
+  <p>If you specify a data type using the <code>Accept</code> header, Cloudant honors the specified type in the <code>Content-type</code> header field of responses. For example, if you explicitly request <code>application/json</code> in the <code>Accept</code>    of a request, the returned HTTP headers use this value in the returned <code>Content-type</code> field.</p>
+  <p><em>Example request that explicitly specifies the <code>Accept</code> header:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">GET</span> <span class="hljs-string">/recipes</span> HTTP/1.1
+<span class="hljs-attribute">Host</span>: username.cloudant.com
+<span class="hljs-attribute">Accept</span>: application/json
+</code></pre>
+  <p><em>Example of the headers returned in response, including the <code>application/json</code> content type:</em></p>
+  <pre class="codeblock"><code class="hljs">Server: CouchDB/1.0.2 (Erlang OTP/R14B)
+Date: Thu, 13 Jan 2011 13:40:11 GMT
+Content-Type: application/json
+Content-Length: #7
+Cache-Control: must-revalidate
+</code></pre>
+  <h4 id="content-type">Content-Type</h4>
+  <p>The <code>Content-Type</code> header specifies the content type of the information being supplied within the request. The specification uses MIME type specifications. For the majority of requests, the content type is JSON (<code>application/json</code>).</p>
+  <p>For some settings the MIME type is plain text.</p>
+  <p>In particular, when uploading attachments the type should be the corresponding MIME type for the attachment or binary (<code>application/octet-stream</code>).</p>
+  <p>The use of the <code>Content-type</code> on a request is highly recommended.</p>
+  <h4 id="content-encoding">Content-Encoding</h4>
+  <p>The <code>Content-Encoding</code> header specifies the encoding of the request body. Supported values are <code>gzip</code> and <code>deflate</code>. If the header is used, the request body must be encoded using the corresponding format.</p>
+  <p><em>Example of creating a gzipped request body:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs"><span class="hljs-comment"># create gzipped document</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">'{"foo":"bar"}'</span> | gzip &gt;doc.gzip
+</code></pre>
+  <p><em>Example of sending a gzip-encoded request body to create a document, using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">PUT</span> <span class="hljs-string">/db/doc</span> HTTP/1.1
+<span class="hljs-attribute">HOST</span>: example.cloudant.com
+<span class="hljs-attribute">Content-Encoding</span>: gzip
+</code></pre>
+  <p><em>Example of sending a gzip-encoded request body to create a document, using the command line:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl https://example.cloudant.com/db/doc \
+    -X PUT \
+    -T doc.gzip \
+    -H <span class="hljs-string">'Content-Encoding: gzip'</span>
+</code></pre>
+  <h4 id="if-none-match">If-None-Match</h4>
+  <p>The <code>If-None-Match</code> header is optional. You might send it to determine whether a document has been modified since it was last read or updated. The value of the <code>If-None-Match</code> header should match the last <a href="#etag"><code>Etag</code></a>    value received. If the value matches the current revision of the document, the server sends a <a href="#304"><code>304 Not Modified</code></a> status code, and the response itself has no body.</p>
+  <p>If the document has been modified, you should get a normal <a href="#200"><code>200</code> response</a>, provided the document still exists and no other errors occurred.</p>
+  <h3 id="response-headers">Response Headers</h3>
+  <p>Response headers are returned by the server when sending back content. They include a number of different fields, many of which are standard HTTP response headers and have no significance regarding how Cloudant operates. The list of response headers
+    important to Cloudant are as follows.</p>
+  <p>The supported HTTP response headers include:</p>
+  <ul>
+    <li><a href="#cache-control"><code>Cache-Control</code></a></li>
+    <li><a href="#content-length"><code>Content-Length</code></a></li>
+    <li><a href="#content-type"><code>Content-Type</code></a></li>
+    <li><a href="#etag"><code>Etag</code></a></li>
+  </ul>
+  <p>The Cloudant design document API and the functions when returning HTML (for example as part of a show or list) enable you to include custom HTTP headers through the <code>headers</code> field of the return object.</p>
+  <h4 id="cache-control">Cache-Control</h4>
+  <p>The <code>Cache-Control</code> HTTP response header provides a suggestion for client caching mechanisms on how to treat the returned information. Cloudant typically returns the <code>must-revalidate</code> value, which indicates that the information
+    should be revalidated if possible. This is used to ensure that the dynamic nature of the content is correctly updated.</p>
+  <h4 id="content-length">Content-Length</h4>
+  <p>The <code>Content-Length</code> header reports the length in bytes of the returned content.</p>
+  <div id="content-type-response"></div>
+  <div id="content-type-field"></div>
+  <h4 id="content-type">Content-Type</h4>
+  <p>The <code>Content-Type</code> header specifies the MIME type of the returned data. For most request, the returned MIME type is <code>text/plain</code>. All text is encoded in Unicode (UTF-8), which is explicitly stated in the returned <code>Content-Type</code>    as <code>text/plain;charset=utf-8</code>.</p>
+  <h4 id="etag">Etag</h4>
+  <p>The <code>Etag</code> header is used to show the revision for a document, or the response from a show function. For documents, the value is identical to the revision of the document. The value can be used with an <code>If-None-Match</code> request header
+    to get a <a href="#304"><code>304 Not Modified</code></a> response if the revision is still current.</p>
+  <p>ETags cannot currently be used with views or lists, since the ETags returned from those requests are just random numbers that change on every request.</p>
+  <h2 id="http-status-codes">HTTP Status Codes</h2>
+  <p>With the interface to Cloudant working through HTTP, error codes and statuses are reported using a combination of the HTTP status code number, and corresponding data in the body of the response data.</p>
+  <p>A list of the error codes returned by Cloudant and generic descriptions of the related errors are as follows. The meaning of different status codes for specific request types are provided in the corresponding API call reference.</p>
+  <div id="201"></div>
+  <div id="202"></div>
+  <div id="304"></div>
+  <div id="400"></div>
+  <div id="404"></div>
+  <div id="405"></div>
+  <div id="409"></div>
+  <div id="413"></div>
+  <div id="429"></div>
+  <div id="500"></div>
+  <div id="503"></div>
+  <table>
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Meaning</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>200 - OK</code></td>
+        <td>Request completed successfully.</td>
+      </tr>
+      <tr>
+        <td><code>201 - Created</code></td>
+        <td>Resource created or updated successfully. The resource could be a database or a document, for example.</td>
+      </tr>
+      <tr>
+        <td><code>202 - Accepted</code></td>
+        <td>Request has been accepted, but the <a href="document.html#quorum">quorum</a> for the operation was not met.</td>
+      </tr>
+      <tr>
+        <td><code>304 - Not Modified</code></td>
+        <td>The content requested has not been modified. This is used with the <a href="#etag">ETag</a> system to identify the version of information returned.</td>
+      </tr>
+      <tr>
+        <td><code>400 - Bad Request</code></td>
+        <td>Bad request structure. The error can indicate an error with the request URL, path or headers. Differences in the supplied MD5 hash and content also trigger this error, as this may indicate message corruption.</td>
+      </tr>
+      <tr>
+        <td><code>401 - Unauthorized</code></td>
+        <td>The item requested was not available using the supplied authorization, or authorization was not supplied.</td>
+      </tr>
+      <tr>
+        <td><code>403 - Forbidden</code></td>
+        <td>The requested item or operation is forbidden.</td>
+      </tr>
+      <tr>
+        <td><code>404 - Not Found</code></td>
+        <td>The requested resource could not be found. The content includes further information as a JSON object, if available. The structure contains two keys, <code>error</code> and <code>reason</code>, similar to the following example: <code>{ &quot;error&quot;:&quot;not_found&quot;, &quot;reason&quot;:&quot;no_db_file&quot; }</code></td>
+      </tr>
+      <tr>
+        <td><code>405 - Resource Not Allowed</code></td>
+        <td>A request was made using an invalid HTTP request type for the URL requested. For example, you have requested a <code>PUT</code> when a <code>POST</code> is required. Errors of this type can also be triggered by invalid URL strings.</td>
+      </tr>
+      <tr>
+        <td><code>406 - Not Acceptable</code></td>
+        <td>The requested content type is not supported by the server.</td>
+      </tr>
+      <tr>
+        <td><code>409 - Conflict</code></td>
+        <td>Request resulted in an update conflict.</td>
+      </tr>
+      <tr>
+        <td><code>412 - Precondition Failed</code></td>
+        <td>The request headers from the client and the capabilities of the server do not match.</td>
+      </tr>
+      <tr>
+        <td><code>413 - Request Entity Too Large</code></td>
+        <td>The maximum request body size for an API request sent to Cloudant on IBM Bluemix is 1 MB.</td>
+      </tr>
+      <tr>
+        <td><code>415 - Bad Content Type</code></td>
+        <td>The content types supported, and the content type of the information being requested or submitted indicate that the content type is not supported.</td>
+      </tr>
+      <tr>
+        <td><code>416 - Requested Range Not Satisfiable</code></td>
+        <td>The range specified in the request header cannot be satisfied by the server.</td>
+      </tr>
+      <tr>
+        <td><code>417 - Expectation Failed</code></td>
+        <td>When sending documents in bulk, the bulk load operation failed.</td>
+      </tr>
+      <tr>
+        <td><code>429 - Too Many Requests</code></td>
+        <td>The user has sent too many requests in a given amount of time. More information is available in the corresponding <a href="https://tools.ietf.org/html/rfc6585#page-3" target="_blank">RFC 6585 <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>.</td>
+      </tr>
+      <tr>
+        <td><code>500 - Internal Server Error</code></td>
+        <td>The request was invalid, either because the supplied JSON was invalid, or invalid information was supplied as part of the request. Alternatively, a replication was canceled while in progress.</td>
+      </tr>
+      <tr>
+        <td><code>503 - Service Unavailable</code></td>
+        <td>The request could not be processed. Seeing this response following a Cloudant request might indicate an misspelled Cloudant account name.</td>
+      </tr>
+    </tbody>
+  </table>
+  <footer>
+    <div>
+      <p>Copyright &copy; 2015, 2017. All Rights Reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
