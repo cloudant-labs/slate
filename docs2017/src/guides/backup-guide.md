@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-05-02"
+lastupdated: "2017-05-04"
 
 ---
 
@@ -17,7 +17,7 @@ lastupdated: "2017-05-02"
 >   **Note**: This guide refers to a *deprecated* daily incremental backup capability,
     previously available only on request to Enterprise customers.
     For current backup guidance,
-    see [CouchBackup](couchbackup.html).
+    see the [Disaster Recovery and Backup](disaster-recovery-and-backup.html) guide.
 
 This capability:
 -   Is not enabled by default.

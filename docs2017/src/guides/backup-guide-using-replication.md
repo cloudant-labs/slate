@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-05-02"
+lastupdated: "2017-05-04"
 
 ---
 
@@ -20,7 +20,7 @@ lastupdated: "2017-05-02"
 
 >	**Note**: This guide contains older or 'deprecated' guidance on Cloudant backup.
 	For current backup guidance,
-	see [CouchBackup](couchbackup.html).
+    see the [Disaster Recovery and Backup](disaster-recovery-and-backup.html) guide.
 
 Database backups protect your data against potential loss or corruption.
 {:shortdesc}
