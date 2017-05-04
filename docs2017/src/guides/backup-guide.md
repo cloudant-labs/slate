@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-04-25"
+lastupdated: "2017-05-04"
 
 ---
 
@@ -14,8 +14,10 @@ lastupdated: "2017-04-25"
 
 # Back up your data
 
->   **Note**: This guide refers to a *Beta* daily incremental backup capability,
-    available only on request to Enterprise customers.
+>   **Note**: This guide refers to a *deprecated* daily incremental backup capability,
+    previously available only on request to Enterprise customers.
+    For current backup guidance,
+    see the [Disaster Recovery and Backup](disaster-recovery-and-backup.html) guide.
 
 This capability:
 -   Is not enabled by default.
