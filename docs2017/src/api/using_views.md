@@ -221,9 +221,6 @@ The results are different based on which replica responds first.
 When you use a stale view, the results return the existing version of the data in the view index without waiting for an update. 
 The results can be different from different nodes in the cluster.
 
->   **Note**: Cloudant automatically and acynchronously keeps views in sync. If you use the `stable` or 
->    `update` options, you might notice a difference during an indexing backlog. 
-
 ###    Parameters
 
 The `stable` option indicates whether you would prefer to get results from a single,
