@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-04-20"
+lastupdated: "2017-04-25"
 
 ---
 
@@ -102,6 +102,8 @@ do the following steps:
     in the replication document to the value of
     the [`recorded_seq` field](backup-guide.html#get-the-recorded_seq-value)
     found in the previous step.
+
+>   **Note**: By definition, using the `since_seq` option bypasses the normal checkpointing facility. Only use `since_seq` with caution. 
 
 ## Restoring a database
 
