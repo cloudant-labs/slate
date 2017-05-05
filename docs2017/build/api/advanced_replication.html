@@ -1,0 +1,218 @@
+<html lang="en">
+<head>
+  <title>IBM&reg; Cloudant&reg; NoSQL DB for Bluemix&reg;</title>
+  <meta charset="utf-8"></meta>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+  <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+</head>
+
+<body>
+  <h1 id="advanced-replication">Advanced replication</h1>
+  <p class="shortdesc">This section contains details about more advanced replication concepts and tasks.</p>
+  <p>You might also find it helpful to review details of the underlying
+    <a href="http://dataprotocols.org/couchdb-replication/" target="_blank">replication protocol <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>, as well as reviewing the <a href="advanced.html">Advanced Methods</a>    material.</p>
+  <h2 id="replication-status">Replication Status</h2>
+  <p>When replication is managed by storing a document in the <code>_replicator</code> database, the contents of the document are updated as the replication status changes.</p>
+  <p>In particular, once replication starts, three new fields are added automatically to the replication document. The fields all have the prefix: <code>_replication_</code></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Field</th>
+        <th>Detail</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>_replication_id</code></td>
+        <td>This is the internal ID assigned to the replication. It is the same ID that appears in the output from <code>_active_tasks</code>.</td>
+      </tr>
+      <tr>
+        <td><code>_replication_state</code></td>
+        <td>The current state of the replication.</td>
+      </tr>
+      <tr>
+        <td><code>_replication_state_time</code></td>
+        <td>An <a href="https://www.ietf.org/rfc/rfc3339.txt" target="_blank">RFC 3339 <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a> compliant timestamp that reports when the current replication state defined
+          in <code>_replication_state</code> was set.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>The possible values for the <code>_replication_state</code> are:</p>
+  <ul>
+    <li><code>completed</code>: The replication completed successfully.</li>
+    <li><code>error</code>: An error occurred during replication.</li>
+    <li><code>triggered</code>: The replication has started and is in progress.</li>
+  </ul>
+  <p><em>Example replication document, prior to being <code>PUT</code> into <code>_replicator</code>:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"my_rep"</span>,
+    <span class="hljs-attr">"source"</span>:  <span class="hljs-string">"https://username:password@myserver.com:5984/fromthis"</span>,
+    <span class="hljs-attr">"target"</span>:  <span class="hljs-string">"https://username:password@username.cloudant.com/tothat"</span>,
+    <span class="hljs-attr">"create_target"</span>:  <span class="hljs-literal">true</span>
+}
+</code></pre>
+  <p><em>Example of automatic update to replication document, updated once replication starts:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"my_rep"</span>,
+    <span class="hljs-attr">"source"</span>: <span class="hljs-string">"https://username:password@myserver.com:5984/fromthis"</span>,
+    <span class="hljs-attr">"target"</span>: <span class="hljs-string">"https://username:password@username.cloudant.com/tothat"</span>,
+    <span class="hljs-attr">"create_target"</span>: <span class="hljs-literal">true</span>
+    <span class="hljs-string">"_replication_id"</span>: <span class="hljs-string">"c0ebe9256695ff083347cbf95f93e280"</span>,
+    <span class="hljs-attr">"_replication_state"</span>: <span class="hljs-string">"triggered"</span>,
+    <span class="hljs-attr">"_replication_state_time"</span>: <span class="hljs-string">"2011-06-07T16:54:35+01:00"</span>
+}
+</code></pre>
+  <p>When the replication finishes, it updates the <code>_replication_state</code> field with the value <code>completed</code>, and the <code>_replication_state_time</code> field with the time that the completion status was recorded.</p>
+  <p><em>Example of automatic update to replication document, updated once replication starts:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"my_rep"</span>,
+    <span class="hljs-attr">"source"</span>: <span class="hljs-string">"https://username:password@myserver.com:5984/fromthis"</span>,
+    <span class="hljs-attr">"target"</span>: <span class="hljs-string">"https://username:password@username.cloudant.com/tothat"</span>,
+    <span class="hljs-attr">"create_target"</span>: <span class="hljs-literal">true</span>
+    <span class="hljs-string">"_replication_id"</span>: <span class="hljs-string">"c0ebe9256695ff083347cbf95f93e280"</span>,
+    <span class="hljs-attr">"_replication_state"</span>: <span class="hljs-string">"completed"</span>,
+    <span class="hljs-attr">"_replication_state_time"</span>: <span class="hljs-string">"2011-06-07T16:56:21+01:00"</span>
+}
+</code></pre>
+  <p>A continuous replication can never have a <code>completed</code> state.</p>
+  <h2 id="authentication">Authentication</h2>
+  <p>In any production application, security of the source and target databases is essential. In order for replication to proceed, authentication is necessary to access the databases. In addition, checkpoints for replication are <a href="replication.html#checkpoints">enabled by default</a>,
+    which means that replicating the source database requires write access.</p>
+  <p>To enable authentication during replication, include a username and password in the database URL. The replication process uses the supplied values for HTTP Basic Authentication.</p>
+  <p><em>Example of specifying username and password values for accessing source and target databases during replication:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"source"</span>: <span class="hljs-string">"https://username:password@example.com/db"</span>, 
+    <span class="hljs-attr">"target"</span>: <span class="hljs-string">"https://username:password@username.cloudant.com/db"</span>
+}
+</code></pre>
+  <h2 id="filtered-replication">Filtered Replication</h2>
+  <p>Sometimes you do not want to transfer all documents from source to target. To choose which documents to transfer, include one or more filter functions in a design document on the source. You can then tell the replicator to use these filter functions.</p>
+  <blockquote>
+    <p><strong>Note</strong>: Filtering documents during replication is similar to the process of
+      <a href="design_documents.html#filter-functions">filtering the <code>_changes</code> feed</a>.</p>
+  </blockquote>
+  <p>A filter function takes two arguments:</p>
+  <ul>
+    <li>The document to be replicated.</li>
+    <li>The replication request.</li>
+  </ul>
+  <p>A filter function returns a <code>true</code> or <code>false</code> value. If the result is true, the document is replicated.</p>
+  <p><em>A simple example of a filter function:</em></p>
+  <pre class="codeblock"><code class="lang-javascript hljs"><span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">doc, req</span>) </span>{
+    <span class="hljs-keyword">return</span> !!(doc.type &amp;&amp; doc.type == <span class="hljs-string">"foo"</span>);
+}
+</code></pre>
+  <p>Filters are stored under the topmost <code>filters</code> key of the design document.</p>
+  <p><em>A simple example of storing a filter function in a design document:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"_design/myddoc"</span>,
+    <span class="hljs-attr">"filters"</span>: {
+        <span class="hljs-attr">"myfilter"</span>: <span class="hljs-string">"function goes here"</span>
+    }
+}
+</code></pre>
+  <p>A filtered replication is invoked by using a JSON statement that identifies:</p>
+  <ul>
+    <li>The source database.</li>
+    <li>The target database.</li>
+    <li>The name of the filter stored under the <code>filters</code> key of the design document.</li>
+  </ul>
+  <p><em>Example JSON for invoking a filtered replication:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"source"</span>: <span class="hljs-string">"http://username:password@example.org/example-database"</span>,
+    <span class="hljs-attr">"target"</span>: <span class="hljs-string">"http://username:password@username.cloudant.com/example-database"</span>,
+    <span class="hljs-attr">"filter"</span>: <span class="hljs-string">"myddoc/myfilter"</span>
+}
+</code></pre>
+  <p>Arguments can be supplied to the filter function by including key:value pairs in the <code>query_params</code> field of the invocation.</p>
+  <p><em>Example JSON for invoking a filtered replication with supplied parameters:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"source"</span>: <span class="hljs-string">"http://username:password@example.org/example-database"</span>,
+    <span class="hljs-attr">"target"</span>: <span class="hljs-string">"http://username:password@username.cloudant.com/example-database"</span>,
+    <span class="hljs-attr">"filter"</span>: <span class="hljs-string">"myddoc/myfilter"</span>,
+    <span class="hljs-attr">"query_params"</span>: {
+        <span class="hljs-attr">"key"</span>: <span class="hljs-string">"value"</span>
+    }
+}
+</code></pre>
+  <h2 id="named-document-replication">Named Document Replication</h2>
+  <p>Sometimes you only want to replicate some documents. For simple replications, you do not need to write a filter function. Instead, to replicate specific documents, add the list of keys as an array in the <code>doc_ids</code> field.</p>
+  <p><em>Example replication of specific documents:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"source"</span>: <span class="hljs-string">"http://username:password@example.org/example-database"</span>,
+    <span class="hljs-attr">"target"</span>: <span class="hljs-string">"http://username:password@127.0.0.1:5984/example-database"</span>,
+    <span class="hljs-attr">"doc_ids"</span>: [<span class="hljs-string">"foo"</span>, <span class="hljs-string">"bar"</span>, <span class="hljs-string">"baz"</span>]
+}
+</code></pre>
+  <h2 id="replicating-through-a-proxy">Replicating through a proxy</h2>
+  <p>If you want replication to pass through an HTTP proxy, provide the proxy details in the <code>proxy</code> field of the replication data.</p>
+  <p><em>Example showing replication through a proxy:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"source"</span>: <span class="hljs-string">"http://username:password@username.cloudant.com/example-database"</span>,
+    <span class="hljs-attr">"target"</span>: <span class="hljs-string">"http://username:password@example.org/example-database"</span>,
+    <span class="hljs-attr">"proxy"</span>: <span class="hljs-string">"http://my-proxy.com:8888"</span>
+}
+</code></pre>
+  <h2 id="the-user_ctx-property-and-delegations">The <code>user_ctx</code> property and delegations</h2>
+  <p>Replication documents can have a custom <code>user_ctx</code> property. This property defines the user context under which a replication runs.</p>
+  <p>An older way of triggering replications, by <code>POST</code>ing to the <code>/_replicate/</code> endpoint, did not need the <code>user_ctx</code> property. This is because at the moment of triggering the replication, all the required information about
+    the authenticated user is available.</p>
+  <p>By contrast, the replicator database is a regular database. Therefore the information about the authenticated user is only present at the moment the replication document is written to the database. In other words, the replicator database implementation
+    is similar to a <code>_changes</code> feed consumption application, with <code>?include_docs=true</code> set.</p>
+  <p>This implementation difference for replcation means that for non admin users, a <code>user_ctx</code> property containing the user&#39;s name and a subset of their roles, must be defined in the replication document. This is ensured by a validation function
+    present in the default design document of the replicator database, that validates each document update. This validation function also ensures that a non admin user cannot set a user name property in the <code>user_ctx</code> property that does not
+    correspond to their user name. The same principle also applies for roles.</p>
+  <p><em>Example delegated replication document:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"my_rep"</span>,
+    <span class="hljs-attr">"source"</span>:  <span class="hljs-string">"https://username:password@myserver.com:5984/foo"</span>,
+    <span class="hljs-attr">"target"</span>:  <span class="hljs-string">"https://username:password@username.cloudant.com/bar"</span>,
+    <span class="hljs-attr">"continuous"</span>:  <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">"user_ctx"</span>: {
+        <span class="hljs-attr">"name"</span>: <span class="hljs-string">"joe"</span>,
+        <span class="hljs-attr">"roles"</span>: [<span class="hljs-string">"erlanger"</span>, <span class="hljs-string">"researcher"</span>]
+    }
+}
+</code></pre>
+  <p>For admins, the <code>user_ctx</code> property is optional. If the property is missing, the value defaults to a user context with the name <code>null</code> and an empty list of roles.</p>
+  <p>The empty list of roles means that design documents are not written to local targets during replication. If writing design documents to local targets is desired, then a user context with the <code>_admin</code> role must be set explicitly.</p>
+  <p>Also, for admins, the <code>user_ctx</code> property can be used to trigger a replication on behalf of another user. This user context is passed to local target database document validation functions.</p>
+  <blockquote>
+    <p> <strong>Note</strong>: The <code>user_ctx</code> property only has an effect for local endpoints.</p>
+  </blockquote>
+  <p>In summary, for admins the <code>user_ctx</code> property is optional, while for regular (non admin) users it is mandatory. When the roles property of <code>user_ctx</code> is missing, it defaults to the empty list <code>[ ]</code>.</p>
+  <h2 id="performance-related-options">Performance related options</h2>
+  <p>Several performance-related options can be set for a replication, by including them in the replication document.</p>
+  <ul>
+    <li><code>connection_timeout</code> - The maximum period of inactivity for a connection in milliseconds. If a connection is idle for this period of time, its current request will be retried. Default value is 30000 milliseconds (30 seconds).</li>
+    <li><code>http_connections</code> - The maximum number of HTTP connections per replication. For push replications, the effective number of HTTP connections used is <code>min(worker_processes + 1, http_connections)</code>. For pull replications, the effective
+      number of connections used corresponds to this parameter&#39;s value. Default value is 20.</li>
+    <li><code>retries_per_request</code> - The maximum number of retries per request. Before a retry, the replicator waits for a short period of time before repeating the request. This period of time doubles between each consecutive retry attempt, and never
+      goes beyond 5 minutes. The minimum value before the first retry is attempted is 0.25 seconds. The default value is 10 attempts.</li>
+    <li><code>socket_options</code> - A list of options to pass to the connection sockets. The available options can be found in the
+      <a href="http://www.erlang.org/doc/man/inet.html#setopts-2" target="_blank">documentation for the Erlang function setopts/2 of the inet module <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>. Default
+      value is <code>[{keepalive, true},{nodelay, false}]</code>.</li>
+    <li><code>worker_batch_size</code> - Worker processes perform batches of replication tasks, where the batch size is defined by this parameter. The size corresponds to the number of <code>_changes</code> feed rows. Larger values for the batch size might
+      result in better performance. Smaller values mean that checkpointing is done more frequently. Default value is 500.</li>
+    <li><code>worker_processes</code> - The number of processes the replicator uses in each replication task to transfer documents from the source to the target database. Higher values might produce better throughput because of greater parallelism in network
+      and disk IO activities, but this comes at the cost of requiring more memory and potentially CPU time. Default value is 4.</li>
+  </ul>
+  <p><em>Example of including performance options in a replication document:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"source"</span>: <span class="hljs-string">"https://username:password@example.com/example-database"</span>,
+    <span class="hljs-attr">"target"</span>: <span class="hljs-string">"https://username:password@example.org/example-database"</span>,
+    <span class="hljs-attr">"connection_timeout"</span>: <span class="hljs-number">60000</span>,
+    <span class="hljs-attr">"retries_per_request"</span>: <span class="hljs-number">20</span>,
+    <span class="hljs-attr">"http_connections"</span>: <span class="hljs-number">30</span>
+}
+</code></pre>
+  <h2 id="attachments">Attachments</h2>
+  <p>Having large numbers of attachments on documents might cause an adverse effect on replication performance.</p>
+  <p>For more information about the effect of attachments on replication performance, see <a href="attachments.html#performance-considerations">here</a>.</p>
+  <footer>
+    <div>
+      <p>Copyright &copy; 2015, 2017. All Rights Reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

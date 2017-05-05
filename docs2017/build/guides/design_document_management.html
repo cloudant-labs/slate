@@ -1,0 +1,187 @@
+<html lang="en">
+<head>
+  <title>IBM&reg; Cloudant&reg; NoSQL DB for Bluemix&reg;</title>
+  <meta charset="utf-8"></meta>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+  <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+</head>
+
+<body>
+  <h1 id="design-document-management">Design Document Management</h1>
+  <p><em>Article contributed by Glynn Bird, Developer Advocate at IBM Cloudant,
+<a href="mailto:glynn@cloudant.com" target="_blank">glynn@cloudant.com <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a></em></p>
+  <p>Cloudant&#39;s scalable JSON data store has several querying mechanisms, all of which generate indices that are created and maintained separately to the core data. Indexing is not performed immediately when a document is saved. Instead, it is scheduled
+    to happen later giving a faster, non-blocking write throughput.</p>
+  <ul>
+    <li>MapReduce views are indexes into the dataset with key value pairs stored in a BTree for efficient retrieval by key or range of keys</li>
+    <li>Search Indexes are constructed using Apache Lucene to allow free-text search, faceting and complex ad-hoc queries</li>
+  </ul>
+  <p>Cloudant&#39;s <a href="../api/search.html">search indexes</a> and <a href="../api/creating_views.html">MapReduce views</a> are configured by adding Design Documents to a database. Design Documents are JSON documents which contain the instructions on
+    how the view or index is to be built. Let&#39;s take a simple example. Assume we have a simple collection of data documents, similar to the following example.</p>
+  <p><em>Example of a simple data document:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"23966717-5A6F-E581-AF79-BB55D6BBB613"</span>,
+    <span class="hljs-attr">"_rev"</span>: <span class="hljs-string">"1-96daf2e7c7c0c277d0a63c49b57919bc"</span>,
+    <span class="hljs-attr">"doc_name"</span>: <span class="hljs-string">"Markdown Reference"</span>,
+    <span class="hljs-attr">"body"</span>: <span class="hljs-string">"Lorem Ipsum"</span>,
+    <span class="hljs-attr">"ts"</span>: <span class="hljs-number">1422358827</span>
+}
+</code></pre>
+  <p>Each data document includes a name, a body, and a timestamp. We want to create a <a href="../api/creating_views.html">MapReduce view</a> to sort our documents by timestamp.</p>
+  <p>We can do this by creating a Map function, similar to the following example.</p>
+  <p><em>Example map function returning a document&#39;s timestamp field, if present:</em></p>
+  <pre class="codeblock"><code class="lang-javascript hljs"><span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">doc</span>) </span>{
+    <span class="hljs-keyword">if</span> (doc.ts) {
+        emit( doc.ts, <span class="hljs-literal">null</span>);
+    }
+}
+</code></pre>
+  <p>The function emits the document&#39;s timestamp so that we can use it as the key to the index; as we are not interested in the value in the index,
+    <code>null</code> is emitted. The effect is to provide a time-ordered index into the document set.</p>
+  <p>We are going to call this view &quot;<code>by_ts</code>&quot; and put it into a Design Document called &quot;<code>fetch</code>&quot;, like the following example.</p>
+  <p><em>Example design document that defines a view using a map function:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    &quot;_id&quot;: &quot;_design/fetch&quot;,
+    &quot;views&quot;: {
+      &quot;by_ts&quot;: {
+        &quot;map&quot;: &quot;function(doc) {
+          if (doc.ts) {
+            emit( doc.ts, null);
+          }
+        }&quot;
+      }
+    },
+    &quot;language&quot;: &quot;javascript&quot;
+}
+</code></pre>
+  <p>The result is that our map code has been turned into a JSON-compatible string, and included in a Design Document.</p>
+  <p>Once the Design Document is saved, Cloudant triggers server-side processes to build the <code>fetch/by_ts</code> view. It does this by iterating over every document in the database, and sending each one to the Javascript map function. The function returns
+    the emitted key/value pair. As the iteration continues, each key/value pair is stored in a B-Tree index. After the index is built for the first time, subsequent re-indexing is performed only against new and updated documents. Deleted documents are
+    de-indexed. This time-saving process is known as <em>incremental MapReduce</em>, as shown in the following diagram:</p>
+  <p><img src="../images/DesDocMan00.png" alt="Illustration of Incremental MapReduce"></p>
+  <p>It&#39;s worth remembering at this point that:</p>
+  <ul>
+    <li>The construction of an index happens asynchronously. Cloudant confirms that our Design Document has been saved, but to check on the progress on the construction of our index, we have to poll Cloudant&#39;s <a href="../api/active_tasks.html"><code>_active_tasks</code></a>      endpoint.</li>
+    <li>The more data we have, the longer it takes before the index is ready.</li>
+    <li>While the initial index build is in progress,
+      <em>any queries made against that index will block</em>.</li>
+    <li>Querying a view triggers the &#39;mapping&#39; of any documents that haven&#39;t yet been incrementally indexed. This ensures we get an up-to-date view of the data. See the following <a href="#stale">&#39;<code>stale</code>&#39; parameter</a> discussion,
+      for exceptions to this rule.</li>
+  </ul>
+  <h2 id="multiple-views-in-the-same-design-document">Multiple views in the same design document</h2>
+  <p>If we define several views in the same design document, then they are built efficiently at the same time. Each document is only read once, and passed through each view&#39;s Map function. The downside of this approach is that modifying a design document
+    <em>invalidates all of the existing MapReduce views</em> defined in that document, even if some of the views remain unaltered. </p>
+  <p>If MapReduce views must be altered independently of each other, place their definitions in separate design documents. </p>
+  <blockquote>
+    <p> <strong>Note</strong>: This behaviour does not apply to Lucene search indexes. They can be altered within the same design document without invalidating other unchanged indexes in the same document.</p>
+  </blockquote>
+  <p><img src="../images/DesDocMan02.png" alt="Illustration of Design Document version change"></p>
+  <h2 id="managing-changes-to-a-design-document">Managing changes to a design document</h2>
+  <p>Imagine at some point in the future we decide to change the design of our view. Now, instead of returning the actual timestamp result, we are only interested in the count of how many documents match the criteria. To achieve this, the map function remains
+    the same, but we now use a <em>reduce</em> of &quot;<code>_count</code>&quot;. The effect is that our design document looks like the following example.</p>
+  <p><em>Example design document that uses a reduce function:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    &quot;_id&quot;: &quot;_design/fetch&quot;,
+    &quot;_rev&quot;: &quot;2-a2324c9e74a76d2a16179c56f5315dba&quot;,
+    &quot;views&quot;: {
+        &quot;by_ts&quot;: {
+            &quot;map&quot;: &quot;function(doc) {
+                if (doc.ts) {
+                  emit( doc.ts, null);
+                }
+            }
+        }&quot;,
+        &quot;reduce&quot;: &quot;_count&quot;
+    },
+    &quot;language&quot;: &quot;javascript&quot;
+}
+</code></pre>
+  <p>When this design document is saved, Cloudant completely invalidates the old index and begins building the new index from scratch, iterating over every document in turn. As with the original build, the time taken depends on how many documents are in
+    the database, and blocks incoming queries on that view until it is complete.</p>
+  <p>But there&#39;s a problem...</p>
+  <p>If we have an application that is accessing this view <em>in real-time</em>, then we might well encounter a deployment dilemma:</p>
+  <ul>
+    <li>Version 1 of our code, which relied on the original Design Document, might no longer work because the old view has been invalidated.</li>
+    <li>Version 2 of our code, which uses the new Design Document, can&#39;t be released immediately, because the new view will not have finished building yet, especially if there are many documents in the database.</li>
+    <li>A more subtle problem affecting our code is that versions 1 and 2 expect different result data from the view: version 1 expects a list of matching documents, while version 2 expects a &#39;reduced&#39; count of results.</li>
+  </ul>
+  <h2 id="coordinating-changes-to-design-documents">Coordinating changes to Design Documents</h2>
+  <p>There are two ways of dealing with this change control problem.</p>
+  <h3 id="versioned-design-documents">Versioned design documents</h3>
+  <p>One solution is to use versioned design document names:</p>
+  <ul>
+    <li>Our code is initially written to use a view called <code>_design/fetchv1</code>.</li>
+    <li>When we come to release a new version, we create a new view called <code>_design/fetchv2</code>, and query the view to ensure that it begins to build.</li>
+    <li>We poll <code>_active_tasks</code> until the work of building the new index is complete.</li>
+    <li>We are now ready to release the code that depends on the second view.</li>
+    <li>Delete <code>_design/fetchv1</code> when we are sure it is no longer needed.</li>
+  </ul>
+  <p>Using versioned design documents is a simple way to manage change control in your Design Documents, as long as you remember to remove the older versions at a later date!</p>
+  <h3 id="-move-and-switch-design-documents">&#39;Move and switch&#39; design documents</h3>
+  <p>Another approach, documented <a href="http://wiki.apache.org/couchdb/How_to_deploy_view_changes_in_a_live_environment" target="_blank">here <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>, relies on the
+    fact that Cloudant recognises when it has two identical design documents, and won&#39;t waste time and resources rebuilding views it already has. In other words, if we take our design document <code>_design/fetch</code> and create an exact duplicate
+    <code>_design/fetch_OLD</code>, then both endpoints would work interchangeably without triggering any reindexing.</p>
+  <p>The procedure to switch to the new view is this:</p>
+  <ol>
+    <li>Create a duplicate copy of the design document that we want to change, for example by adding <code>_OLD</code> to its name:
+      <code>_design/fetch_OLD</code>.</li>
+    <li>Put the new or &#39;incoming&#39; design document into the database, using a name with the suffix <code>_NEW</code>: <code>_design/fetch_NEW</code>.</li>
+    <li>Query the <code>fetch_NEW</code> view, to ensure that it starts to build.</li>
+    <li>Poll the <code>_active_tasks</code> endpoint and wait until the index has finished building.</li>
+    <li>Put a duplicate copy of the new design document into <code>_design/fetch</code>.</li>
+    <li>Delete Design Document <code>_design/fetch_NEW</code>.</li>
+    <li>Delete Design Document <code>_design/fetch_OLD</code>.</li>
+  </ol>
+  <h2 id="move-and-switch-tooling">Move and Switch tooling</h2>
+  <p>There is a command-line Node.js script that automates the &#39;move and switch&#39; procedure, called &#39;<code>couchmigrate</code>&#39;. It can be installed as follows.</p>
+  <p><em>Command to install the Node.js <code>couchmigrate</code> script:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">npm install -g couchmigrate
+</code></pre>
+  <p>To use the <code>couchmigrate</code> script, first define the URL of the CouchDB/Cloudant instance by setting an environment variable called <code>COUCH_URL</code>.</p>
+  <p><em>Defining the URL of the a Cloudant instance:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs"><span class="hljs-built_in">export</span> COUCH_URL=http://127.0.0.1:5984
+</code></pre>
+  <p>The URL can be HTTP or HTTPS, and can include authentication credentials.</p>
+  <p><em>Defining the URL of the Cloudant instance with authentication credentials:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs"><span class="hljs-built_in">export</span> COUCH_URL=https://myusername:mypassword@myhost.cloudant.com
+</code></pre>
+  <p>Assuming we have a design document in JSON format, stored in a file, we can then run the migrate command.</p>
+  <p>In this example,
+    <code>db</code> specifies the name of the database to change, and <code>dd</code> specifies the path to our Design Document file.</p>
+  <p><em>Running the <code>couchmigrate</code> command:</em></p>
+  <pre class="pre"><code class="lang-sh hljs">couchmigrate --db mydb --dd /path/to/my/dd.json
+</code></pre>
+  <p>The script coordinates the &#39;move and switch&#39; procedure, waiting until the view is built before returning. If the incoming design document is the same as the incumbent one, then the script returns almost immediately.</p>
+  <p>The source code for the script is available here:
+    <a href="https://github.com/glynnbird/couchmigrate" target="_blank">https://github.com/glynnbird/couchmigrate <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>.</p>
+  <div id="stale"></div>
+  <h2 id="the-stale-parameter">The &#39;<code>stale</code>&#39; parameter</h2>
+  <p>If an index is complete, but new records are added into the database, then the index is scheduled to be updated in the background. This is the state of the database shown in the following diagram:</p>
+  <p><img src="../images/DesDocMan01.png" alt="Illustration of index scheduled for updating"></p>
+  <p>When querying the view, we have three choices:</p>
+  <ul>
+    <li>The default behaviour is to ensure that the index is up-to-date, with the latest documents in the database, before returning the answer. When we query the view, Cloudant first indexes the 250 new documents, and then returns the answer.</li>
+    <li>An alternative is adding the &quot;<code>stale=ok</code>&quot; parameter to the API call. The parameter means &quot;return me the data that is already indexed, I don&#39;t care about the latest updates&quot;. In other words, when you query the view
+      with &quot;<code>stale=ok</code>&quot;, Cloudant returns the answer immediately, without any additional reindexing.</li>
+    <li>A second alternative is to add the &quot;<code>stale=update_after</code>&quot; parameter to the API call. The parameter means &quot;return me the data that is already indexed,
+      <em>and</em> then reindex any new documents&quot;. In other words, when you query the view with &quot;<code>stale=update_after</code>&quot;, Cloudant returns the answer immediately, and then schedules a background task to index the new data.</li>
+  </ul>
+  <p>Adding &quot;<code>stale=ok</code>&quot; or &quot;<code>stale=update_after</code>&quot; can be a good way getting answers more quickly from a view, but at the expense of freshness. </p>
+  <blockquote>
+    <p> <strong>Note</strong>: The default behaviour distributes load evenly across nodes in the Cloudant cluster. If you use the alternative <code>stale=ok</code> or <code>stale=update_after</code> options, this might favor a subset of cluster nodes, in
+      order to return consistent results from across the eventually consistent set. This means that the &#39;<code>stale</code>&#39; parameter isn&#39;t a perfect solution for all use-cases. However, it can be useful for providing timely responses on
+      fast-changing data sets if your application is happy to accept stale results. If the rate of change of your data is small, adding &quot;<code>stale=ok</code>&quot; or &quot;<code>stale=update_after</code>&quot; will not bring a performance benefit,
+      and might unevenly distribute the load on larger clusters.</p>
+  </blockquote>
+  <p>Avoid using <code>stale=ok</code> or <code>stale=update_after</code> whenever possible. The reason is that the default behavior provides the freshest data, and distributes data within the cluster. If it is possible to make a client app aware that there
+    is a large data processing task is in progress (during a regular bulk data update, for example), then the app could switch to <code>stale=ok</code> temporarily during these times, then revert to the default behaviour afterwards.</p>
+  <blockquote>
+    <p> <strong>Note</strong>: The <code>stale</code> option is still available, but the more useful options <code>stable</code> and <code>update</code> are available and should be used instead. For more details, see <a href="../api/using_views.html#accessing-a-stale-view">Accessing a stale view</a>.</p>
+  </blockquote>
+  <footer>
+    <div>
+      <p>Copyright &copy; 2015, 2017. All Rights Reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

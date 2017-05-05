@@ -1,0 +1,477 @@
+<html lang="en">
+<head>
+  <title>IBM&reg; Cloudant&reg; NoSQL DB for Bluemix&reg;</title>
+  <meta charset="utf-8"></meta>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+  <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+</head>
+
+<body>
+  <h1 id="cloudant-geospatial">Cloudant Geospatial</h1>
+  <p class="shortdesc">Cloudant Geospatial, or &#39;Cloudant Geo&#39;, combines the advanced geospatial queries of a Geographic Information System (GIS) with the flexibility and scalability of Cloudant&#39;s database-as-a-service (DBaaS) capabilities.</p>
+  <p>Cloudant Geo:</p>
+  <ul>
+    <li>Enables web and mobile developers to enhance their applications using geospatial operations that go beyond simple bounding boxes.</li>
+    <li>Integrates with existing GIS applications, so that they can scale to accommodate different data sizes, concurrent users, and multiple locations.</li>
+    <li>Provides a NoSQL capability for GIS applications, so that large streams of data can be acquired from devices, sensors, and satellites. This data can then be stored, processed, and syndicated across other web applications.</li>
+  </ul>
+  <h2 id="cloudant-geo-overview">Cloudant Geo overview</h2>
+  <p>Cloudant Geo lets you structure your data using GeoJSON format. Design documents are used to index the data. Just like working with other Cloudant documents, an initial scan works through all the documents in the database, giving you the first index.
+    Subsequent updates to the documents result in incremental updates to the index.</p>
+  <p>The key advantage of Cloudant Geo is to enable you to identify, specify, or search for documents based on a spatial relationship; in effect using geometry to provide an additional way of expressing the relationship between and within documents.</p>
+  <p>An example would be to specify that a document is considered to be &#39;contained&#39; if it has a geospatial characteristic that fits within a given geospatial polygon, defined by a series of points.</p>
+  <p><em>Example of a relationship using a geospatial polygon:</em></p>
+  <pre class="codeblock"><code class="hljs">relation=contains&amp;g=POLYGON ((-71.0537124 42.3681995,-71.054399 42.3675178,-71.0522962 42.3667409,-71.051631 42.3659324,-71.051631 42.3621431,-71.0502148 42.3618577,-71.0505152 42.3660275,-71.0511589 42.3670263,-71.0537124 42.3681995))
+</code></pre>
+  <p>The basic steps for working with geospatial data in Cloudant Geo are as follows:</p>
+  <ol>
+    <li>Include a GeoJSON geometry object in your JSON document. The geometry object can be of any type defined by the <a href="http://geojson.org/geojson-spec.html" target="_blank">GeoJSON specification <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>.</li>
+    <li>Index the geometry object using Cloudant Geo defined <code>st_index</code> function.</li>
+    <li>Search the indexed geometry object by using various geometries and geometric relationships.</li>
+  </ol>
+  <h2 id="using-cloudant-geospatial-through-the-dashboard">Using Cloudant Geospatial through the Dashboard</h2>
+  <p>The Dashboard lets you perform several geospatial tasks:</p>
+  <ul>
+    <li>Quick and easy visualisation of data stored in spatial indexes.</li>
+    <li>Spatial query construction.</li>
+    <li>Visualisation of spatial query results.</li>
+  </ul>
+  <p>Before using the geospatial capability through the dashboard, you must have some spatially indexed data within a database.</p>
+  <p>To access the geospatial area of the dashboard, perform the following steps:</p>
+  <ol>
+    <li>Select the database containing spatially indexed data.</li>
+    <li>Select the Design Documents menu.</li>
+    <li>Select the Design Document that contains the definition of the spatial index. A &#39;Geospatial Indexes&#39; sub menu appears for the spatial index.</li>
+    <li>Select the Geospatial Index for your data. A map view appears, showing a small selection of the spatial features contained within the index.</li>
+    <li>To see a JSON view of the index, click the corresponding button of the map view.</li>
+  </ol>
+  <p>You can construct spatial queries using the drawing menu available on the map view. To construct a spatial query:</p>
+  <ol>
+    <li>Open the drawing menu in the map view.</li>
+    <li>Select the geometry type you require.</li>
+    <li>Click in the map view to define the geospatial area.</li>
+  </ol>
+  <p>Depending on the geometry type you specify, a default spatial relation is chosen for you. The exact relation is visible by selecting the Options menu.</p>
+  <p>The lowest area of the map view provides tools that let you select how many spatial features are displayed at once, up to a maximum of 200 at a time. To see the other results from your geospatial query, page through them by clicking the left or right
+    arrow buttons.</p>
+  <p>More information on using Cloudant Geospatial is available through the <a href="http://www.cloudant.com/learning-center#geo" target="_blank">Learning Center <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>.</p>
+  <h2 id="geojson">GeoJSON</h2>
+  <p><a href="http://geojson.org/geojson-spec.html" target="_blank">GeoJSON format <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a> is used to express a variety of geographic data structures, including:</p>
+  <ul>
+    <li><code>Point</code></li>
+    <li><code>LineString</code></li>
+    <li><code>Polygon</code></li>
+    <li><code>MultiPoint</code></li>
+    <li><code>MultiLineString</code></li>
+    <li><code>MultiPolygon</code></li>
+    <li><code>GeometryCollection</code></li>
+  </ul>
+  <p>A GeoJSON document is simply a JSON document containing two distinct key:value sections:</p>
+  <h3 id="-type-"><code>type</code></h3>
+  <p>It must be present and contain the value <code>Feature</code>.</p>
+  <h3 id="-geometry-"><code>geometry</code></h3>
+  <p>It must contain two fields: <code>type</code> and <code>coordinates</code>, where:</p>
+  <ul>
+    <li><code>type</code> field specifies a GeoJSON geometry type which must be one of <code>Point</code>,
+      <code>LineString</code>,
+      <code>Polygon</code>,
+      <code>MultiPoint</code>,
+      <code>MultiLineString</code>, or <code>MultiPolygon</code>.</li>
+    <li><code>coordinates</code> field specifies an array of latitude and longitude values.</li>
+  </ul>
+  <p><em>An example GeoJSON document:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"79f14b64c57461584b152123e38a6449"</span>,
+    <span class="hljs-attr">"type"</span>: <span class="hljs-string">"Feature"</span>,
+    <span class="hljs-attr">"geometry"</span>: {
+        <span class="hljs-attr">"type"</span>: <span class="hljs-string">"Point"</span>,
+        <span class="hljs-attr">"coordinates"</span>: [<span class="hljs-number">-71.13687953</span>, <span class="hljs-number">42.34690635</span>]
+    },
+    <span class="hljs-attr">"properties"</span>: {
+        <span class="hljs-attr">"compnos"</span>: <span class="hljs-string">"142035014"</span>,
+        <span class="hljs-attr">"domestic"</span>: <span class="hljs-literal">false</span>,
+        <span class="hljs-attr">"fromdate"</span>: <span class="hljs-number">1412209800000</span>,
+        <span class="hljs-attr">"main_crimecode"</span>: <span class="hljs-string">"MedAssist"</span>,
+        <span class="hljs-attr">"naturecode"</span>: <span class="hljs-string">"EDP"</span>,
+        <span class="hljs-attr">"reptdistrict"</span>: <span class="hljs-string">"D14"</span>,
+        <span class="hljs-attr">"shooting"</span>: <span class="hljs-literal">false</span>,
+        <span class="hljs-attr">"source"</span>: <span class="hljs-string">"boston"</span>
+    ..}
+}
+</code></pre>
+  <p>More information about GeoJSON, including the full specification, is available at <a href="http://geojson.org/" target="_blank">http://geojson.org/ <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>.</p>
+  <h2 id="creating-a-cloudant-geo-index">Creating a Cloudant Geo Index</h2>
+  <p>To make it easier to work with Cloudant Geo documents, it is best practice to create a separate design document, specifically for Cloudant Geo.</p>
+  <p>When you create a geospatial index, you must use the Cloudant Geo defined keyword <code>st_indexes</code> to hold one or more Cloudant Geo index definitions, where each index must be defined by the Cloudant Geo <code>st_index</code> function.</p>
+  <h3 id="-geoidx-an-example-cloudant-geo-index"><code>geoidx</code>: An example Cloudant Geo index</h3>
+  <p>For example, you could create a design document with the <code>_id</code> value <code>&quot;_design/geodd&quot;</code> which contains an index called <code>&quot;geoidx&quot;</code>. The index is a simple JavaScript function that checks for the presence
+    of a valid geometry object in the document, and if found ensures that the document is included in the <code>st_index</code> Cloudant Geo index function.</p>
+  <p><em>An example Cloudant Geo design document, containing an index:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"_design/geodd"</span>,
+    <span class="hljs-attr">"st_indexes"</span>: {
+        <span class="hljs-attr">"geoidx"</span>: {
+            <span class="hljs-attr">"index"</span>: <span class="hljs-string">"function(doc) {if (doc.geometry &amp;&amp; doc.geometry.coordinates) {st_index(doc.geometry);}}"</span>
+        }
+    }
+}
+</code></pre>
+  <h3 id="geospatial-indexing">Geospatial indexing</h3>
+  <p>There are a number of different algorithms for indexing geospatial data. Some algorithms are simple to understand and implement, but do not produce fast results.</p>
+  <p>The basic algorithm used by Cloudant Geo is <a href="http://en.wikipedia.org/wiki/R*_tree" target="_blank">R*_tree <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>. Although it has a slightly higher resource
+    requirement for building the index, the resulting index offers much better performance in responding to geospatial queries.</p>
+  <h2 id="obtaining-information-about-a-cloudant-geo-index">Obtaining information about a Cloudant geo index</h2>
+  <p>You can obtain information about a geospatial index within a database. Do this by using the <code>_geo_info</code> endpoint.</p>
+  <p>For example, you might want to obtain information about the <code>geoidx</code> geospatial index, held within the <code>geodd</code> design document of the <code>crimes</code> database.</p>
+  <p><em>Example request, using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">GET</span> <span class="hljs-string">/crimes/_design/geodd/_geo_info/geoidx</span> HTTP/1.1
+<span class="hljs-attribute">Host</span>: $USERNAME.cloudant.com
+</code></pre>
+  <p><em>Example request, using the command line:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl https://<span class="hljs-variable">$USERNAME</span>.cloudant.com/crimes/_design/geodd/_geo_info/geoidx \
+     -u <span class="hljs-variable">$USERNAME</span>
+</code></pre>
+  <p>The data returned within the <code>geo_index</code> portion of the JSON response includes the following fields:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Field</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>doc_count</code></td>
+        <td>Number of documents in the geospatial index.</td>
+      </tr>
+      <tr>
+        <td><code>disk_size</code></td>
+        <td>The size of the geospatial index, as stored on disk, in bytes.</td>
+      </tr>
+      <tr>
+        <td><code>data_size</code></td>
+        <td>The size of the geospatial index, in bytes.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p><em>Example response in JSON format:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"name"</span>: <span class="hljs-string">"_design/geodd/geoidx"</span>,
+    <span class="hljs-attr">"geo_index"</span>: {
+        <span class="hljs-attr">"doc_count"</span>: <span class="hljs-number">269</span>,
+        <span class="hljs-attr">"disk_size"</span>: <span class="hljs-number">33416</span>,
+        <span class="hljs-attr">"data_size"</span>: <span class="hljs-number">26974</span>
+    }
+}
+</code></pre>
+  <h2 id="querying-a-cloudant-geo-index">Querying a Cloudant Geo index</h2>
+  <p>The fundamental API call for utilizing Cloudant Geo has a simple format, where the query parameters field <code>&lt;query-parameters&gt;</code> includes three different types of parameters:</p>
+  <ul>
+    <li>Query geometry.</li>
+    <li>Geometric relation. _ Result set.</li>
+  </ul>
+  <p><em>Example format for a Cloudant Geo API call:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs">/&lt;database&gt;/_design/&lt;name&gt;/_geo/&lt;geoindexname&gt;?&lt;query-parameters&gt;
+</code></pre>
+  <h3 id="query-geometry">Query Geometry</h3>
+  <p>A query geometry parameter must be provided for a Cloudant Geo search. There are four types of query geometries that are defined as follows:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Parameter</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>bbox</code></td>
+        <td>Specify a bounding box with two coordinates for the lower-left and upper-right corners.</td>
+      </tr>
+      <tr>
+        <td><code>ellipse</code></td>
+        <td>Specify an ellipse query with a latitude <code>lat</code>, a longitude <code>lon</code>, and two radii: <code>rangex</code> and <code>rangey</code>, both measured in meters.</td>
+      </tr>
+      <tr>
+        <td><code>radius</code></td>
+        <td>Specify a circle query with a latitude <code>lat</code>, a longitude <code>lon</code>, and a radius <code>radius</code> measured in meters.</td>
+      </tr>
+      <tr>
+        <td><code>&lt;wkt&gt;</code></td>
+        <td>Specify a Well Known Text (WKT) object. The valid values for the <code>&lt;wkt&gt;</code> parameter include <code>Point</code>, <code>LineString</code>, <code>Polygon</code>, <code>MultiPoint</code>, <code>MultiLineString</code>, <code>MultiPolygon</code>,
+          <code>GeometryCollection</code>.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p><em>Example of a <code>bbox</code> query:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs">?bbox=-11.05987446,12.28339928,-101.05987446,62.28339928
+</code></pre>
+  <p><em>Example of an <code>ellipse</code> query:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs">?lat=-11.05987446&amp;lon=12.28339928&amp;rangex=200&amp;rangey=100
+</code></pre>
+  <p><em>Example of a <code>radius</code> query:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs">?lat=-11.05987446&amp;lon=12.28339928&amp;radius=100
+</code></pre>
+  <p><em>Example of a <code>point</code> query:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs">?g=point(-71.0537124 42.3681995)
+</code></pre>
+  <p><em>Example of a <code>polygon</code> query:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs">?g=polygon((-71.0537124 42.3681995,-71.054399 42.3675178,-71.0522962 42.3667409,-71.051631 42.3659324,-71.051631 42.3621431,-71.0502148 42.3618577,-71.0505152 42.3660275,-71.0511589 42.3670263,-71.0537124 42.3681995))
+</code></pre>
+  <blockquote>
+    <p> <strong>Note</strong>: Cloudant Geo uses <code>intersects</code> as the default geometric relation when executing a query with query geometry only.</p>
+  </blockquote>
+  <h3 id="geometric-relation">Geometric Relation</h3>
+  <p>Cloudant Geo works with geospatial relationships and follows the <a href="https://en.wikipedia.org/wiki/DE-9IM" target="_blank">DE-9IM specification <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a> for geometric
+    relations. These define the different ways in which two geospatial objects are related to each other, if indeed they are related at all.</p>
+  <p>For example, you might specify a polygon object that describes a housing district. You could then query your document database for people residing within that district by requesting all documents where the place of residence is <em>contained</em> within
+    the polygon object.</p>
+  <p>When you specify a query geometry, you can specify a geometric relationship against the query geometry when you query the documents in your database. Specifically, if <code>Q</code> is a query geometry, then a GeoJSON document <code>R</code> is regarded
+    as the result when a geometric relation between <code>Q</code> and <code>R</code> returns true. The geometric relations are defined in the following table:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Relation</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>Q contains R</code></td>
+        <td>True if no points of <code>R</code> lie in the exterior of <code>Q</code>. <code>contains</code> returns the exact opposite result of <code>within</code>.</td>
+      </tr>
+      <tr>
+        <td><code>Q contains_properly R</code></td>
+        <td>True if <code>R</code> intersects the interior of <code>Q</code> but not the boundary (or exterior) of <code>Q</code>.</td>
+      </tr>
+      <tr>
+        <td><code>Q covered_by R</code></td>
+        <td>True if <code>Q</code> is entirely within <code>R</code>. <code>covered_by</code> returns the exact opposite result of <code>covers</code>.</td>
+      </tr>
+      <tr>
+        <td><code>Q covers R</code></td>
+        <td>True if <code>R</code> is entirely within <code>Q</code>. <code>covers</code> returns the exact opposite result of <code>covered_by</code>.</td>
+      </tr>
+      <tr>
+        <td><code>Q crosses R</code></td>
+        <td>Case 1: True if the interiors intersect, <em>and</em> at least the interior of <code>Q</code> intersects with the exterior of <code>R</code>. Apply to the geometry pairs of <code>multipoint/linestring</code>, <code>multipoint/multilinestring</code>,
+          <code>multipoint/polygon</code>, <code>multipoint/multipolygon</code>, <code>linestring/polygon</code>, and <code>linestring/multipolygon</code>.</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Case 2: True if the intersection of the interiors of <code>Q</code> and <code>R</code> is a point. Apply to the geometry pairs of <code>linestring/linestring</code>, <code>linestring/multilinestring</code>, and <code>multilinestring/multilinestring</code>.</td>
+      </tr>
+      <tr>
+        <td><code>Q disjoint R</code></td>
+        <td>True if the two geometries of <code>Q</code> and <code>R</code> do not intersect. <code>disjoint</code> returns the exact opposite result of <code>intersects</code>.</td>
+      </tr>
+      <tr>
+        <td><code>Q intersects R</code></td>
+        <td>True if the two geometries of <code>Q</code> and <code>R</code> intersect. <code>intersects</code> returns the exact opposite result of <code>disjoint</code>.</td>
+      </tr>
+      <tr>
+        <td><code>Q overlaps R</code></td>
+        <td>Case 1: True if the interior of both geometries intersects the interior and exterior of the other. Apply to the geometry pairs of <code>polygon/polygon</code>, <code>multipoint/multipoint</code>, and <code>multipolygon/multipolygon</code>.</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Case 2: True if the intersection of the geometries is a linestring. Apply to the geometry pairs of linestring/linestring and multilinestring/multilinestring.</td>
+      </tr>
+      <tr>
+        <td><code>Q touches R</code></td>
+        <td>True if, and only if, the common points of two geometries are found only at the boundaries of two geometries. At least one geometry must be a linestring, polygon, multilinestring, or multipolygon.</td>
+      </tr>
+      <tr>
+        <td><code>Q within R</code></td>
+        <td>True if <code>Q</code> lies entirely within <code>R</code>. <code>within</code> returns the exact opposite result of <code>contains</code>.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p><em>An example of returning all geometries which are contained by a <code>polygon</code>:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs">?relation=contains&amp;g=polygon((-71.0537124 42.3681995,-71.054399 42.3675178,-71.0522962 42.3667409,-71.051631 42.3659324,-71.051631 42.3621431,-71.0502148 42.3618577,-71.0505152 42.3660275,-71.0511589 42.3670263,-71.0537124 42.3681995))
+</code></pre>
+  <h3 id="nearest-neighbor-search">Nearest neighbor search</h3>
+  <p>Cloudant Geo supports Nearest Neighbor search, known as NN search. If provided, the <code>nearest=true</code> search returns all results by sorting their distances to the center of the query geometry. This geometric relation <code>nearest=true</code>    can be used either with all the geometric relations described earlier, or alone.</p>
+  <p>For example, one policeman might search five crimes that occurred near a specific location by issuing the query in the following example.</p>
+  <p><em>Example query to find nearest five crimes against a given location:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs">https://education.cloudant.com/crimes/_design/geodd/_geo/geoidx?g=POINT(-71.0537124 42.3681995)&amp;nearest=true&amp;limit=5
+</code></pre>
+  <blockquote>
+    <p> <strong>Note</strong>: The <code>nearest=true</code> search can change the semantics of a Cloudant Geo search. For example, without <code>nearest=true</code> in the example query, the results only include GeoJSON documents that have coordinates equal
+      to the given query point <code>(-71.0537124 42.3681995)</code>
+      <em>or</em> an empty results set. However, by using the <code>nearest=true</code> search, the results include all GeoJSON documents in the database whose order is measured by the distance to the query point.</p>
+  </blockquote>
+  <h3 id="result-set">Result Set</h3>
+  <p>You can use the following parameters to deal with the returned result set, such as returning results in GeoJSON format or limiting the number of returned results.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Parameter</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>bookmark</code></td>
+        <td>Allows you to page through the results. The default is 25 results.</td>
+      </tr>
+      <tr>
+        <td><code>format</code></td>
+        <td>Causes the query output to be in a specified format. Possible values are <code>legacy</code>, <code>geojson</code>, <code>view</code>, or <code>application/vnd.geo+json</code>. The default format is <code>view</code>.</td>
+      </tr>
+      <tr>
+        <td><code>include_docs</code></td>
+        <td>Adds the entire document as a document object, and includes it in the output results.</td>
+      </tr>
+      <tr>
+        <td><code>limit</code></td>
+        <td>An integer to limit the number of results returned. The default value is 100. The maximum value is 200. A value larger than 200 will return an error.</td>
+      </tr>
+      <tr>
+        <td><code>skip</code></td>
+        <td>Skip this number of records before starting to return the results. The default value is 0.</td>
+      </tr>
+      <tr>
+        <td><code>stale=ok</code></td>
+        <td>Speeds up responses by not waiting to complete index re-building or updates between database cluster nodes.</td>
+      </tr>
+    </tbody>
+  </table>
+  <h4 id="format-parameter-examples">Format Parameter Examples</h4>
+  <p>These examples show the available results based on the options you specify for the format parameter.</p>
+  <p><em>Example query to return results with <code>format=legacy</code>:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl -X GET <span class="hljs-string">'https://education.cloudant.com/crimes/_design/geodd/_geo/geoidx?format=legacy&amp;lat=42.3397&amp;lon=-71.07959&amp;radius=10'</span>
+</code></pre>
+  <p><em>Example response to the query:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"bookmark"</span>: <span class="hljs-string">"g2wAAAABaANkAB9kYmNvcmVAZGIzLmJpZ2JsdWUuY2xvdWRhbnQubmV0bAAAAAJuBAAAAADAbgQA_____2poAm0AAAAgNzlmMTRiNjRjNTc0NjE1ODRiMTUyMTIzZTM4YThlOGJGPv4LlS19_ztq"</span>,
+    <span class="hljs-attr">"features"</span>: [
+        {
+            <span class="hljs-attr">"id"</span>: <span class="hljs-string">"79f14b64c57461584b152123e38a8e8b"</span>
+        }
+    ],
+    <span class="hljs-attr">"type"</span>: <span class="hljs-string">"FeatureCollection"</span>
+}
+</code></pre>
+  <p><em>Example query to return results with <code>format=view</code>:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl -X GET <span class="hljs-string">'https://education.cloudant.com/crimes/_design/geodd/_geo/geoidx?format=view&amp;lat=42.3397&amp;lon=-71.07959&amp;radius=10'</span>
+</code></pre>
+  <p><em>Example response to the query:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"bookmark"</span>: <span class="hljs-string">"g2wAAAABaANkAB9kYmNvcmVAZGIxLmJpZ2JsdWUuY2xvdWRhbnQubmV0bAAAAAJuBAAAAADAbgQA_____2poAm0AAAAgNzlmMTRiNjRjNTc0NjE1ODRiMTUyMTIzZTM4YThlOGJGPv4LlS19_ztq"</span>,
+    <span class="hljs-attr">"rows"</span>: [
+        {
+            <span class="hljs-attr">"geometry"</span>: {
+                <span class="hljs-attr">"coordinates"</span>: [
+                    <span class="hljs-number">-71.07958956</span>,
+                    <span class="hljs-number">42.33967135</span>
+                ],
+                <span class="hljs-attr">"type"</span>: <span class="hljs-string">"Point"</span>
+            },
+            <span class="hljs-attr">"id"</span>: <span class="hljs-string">"79f14b64c57461584b152123e38a8e8b"</span>
+        }
+    ]
+}
+</code></pre>
+  <p><em>Example query to return results with <code>format=geojson</code> or <code>format=application/vnd.geo+json</code>:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl -X GET <span class="hljs-string">'https://education.cloudant.com/crimes/_design/geodd/_geo/geoidx?format=geojson&amp;lat=42.3397&amp;lon=-71.07959&amp;radius=10'</span>
+</code></pre>
+  <p><em>Example response to the query:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"bookmark"</span>: <span class="hljs-string">"g2wAAAABaANkAB9kYmNvcmVAZGIyLmJpZ2JsdWUuY2xvdWRhbnQubmV0bAAAAAJuBAAAAADAbgQA_____2poAm0AAAAgNzlmMTRiNjRjNTc0NjE1ODRiMTUyMTIzZTM4YThlOGJGPv4LlS19_ztq"</span>,
+    <span class="hljs-attr">"features"</span>: [
+        {
+            <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"79f14b64c57461584b152123e38a8e8b"</span>,
+            <span class="hljs-attr">"geometry"</span>: {
+                <span class="hljs-attr">"coordinates"</span>: [
+                    <span class="hljs-number">-71.07958956</span>,
+                    <span class="hljs-number">42.33967135</span>
+                ],
+                <span class="hljs-attr">"type"</span>: <span class="hljs-string">"Point"</span>
+            },
+            <span class="hljs-attr">"properties"</span>: [],
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"Feature"</span>
+        }
+    ],
+    <span class="hljs-attr">"type"</span>: <span class="hljs-string">"FeatureCollection"</span>
+}
+</code></pre>
+  <h2 id="example-querying-a-cloudant-geo-index">Example: Querying a Cloudant Geo index</h2>
+  <h3 id="simple-circle">Simple Circle</h3>
+  <p>This simple example demonstrates how Cloudant Geo can find documents that are considered to have a geospatial position within a given geographic circle. The function might be useful to determine insurance customers who live close to a known flood plain.</p>
+  <p>To specify the circle, you provide:</p>
+  <ul>
+    <li>Latitude</li>
+    <li>Longitude</li>
+    <li>Circle radius, specified in meters</li>
+  </ul>
+  <p>This query compares the geometry of each document in the index with the geometry of the specified circle. The comparison is performed according to the relation you request in the query. So, to find all documents that fall within the circle, you use
+    the <code>contains</code> relation.</p>
+  <p><em>Example query to find documents that have a geospatial position within a circle:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl -X GET <span class="hljs-string">'https://education.cloudant.com/crimes/_design/geodd/_geo/geoidx?lat=42.3397&amp;lon=-71.07959&amp;radius=10&amp;relation=contains&amp;format=geojson'</span>
+</code></pre>
+  <p><em>Example response to the query:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"bookmark"</span>: <span class="hljs-string">"g2wAAAABaANkAB9kYmNvcmVAZGIyLmJpZ2JsdWUuY2xvdWRhbnQubmV0bAAAAAJuBAAAAADAbgQA_____2poAm0AAAAgNzlmMTRiNjRjNTc0NjE1ODRiMTUyMTIzZTM4YThlOGJGPv4LlS19_ztq"</span>,
+    <span class="hljs-attr">"features"</span>: [
+        {
+            <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"79f14b64c57461584b152123e38a8e8b"</span>,
+            <span class="hljs-attr">"geometry"</span>: {
+                <span class="hljs-attr">"coordinates"</span>: [
+                    <span class="hljs-number">-71.07958956</span>,
+                    <span class="hljs-number">42.33967135</span>
+                ],
+                <span class="hljs-attr">"type"</span>: <span class="hljs-string">"Point"</span>
+            },
+            <span class="hljs-attr">"properties"</span>: [],
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"Feature"</span>
+        }
+    ],
+    <span class="hljs-attr">"type"</span>: <span class="hljs-string">"FeatureCollection"</span>
+}
+</code></pre>
+  <h3 id="a-polygon-query">A polygon query</h3>
+  <p>A more complex example shows where you specify a polygon as the geometric object of interest. A polygon is simply any object defined by a series of connected points, where none of the connections (the lines between the points) cross any of the other
+    connections.</p>
+  <p>For example, we might provide a polygon description as the geometric object, and then request that the query return details of documents within the database that are contained by the polygon.</p>
+  <p>_Example query to find documents that have a geospatial position within a polygon:</p>
+  <pre class="codeblock"><code class="lang-http hljs">https://education.cloudant.com/crimes/_design/geodd/_geo/geoidx?g=POLYGON((-71.0537124 42.3681995,-71.054399 42.3675178,-71.0522962 42.3667409,-71.051631 42.3659324,-71.051631 42.3621431,-71.0502148 42.3618577,-71.0505152 42.3660275,-71.0511589 42.3670263,-71.0537124 42.3681995))&amp;relation=contains&amp;format=geojson
+</code></pre>
+  <p><em>Example response to the query:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"bookmark"</span>: <span class="hljs-string">"g2wAAAABaANkAB9kYmNvcmVAZGIzLmJpZ2JsdWUuY2xvdWRhbnQubmV0bAAAAAJuBAAAAADAbgQA_____2poAm0AAAAgNzlmMTRiNjRjNTc0NjE1ODRiMTUyMTIzZTM5MjQ1MTZGP1vW7X5qnWhq"</span>,
+    <span class="hljs-attr">"features"</span>: [
+        {
+            <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"79f14b64c57461584b152123e38d6349"</span>,
+            <span class="hljs-attr">"geometry"</span>: {
+                <span class="hljs-attr">"coordinates"</span>: [
+                    <span class="hljs-number">-71.05107956</span>,
+                    <span class="hljs-number">42.36510634</span>
+                ],
+                <span class="hljs-attr">"type"</span>: <span class="hljs-string">"Point"</span>
+            },
+            <span class="hljs-attr">"properties"</span>: [],
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"Feature"</span>
+        },
+        {
+            <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"79f14b64c57461584b152123e3924516"</span>,
+            <span class="hljs-attr">"geometry"</span>: {
+                <span class="hljs-attr">"coordinates"</span>: [
+                    <span class="hljs-number">-71.05204477</span>,
+                    <span class="hljs-number">42.36674199</span>
+                ],
+                <span class="hljs-attr">"type"</span>: <span class="hljs-string">"Point"</span>
+            },
+            <span class="hljs-attr">"properties"</span>: [],
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"Feature"</span>
+        }
+    ],
+    <span class="hljs-attr">"type"</span>: <span class="hljs-string">"FeatureCollection"</span>
+}
+</code></pre>
+  <footer>
+    <div>
+      <p>Copyright &copy; 2015, 2017. All Rights Reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

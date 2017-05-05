@@ -1,0 +1,85 @@
+<html lang="en">
+<head>
+  <title>IBM&reg; Cloudant&reg; NoSQL DB for Bluemix&reg;</title>
+  <meta charset="utf-8"></meta>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+  <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+</head>
+
+<body>
+  <h1 id="cloudant-basics">Cloudant Basics</h1>
+  <p class="shortdesc">If it&#39;s your first time here, scan this section before you scroll further.</p>
+  <p>The sections on <a href="../libraries/index.html#-client-libraries">Client Libraries</a>,
+    <a href="../api/index.html#-api-reference">API Reference</a>, and <a href="../guides/index.html#-guides">Guides</a> assume you know some basic things about Cloudant.</p>
+  <h2 id="connecting-to-cloudant">Connecting to Cloudant</h2>
+  <p>To access Cloudant&reg; NoSQL DB, you must have either a <a href="../api/account.html">Cloudant&reg; NoSQL DB account</a>, or an <a href="../offerings/bluemix.html">IBM&reg; Bluemix&reg; account</a>.</p>
+  <h2 id="http-api">HTTP API</h2>
+  <p>All requests to Cloudant go over the web. This means any system that can speak to the web can speak to Cloudant. All language-specific libraries for Cloudant are really just wrappers that provide some convenience and linguistic niceties to help you
+    work with a simple API. Many users choose to use raw HTTP libraries for working with Cloudant.</p>
+  <p>Specific details about how Cloudant uses HTTP are provided in the <a href="../api/http.html">HTTP topic of the API Reference</a>.</p>
+  <p>Cloudant supports the following HTTP request methods:</p>
+  <ul>
+    <li>
+      <p><code>GET</code></p>
+      <p>Request the specified item. As with normal HTTP requests, the format of the URL defines what is returned. With Cloudant this can include static items, database documents, and configuration and statistical information. In most cases the information
+        is returned in the form of a JSON document.</p>
+    </li>
+    <li>
+      <p><code>HEAD</code></p>
+      <p>The <code>HEAD</code> method is used to get the HTTP header of a <code>GET</code> request without the body of the response.</p>
+    </li>
+    <li>
+      <p><code>POST</code></p>
+      <p>Upload data. Within Cloudant&#39;s API, the <code>POST</code> method is used to set values, upload documents, set document values, and start some administration commands.</p>
+    </li>
+    <li>
+      <p><code>PUT</code></p>
+      <p>Used to &#39;store&#39; a specific resource. In Cloudant&#39;s API,
+        <code>PUT</code> is used to create new objects, including databases, documents, views, and design documents.</p>
+    </li>
+    <li>
+      <p><code>DELETE</code></p>
+      <p>Deletes the specified resource, including documents, views, and design documents.</p>
+    </li>
+    <li>
+      <p><code>COPY</code></p>
+      <p>A special method that can be used to copy documents and objects.</p>
+    </li>
+  </ul>
+  <p>If the client (such as some web browsers) does not support using these HTTP methods,
+    <code>POST</code> can be used instead with the <code>X-HTTP-Method-Override</code> request header set to the actual HTTP method.</p>
+  <h3 id="method-not-allowed-error">Method not allowed error</h3>
+  <p>If you use an unsupported HTTP request type with a URL that does not support the specified type, a <a href="../api/http.html#405">405</a> error is returned, listing the supported HTTP methods, as shown in the following example.</p>
+  <p><em>Example error message in response to an unsupported request:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"error"</span>:<span class="hljs-string">"method_not_allowed"</span>,
+    <span class="hljs-attr">"reason"</span>:<span class="hljs-string">"Only GET,HEAD allowed"</span>
+}
+</code></pre>
+  <h2 id="json">JSON</h2>
+  <p>Cloudant stores documents using JSON (JavaScript Object Notation) encoding, so anything encoded into JSON can be stored as a document. Files containing media, such as images, videos, and audio, are called BLOBs (Binary Large OBjects), and can be stored
+    as attachments associated with documents.</p>
+  <p>More information about JSON can be found in the <a href="../guides/json.html">JSON Guide</a>.</p>
+  <div id="distributed"></div>
+  <h2 id="distributed-systems">Distributed Systems</h2>
+  <p>Cloudant&#39;s API enables you to interact with a collaboration of numerous machines, called a cluster. The machines in a cluster must be in the same datacenter, but can be within different &#39;pods&#39; in that datacenter. Using different pods helps
+    improve the High Availability characteristics of Cloudant.</p>
+  <p>An advantage of clustering is that when you need more computing capacity, you just add more machines. This is often more cost-effective and fault-tolerant than scaling up or enhancing an existing single machine.</p>
+  <p>For more information about Cloudant and distributed system concepts, see the <a href="../guides/cap_theorem.html">CAP Theorem</a> guide.</p>
+  <h2 id="replication">Replication</h2>
+  <p><a href="../api/replication.html">Replication</a> is a procedure followed by Cloudant,
+    <a href="http://couchdb.apache.org/" target="_blank">CouchDB <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>,
+    <a href="http://pouchdb.com/" target="_blank">PouchDB <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>, and other distributed databases. Replication synchronizes the state of two databases so that their
+    contents are identical.</p>
+  <p>You can replicate continuously. This means that a target database updates every time the source database changes. Continuous replication can be used for backups of data, aggregating data across multiple databases, or for sharing data.</p>
+  <p>However, continuous replication means testing continuously for any source database changes. This testing requires continuous internal calls, which might impact performance or the cost of using the database.</p>
+  <blockquote>
+    <p> <strong>Note</strong>: Continuous replication can result in a large number of internal calls. This might affect costs for multi-tenant users of Cloudant systems. Continuous replication is disabled by default.</p>
+  </blockquote>
+  <footer>
+    <div>
+      <p>Copyright &copy; 2015, 2017. All Rights Reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
