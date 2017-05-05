@@ -188,13 +188,13 @@ by using an existing version of the index.
 By default, all	index results reflect the current state of the database. Cloudant builds its indexes automatically and asynchronously in the background.	
 This usually means the index is	fully up-to-date 
 when you query it. If this is not the case, we call the database "stale" and the remaining updates are made when you query the index. 
-The results of your query include those updates. Cloudant builds three copies of every index in 
+The results of your query include these updates. Cloudant builds three copies of every index in 
 alignment with the three copies of your primary data.
 
 We recommend that you do not use `stale=ok` or the new `stable` and `update` parameters by default. Cloudant supplies the best results and the best 
 performance with the defaults for these parameters.
 
-If the performance of your view, when queried with the default `stale=false` setting and your application, can tolerate inconsistent results, 
+If the performance of your view, when queried with the default `stale=false` setting, and your application can tolerate inconsistent results, 
 we recommend `stable=false&update=false`. These settings ensure the fastest response without directing all queries to a single copy of 
 your index (in effect, reducing some aspects of performance to a 
  third of what it should be).
@@ -203,7 +203,7 @@ Option   | Purpose                                                              
 ---------|---------------------------------------------------------------------------------------------------------------------------------------|--------------
 `stable` | Determine whether view results are obtained from a consistent or 'stable' set of shards. Possible values include `true`, and `false`. | `false`
 `stale`  | Determine whether results from a stale view are permitted. Possible values include `false`, `ok`, and `update_after`.                 | `false`
-`update` | Determine whether the view is updated before the results are returned. Possible values include `true`, `false` and `lazy`.            | `true`
+`update` | Determine whether the view is updated before the results are returned. Possible values include `true`, `false`, and `lazy`.           | `true`
 
 ###    Combining parameters
 
@@ -218,7 +218,7 @@ and you use either `update=false` or `update=lazy`,
 indexes between shard replicas are no longer synchronized.
 The results are different based on which replica responds first. 
 
-Using a stale view returns the existing version of the data in the view index without waiting for an update. 
+When you use a stale view, the results return the existing version of the data in the view index without waiting for an update. 
 The results can be different from different nodes in the cluster.
 
 >   **Note**: Cloudant automatically and acynchronously keeps views in sync. If you use the `stable` or 
@@ -227,7 +227,7 @@ The results can be different from different nodes in the cluster.
 ###    Parameters
 
 The `stable` option indicates whether you would prefer to get results from a single,
-consistent set of shards. The `false` value means that all available shard replicas are queried. Cloudant uses the first response. 
+consistent set of shards. The `false` value means that all available shard replicas are queried. Cloudant uses the first response returned. 
 The benefit is that the response is not delayed when an individual shard replica is slow to respond.
 By contrast, setting `stable=true` forces the database to use a single,
 consistent set of shards to respond to the query.
