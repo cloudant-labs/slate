@@ -80,5 +80,6 @@ Cloudant NoSQL DB
 		guides/managing_tasks.md
 		guides/model_data.md
 		guides/replication_guide.md
+		guides/sharding.md
 	{: .navgroup-end}
 
