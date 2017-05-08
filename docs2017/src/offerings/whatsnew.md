@@ -2,7 +2,7 @@
 
 copyright:
   years: 2017
-lastupdated: "2017-05-04"
+lastupdated: "2017-05-08"
 
 ---
 
@@ -26,16 +26,13 @@ Keep up to date with changes and updates for Cloudant.
 
 ## Build 5421
 
--   Changes feeds support view-based filters.
--   Changes feeds support the `_doc_ids` filter.
--   `POST` requests are supported for `_changes`.
--   Both `_all_docs` and `_changes` support the `attachments=true` parameter.
--   Support for the CouchDB 1.6 `_users` database features, including server-side hashing of passwords when documents are created in the `_users` database.
--   `/_bulk_get` endpoint to reduce the number of requests that are used in replication to mobile clients.
--   Design document metadata contains an `update pending` field.
-
-## Build 5331
-
+-	Changes feeds support view-based filters.
+-	Changes feeds support the `_doc_ids` filter.
+-	`POST` requests are supported for `_changes`.
+-	Both `_all_docs` and `_changes` support the `attachments=true` parameter.
+-	Support for the CouchDB 1.6 `_users` database features, including server-side hashing of passwords when documents are created in the `_users` database.
+-	`/_bulk_get` endpoint to reduce the number of requests that are used in replication to mobile clients.
+-	Design document metadata contains an `update pending` field.
 -	Cloudant Query no longer returns an error if no valid index exists.
 
 ### Breaking/behavior changes
