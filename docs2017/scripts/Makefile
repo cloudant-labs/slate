@@ -5,9 +5,10 @@
 BUILDDIR      = ../build
 MAINSRCDIR    = ../src
 CONFIGDIR     = ../tools/
-TOOLDIR       = $(HOME)/git/github.ibm.com/Grant-Gayed
-BUILDTOOLDIR  = $(TOOLDIR)/marked-it-cli
-BUILDTOOL     = $(BUILDTOOLDIR)/bin/marked-it-cli
+# TOOLDIR       = $(HOME)/git/github.ibm.com/Grant-Gayed
+# BUILDTOOLDIR  = $(TOOLDIR)/marked-it-cli
+# BUILDTOOL     = $(BUILDTOOLDIR)/bin/marked-it-cli
+BUILDTOOL = `which marked-it-cli`
 WEBCONTENTDIR = /var/www/html
 
 .PHONY: help
