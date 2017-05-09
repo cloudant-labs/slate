@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-05-02"
+lastupdated: "2017-05-09"
 
 ---
 
@@ -706,9 +706,10 @@ You might want to purge rather than delete a document for two reasons.
 
 ### Purging and replication
 
-A document purge from a database must be replicated to other copies of the database.
+Purging a document from a database might require corresponding changes to other copies of the database.
 
-Where the copy is a system-level replica of a database
+Where the copy is a system-level replica of a database -
+an 'internal' replica -
 that was created automatically as part of the distributed nature of Cloudant,
 then a document purge from one copy is automatically replicated to the other copies.
 
@@ -722,16 +723,16 @@ the database purge records are reconciled to ensure that
 the details of which documents were purged are replicated correctly and automatically.
 
 However,
-if you created your own copy of a database,
-perhaps where a database contains a subset of information from another database,
+if you created your own or 'external' copy of a database,
+perhaps where the copy contains a subset of information from the original database,
 then a document purge is not automatically replicated.
-This is because the 'subset' database is not a replica of the original database.
+This is because the 'subset' database is not an 'internal' replica of the original database.
 Therefore,
-if your application requests a document purge in a database,
-the application must also ensure that a corresponding document purge is requested for all other relevant databases.
+if you request a document purge in a database,
+you must consider whether a corresponding document purge is also requested for the other 'external' databases.
 
 This check is especially important when a document purge removes all revisions of a document.
-Replication to external databases depends on the information in the `_changes` feed.
+Replication between databases depends on the information in the `_changes` feed.
 If all revisions of a document within a database are purged,
 no information about the document appears within the `_changes` feed.
 Therefore,
@@ -747,19 +748,21 @@ no error is generated if the document was already purged.
 ### Purging and indexes
 
 If a document is purged,
-the change might require an update to indexes within the database.
+the change might require an update to some of the indexes within the database.
 
 Depending on which documents are affected by a purge request,
-it might not be necessary to rebuild an index.
+it might not be necessary to rebuild an index:
 
-If a document is not changed as a result of a purge request,
-no index change is needed.
+-	If a document is not changed as a result of a purge request,
+	no change is needed for indexes that include the document.
+-	If a document is removed,
+	or the remaining 'winning' revision of the document changes,
+	as a result of a purge request,
+	then any index that originally included the document as part of the index scope is updated.
 
-If a document is removed as a result of a purge request,
-then any index that originally included the document as part of the index scope is updated.
-
-If a purge request applies to a document that has more than one revision branch,
-and after the purge a different document revision applies rather than the one originally used in an index,
+In particular,
+if a purge request applies to a document that has more than one revision branch,
+and after the purge a different document revision applies - or 'wins' - rather than the one originally used in an index,
 then the index is updated.
 
 For example,
@@ -769,6 +772,13 @@ After the purge,
 revision `2-98e2b4ecd9a0da76fe8b83a83234ee71` remains.
 Therefore,
 the index is updated by using revision `2-98e2b4ecd9a0da76fe8b83a83234ee71`.
+
+There are several possible indexes within a database,
+including the MapReduce View ([`_view`](using_views.html)),
+the Search Index ([`_search`](search.html)),
+and the Geospatial Index ([`_geo`](cloudant-geo.html)).
+Each index keeps its own purge sequence record.
+The purge sequence record stored for an index can be much smaller than the database's purge sequence record.
 
 ### The `purged_docs_limit` parameter
 
