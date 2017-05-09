@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-05-02"
+lastupdated: "2017-05-09"
 
 ---
 
@@ -747,19 +747,21 @@ no error is generated if the document was already purged.
 ### Purging and indexes
 
 If a document is purged,
-the change might require an update to indexes within the database.
+the change might require an update to some of the indexes within the database.
 
 Depending on which documents are affected by a purge request,
-it might not be necessary to rebuild an index.
+it might not be necessary to rebuild an index:
 
-If a document is not changed as a result of a purge request,
-no index change is needed.
+-	If a document is not changed as a result of a purge request,
+	no change is needed for indexes that include the document.
+-	If a document is removed,
+	or the remaining 'winning' revision of the document changes,
+	as a result of a purge request,
+	then any index that originally included the document as part of the index scope is updated.
 
-If a document is removed as a result of a purge request,
-then any index that originally included the document as part of the index scope is updated.
-
-If a purge request applies to a document that has more than one revision branch,
-and after the purge a different document revision applies rather than the one originally used in an index,
+In particular,
+if a purge request applies to a document that has more than one revision branch,
+and after the purge a different document revision applies - or 'wins' - rather than the one originally used in an index,
 then the index is updated.
 
 For example,
@@ -769,6 +771,13 @@ After the purge,
 revision `2-98e2b4ecd9a0da76fe8b83a83234ee71` remains.
 Therefore,
 the index is updated by using revision `2-98e2b4ecd9a0da76fe8b83a83234ee71`.
+
+There are several possible indexes within a database,
+including the MapReduce View ([`_view`](using_views.html)),
+the Search Index ([`_search`](search.html)),
+and the Geospatial Index ([`_geo`](cloudant-geo.html)).
+Each index keeps its own purge sequence record.
+The purge sequence record stored for an index can be much smaller than the database's purge sequence record.
 
 ### The `purged_docs_limit` parameter
 
