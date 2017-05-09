@@ -2,7 +2,7 @@
 
 copyright:
   years: 2017
-lastupdated: "2017-05-04"
+lastupdated: "2017-05-09"
 
 ---
 
@@ -16,18 +16,61 @@ lastupdated: "2017-05-04"
 
 # Disaster Recovery and Backup
 
-Cloudant provides several ways to protection for your data and keep your applications running. Some of these features are automatic. For others, Cloudant provides you with supported tooling to create complete high availability and disaster recovery capabilities. This document provides an overview of the capabilities offered.
+Your data is important and valuable.
+You want to protect your data,
+to help ensure it is secure,
+available,
+and maintains integrity.
+Cloudant provides several ways to protect your data and help keep your applications running.
+{:shortdesc}
 
-Broadly the features are discussed in degrees of protection offered:
+Some of these protection features are automatic.
+For other forms of protection,
+Cloudant provides you with supported tooling that
+enables you to create your own high availability and disaster recovery capabilities.
+
+This document provides an overview of the automatic capabilities and supported tools offered by Cloudant.
+
+## Types and levels of protection
+
+The type of protection you might want depends on the problem you are trying to solve.
+
+For example,
+you might want to have a high level of data availability.
+For example,
+you still want to access your data,
+even if a limited amount of hardware within the system has failed.
+This is a 'High Availability' (HA) requirement.
+It means providing the best possible continuous data availability after a hardware failure.
+Different HA techniques tolerate different levels of failure before operations are affected.
+
+Alternatively,
+you might want to have easy and quick ways of backing-up and restoring data.
+For example,
+after a more severe or extensive hardware failure,
+you want to be able to make all the data available on an alternative system
+as quickly as possible.
+This is a 'Disaster Recovery' (DR) requirement.
+A disaster generally means that a database is no longer available in one or more locations.
+For example,
+a power outage might cause all machines in a database cluster to fail.
+Alternatively,
+a large scale network failure might mean that machines in a cluster cannot be contacted,
+even though they continue to work correctly.
+
+Addressing your HA or DR requirements often begins by simplifying the problem into more generic requirements.
+When you have identified your requirements,
+
+You can apply the tools and features that help solve the generic needs can then be put toget
+
+Different tools and features provide different levels of protection.
+The different features might be more or less suitable for your specific HA or DR requirement.
+
+Cloudant provides a number of tools and features that address general requirements:
 
 1.	Data redundancy within a single region.
 2.	Cross-region data redundancy and failover.
 3.	Point in time snapshot backup for point-in-time restore.
-
-This document discusses high availability and disaster recovery. It's worth defining those terms.
-
-*	**High availability**: Denotes continuing data availability in the face of hardware failure. Different techniques allow different levels of failure before operations are impacted.
-*	**Disaster recovery**: A "disaster" is assumed to take offline databases in a one or more regions. For example, all machines in a database cluster failing or large scale network failures.
 
 ## In-Region Automatic Data Redundancy
 
