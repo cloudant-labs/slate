@@ -706,9 +706,10 @@ You might want to purge rather than delete a document for two reasons.
 
 ### Purging and replication
 
-A document purge from a database must be replicated to other copies of the database.
+Purging a document from a database might require corresponding changes to other copies of the database.
 
-Where the copy is a system-level replica of a database
+Where the copy is a system-level replica of a database -
+an 'internal' replica -
 that was created automatically as part of the distributed nature of Cloudant,
 then a document purge from one copy is automatically replicated to the other copies.
 
@@ -722,16 +723,16 @@ the database purge records are reconciled to ensure that
 the details of which documents were purged are replicated correctly and automatically.
 
 However,
-if you created your own copy of a database,
-perhaps where a database contains a subset of information from another database,
+if you created your own or 'external' copy of a database,
+perhaps where the copy contains a subset of information from the original database,
 then a document purge is not automatically replicated.
-This is because the 'subset' database is not a replica of the original database.
+This is because the 'subset' database is not an 'internal' replica of the original database.
 Therefore,
-if your application requests a document purge in a database,
-the application must also ensure that a corresponding document purge is requested for all other relevant databases.
+if you request a document purge in a database,
+you must consider whether a corresponding document purge is also requested for the other 'external' databases.
 
 This check is especially important when a document purge removes all revisions of a document.
-Replication to external databases depends on the information in the `_changes` feed.
+Replication between databases depends on the information in the `_changes` feed.
 If all revisions of a document within a database are purged,
 no information about the document appears within the `_changes` feed.
 Therefore,
