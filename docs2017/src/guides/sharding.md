@@ -16,6 +16,8 @@ lastupdated: "2017-05-11"
 
 # How is data stored in Cloudant?
 
+## Concepts
+
 Every database in Cloudant is formed of one or more distinct _shards_,
 where the number of shards is referred to as _Q_.
 A shard is a distinct subset of documents from the database.
@@ -93,40 +95,97 @@ This is because each replica maintains its own copy of the indexes which help an
 An important consequence of this configuration is that having more shards enables parallel index building _if_
 document writes tend to be evenly distributed across the shards in the cluster.
 
-However, it is hard to predict indexing load across the nodes in the cluster. In practice this prediction tends to be less useful than considering request patterns. The reason is that a large number of document writes indicate a need for larger shard counts.
+In practice,
+it is hard to predict the likely indexing load across the nodes in the cluster.
+Furthermore,
+predicting indexing load tends to be less useful than addressing request patterns.
+The reason is that indexing is typically required after a document write,
+not after a document request.
+Therefore,
+considering indexing alone does not provide sufficient information
+to estimate an appropriate shard count.
 
-For the sizing of data, there are considerations about the number of documents per shard. Each shard holds its documents in a large B-tree on disk. Indexes are stored in the same way. As more documents are added to a shard, the depth an average document lookup or query must traverse the B-tree increases and slows down requests as more data must be read from caches or disk.
+When considering data size,
+an important considerations is the number of documents per shard.
+Each shard holds its documents in a large
+[B-tree ![External link icon](../images/launch-glyph.svg "External link icon")](https://en.wikipedia.org/wiki/B-tree){:new_window}
+on disk.
+Indexes are stored in the same way.
+As more documents are added to a shard,
+the number of steps required to traverse the B-tree
+during a typical document lookup or query increases.
+This 'depth increase' tends to slow down requests
+because more data must be read from caches or disk.
 
-In general, Cloudant observations are to avoid having more than 10 million documents per shard. In terms of overall shard size, keeping shards under 10 GB is helpful for operational reasons. For example, smaller shards are easier to move over the network during rebalancing.
+In general,
+avoid having more than 10 million documents per shard.
+In terms of overall shard size,
+keeping shards under 10 GB is helpful for operational reasons.
+For example,
+smaller shards are easier to move over the network during rebalancing.
 
-Given these competing requirements, a single _Q_ value cannot work optimally for all cases. Cloudant tunes the defaults for clusters over time as usage patterns change. However, for particular databases, it's worth taking the time to consider future request patterns and sizing issues to select an appropriate number of shards. Testing with representative data and request patterns is essential for accurate estimations of good _Q_ values. Be prepared for production experience to alter those expectations.
+Given the conflicting requirements to avoid having too many documents and keeping shard size low,
+a single _Q_ value cannot work optimally for all cases.
+Cloudant tunes the defaults for clusters over time as usage patterns change.
 
-## Summary
+Nevertheless,
+for a specific database,
+it is often useful to take the time to consider observed request patterns and sizing,
+and use this information to guide the future selection of an appropriate number of shards.
+Testing with representative data and request patterns is essential for better estimation of good _Q_ values.
+Be prepared for production experience to alter those expectations.
 
-In addition to the earlier considerations,
-some simple guidelines might be helpful when you are starting.
-However,
-it is useful to consider testing with representative data, particularly for larger databases:
+<div id="summary"></div>
 
-- If your data is trivial in size - a few tens or hundreds of MB, or thousands of documents - there is little need for more than a single shard.
-- For databases of a few GB or few million documents, single-digit shard counts work fine, such as 8.
-- For larger databases of tens to hundreds of millions of documents or tens of GB, consider 16 shards.
+The following simple guidelines might be helpful during the early planning stages.
+Remember to validate your proposed configuration by testing with representative data,
+particularly for larger databases:
 
-For extremely large databases, consider manually sharding your data into several databases. For such large databases, contact Cloudant support for advice.
+*	If your data is trivial in size,
+	such as a few tens or hundreds of MB,
+	or thousands of documents,
+	then there is little need for more than a single shard.
+*	For databases of a few GB or few million documents,
+	then a single-digit shard count such as 8 is likely to be acceptable.
+*	For larger databases of tens to hundreds of millions of documents or tens of GB,
+	consider configuring your database to use 16 shards.
+*	For extremely large databases,
+	consider manually sharding your data into several databases.
+	For such large databases,
+	contact [Cloudant support ![External link icon](../images/launch-glyph.svg "External link icon")](mailto:support@cloudant.com){:new_window} for advice.
 
->	**Note:** These numbers are derived from observation and experience rather than precise calculation.
+>	**Note:** The numbers in these guidelines are derived from observation and experience
+	rather than precise calculation.
 
-## API
+<div id="API"></div>
+
+## Working with shards
 
 ### Setting shard count
 
-The number of shards, _Q_, for a database is set when the database is created. It cannot be changed later. To do this, use the _q_ query string parameter:
+The number of shards,
+_Q_,
+for a database is set when the database is created.
+The _Q_ value cannot be changed later.
 
-```
-curl -XPUT -u myaccount https://myaccount.cloudant.com/mynewdatabase?q=8
-```
+To specify the _Q_ when you create a database,
+use the `q` query string parameter.
 
->	**Note:** Setting _Q_ for databases is not enabled on most multi-tenant clusters. For these clusters, trying to set _Q_ results in a [`403` response](../api/http.html#403) with the body:
+In the following example,
+a database called `mynewdatabase` is created.
+The `q` parameter specifies that there should be 8 shards for the database.
+
+```sh
+curl -X PUT -u myusername https://myaccount.cloudant.com/mynewdatabase?q=8
+```
+{:codeblock}
+
+>	**Note:** Setting _Q_ for databases is not enabled for Cloudant databases on Bluemix.
+	The _Q_ value is not available on most `cloudant.com` multi-tenant clusters.
+
+If you attempt to set the _Q_ value where it is not available,
+the result is a [`403` response](../api/http.html#403) with a JSON body
+similar to the following example:
 
 ```json
 {
@@ -136,10 +195,16 @@ curl -XPUT -u myaccount https://myaccount.cloudant.com/mynewdatabase?q=8
 ```
 {:codeblock}
 
-
 ### Setting the replica count
 
-CouchDB 2+ allows changing the replica count. However, Cloudant doesn't suggest changing this from the default (3) under any circumstances and disallows specifying different values when you create a database. For further help, contact Cloudant support.
+***HERE***
+
+In CouchDB version 2 onwards,
+you are allowed to change the replica count.
+However,
+Cloudant does not allow you to change the replica count value from the default of 3.
+In particular,
+it is not possible to specify a different replicae count value when you create a database. For further help, contact Cloudant support.
 
 ### What are these _R_ and _W_ arguments?
 
