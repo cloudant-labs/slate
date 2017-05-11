@@ -267,6 +267,12 @@ you can choose from the following Bluemix Public regions:
 -   US South
 -   United Kingdom
 -   Sydney
+-   Germany
+
+>   **Note:** To see a current list of production regions, run this command:
+    ``` sh
+    curl http://mccp.ng.bluemix.net/v2/regions | jq '.'
+    ```
 
 #### Security, Encryption, and Compliance
 
