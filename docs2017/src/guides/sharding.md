@@ -2,7 +2,7 @@
 
 copyright:
   years: 2017
-lastupdated: "2017-05-05"
+lastupdated: "2017-05-11"
 
 ---
 
@@ -16,7 +16,15 @@ lastupdated: "2017-05-05"
 
 # How is data stored in Cloudant?
 
-Every database in Cloudant is formed of one or more distinct _shards_, where the number of shards is referred to as _Q_. A shard is a distinct subset of documents from the database and is physically stored in triplicate. Each shard copy is called a shard _replica_. Each shard replica is stored on a different server.
+Every database in Cloudant is formed of one or more distinct _shards_,
+where the number of shards is referred to as _Q_.
+A shard is a distinct subset of documents from the database.
+All _Q_ shards together contain the data within database.
+Each shard is stored in three separate copies.
+Each shard copy is called a shard _replica_.
+Each shard replica is stored on a different server.
+The servers are available within a single location data center.
+The collection of servers in a data center is called a cluster.
 
 ![sharding](../images/sharding_database.png)
 
@@ -25,30 +33,67 @@ This assignment means that a document is always stored on a known shard and a kn
 
 ![document consistent hashing](../images/sharding_document.png)
 
-One caveat to storing a document on the same set of servers every time is that sometimes shards are _rebalanced_.
+Occasionally,
+shards are _rebalanced_.
 Rebalancing involves moving replicas to different servers.
-The number of shards and replicas stays the same, and documents remain assigned to the same shard,
-but the storage location for each shard replica changes.
+It occurs for several reasons,
+for example when server monitoring suggests that a server is more heavily or lightly used than other servers,
+or when a server must be taken out of service temporarily for maintenance.
+The number of shards and replicas stays the same,
+and documents remain assigned to the same shard,
+but the server storage location for a shard replica changes.
 
-The default _Q_ value is different for different clusters. The value can be tuned over time.
+The default value for _Q_ varies for different clusters.
+The value can be tuned over time.
 
-Technically, the number of replicas is also configurable. However, observing and measuring many systems indicates that three replicas is a pragmatic number for most cases to achieve a good balance between performance and data safety. It would be exceptional and unusual for a Cloudant system to use a different replica count.
-
+The number of replicas (copies of a shard) is also configurable.
+In practice,
+observation and measurement of many systems suggests that three replicas is a pragmatic number in most cases
+to achieve a good balance between performance and data safety.
+It would be exceptional and unusual for a Cloudant system to use a different replica count.
 
 ## How does sharding affect performance?
 
-The number of shards for a database is configurable because it affects database performance in a number of ways.
+The number of shards for a database is configurable
+because it affects database performance in a number of ways.
 
-When a request comes into the database cluster, one node in the cluster is assigned as the _coordinator_ of that request. This coordinator makes internal requests to the nodes that hold the data relevant to the request, and returns the result to the client.
+When a request comes into the database from a client application,
+one server or 'node' in the cluster is assigned as the _coordinator_ of the request.
+This coordinator makes internal requests to the nodes that hold the data relevant to the request,
+determines the response to the request,
+and returns this response to the client.
 
 The number of shards for a database can affect the performance in two ways:
 
-- Because each document is stored on a single shard, having many shards enables greater parallelism for single document lookup and write. The reason is that the coordinator sends requests only to the nodes that hold the document. Therefore, other nodes can continue on tasks without interruption from the coordinator request.
-- Because queries must process results from all shards, having more shards introduces a greater processing demand. The reason is that the coordinator must make one request per replica, then combine the results in a streaming fashion before it can return data to the client.
+1.	Each document in the database is stored on a single shard.
+	Therefore,
+	having many shards enables greater parallelism for any single document request.
+	The reason is that the coordinator sends requests only to the nodes that hold the document.
+	Therefore,
+	if there are many shards,
+	there are likely to be many other nodes that do not need to respond to the request.
+	These nodes can continue to work on other tasks without interruption from the coordinator request.
+2.	To respond to a query request,
+	a database must process the results from all the shards.
+	Therefore,
+	having more shards introduces a greater processing demand.
+	The reason is that the coordinator must make one request per shard,
+	then combine the results before returning the response to the client.
 
-Therefore, establish the predominant request pattern first, before you estimate the shard count. For example, are the requests mostly about single document operations, or mostly queries? Which operations are time-sensitive?
+To help determine a suitable shard count for your database,
+begin by identifying the most common types of requests made by the applications.
+For example,
+consider whether the requests are mostly for single document operations,
+or are the requests mostly queries?
+Are any of the operations time-sensitive?
 
-For all queries, the coordinator issues read requests to all replicas. This is because each replica maintains its own copy of the indexes which power queries. An important implication of this is that having more shards enables index building to be more parallelized, presuming document writes are evenly distributed across the shards in the cluster. However, it is hard to predict indexing load across the nodes in the cluster. In practice this prediction tends to be less useful than considering request patterns. The reason is that a large number of document writes indicate a need for larger shard counts.
+For all queries,
+the coordinator issues read requests to all replicas.
+This is because each replica maintains its own copy of the indexes which help answer queries.
+An important consequence of this configuration is that having more shards enables parallel index building _if_
+document writes tend to be evenly distributed across the shards in the cluster.
+
+However, it is hard to predict indexing load across the nodes in the cluster. In practice this prediction tends to be less useful than considering request patterns. The reason is that a large number of document writes indicate a need for larger shard counts.
 
 For the sizing of data, there are considerations about the number of documents per shard. Each shard holds its documents in a large B-tree on disk. Indexes are stored in the same way. As more documents are added to a shard, the depth an average document lookup or query must traverse the B-tree increases and slows down requests as more data must be read from caches or disk.
 
