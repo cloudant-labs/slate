@@ -37,7 +37,7 @@ and a valid password.
 If the authentication succeeds,
 a 'token' is returned.
 
-Posession of a valid and current token is necessary to access and use Cloudant services.
+Possession of a valid and current token is necessary to access and use Cloudant services.
 
 ## Services
 
