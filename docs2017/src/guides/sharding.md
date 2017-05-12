@@ -197,31 +197,53 @@ similar to the following example:
 
 ### Setting the replica count
 
-***HERE***
-
 In CouchDB version 2 onwards,
-you are allowed to change the replica count.
+you are allowed to [specify the replica count ![External link icon](../images/launch-glyph.svg "External link icon")](http://docs.couchdb.org/en/2.0.0/cluster/databases.html?highlight=replicas#creating-a-database){:new_window}
+when you create a database.
 However,
 Cloudant does not allow you to change the replica count value from the default of 3.
 In particular,
-it is not possible to specify a different replicae count value when you create a database. For further help, contact Cloudant support.
+it is not possible to specify a different replica count value when you create a database.
+For further help, contact [Cloudant support ![External link icon](../images/launch-glyph.svg "External link icon")](mailto:support@cloudant.com){:new_window}.
 
-### What are these _R_ and _W_ arguments?
+### What are the _R_ and _W_ arguments?
 
-Certain individual document requests can have arguments that affect the coordinator's behavior. These arguments are known as _R_ and _W_ after their names in the request query string. They can be used only for single document operations and have _no effect_ for query-style operations.
+Some requests can have arguments that affect the coordinator's behavior when it answers the request.
+These arguments are known as _R_ and _W_ after their names in the request query string.
+They can be used for single document operations only.
+They have no effect on general 'query style' requests.
 
-Typically, _R_ and _W_ are not that useful to specify. In particular, specifying either _R_ or _W_ does not alter consistency for that read or write.
+In practice,
+it is rarely useful to specify _R_ and _W_ values.
+For example,
+specifying either _R_ or _W_ does not alter consistency for that read or write.
 
 #### What is _R_?
 
-_R_ can be used for single document lookups. It affects how many responses must be received by the coordinator from the nodes that host the replicas of the shard that contains the document, before the coordinator responds to the client. 
+The _R_ argument can be specified on single document requests only.
+_R_ affects how many responses must be received by the coordinator before it replies to the client.
+The responses must come from the nodes that host the replicas of the shard that contains the document. 
 
-Setting _R_ to _1_ can improve throughput because the coordinator is able to send a response sooner. The default for _R_ is _2_, which is most replicas. If the number of replicas is higher or lower than _3_, the default for _R_ changes correspondingly.
+Setting _R_ to _1_ might improve the overall response time,
+because the coordinator can return a response more quickly.
+The reason is that the coordinator need only wait for a response from one of the replicas that host the appropriate shard.
+
+The default value for _R_ is _2_.
+This value corresponds to the majority of replicas for a typical database which uses 3 shard replicas.
+If the database has a number of replicas that is higher or lower than 3,
+the default value for _R_ changes correspondingly.
 
 #### What is _W_?
 
-_W_ can be specified on single document write requests. Like _R_, _W_ affects how many responses the coordinator waits to receive before it replies to the client.
+_W_ can be specified on single document write requests only.
 
->	**Note:** _W_ doesn't affect actual write behaviour in any way.
+_W_ is similar to _R_.
+because it affects how many responses must be received by the coordinator before it replies to the client.
 
-The value of _W_ doesn't affect whether the document is written within the database or not. Instead, the only effect of specifying _W_ is that the client can learn from a request's HTTP status code whether or not _W_ nodes responded to the coordinator: the coordinator waits up to a timeout for _W_ responses from nodes hosting copies of the document, then sends its response to the client.
+>	**Note:** _W_ does not affect the actual write behavior in any way.
+
+The value of _W_ does not affect whether the document is written within the database or not.
+By specifying a _W_ value,
+the client can inspect the HTTP status code in the response to determine whether or not _W_ replicas responded to the coordinator.
+The coordinator waits up to a pre-determined timeout for _W_ responses from nodes hosting copies of the document,
+before sending the response to the client.
