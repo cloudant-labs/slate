@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-05-09"
+lastupdated: "2017-05-12"
 
 ---
 
@@ -747,11 +747,16 @@ no error is generated if the document was already purged.
 
 ### Purging and indexes
 
-If a document is purged,
-the change might require an update to some of the indexes within the database.
+Database indexes,
+including [views](using_views.html),
+[search](search.html),
+and [geo](cloudant-geo.html) indexes,
+are automatically updated for all purge requests.
+All indexes support multiple purge requests,
+and should never need to be rebuilt because of a purge request.
 
 Depending on which documents are affected by a purge request,
-it might not be necessary to rebuild an index:
+it might not be necessary to update an index:
 
 -	If a document is not changed as a result of a purge request,
 	no change is needed for indexes that include the document.
