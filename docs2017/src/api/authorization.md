@@ -475,14 +475,14 @@ send an HTTP `PUT` request to the same `_security` API endpoint you used to [cre
 Provide an updated list of the user names that have access permission.
 The updated list _must omit_ the API key.
 
-## Enabling the `_users` database with Cloudant
+## Using the _users database with Cloudant
 
 You can use the
 [_users database ![External link icon](../images/launch-glyph.svg "External link icon")](http://docs.couchdb.org/en/1.6.1/intro/security.html#authentication-database){:new_window}
 to manage roles in {{site.data.keyword.cloudant_short_notm}}.
-However,
-you must turn off {{site.data.keyword.cloudant_short_notm}} security for those roles first.
-To turn off {{site.data.keyword.cloudant_short_notm}} security,
+
+In addition, you can disable the Cloudant authorization checks by setting the `couchdb_auth_only:true` parameter. 
+To disable {{site.data.keyword.cloudant_short_notm}} security,
 `PUT` a JSON document to the `_security` endpoint of the database.
 For example, `https://$ACCOUNT.cloudant.com/$DATABASE/_security`.
 
