@@ -2,7 +2,7 @@
 
 copyright:
   years: 2017
-lastupdated: "2017-05-11"
+lastupdated: "2017-05-15"
 
 ---
 
@@ -12,7 +12,7 @@ lastupdated: "2017-05-11"
 {:codeblock: .codeblock}
 {:pre: .pre}
 
-<!-- Acrolinx: 2017-MM-DD -->
+<!-- Acrolinx: 2017-05-15 -->
 
 # How is data stored in Cloudant?
 
@@ -72,7 +72,7 @@ The number of shards for a database can affect the performance in two ways:
 	having many shards enables greater parallelism for any single document request.
 	The reason is that the coordinator sends requests only to the nodes that hold the document.
 	Therefore,
-	if there are many shards,
+	if the database has many shards,
 	there are likely to be many other nodes that do not need to respond to the request.
 	These nodes can continue to work on other tasks without interruption from the coordinator request.
 2.	To respond to a query request,
@@ -80,10 +80,10 @@ The number of shards for a database can affect the performance in two ways:
 	Therefore,
 	having more shards introduces a greater processing demand.
 	The reason is that the coordinator must make one request per shard,
-	then combine the results before returning the response to the client.
+	then combine the results before it returns the response to the client.
 
 To help determine a suitable shard count for your database,
-begin by identifying the most common types of requests made by the applications.
+begin by identifying the most common types of requests that are made by the applications.
 For example,
 consider whether the requests are mostly for single document operations,
 or are the requests mostly queries?
@@ -91,7 +91,7 @@ Are any of the operations time-sensitive?
 
 For all queries,
 the coordinator issues read requests to all replicas.
-This is because each replica maintains its own copy of the indexes which help answer queries.
+This approach is used because each replica maintains its own copy of the indexes that help answer queries.
 An important consequence of this configuration is that having more shards enables parallel index building _if_
 document writes tend to be evenly distributed across the shards in the cluster.
 
@@ -99,20 +99,20 @@ In practice,
 it is hard to predict the likely indexing load across the nodes in the cluster.
 Furthermore,
 predicting indexing load tends to be less useful than addressing request patterns.
-The reason is that indexing is typically required after a document write,
-not after a document request.
+The reason is that indexing might be required after a document write,
+but not after a document request.
 Therefore,
 considering indexing alone does not provide sufficient information
 to estimate an appropriate shard count.
 
-When considering data size,
-an important considerations is the number of documents per shard.
+When you consider data size,
+an important consideration is the number of documents per shard.
 Each shard holds its documents in a large
 [B-tree ![External link icon](../images/launch-glyph.svg "External link icon")](https://en.wikipedia.org/wiki/B-tree){:new_window}
 on disk.
 Indexes are stored in the same way.
 As more documents are added to a shard,
-the number of steps required to traverse the B-tree
+the number of steps that are used to traverse the B-tree
 during a typical document lookup or query increases.
 This 'depth increase' tends to slow down requests
 because more data must be read from caches or disk.
@@ -149,7 +149,7 @@ particularly for larger databases:
 	then a single-digit shard count such as 8 is likely to be acceptable.
 *	For larger databases of tens to hundreds of millions of documents or tens of GB,
 	consider configuring your database to use 16 shards.
-*	For extremely large databases,
+*	For even larger databases,
 	consider manually sharding your data into several databases.
 	For such large databases,
 	contact [Cloudant support ![External link icon](../images/launch-glyph.svg "External link icon")](mailto:support@cloudant.com){:new_window} for advice.
@@ -172,8 +172,8 @@ To specify the _Q_ when you create a database,
 use the `q` query string parameter.
 
 In the following example,
-a database called `mynewdatabase` is created.
-The `q` parameter specifies that there should be 8 shards for the database.
+a database that is called `mynewdatabase` is created.
+The `q` parameter specifies that eight shards are created for the database.
 
 ```sh
 curl -X PUT -u myusername https://myaccount.cloudant.com/mynewdatabase?q=8
@@ -201,7 +201,7 @@ In CouchDB version 2 onwards,
 you are allowed to [specify the replica count ![External link icon](../images/launch-glyph.svg "External link icon")](http://docs.couchdb.org/en/2.0.0/cluster/databases.html?highlight=replicas#creating-a-database){:new_window}
 when you create a database.
 However,
-Cloudant does not allow you to change the replica count value from the default of 3.
+you are not allowed to change the replica count value from the default of 3.
 In particular,
 it is not possible to specify a different replica count value when you create a database.
 For further help, contact [Cloudant support ![External link icon](../images/launch-glyph.svg "External link icon")](mailto:support@cloudant.com){:new_window}.
@@ -216,7 +216,7 @@ They have no effect on general 'query style' requests.
 In practice,
 it is rarely useful to specify _R_ and _W_ values.
 For example,
-specifying either _R_ or _W_ does not alter consistency for that read or write.
+specifying either _R_ or _W_ does not alter consistency for the read or write.
 
 #### What is _R_?
 
@@ -224,12 +224,18 @@ The _R_ argument can be specified on single document requests only.
 _R_ affects how many responses must be received by the coordinator before it replies to the client.
 The responses must come from the nodes that host the replicas of the shard that contains the document. 
 
-Setting _R_ to _1_ might improve the overall response time,
+Setting _R_ to _1_ might improve the overall response time
 because the coordinator can return a response more quickly.
-The reason is that the coordinator need only wait for a response from one of the replicas that host the appropriate shard.
+The reason is that the coordinator must wait only for a single response
+from any one of the replicas that host the appropriate shard.
+
+>	**Note:** Reducing the _R_ value increases the likelihood that the response that is
+	returned is not based on the most up-to-date data
+	because of the [eventual consistency](cap_theorem.html) model used by Cloudant.
+	Using the default _R_ value helps mitigate this effect.
 
 The default value for _R_ is _2_.
-This value corresponds to the majority of replicas for a typical database which uses 3 shard replicas.
+This value corresponds to most of the replicas for a typical database that uses three shard replicas.
 If the database has a number of replicas that is higher or lower than 3,
 the default value for _R_ changes correspondingly.
 
@@ -237,13 +243,13 @@ the default value for _R_ changes correspondingly.
 
 _W_ can be specified on single document write requests only.
 
-_W_ is similar to _R_.
+_W_ is similar to _R_,
 because it affects how many responses must be received by the coordinator before it replies to the client.
 
 >	**Note:** _W_ does not affect the actual write behavior in any way.
 
 The value of _W_ does not affect whether the document is written within the database or not.
 By specifying a _W_ value,
-the client can inspect the HTTP status code in the response to determine whether or not _W_ replicas responded to the coordinator.
-The coordinator waits up to a pre-determined timeout for _W_ responses from nodes hosting copies of the document,
-before sending the response to the client.
+the client can inspect the HTTP status code in the response to determine whether _W_ replicas responded to the coordinator.
+The coordinator waits up to a pre-determined timeout for _W_ responses from nodes that host copies of the document,
+before it returns the response to the client.
