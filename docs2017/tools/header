@@ -1,8 +1,22 @@
-<html lang="en">
-<head>
-  <title>IBM&reg; Cloudant&reg; NoSQL DB for Bluemix&reg;</title>
-  <meta charset="utf-8"></meta>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
-  <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+<!DOCTYPE html><html lang="en-us">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="copyright" content="© Copyright IBM Corporation 2017">
+<meta name="DC.Rights.Owner" content="© Copyright IBM Corporation 2017">
+<meta name="dcterms.rights" content="&#xA9; Copyright IBM Corporation {{ copyright.years }}">
+<meta name="dcterms.date" content="{{ lastupdated }}">
+<meta name="source.format" content="markdown">
+
+<meta name="github.edit" content="yes" repo="https://github.ibm.com/Bluemix/docs/blob/staging">
+
+<!-- Licensed Materials - Property of IBM -->
+<!-- US Government Users Restricted Rights -->
+<!-- Use, duplication or disclosure restricted by -->
+<!-- GSA ADP Schedule Contract with IBM Corp. -->
+<!-- This is not the official header - it is for local build testing -->
+
+<title>{{ document.title.text }}</title>
 </head>
 <body>
+<main role="main">
+<article aria-labelledby="{{ document.title.id }}" role="article">
