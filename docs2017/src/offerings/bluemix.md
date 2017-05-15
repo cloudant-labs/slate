@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-02-23"
+lastupdated: "2017-05-15"
 
 ---
 
@@ -16,28 +16,28 @@ lastupdated: "2017-02-23"
 
 # IBM Bluemix
 
-Cloudant is also available as an
-[IBM Bluemix service ![External link icon](../images/launch-glyph.svg "External link icon")](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db/){:new_window}.
+{{site.data.keyword.cloudant}} is also available as an
+[{{site.data.keyword.Bluemix}} service ![External link icon](../images/launch-glyph.svg "External link icon")](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db/){:new_window}.
 {:shortdesc}
 
-Bluemix is an open-standard,
+{{site.data.keyword.Bluemix_short}} is an open-standard,
 cloud platform for building,
 running,
 and managing applications.
-Find out more about Bluemix,
+Find out more about {{site.data.keyword.Bluemix_notm}},
 and start to use it,
 at the [home page ![External link icon](../images/launch-glyph.svg "External link icon")](https://console.ng.bluemix.net/){:new_window}.
 
 ## Bluemix Public
 
-Cloudant on Bluemix is available as a free [Lite plan](#lite-plan),
+{{site.data.keyword.cloudantfull}} is available as a free [Lite plan](#lite-plan),
 and as several configurations within the paid [Standard plan](#standard-plan).
 
 The following table summarizes the performance measures for each of the plans.
 
 >   **Note**: The details in the table are indicative as at September 2016.
     For current values,
-    contact [Cloudant Support ![External link icon](../images/launch-glyph.svg "External link icon")](mailto:support@cloudant.com){:new_window}.
+    contact [{{site.data.keyword.cloudant_short_notm}} Support ![External link icon](../images/launch-glyph.svg "External link icon")](mailto:support@cloudant.com){:new_window}.
 
 >   **Note**: All currency values in this document are in US dollars ($).
 
@@ -120,7 +120,7 @@ and queries.
 
 You can see details of the throughput capacity within the plans available for your account.
 You can select the level of provisioning that you want to use,
-through the Account tab of your Cloudant account Dashboard.
+through the Account tab of your {{site.data.keyword.cloudant_short_notm}} account Dashboard.
 
 ![Account Dashboard](../images/cloudant_capacity.png)
 
@@ -147,7 +147,7 @@ Throughput provision is identified and measured as one of three kinds of events:
     or deletion of an individual document,
     or any update due to an index build.
 3.	A query,
-    which is a request made to one of the Cloudant query endpoints,
+    which is a request made to one of the {{site.data.keyword.cloudant_short_notm}} query endpoints,
     including the following types:
 	-	Primary Index ([`_all_docs`](../api/database.html#get-documents))
 	-	MapReduce View ([`_view`](../api/creating_views.html#using-views))
@@ -200,8 +200,8 @@ you must ensure that your application is able to handle a [`429`](../api/http.ht
 
 #### Maximum individual document size
 
-Data is stored within Cloudant as [JSON documents](../api/document.html).
-For documents in a Cloudant service on IBM Bluemix,
+Data is stored within {{site.data.keyword.cloudant_short_notm}} as [JSON documents](../api/document.html).
+For documents in a {{site.data.keyword.cloudant_short_notm}} service on {{site.data.keyword.Bluemix_notm}},
 the maximum size for an individual document is 1 MB.
 Exceeding this limit causes a [`413` error](../api/http.html#413).
 
@@ -262,7 +262,7 @@ The total overage bill for the month would be based on a total of 88 + 168 + 518
 By default,
 all plans are based on multi-tenant clusters.
 As part of your plan selection,
-you can choose from the following Bluemix Public regions:
+you can choose from the following {{site.data.keyword.Bluemix_notm}} Public regions:
 
 -   US South
 -   United Kingdom
@@ -289,14 +289,14 @@ all data is stored in triplicate across three separate physical servers in a clu
 You can provision accounts in multiple data centers,
 then use continuous data replication to provide HA/DR across data centers.
 
-Cloudant data is not automatically backed up.
+{{site.data.keyword.cloudant_short_notm}} data is not automatically backed up.
 You can request enablement of an [incremental backup feature](../guides/backup-guide.html),
 or alternatively implement your own solution by using one of several possible techniques that are described
 [here ![External link icon](../images/launch-glyph.svg "External link icon")](https://developer.ibm.com/clouddataservices/2016/03/22/simple-couchdb-and-cloudant-backup/){:new_window}.  
 
 ### Monitoring usage
 
-Information about your usage is available in the Usage pane of the Activity tab within your Cloudant Dashboard.
+Information about your usage is available in the Usage pane of the Activity tab within your {{site.data.keyword.cloudant_short_notm}} Dashboard.
 
 ![Monitoring usage on the dashboard](../images/cloudant_usage.png).
 
@@ -318,15 +318,22 @@ across three separate physical nodes for High Availability and Data Recovery.
 ### Support
 
 Support for Standard plan service instances is optional.
-It is provided by purchasing "Bluemix Standard Support".
+It is provided by purchasing "{{site.data.keyword.Bluemix_notm}} Standard Support".
 Support is not available for the Lite plan.
 
-A pricing calculator for Bluemix Standard Support is available
+A pricing calculator for {{site.data.keyword.Bluemix_notm}} Standard Support is available
 [here ![External link icon](../images/launch-glyph.svg "External link icon")](https://console.ng.bluemix.net/?direct=classic/#/pricing/cloudOEPaneId=pricing&paneId=pricingSheet){:new_window}.
 Information about the details of the Support Service Level Agreement (SLA) is available
 [here ![External link icon](../images/launch-glyph.svg "External link icon")](http://www-03.ibm.com/software/sla/sladb.nsf/pdf/6606-08/$file/i126-6606-08_05-2016_en_US.pdf){:new_window}.
 
+## Provisioning a Cloudant instance on Bluemix
+
+You can provision a {{site.data.keyword.cloudant_short_notm}} instance on {{site.data.keyword.Bluemix_notm}} in two ways:
+
+-	Using the Dashboard. A tutorial describing the process is available [here](../tutorials/create_service.html).
+-	Using the Cloud Foundry command tool. A tutorial describing the process is available [here](../tutorials/create_service_cli.html).
+
 ## Bluemix Dedicated
 
-Cloudant DBaaS Enterprise on single tenant dedicated hardware is available in a
-[Bluemix Dedicated ![External link icon](../images/launch-glyph.svg "External link icon")](http://www.ibm.com/cloud-computing/bluemix/dedicated/){:new_window} configuration.
+{{site.data.keyword.cloudant_short_notm}} for Enterprises is available on single tenant dedicated hardware as part of a
+[{{site.data.keyword.Bluemix_notm}} Dedicated ![External link icon](../images/launch-glyph.svg "External link icon")](http://www.ibm.com/cloud-computing/bluemix/dedicated/){:new_window} configuration.

@@ -55,6 +55,7 @@ Cloudant NoSQL DB
 	{: .topicgroup}
 	Tutorials
 		tutorials/index.md
+		tutorials/create_service_cli.md
 		tutorials/create_service.md
 		tutorials/create_database.md
 		tutorials/create_bmxapp.md
