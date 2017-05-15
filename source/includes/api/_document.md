@@ -1,5 +1,18 @@
 ## Documents
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the Documents topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/api/document.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 Documents are [JSON objects](http://en.wikipedia.org/wiki/JSON#Data_types.2C_syntax_and_example).
 Documents are containers for your data, and are the basis of the Cloudant database.
 
@@ -441,7 +454,7 @@ a suitable `validate_doc_update` function would work as follows:
 2.	If the target database does _not_ have a copy of the current document, _and_ the update document has the `_deleted` property (indicating that it is a tombstone), then the update must be a tombstone _and_ it has been encountered before, so the update should be rejected.
 3.	Finally, if the function has not yet returned or thrown an error, allow the update to replicate to the target database, as some other condition applies.
 
-To use a `validate-doc-update` function to remove tombstone documents:
+To use a `validate_doc_update` function to remove tombstone documents:
 
 1.	Stop replication from the source to the target database.
 2.	If appropriate, delete the target database, then create a new target database.
