@@ -1,0 +1,367 @@
+<html lang="en">
+<head>
+  <title>IBM&reg; Cloudant&reg; NoSQL DB for Bluemix&reg;</title>
+  <meta charset="utf-8"></meta>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+  <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+</head>
+
+<body>
+  <h1 id="back-up-your-data">Back up your data</h1>
+  <blockquote>
+    <p> <strong>Note</strong>: This guide refers to a <em>Beta</em> daily incremental backup capability, available only on request to Enterprise customers.</p>
+  </blockquote>
+  <p>This capability:</p>
+  <ul>
+    <li>Is not enabled by default.</li>
+    <li>Is only available to Enterprise customers, who must specifically request it.</li>
+    <li>Must be explicitly configured before it is operational.</li>
+    <li>Is subject to <a href="#known-limitations">known limitations</a>.</li>
+    <li>Is not applicable to <a href="https://www.ibm.com/support/knowledgecenter/SSTPQH_1.0.0/com.ibm.cloudant.local.doc/SSTPQH_1.0.0_welcome.html" target="_blank">Cloudant Local <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>.
+      For more information, please contact the <a href="mailto:support@cloudant.com" target="_blank">IBM Cloudant support team <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>.</li>
+  </ul>
+  <blockquote>
+    <p> <strong>Note</strong>: The daily incremental backup capability is not applicable for
+      <a href="https://www.ibm.com/support/knowledgecenter/SSTPQH_1.0.0/com.ibm.cloudant.local.doc/SSTPQH_1.0.0_welcome.html" target="_blank">Cloudant Local <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>.
+      To back up data in Cloudant Local, use <a href="../api/replication.html">replication</a> to make a copy of your database.</p>
+  </blockquote>
+  <p>To ensure high availability, Cloudant&reg; NoSQL DB creates three copies of each document, and stores it on three different servers in a cluster. This practice is the default for all Cloudant users. Even when your data is replicated in triplicate, it
+    is still important to back it up.</p>
+  <p>Why is backing up important? In general, you could lose access to data in many ways. For example, if a hurricane destroys your data center and all three nodes are in that location, you lose your data. You can prevent the loss of your data in a disaster
+    by replicating your data to a cluster (dedicated or multi-tenant) in a different geographic location. However, if a faulty application deletes or overwrites the data in your database, duplicate data is not helpful.</p>
+  <p>Having a comprehensive, tested backup enables you to answer the following question with confidence: &quot;How can we restore data in case of loss or corruption?&quot;</p>
+  <p>With Cloudant, Enterprise customers can have daily incremental backups.</p>
+  <p>If you are not an Enterprise customer, or you wish to create your own backup mechanism, consider <a href="backup-guide-using-replication.html">using Replication to perform backups</a>.</p>
+  <blockquote>
+    <p> <strong>Note</strong>: Daily incremental backup for Enterprise customers is currently a <em>Beta</em> capability. It is not enabled by default.</p>
+  </blockquote>
+  <p>Daily incremental backups or &#39;deltas&#39; enable document comparison, and easier single document restoration. At regular intervals, which can be configured, the smaller daily deltas are rolled up into weekly deltas. Similarly, weekly deltas are
+    rolled up into monthly deltas, and monthly deltas into yearly ones. This process of rolling up deltas is a pragmatic compromise between being able to restore exactly the correct version of a document, and requiring a lot of storage space.</p>
+  <p>The backup facility allows you to restore individual documents manually. Should you wish to restore and entire database, for example as part of a disaster recovery scenario, you can contact the support team and have your data restored to a specific
+    day, week, month or year, subject to the deltas you have available.</p>
+  <p>More information about how Cloudant backs up data is provided in the rest of this topic. For further assistance, or to request that data backup is enabled, contact the Cloudant support team:
+    <a href="mailto:support@cloudant.com" target="_blank">support@cloudant.com <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>.</p>
+  <blockquote>
+    <p> <strong>Note</strong>: The Cloudant backup facility is available only to Enterprise customers.</p>
+    <p> <strong>Note</strong>: By default,
+      <code>_design</code> documents are not backed up, so that indexes are <em>not</em> built on the incremental backup databases. If you require backups of the <code>_design</code> documents, you must maintain them in your preferred source control tool.</p>
+  </blockquote>
+  <h2 id="concepts">Concepts</h2>
+  <p>It is helpful to understand the following terms when referring to backup concepts:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Term</th>
+        <th>Meaning</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Backup cleanup</td>
+        <td>When a delta database has been rolled up, the delta database is removed after a configurable time period. This allows you to balance data retention at a high granularity against the cost of storage.</td>
+      </tr>
+      <tr>
+        <td>Backup rollup</td>
+        <td>Daily backups are combined into weekly rolled up databases. These combine the daily deltas into a coarser (less granular) backup. Similarly, weekly databases are rolled up into monthly databases, and monthly databases into yearly databases.</td>
+      </tr>
+      <tr>
+        <td>Backup run</td>
+        <td>For a backup period, the source database is replicated using sequence values to determine the documents that changed during the backup period. On completion, this replication is called the daily backup.</td>
+      </tr>
+      <tr>
+        <td>Baseline backup</td>
+        <td>A collection of documents, against which a delta database can be compared.</td>
+      </tr>
+      <tr>
+        <td>Daily backup</td>
+        <td>See Backup run.</td>
+      </tr>
+      <tr>
+        <td>Daily delta</td>
+        <td>Another name for a daily backup.</td>
+      </tr>
+      <tr>
+        <td>Delta database</td>
+        <td>The collection of documents that have changed over a period of time (the &#39;delta&#39;).</td>
+      </tr>
+      <tr>
+        <td>High/low granularity</td>
+        <td>This indicates how precisely you can specify the period of change for a document. A high granularity rollup has a short timescale for the period of change, for example a day in the case of a daily backup. A low granularity rollup has a long timescale
+          for the period of change, for example a year in the case of a yearly backup.</td>
+      </tr>
+      <tr>
+        <td>Incremental backup</td>
+        <td>The collection of documents that have changed in the database since the last backup.</td>
+      </tr>
+      <tr>
+        <td>Roll up</td>
+        <td>Aggregate a collection of incremental backups into a lower granularity backup, for example to aggregate the daily backups for a week into a single &#39;weekly&#39; backup.</td>
+      </tr>
+    </tbody>
+  </table>
+  <h2 id="incremental-backups">Incremental backups</h2>
+  <p>The first step in enabling incremental backups is to take a full backup of your entire database. This provides a &#39;baseline&#39; for the subsequent incremental backups.</p>
+  <p>Every day, after the first &#39;baseline&#39; backup, a daily, incremental backup is taken. This daily incremental backup contains only the data that has changed in the database since the last backup. The daily backup is the &#39;daily delta&#39;.</p>
+  <p>As part of the request to enable data backups, you can specific a time of day for the backup to run. The daily delta is created each day, at the time you specified.</p>
+  <h2 id="roll-ups">Roll ups</h2>
+  <p>A roll up combines daily backups into weekly, rolled up databases. These roll up databases combine the daily deltas into a coarser, or &#39;less granular&#39;, time slice. Weekly databases roll up into monthly databases, and monthly databases roll up
+    into yearly databases.</p>
+  <p><img src="../images/rollups.png" alt="Illustration of roll up hierarchy"></p>
+  <p>When requesting that backups are enabled, you should specify how many daily deltas to keep. Once that number is reached, the oldest daily delta is rolled up into the most recent weekly database. Thereafter, the weekly databases are rolled up to create
+    the monthly databases, and so on.</p>
+  <p>Once the delta databases have been rolled up, they are removed to free up storage space.</p>
+  <h2 id="restores">Restores</h2>
+  <p>When you have backups for a database, you can view individual documents within that database, and also see changes made to that document. You can also restore the document to the version that was current on a particular date, if it is available within
+    the granularity of the delta.</p>
+  <blockquote>
+    <p> <strong>Note</strong>: Documents must be static before restoring from backup. In other words, the document should not be constantly receiving changes and updates.</p>
+  </blockquote>
+  <p>For more complex restores, such as a full database restore, request assistance from <a href="mailto:support@cloudant.com" target="_blank">Cloudant support <img src="../images/launch-glyph.svg" alt="External link icon" title="External link icon"></a>.</p>
+  <h2 id="using-the-dashboard">Using the Dashboard</h2>
+  <p>Enterprise customers can review the status and history of backups using the Cloudant Dashboard.</p>
+  <p>Tasks you can perform include:</p>
+  <ul>
+    <li>View the status of the last backup, including its date and time.</li>
+    <li>View a list of backup document versions by date and time.</li>
+    <li>View a current document and the difference between it and any backed up version.</li>
+    <li>Restore a document from a backed up version.</li>
+  </ul>
+  <h3 id="viewing-database-backup-status">Viewing database backup status</h3>
+  <p><img src="../images/dashboarddatabasesbackup.png" alt="Dashboard view of database backup status"></p>
+  <p>When you select the Database tab within the Cloudant Dashboard, you can see a backup status column for each of your databases.</p>
+  <h3 id="viewing-document-backup-status">Viewing document backup status</h3>
+  <p><img src="../images/dashboarddatabasesbackupbutton.png" alt="Dashboard view of backup status for all documents"></p>
+  <p>Within a database, you can view the backup status of a specific document. To do this, first check to see if there is a backup icon (
+    <img src="../images/dashboarddatabasesbackupicon.png" alt="Dashboard backup icon">) for your document. This shows whether the specific document is included within the backup task.</p>
+  <p>When you select the document, you can see a backup tab.</p>
+  <p><img src="../images/dashboarddatabasesbackupdocument.png" alt="Dashboard view of document backup status"></p>
+  <h3 id="viewing-differences-between-document-backup-versions-and-restoring">Viewing differences between document backup versions, and restoring</h3>
+  <p><img src="../images/dashboarddatabasesbackupdocumentdiff.png" alt="Dashboard view of document backup status"></p>
+  <p>When you click the backup tab for a document, you can see the differences between the current version of the document, and any other backed-up version.</p>
+  <p>If you decide that you would like to restore a specific backup version of that document, simply select the date of the backup to restore, then click the &#39;Restore&#39; button.</p>
+  <blockquote>
+    <p> <strong>Note</strong>: Documents must be in a stable state before restoring from backup. In other words, the document should not be constantly receiving changes and updates.</p>
+  </blockquote>
+  <h2 id="using-the-api">Using the API</h2>
+  <p>A number of REST API calls are available for working with the Cloudant backup facility.</p>
+  <h3 id="task-configuration">Task configuration</h3>
+  <p>The <code>task</code> call gets the backup task configuration for the user.</p>
+  <p>You can specify the format used in the response by using the <code>format</code> parameter.</p>
+  <p><em>Example of requesting the backup task configuration for the user,
+returning results in a list format (default), using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">GET</span> <span class="hljs-string">/_api/v2/backup/task</span> HTTP/1.1
+</code></pre>
+  <p><em>Example of requesting the backup task configuration for the user,
+returning results in a list format (default), using the command line:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl https://<span class="hljs-variable">$USERNAME</span>.cloudant.com/_api/v2/backup/task \
+    -X GET
+</code></pre>
+  <p><em>Example of requesting the backup task configuration for the user,
+returning results in a mapping format, using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">GET</span> <span class="hljs-string">/_api/v2/backup/task?format=mapping</span> HTTP/1.1
+</code></pre>
+  <p><em>Example of requesting the backup task configuration for the user,
+returning results in a mapping format, using the command line:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl https://<span class="hljs-variable">$USERNAME</span>.cloudant.com/_api/v2/backup/task?format=mapping \
+     -X GET
+</code></pre>
+  <p>The default response format is a list. You can request this format directly by using the <code>...backup/task?format=list</code> parameter. The response contains a simple list of the backup tasks defined for the user.</p>
+  <p>For example, you might request a list format response using either of the following commands:</p>
+  <pre class="codeblock"><code class="lang-http hljs">https://$USERNAME.cloudant.com/_api/v2/backup/task
+
+https://$USERNAME.cloudant.com/_api/v2/backup/task?format=list
+</code></pre>
+  <p><em>Example response following a list format request:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"rows"</span>: [
+        {
+            <span class="hljs-attr">"username"</span>: <span class="hljs-string">"$USERNAME"</span>,
+            <span class="hljs-attr">"task"</span>: <span class="hljs-string">"backup-0d0b0cf1b0ea42179f9c082ddc5e07cb"</span>,
+            <span class="hljs-attr">"source_db"</span>: <span class="hljs-string">"backmeup"</span>,
+            <span class="hljs-attr">"latest_completion"</span>: <span class="hljs-literal">null</span>
+        },
+        {
+            <span class="hljs-attr">"username"</span>: <span class="hljs-string">"$USERNAME"</span>,
+            <span class="hljs-attr">"task"</span>: <span class="hljs-string">"backup-d0ea6e8218074699a562af543db66615"</span>,
+            <span class="hljs-attr">"source_db"</span>: <span class="hljs-string">"backuptest"</span>,
+            <span class="hljs-attr">"latest_completion"</span>: <span class="hljs-string">"2016-01-17T05:57:44+00:00"</span>
+        },
+        {
+            <span class="hljs-attr">"username"</span>: <span class="hljs-string">"$USERNAME"</span>,
+            <span class="hljs-attr">"task"</span>: <span class="hljs-string">"backup-24cd8359b94640be85b7d4071921e781"</span>,
+            <span class="hljs-attr">"source_db"</span>: <span class="hljs-string">"taskdb"</span>,
+            <span class="hljs-attr">"latest_completion"</span>: <span class="hljs-string">"2016-01-17T00:01:04+00:00"</span>
+        }
+    ]
+}
+</code></pre>
+  <p>A more comprehensive response is available in the mapping format. You can request this format directly by using the <code>...backup/task?format=mapping</code> parameter.</p>
+  <p>For example, you might request a mapping format response using the following command:</p>
+  <pre class="codeblock"><code class="lang-http hljs">https://$USERNAME.cloudant.com/_api/v2/backup/task?format=mapping
+</code></pre>
+  <p><em>Example response following a mapping format request:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"backmeup"</span>: {
+        <span class="hljs-attr">"username"</span>: <span class="hljs-string">"$USERNAME"</span>,
+        <span class="hljs-attr">"task"</span>: <span class="hljs-string">"backup-0d0b0cf1b0ea42179f9c082ddc5e07cb"</span>,
+        <span class="hljs-attr">"source_db"</span>: <span class="hljs-string">"backmeup"</span>,
+        <span class="hljs-attr">"latest_completion"</span>: <span class="hljs-literal">null</span>
+    },
+    <span class="hljs-attr">"backuptest"</span>: {
+        <span class="hljs-attr">"username"</span>: <span class="hljs-string">"$USERNAME"</span>,
+        <span class="hljs-attr">"task"</span>: <span class="hljs-string">"backup-d0ea6e8218074699a562af543db66615"</span>,
+        <span class="hljs-attr">"source_db"</span>: <span class="hljs-string">"backuptest"</span>,
+        <span class="hljs-attr">"latest_completion"</span>: <span class="hljs-string">"2016-01-17T05:57:44+00:00"</span>
+    },
+    <span class="hljs-attr">"taskdb"</span>: {
+        <span class="hljs-attr">"username"</span>: <span class="hljs-string">"$USERNAME"</span>,
+        <span class="hljs-attr">"task"</span>: <span class="hljs-string">"backup-24cd8359b94640be85b7d4071921e781"</span>,
+        <span class="hljs-attr">"source_db"</span>: <span class="hljs-string">"taskdb"</span>,
+        <span class="hljs-attr">"latest_completion"</span>: <span class="hljs-string">"2016-01-17T00:01:04+00:00"</span>
+    }
+}
+</code></pre>
+  <h3 id="determining-backup-tasks-for-specific-databases">Determining backup tasks for specific databases</h3>
+  <p>The <code>databases</code> parameter for the <code>task</code> request is used to find what backup tasks are associated with a specified database.</p>
+  <p>The response lists the backup task details for the database identified in the <code>source_db</code> field. The <code>task</code> identified can be used in other backup API calls, such as the <a href="#list-of-databases">database listing</a>.</p>
+  <p><em>Example command to find backup tasks for the <code>backuptest</code> and <code>taskdb</code> database, using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">GET</span> <span class="hljs-string">/_api/v2/backup/task?databases=backuptest,taskdb</span> HTTP/1.1
+</code></pre>
+  <p><em>Example command to find backup tasks for the <code>backuptest</code> and <code>taskdb</code> database, using the command line:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl https://<span class="hljs-variable">$USERNAME</span>.cloudant.com/_api/v2/backup/task?databases=backuptest,taskdb \
+    -X GET
+</code></pre>
+  <p><em>Example response to finding backup tasks for specific databases:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"rows"</span>: [
+        {
+            <span class="hljs-attr">"username"</span>: <span class="hljs-string">"$USERNAME"</span>,
+            <span class="hljs-attr">"task"</span>: <span class="hljs-string">"backup-d0ea6e8218074699a562af543db66615"</span>,
+            <span class="hljs-attr">"source_db"</span>: <span class="hljs-string">"backuptest"</span>,
+            <span class="hljs-attr">"latest_completion"</span>: <span class="hljs-string">"2016-01-17T05:57:44+00:00"</span>
+        },
+        {
+            <span class="hljs-attr">"username"</span>: <span class="hljs-string">"$USERNAME"</span>,
+            <span class="hljs-attr">"task"</span>: <span class="hljs-string">"backup-24cd8359b94640be85b7d4071921e781"</span>,
+            <span class="hljs-attr">"source_db"</span>: <span class="hljs-string">"taskdb"</span>,
+            <span class="hljs-attr">"latest_completion"</span>: <span class="hljs-string">"2016-01-17T00:01:04+00:00"</span>
+        }
+    ]
+}
+</code></pre>
+  <h3 id="list-of-databases">List of databases</h3>
+  <p>The <code>monitor</code> request gets a list of the databases created by the backup task <code>$TASKNAME</code>, that also contain the document <code>$DOCID</code>.</p>
+  <p>The request supports an optional argument: <code>include_docs</code>. The default value is <code>false</code>. If set to <code>true</code>, the <code>monitor</code> request returns the full document content for each backup database containing <code>$DOCID</code>.</p>
+  <p><em>Retrieving the list of databases created by a backup task, that contain a specific document, using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">GET</span> <span class="hljs-string">/_api/v2/backup/monitor/$TASKNAME/$DOCID?include_docs=true</span> HTTP/1.1
+</code></pre>
+  <p><em>Retrieving the list of databases created by a backup task, that contain a specific document, using the command line:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl https://<span class="hljs-variable">$USERNAME</span>.cloudant.com/_api/v2/backup/monitor/<span class="hljs-variable">$TASKNAME</span>/<span class="hljs-variable">$DOCID</span>?include_docs=<span class="hljs-literal">true</span> \
+    -X GET
+</code></pre>
+  <h3 id="restore-a-document">Restore a document</h3>
+  <p>The <code>restore</code> call replaces a document, identified by <code>$DOCID</code>, from a source database. The source database is identified by the <code>$TASKNAME</code>. The <code>$TASKDATE</code> is the timestamp of the specific backup, and specifies
+    when the backup was performed. The <code>$FREQUENCY</code> is one of the following four values:</p>
+  <ul>
+    <li><code>&quot;daily&quot;</code></li>
+    <li><code>&quot;weekly&quot;</code></li>
+    <li><code>&quot;monthly&quot;</code></li>
+    <li><code>&quot;yearly&quot;</code></li>
+  </ul>
+  <blockquote>
+    <p> <strong>Note</strong>: Documents must be in a stable state before restoring from backup. In other words, the document should not be receiving any changes and updates while the restore is in progress.</p>
+  </blockquote>
+  <p><em>Example of request to restore a document, using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">POST</span> <span class="hljs-string">/_api/v2/backup/restore/document</span> --data=@<span class="hljs-keyword">RESTORE</span>.json <span class="hljs-string">HTTP/1.1
+Content-Type:</span> application/json
+</code></pre>
+  <p><em>Example of request to restore a document from the most recent version held in a specific backup database, using the command line:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl https://<span class="hljs-variable">$USERNAME</span>.cloudant.com/_api/v2/backup/restore/document --data=@RESTORE.json \
+    -X POS \
+    -H <span class="hljs-string">"Content-Type: application/json"</span> \
+    <span class="hljs-_">-d</span> <span class="hljs-string">"<span class="hljs-variable">$JSON</span>"</span>
+</code></pre>
+  <p><em>Example of a JSON document requesting that a document be restored
+from the most recent version held in a specific backup database:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"doc_id"</span>: $DOCID,
+    <span class="hljs-attr">"task_name"</span>: $TASKNAME,
+    <span class="hljs-attr">"task_date"</span>: $TASKDATE,
+    <span class="hljs-attr">"frequency"</span>: $FREQUENCY
+}
+</code></pre>
+  <h2 id="how-backup-using-incremental-replication-works">How backup using incremental replication works</h2>
+  <p>A very simple form of backup is to <a href="../api/replication.html">replicate</a> the database to a dated backup database.</p>
+  <p>This method works and is easy to do. But if the database is big and you need backups for multiple points in time, for example seven daily backups and four weekly ones, you end up storing a complete copy of all the documents in each new backup database.
+    This is likely to require a lot of storage space.</p>
+  <p>Incremental backups are a good solution for storing only the documents that have changed since the last backup.</p>
+  <p>Initially, you perform a backup of the entire database. After the first backup, you run regular, incremental backups, backing up only what has changed in the database since the last backup. Typically these incremental backups take place once a day,
+    so this replication is a daily backup.</p>
+  <p>Incremental backups save only the delta between backups. At regular intervals, the source database is replicated to a target database. Replication uses sequence values to identify the documents changed during the interval period.</p>
+  <p>The backup operation uses replication to get and store a checkpoint. This checkpoint is another database with an internal name.</p>
+  <p>The replication process for a database starts by finding the value of the <code>since_seq</code> parameter. The parameter indicates where the last replication finished.</p>
+  <blockquote>
+    <p> <strong>Note</strong>: By definition, using the <code>since_seq</code> option disables the normal replication checkpointing facility. Only use <code>since_seq</code> with caution. </p>
+  </blockquote>
+  <p>The following steps outline how incremental backups are created:</p>
+  <ol>
+    <li><a href="#find-the-id-of-the-checkpoint-document-for-the-last-replication">Find the ID of the checkpoint document for the last replication.</a></li>
+    <li><a href="#get-the-recorded_seq-value">Get the <code>recorded_seq</code> value.</a></li>
+    <li><a href="#run-an-incremental-backup">Run an incremental backup.</a></li>
+  </ol>
+  <h3 id="find-the-id-of-the-checkpoint-document-for-the-last-replication">Find the ID of the checkpoint document for the last replication</h3>
+  <p>The checkpoint ID value is stored in the <code>_replication_id</code> field of the replication document in the <code>_replicator</code> database.</p>
+  <p><em>Example request to get the checkpoint ID of the last incremental backup,
+for a database called <code>original</code>, using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">GET</span> <span class="hljs-string">/_replicator/original</span> HTTP/1.1
+</code></pre>
+  <p><em>Example request to get the checkpoint ID of the last incremental backup,
+for a database called <code>original</code>, using the command line:</em></p>
+  <pre class="pre"><code class="lang-sh hljs">replication_id=$(curl <span class="hljs-string">"<span class="hljs-variable">${url}</span>/_replicator/original"</span> | jq -r <span class="hljs-string">'._replication_id'</span>)
+</code></pre>
+  <h3 id="get-the-recorded_seq-value">Get the <code>recorded_seq</code> value</h3>
+  <p>After you get the checkpoint ID, you use it to get the <code>recorded_seq</code> value from the first element of the history array in the <code>/_local/${replication_id}</code> document in the original database.</p>
+  <p><em>Example of getting the <code>recorded_seq</code> value from a database called <code>original</code>, using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">GET</span> <span class="hljs-string">/original/_local/${replication_id}</span> HTTP/1.1
+</code></pre>
+  <p><em>Example of getting the <code>recorded_seq</code> value from a database called <code>original</code>, using the command line:</em></p>
+  <pre class="pre"><code class="lang-sh hljs">recorded_seq=$(curl <span class="hljs-string">"<span class="hljs-variable">${url}</span>/original/_local/<span class="hljs-variable">${replication_id}</span>"</span> | jq -r <span class="hljs-string">'.history[0].recorded_seq'</span>)
+</code></pre>
+  <h3 id="run-an-incremental-backup">Run an incremental backup</h3>
+  <p>Now that you have the checkpoint ID and <code>recorded_seq</code>, you can start the new incremental backup.</p>
+  <p><em>Example of starting a new incremental backup, to an incremental database called <code>newbackup</code>, using HTTP:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">PUT</span> <span class="hljs-string">/_replicator/newbackup</span> HTTP/1.1
+<span class="hljs-attribute">Content-Type</span>: application/json
+</code></pre>
+  <p><em>Example of starting a new incremental backup, to an incremental database called <code>newbackup</code>, using the command line:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl -X PUT <span class="hljs-string">"<span class="hljs-variable">${url}</span>/_replicator/newbackup"</span> -H <span class="hljs-string">"<span class="hljs-variable">${ct}</span>"</span> <span class="hljs-_">-d</span> @newbackup.json
+</code></pre>
+  <p><em>Example of JSON file specifyin an incremental backup:</em></p>
+  <pre class="codeblock"><code class="lang-json hljs">{
+    <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"newbackup"</span>,
+    <span class="hljs-attr">"source"</span>: <span class="hljs-string">"${url}/original"</span>,
+    <span class="hljs-attr">"target"</span>: <span class="hljs-string">"${url}/newbackup"</span>,
+    <span class="hljs-attr">"since_seq"</span>: <span class="hljs-string">"${recorded_seq}"</span>
+}
+</code></pre>
+  <h2 id="known-limitations">Known limitations</h2>
+  <blockquote>
+    <p> <strong>Note</strong>: Daily incremental backup for Enterprise customers is currently a Beta capability. It is not enabled by default.</p>
+  </blockquote>
+  <ul>
+    <li>IBM Cloudant Backup, and the associated restore capabilities, are based on the underlying replication technology. Factors affecting, or even interrupting, the replication will affect or even stall backup or restore processes.</li>
+    <li>Backup and restore processes could take a significant amount of time for large databases, for example over 100GB in size. This applies to the initial backup, which could take a few days to complete for a large database. Similarly, the restore process
+      could take from a few hours to several days, again depending on the size of the database.</li>
+    <li>For large daily backups, it is possible that the backup process cannot complete in one day (24 hours). The backup process normally runs to completion, therefore it would include incremental changes for more than a day.</li>
+    <li>There is currently no support for backing up a full user account. Instead, you must specify each of the databases within a user account that you want enabled for backup or restore. Currently, there is a limit of 50 databases enabled for backup within
+      any one user account.</li>
+    <li>The IBM Cloudant Backup facility does not currently support backup or restore for <a href="../api/design_documents.html">design documents</a>. If you require backups of design documents, you must maintain them in your preferred source control tool.</li>
+    <li>Currently, the target database for performing a database restore must be different from the original source database.</li>
+  </ul>
+  <footer>
+    <div>
+      <p>Copyright &copy; 2015, 2017. All Rights Reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
