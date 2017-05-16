@@ -76,10 +76,10 @@ Cloudant NoSQL DB
 		guides/design_document_management.md
 		guides/mvcc.md
 		guides/transactions.md
+		guides/sharding.md
 		guides/json.md
 		guides/managing_tasks.md
 		guides/model_data.md
 		guides/replication_guide.md
-		guides/sharding.md
 	{: .navgroup-end}
 
