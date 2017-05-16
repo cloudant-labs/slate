@@ -1,5 +1,18 @@
 ## Authorization
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the Authorization topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/api/authorization.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 When you have authenticated, the next test is to decide whether you
 are permitted to perform certain tasks. This is called authorization.
 
@@ -133,6 +146,61 @@ The request object's `cloudant` field contains an object whose keys are username
 
 <div></div>
 
+The response tells you whether the update has been successful.
+
+> Add user PUT request
+
+```http
+PUT /_api/v2/db/$DATABASE/_security HTTP/1.1
+Content-Type: application/json
+
+{
+  "cloudant": {
+    "antsellseadespecteposene": [
+      "_reader",
+      "_writer",
+      "_admin"
+    ],
+    "garbados": [
+      "_reader",
+      "_writer",
+      "_admin"
+    ],
+    "nobody": [
+      "_reader"
+    ]
+  }
+}
+```
+To add the new user, `nobody`, you can make a PUT request.
+
+<div></div>
+
+> Example incorrect request 
+
+```http
+PUT /_api/v2/db/$DATABASE/_security HTTP/1.1
+Content-Type: application/json
+
+{
+  "cloudant": {
+    "nobody": [
+      "_reader"
+    ]
+  }
+}
+```
+
+You must run the GET command first to retrieve the security object. Then, you can modify that 
+security object with new permissions. If you do not run the GET command and retrieve the 
+security object before you run an API call, the result will be disruptive to your 
+environment. For example, if you want to add a new user with read-only access, the 
+following incorrect request removes all the other users with access to the database.
+
+<div></div>
+
+
+
 > Example response:
 
 ```json
@@ -140,8 +208,9 @@ The request object's `cloudant` field contains an object whose keys are username
   "ok" : true
 }
 ```
+<div></div>
 
-The response tells you whether the update has been successful.
+
 
 ### Creating API Keys
 

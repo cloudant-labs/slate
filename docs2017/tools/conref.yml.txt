@@ -1,0 +1,2 @@
+The source of the conref.yml file is here:
+https://github.ibm.com/Bluemix/docs/blob/staging/developing/writing/markdown/cloudoeconrefs.yml

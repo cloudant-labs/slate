@@ -1,0 +1,356 @@
+<%#
+Copyright 2008-2013 Concur Technologies, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may
+not use this file except in compliance with the License. You may obtain
+a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
+%>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <!-- Always force latest IE rendering engine or request Chrome Frame -->
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+
+    <!-- Use title if it's in the page YAML frontmatter -->
+    <title><%= current_page.data.title || "API Documentation" %></title>
+
+    <link href="//cloudant.com/wp-content/themes/cloudant/images/favicon.ico" rel='shortcut icon' type='image/vnd.microsoft.icon' />
+    <link href="//cloudant.com/wp-content/themes/cloudant/images/favicon.png" rel='icon' type='image/png' />
+
+    <%= stylesheet_link_tag "screen", media: 'screen' %>
+    <%= stylesheet_link_tag "typeahead", media: 'screen' %>
+    <%= stylesheet_link_tag "print", media: 'print' %>
+    <% if current_page.data.thebe %>
+      <%= stylesheet_link_tag "libraries", media: 'screen' %>
+    <% end %>
+    <%= javascript_include_tag  "all" %>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/default.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-43120670-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+
+    <script type="text/javascript">
+
+      $(document).ready(function() {
+        var contentTags = ['h1', 'h2', 'h3', 'h4', 'h5', 'p', 'ul', 'ol', 'aside', 'dl'];
+        function hideCode() {
+          $.cookie('hide-code-column', 'true');
+          var hash = window.location.hash;
+          $('pre').hide();
+          $('blockquote').hide();
+          $('div.blockquote').hide();
+          $('.dark-box').css('width', '20px');
+          $('#hideCodeButton').hide();
+          $('#showCodeButton').show();
+          $('#expand-collapse-code').toggleClass('hide-code-column');
+          for (var i in contentTags) {
+            $('.content > ' + contentTags[i]).css('margin-right', '20px');
+          }
+          if ($(hash).offset()) {
+            $(document).scrollTop($(hash).offset().top);
+          }
+          window.location.hash = hash;
+          $(window).trigger('resize');
+        };
+
+        function activeLanguage() {
+          var res = $('#lang-selector .active').text();
+          if (res === 'curl') {
+            res = 'shell';
+          }
+          return res;
+        }
+
+        function showCode() {
+          $.removeCookie('hide-code-column');
+          var hash = window.location.hash;
+          activateLanguage(activeLanguage());
+          $('blockquote').show();
+          $('div.blockquote').show();
+          $('.dark-box').css('width', '50%');
+          $('#hideCodeButton').show();
+          $('#showCodeButton').hide();
+          $('#expand-collapse-code').toggleClass('hide-code-column');
+          for (var i in contentTags) {
+            $('.content > ' + contentTags[i]).css('margin-right', '50%');
+          }
+          if ($(hash).offset()) {
+            $(document).scrollTop($(hash).offset().top);
+          }
+          window.location.hash = hash;
+          $(window).trigger('resize');
+        };
+        if ($.cookie('hide-code-column') && window.location.pathname !== '/try.html') { //hide code column if cookie is set, except on the try it page
+          hideCode();
+        }
+        $('#hideCodeButton').click(hideCode);
+        $('#showCodeButton').click(showCode);
+
+        var headerSelectors = "h3";
+        if ($('h3').length !== 0) {
+          var toc = $("#toc").tocify({
+            selectors: headerSelectors,
+            extendPage: false,
+            theme: "none",
+            smoothScroll: false,
+            showEffectSpeed: 0,
+            hideEffectSpeed: 180,
+            ignoreSelector: ".toc-ignore",
+            hashGenerator: 'pretty',
+            highlightOffset: 60,
+            scrollTo: 55,
+            scrollHistory: false,
+            hashGenerator: function(text, element) {
+              return element[0].getAttribute('id');
+            }
+          }).data("toc-tocify");
+          // Hack to make already open sections to start opened,
+          // instead of displaying an ugly animation
+          setTimeout(function() {
+            toc.setOption("showEffectSpeed", 180);
+          },50);
+        }
+        setupLanguages([
+          <% if current_page.data.language_tabs %>
+            <% current_page.data.language_tabs.each do |lang| %>
+              <% if lang.is_a? Hash %>
+                '<%= lang.keys[0] %>',
+              <% else %>
+                '<%= lang %>',
+              <% end %>
+            <% end %>
+          <% end %>
+        ]);
+
+        //var languageInit = $('#lang-selector li.active').text();
+        //$('#selected-language').text(languageInit);
+        //$('#selected-language').click(langDropdown);
+
+        //function langDropdown() {
+        //  $('#lang-selector ul').show();
+        //}
+
+        $('blockquote a').attr('title', 'Click here to try out interactive examples!');
+        $('blockquote a').attr('target', '_blank');
+        $('div.blockquote a').attr('title', 'Click here to try out interactive examples!');
+        $('div.blockquote a').attr('target', '_blank');
+
+      });
+    </script>
+
+  </head>
+
+  <body class="<%= page_classes %>">
+
+    <div class="main-header" role="complementary" aria-label="main-header">
+      <a href="#maincontent"><img src="images/ibm_cloudant.png" alt="Cloudant logo"/></a>
+      <div class="header-title" role="complementary" aria-label="header-title">Documentation</div>
+    </div>
+
+    <div class="tocify-wrapper" role="complementary" aria-label="tocify-wrapper">
+      <div id="searchbox" role="complementary" aria-label="searchbox">
+        <form>
+          <label for="searchinput">&zwj;<input type="text" name="search" placeholder="Search" id="searchinput"></label>
+          <label for="searchsubmitbutton">&zwj;<button type="submit" id="searchsubmitbutton"><img src="images/search_icon.png" alt="Submit button"/></button></label>
+        </form>
+      </div>
+
+<ul class="tocify-header first-header">
+        <%
+          class Page
+            def initialize(name, link, subpages)
+              @name = name
+              @link = link
+              @subpages = subpages
+            end
+            attr_reader :subpages
+            attr_reader :name
+            attr_reader :link
+          end
+          [
+            Page.new('Overview', 'index.html', [
+              Page.new('Contents', 'index.html#contents', []),
+              Page.new('Contribute', 'index.html#contribute', [])
+            ]),
+			Page.new('Cloudant Offerings', 'offerings.html', [
+				Page.new('Database as a Service', 'offerings.html#database-as-a-service', []),
+				Page.new('Cloudant Local', 'offerings.html#cloudant-local', []),
+				Page.new('IBM Bluemix', 'bluemix.html', [])
+            ]),
+			Page.new('Cloudant Basics', 'basics.html', [
+				Page.new('HTTP API', 'basics.html#http-api', []),
+				Page.new('JSON', 'basics.html#json', []),
+				Page.new('Distributed Systems', 'basics.html#distributed', []),
+				Page.new('Replication', 'basics.html#replication', [])
+            ]),
+            Page.new('Client Libraries', 'libraries.html', [
+              Page.new('Supported', 'libraries.html#supported-client-libraries', []),
+              Page.new('Third party', 'libraries.html#third-party-client-libraries', [])
+            ]),
+            Page.new('API Reference', 'api.html', [
+              Page.new('HTTP', 'http.html', []),
+              Page.new('Account', 'account.html', []),
+              Page.new('Authentication', 'authentication.html', []),
+              Page.new('Authorization', 'authorization.html', []),
+              Page.new('CORS', 'cors.html', []),
+              Page.new('Databases', 'database.html', []),
+              Page.new('Documents', 'document.html', []),
+              Page.new('Attachments', 'attachments.html', []),
+              Page.new('Query', 'cloudant_query.html', []),
+              Page.new('Design Documents', 'design_documents.html', []),
+              Page.new('Views (MapReduce)', 'creating_views.html', []),
+              Page.new('Search', 'search.html', []),
+              Page.new('Cloudant Geospatial', 'geo.html', []),
+              Page.new('Replication', 'replication.html', []),
+              Page.new('Advanced Replication', 'advanced_replication.html', []),
+              Page.new('Active tasks', 'active_tasks.html', []),
+              Page.new('Virtual hosts', 'vhosts.html', []),
+              Page.new('Advanced', 'advanced.html', []),
+              Page.new('Monitoring', 'monitoring.html', []),
+              Page.new('Backup', 'backup.html', []),
+              Page.new('Try it', 'try.html', [])
+            ]),
+            Page.new('Guides', 'guides.html', [
+              Page.new('JSON', 'json.html', []),
+              Page.new('Querying data', 'querying.html', []),
+              Page.new('Replication', 'replication_guide.html', []),
+              Page.new('Managing tasks', 'managing_tasks.html', []),
+              Page.new('Document versioning and conflicts', 'mvcc.html', []),
+              Page.new('Grouping related documents together in Cloudant', 'transactions.html', []),
+              Page.new('CAP theorem', 'cap_theorem.html', []),
+              Page.new('Backup', 'backup-guide.html', []),
+              Page.new('Backup using Replication', 'backup-guide-using-replication.html', []),
+              Page.new('CouchApps', 'couchapps.html', []),
+              Page.new('Design document management', 'design_document_management.html', []),
+              Page.new('Warehousing', 'warehousing.html', [])
+            ])
+          ].each { |page|
+            %>
+<li class="tocify-item"><a href="<%=page.link%>"><%=page.name%></a>
+				    <%
+				    if !page.subpages.empty? && (page.subpages.any? { |subpage| subpage.link.split('#')[0] == request.path } || page.link.split('#')[0] == request.path)
+				      %>
+<ul class="tocify-subheader-styles" style="display: block;">
+					<%
+				      page.subpages.each { |subpage|
+				    %>
+<li class="tocify-item"><a href="<%=subpage.link%>"><%=subpage.name%></a>
+				        <%
+				        if subpage.link == request.path
+				          %>
+<div id="toc" role="complementary" aria-label="toc-2"></div>
+				          <%
+				        end
+				      }
+				      %>
+</li>
+</ul>
+			<%
+				    end
+          } %>
+</li>
+</ul>
+
+
+
+
+
+<ul class="toc-footer">
+<li><a href="https://cloudant.com/"><img src="images/cloudant_icon.png" alt="Cloudant icon"/></a></li>
+<li><a href="https://github.com/cloudant-labs/slate"><img src="images/github_icon.png" alt="Github icon"/></a></li>
+<li><a href="http://stackoverflow.com/questions/tagged/cloudant"><img src="images/stackoverflow_icon.png" alt="Stackoverflow icon"/></a></li>
+</ul>
+    </div>
+    <div class="page-wrapper" role="complementary" aria-label="page-wrapper">
+      <div id="expand-collapse-code" role="complementary" aria-label="expand-collapse-code">
+        <button class="showHideButton" id="hideCodeButton" title="hide code column"><label for="hideCodeButton">&nbsp;</label></button>
+        <button class="showHideButton" id="showCodeButton" title="show code column"><label for="showCodeButton">&nbsp;</label></button>
+      </div>
+      <div class="dark-box" role="complementary" aria-label="dark-box-1"></div>
+      <div class="content" role="main" id="maincontent">
+        <%
+        def replace_blockquote(str)
+          while str.include? "<blockquote>"
+            str.sub!(/<blockquote>/, '<div class="blockquote" role="complementary" aria-label="' + SecureRandom.base64 + '">')
+            str.sub!(/<\/blockquote>/, '</div>')
+          end
+          return str
+        end
+        %>
+        <% if current_page.data.includes %>
+          <% current_page.data.includes.each do |include| %>
+            <%= replace_blockquote(partial("includes/#{include}")) %>
+          <% end %>
+        <% end %>
+        <%= replace_blockquote(yield) %>
+      </div>
+      <div class="dark-box" role="complementary" aria-label="dark-box-2">
+        <div id="lang-selector" role="complementary" aria-label="lang-selector">
+          <% if current_page.data.language_tabs %>
+            <% current_page.data.language_tabs.each do |lang| %>
+              <% if lang.is_a? Hash %>
+                <a href="#" data-language-name="<%= lang.keys[0] %>"><%= lang.values[0] %></a>
+              <% else %>
+                <a href="#" data-language-name="<%= lang %>"><%= lang %></a>
+              <% end %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <% if current_page.data.thebe %>
+      <script src="thebe/static/main-built.js" type="text/javascript" charset="utf-8"></script>
+      <script type="text/javascript" >
+        $(function() {
+          function startThebe(url) {
+            new Thebe({
+              url: url,
+  		        selector: 'pre.thebe',
+              tmpnb_mode: true,
+              kernel_name: '<%= current_page.data.thebe.kernel_name %>',
+  		        debug: true,
+            	image_name: 'kimstebel/thebe-demo-notebook',
+  	          inject_css: true,
+              load_mathjax: false,
+              codemirror_mode_name: '<%= current_page.data.thebe.codemirror_mode_name %>'
+            });
+          }
+          var tmpnbHosts = ['https://tmpnb2.kimstebel.com:8000', 'https://tmpnb.kimstebel.com:8000'];
+          $.ajax(tmpnbHosts[0] + '/api/stats', {
+            success: function(data) {
+              if (data.available > 0) {
+                startThebe(tmpnbHosts[0]);
+              } else {
+                startThebe(tmpnbHosts[1]);
+              }
+            },
+            error: function() {
+              startThebe(tmpnbHosts[1]);
+            },
+            dataType: 'json',
+            timeout: 2000
+          });
+        });
+      </script>
+    <% end %>
+  </body>
+</html>

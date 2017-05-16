@@ -1,5 +1,18 @@
 ## Advanced
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the Advanced topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/api/advanced.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 These endpoints provide information about the state of the cluster, details about revision history, and other miscellaneous tasks.
 
 ### GET /
@@ -93,12 +106,12 @@ Obtains a list of changes to databases, like a global [changes feed](database.ht
 
 Argument | Description | Optional | Type | Default | Supported Values
 ---------|-------------|----------|------|---------|-----------------
-feed | Type of feed | yes | string | normal | `continuous`: Continuous (non-polling) mode, `longpoll`: Long polling mode, `normal`: default polling mode
+`descending` | Whether results should be returned in descending order, i.e. the latest event first. By default, the oldest event is returned first. | yes | boolean | false | 
+`feed` | Type of feed | yes | string | normal | `continuous`: Continuous (non-polling) mode, `longpoll`: Long polling mode, `normal`: default polling mode
 heartbeat | Time in milliseconds after which an empty line is sent during longpoll or continuous if there have been no changes | yes | numeric | 60000 | 
-limit | Maximum number of results to return | yes | numeric | none |  
-since | Start the results from changes immediately after the specified sequence number. If since is 0 (the default), the request will return all changes since the feature was activated. | yes | string | 0 | 
-timeout | Number of milliseconds to wait for data in a `longpoll` or `continuous` feed before terminating the response. If both `heartbeat` and `timeout` are suppled, `heartbeat` supersedes `timeout`. | yes | numeric |  | 
-descending | Whether results should be returned in descending order, i.e. the latest event first. By default, the oldest event is returned first. | yes | boolean | false | 
+`limit` | Maximum number of results to return | yes | numeric | none |  
+`since` | Start the results from changes immediately after the specified sequence number. If since is 0 (the default), the request will return all changes since the feature was activated. | yes | string | 0 | 
+`timeout` | Number of milliseconds to wait for data in a `longpoll` or `continuous` feed before terminating the response. If both `heartbeat` and `timeout` are suppled, `heartbeat` supersedes `timeout`. | yes | numeric |  | 
 
 ### GET /$DATABASE/_shards
 

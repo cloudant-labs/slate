@@ -1,5 +1,18 @@
 ## Back up your data using replication
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the 'Back up your data using replication' topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/guides/backup-guide-using-replication.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 Database backups protect your data against potential loss or corruption.
 You can use Cloudant’s replication facility to create a database backup,
 and store it on a Cloudant cluster.

@@ -1,5 +1,18 @@
 ## Query
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the Query topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/api/cloudant_query.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 Cloudant Query is a declarative JSON querying syntax for Cloudant databases.
 Cloudant Query wraps several index types, starting with the Primary Index out-of-the-box.
 Cloudant Query indexes can also be built using MapReduce Views (where the index type is `json`),
@@ -24,25 +37,13 @@ You can create an index with one of two types:
 -	`"type": "json"`
 -	`"type": "text"`
 
+<div></div>
+
 #### Creating a "type=json" index
 
+<<<<<<< HEAD
 To create a JSON index in the database $DATABASE, make a `POST` request to `/$DATABASE/_index` with a JSON object describing the index in the request body. The `type` field of the JSON object has to be set to `"json"`.
-
-##### Request Body format
-
--   **index**:
-    -   **fields**: A JSON array of field names following the [sort syntax](#sort-syntax). Nested fields are also allowed, e.g. `"person.name"`.
--   **ddoc (optional)**: Name of the design document in which the index will be created. By default, each index will be created in its own design document. Indexes can be grouped into design documents for efficiency. However, a change to one index in a design document will invalidate all other indexes in the same document.
--   **type (optional)**: Can be ``"json"`` or ``"text"``. Defaults to json. Geospatial indexes will be supported in the future.
--   **name (optional)**: Name of the index. If no name is provided, a name will be generated automatically.
-
-##### Return Codes
-
-Code | Description
------|------------
-200 | Index has been created successfully or already existed
-400 | Bad request: the request body does not have the specified format
-
+=======
 > Example of creating a new index for the field called `foo`:
 
 ```shell
@@ -68,7 +69,66 @@ Content-Type: application/json
 }
 ```
 
+To create a JSON index in the database $DB, make a `POST` request to `/$DB/_index` with a JSON object describing the index in the request body. The `type` field of the JSON object has to be set to `"json"`.
+>>>>>>> master
+
+##### Request Body format
+
+-   **index**:
+    -   **fields**: A JSON array of field names following the [sort syntax](#sort-syntax). Nested fields are also allowed, e.g. `"person.name"`.
+-   **ddoc (optional)**: Name of the design document in which the index will be created. By default, each index will be created in its own design document. Indexes can be grouped into design documents for efficiency. However, a change to one index in a design document will invalidate all other indexes in the same document.
+-   **type (optional)**: Can be ``"json"`` or ``"text"``. Defaults to json. Geospatial indexes will be supported in the future.
+-   **name (optional)**: Name of the index. If no name is provided, a name will be generated automatically.
+
+##### Return Codes
+
+Code | Description
+-----|------------
+200 | Index has been created successfully or already existed
+400 | Bad request: the request body does not have the specified format
+
+<div></div>
+
 #### Creating a "type=text" index
+
+> Simple example index creation request
+
+```json
+{
+	"index": {
+		"fields": [
+			{
+				"name": "Movie_name",
+				"type": "string"
+			}
+		]
+	},
+	"name": "Movie_name-text",
+	"type": "text"
+}
+```
+
+> More complex example index creation request
+
+```json
+{
+  "type": "text",
+  "name": "my-index",
+  "ddoc": "my-index-design-doc",
+  "index": {
+    "default_field": {
+      "enabled": true,
+      "analyzer": "german"
+    }
+    "selector": {},
+    "fields": [
+      {"name": "married", "type": "boolean"},
+      {"name": "lastname", "type": "string"},
+      {"name": "year-of-birth", "type": "number"}
+    ]
+  }
+}
+```
 
 While it is generally recommended that you create a single text index with the default values,
 there are a few useful index attributes that can be modified.
@@ -97,28 +157,6 @@ used for the creation. It does not affect anything other than index creation.
 
 For more details on how text indexes work,
 see the [note about `text` indexes](cloudant_query.html#note-about-text-indexes).
-
-> Example index creation request
-
-```json
-{
-  "type": "text",
-  "name": "my-index",
-  "ddoc": "my-index-design-doc",
-  "index": {
-    "default_field": {
-      "enabled": true,
-      "analyzer": "german"
-    }
-    "selector": {},
-    "fields": [
-      {"name": "married", "type": "boolean"},
-      {"name": "lastname", "type": "string"},
-      {"name": "year-of-birth", "type": "number"}
-    ]
-  }
-}
-```
 
 <div></div>
 
@@ -452,6 +490,7 @@ Only the equality operators such as `$eq`, `$gt`, `$gte`, `$lt`, and `$lte` (but
 For more information about creating complex selector expressions, see [Creating selector expressions](#creating-selector-expressions).
 
 <div></div>
+
 #### Selector with two fields
 
 This selector matches any document with a `name` field containing "Paul",
@@ -688,6 +727,7 @@ Operator | Argument | Purpose
 `$elemMatch` | Selector | Matches and returns all documents that contain an array field with at least one element that matches all the specified query criteria.
 
 <div></div>
+
 #### Examples of combination operators
 
 <div></div>
@@ -1696,11 +1736,22 @@ For field names in text search sorts, it is
 sometimes necessary for a field type to be specified,
 for example:
 
-  `{ "<fieldname>:string": "asc"}`
+	`{ "fieldname:string": "asc" }`
 
 If possible,
 an attempt is made to discover the field type based on the selector.
 In ambiguous cases the field type must be provided explicitly.
+
+The following table clarifies when the field type must be specified:
+
+Index used by query                       | Field type requirement
+------------------------------------------|-----------------------
+JSON index                                | It is not necessary to specify the type of sort fields in the query.
+Text index of all fields in all documents | Specify the type of any sort field in the query if the database contains any documents in which the sort field has one type _and also_ contains some documents in which the sort field has a different type.
+Any other text index                      | Specify the type of all sort fields in the query.
+
+<aside class="warning" role="complementary" aria-label="textindexcreation">Remember that a text index of all fields
+in all documents is created when you use the syntax: [`"index": {}`](cloudant_query.html#the-index-field).</aside>
 
 <aside class="warning" role="complementary" aria-label="sortorderundefined">The sorting order is undefined when fields contain different data types.
 This is an important difference between text and view indexes.

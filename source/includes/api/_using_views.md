@@ -1,5 +1,18 @@
 ## Using Views
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the 'Using Views' topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/api/using_views.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 View enable you to search for content within a database,
 that matches specific criteria.
 The criteria are specified within the view definition,
@@ -77,22 +90,23 @@ Content-Type: application/json
 
 Argument | Description | Optional | Type | Default | Supported values
 ---------|-------------|----------|------|---------|-----------------
-`descending` | Return the documents in 'descending by key' order. | yes | Boolean | false | 
-`endkey` | Stop returning records when the specified key is reached. | yes | String or JSON array | | 
-`endkey_docid` | Stop returning records when the specified document ID is reached. | yes | String | | 
-`group` | Using the reduce function, group the results to a group or single row. | yes | Boolean | false | 
-`group_level` | Only applicable if the view uses complex keys: keys that are JSON arrays. Groups reduce results for the specified number of array fields. | yes | Numeric | | 
-`include_docs` | Include the full content of the documents in the response. | yes | Boolean | false | 
-`conflicts` | Can only be set if `include_docs` is `true`. Adds information about conflicts to each document. | yes | Boolean | false |
-`inclusive_end` | Include rows with the specified endkey. | yes | Boolean | true | 
-`key` | Return only documents that match the specified key. Note: Keys are JSON values, and must be URL encoded. | yes | JSON strings or arrays | | 
+`descending` | Return the documents in 'descending by key' order. | yes | Boolean | false |
+`endkey` | Stop returning records when the specified key is reached. | yes | String or JSON array | |
+`endkey_docid` | Stop returning records when the specified document ID is reached. | yes | String | |
+`group` | Using the reduce function, group the results to a group or single row. | yes | Boolean | false |
+`group_level` | Only applicable if the view uses complex keys: keys that are JSON arrays. Groups reduce results for the specified number of array fields. | yes | Numeric | |
+`include_docs` | Include the full content of the documents in the response. | yes | Boolean | false |
+`inclusive_end` | Include rows with the specified endkey. | yes | Boolean | true |
+`key` | Return only documents that match the specified key. Note: Keys are JSON values, and must be URL encoded. | yes | JSON strings or arrays | |
 `keys` | Return only documents that match the specified keys. Note: Keys are JSON values and must be URL encoded. | yes | Array of JSON strings or arrays | |
-`limit` | Limit the number of returned documents to the specified count. | yes | Numeric | | 
-`reduce` | Use the reduce function. | yes | Boolean | true | 
-`skip` | Skip this number of rows from the start. | yes | Numeric | 0 | 
+`limit` | Limit the number of returned documents to the specified count. | yes | Numeric | |
+`reduce` | Use the reduce function. | yes | Boolean | true |
+`skip` | Skip this number of rows from the start. | yes | Numeric | 0 |
+`stable` | Prefer view results from a 'stable' set of shards. This means that the results are from a view that is less likely to be updated soon. | yes | Boolean | true | 
 `stale` | Allow the results from a stale view to be used. This makes the request return immediately, even if the view has not been completely built yet. If this parameter is not given, a response is returned only after the view has been built. | yes | String | false | `ok`: Allow stale views.<br/>`update_after`: Allow stale views, but update them immediately after the request.
-`startkey` | Return records starting with the specified key. | yes | String or JSON array | | 
-`startkey_docid` | Return records starting with the specified document ID. | yes | String | | 
+`startkey` | Return records starting with the specified key. | yes | String or JSON array | |
+`startkey_docid` | Return records starting with the specified document ID. | yes | String | |
+`update` | Ensure that the view has been updated before results are returned. | yes | String | `true` | `false`: Return view results before updating.<br/>`true`: Return view results after updating.<br/>`lazy`: Return the view results without waiting for an update, but update them immediately after the request.
 
 ### Indexes
 
@@ -124,7 +138,10 @@ all three view indexes within the design document are rebuilt.</aside>
 If the database has been updated recently, there might be a delay in returning the results when the view is accessed.
 The delay is affected by the number of changes to the database, and whether the view index is not current because the database content has been modified.
 
-It is not possible to eliminate these delays, in the case of newly created databases you might reduce them by creating the view definition in the design document in your database before inserting or updating documents. This causes incremental updates to the index when the documents or inserted.
+It is not possible to eliminate these delays,
+in the case of newly created databases you might reduce them by creating the view definition
+in the design document in your database before inserting or updating documents.
+This causes incremental updates to the index when the documents or inserted.
 
 If speed of response is more important than having completely up-to-date data,
 an alternative is to allow users to access an old version of the view index.
@@ -138,13 +155,41 @@ by using an existing version of the index.
 
 ### Accessing a stale view
 
-For example, to access the existing stale view `by_recipe` in the `recipes` design document,
-you would use a request similar to:
-<code>/recipes/_design/recipes/_view/by_recipe?stale=ok</code>
+<aside class="notice" role="complementary" aria-label="staledeprecated">The earlier method of obtaining potentially older results from a view index,
+using the <code class="prettyprint">stale=ok</code> option,
+is no longer recommended.</aside>
 
-Making use of a stale view has consequences.
+If you are prepared to accept a response that is quicker,
+but might not have the most current data,
+there are two options you can use:
+
+Option   | Purpose                                                                                                         | Default value
+---------|-----------------------------------------------------------------------------------------------------------------|--------------
+`stable` | Should the view results be obtained from a 'stable' set of shards? Possible values include `true`, and `false`. | `true`
+`update` | Should the view be updated before the results are returned? Possible values include `true`, `false` and `lazy`. | `true`
+
+The `stable` option allows you to indicate whether you are prepared to accept
+view results from a set of shards that might still be in the process of updating,
+that is they are not 'stable' as far as the current view query is concerned.
+The default value is `true`,
+meaning that the results should be from a stable set of shards.
+
+The `update` option allows you to indicate whether you are prepared to accept
+view results without waiting for the view to be updated.
+The default value is `true`,
+meaning that the view should be updated before results are returned.
+The `lazy` value means that the results are returned before the view is updated,
+but that the view must then be updated anyway.
+
+The option combination `stable=true&update=false` corresponds to the older option `stale=ok`.
+The option combination `stable=true&update=lazy` corresponds to the older option `stale=update_after`.
+
+Remember that using a stale view has consequences.
 In particular,
-accessing a stale view returns the current (existing) version of the data in the view index, if it exists. The current state of the view index might be different on different nodes in the cluster.
+accessing a stale view returns the current (existing) version of the data in the view index,
+if it exists,
+without waiting for an update.
+This would mean that a stale view index result might be different on different nodes in the cluster.
 
 ### Sorting Returned Rows
 

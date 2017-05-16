@@ -1,5 +1,18 @@
 ## Account
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the Account topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/api/account.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 Your account is your entry point for Cloudant's API.
 You access your account using the address prefix `https://<account>.cloudant.com`.
 Your Cloudant dashboard is always `https://<account>.cloudant.com/dashboard.html`.

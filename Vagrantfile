@@ -49,7 +49,6 @@ Vagrant.configure(2) do |config|
   
     # Customize the amount of memory on the VM:
     vb.memory = "1024"
-    vb.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
   end
   #
   # View the documentation for the provider you are using for more
@@ -67,13 +66,11 @@ Vagrant.configure(2) do |config|
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
     sudo apt-get update
-    sudo apt-get install -y python python-pip jq ruby1.9.3 bundler 
-  SHELL
-  
-  config.vm.provision "shell", run: "always", inline: <<-MIDDLEMAN
+    sudo apt-get install -y python python-pip jq ruby1.9.3 bundler python-dev libxml2-dev libxslt-dev perl aspell aspell-en curl
+    sudo pip install couchapp
+    sudo pip install cloudant==0.5.10 beautifulsoup4
     cd /slate
-    bundle install
-    bash -c 'bundle exec middleman server --force-polling &'
-  MIDDLEMAN
+    sudo bundle install --path=/home/vagrant
+  SHELL
   
 end

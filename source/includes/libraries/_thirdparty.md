@@ -1,5 +1,18 @@
 ## Third-party client libraries
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the 'Third-party client libraries' topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/libraries/thirdparty.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 <aside class="warning" role="complementary" aria-label="notmaintained2">Third-party client libraries are not maintained or supported by Cloudant.</aside>
 
 ### Third-party Mobile libraries
@@ -148,5 +161,15 @@ To configure the Apache CouchDB or Cloudant server connection information, pass 
 `$export COUCHDB_URL=https://<account>.cloudant.com`
 
 See [API Reference](api.html) for more information about meteor-couchdb APIs. 
+
+### Apache Spark
+
+[spark-cloudant](https://github.com/cloudant-labs/spark-cloudant) is the official Cloudant library for Apache Spark.
+
+The spark-cloudant library is already loaded into the [IBM Bluemix Apache Spark-as-a-Service](https://console.ng.bluemix.net/catalog/services/apache-spark/) offering.
+It can be used with any stand-alone Spark cluster.
+
+See the [project information](https://github.com/cloudant-labs/spark-cloudant)
+and [Spark Packages](https://spark-packages.org/package/cloudant-labs/spark-cloudant) for more details.
 
 

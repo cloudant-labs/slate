@@ -1,5 +1,18 @@
 ## Design Document Management
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the 'Design Document Management' topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/guides/design_document_management.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 *Article contributed by Glynn Bird, Developer Advocate at IBM Cloudant, [glynn@cloudant.com](mailto:glynn@cloudant.com)*
 
 Cloudant's scalable JSON data store has several querying mechanisms, all of which generate indices that are created and maintained separately to the core data. Indexing is not performed immediately when a document is saved. Instead, it is scheduled to happen later giving a faster, non-blocking write throughput.
@@ -201,6 +214,7 @@ The script coordinates the 'move and switch' procedure, waiting until the view i
 The source code for the script is available here: [https://github.com/glynnbird/couchmigrate](https://github.com/glynnbird/couchmigrate) .
 
 <div id="stale"></div>
+
 ### The '`stale`' parameter
 
 If an index is complete, but new records are added into the database, then the index is scheduled to be updated in the background. This is the state of the database shown in the following diagram:
@@ -218,3 +232,8 @@ Adding "`stale=ok`" or "`stale=update_after`" can be a good way getting answers 
 **A word of caution:** The default behaviour distributes load evenly across nodes in the Cloudant cluster. If you use the alternative `stale=ok` or `stale=update_after` options, this might favour a subset of cluster nodes, in order to return consistent results from across the eventually consistent set. This means that the '`stale`' parameter isn't a perfect solution for all use-cases. However, it can be useful for providing timely responses on fast-changing data sets if your application is happy to accept stale results. If the rate of change of your data is small, adding "`stale=ok`" or "`stale=update_after`" will not bring a performance benefit, and might unevenly distribute the load on larger clusters.
 
 Avoid using `stale=ok` or `stale=update_after` whenever possible. The reason is that the default behavior provides the freshest data, and distributes data within the cluster. If it is possible to make a client app aware that there is a large data processing task is in progress (during a regular bulk data update, for example), then the app could switch to `stale=ok` temporarily during these times, then revert to the default behaviour afterwards.
+
+**Note** The `stale` option is still available,
+but the more useful options `stable` and `update` are available and should be used instead.
+For more details,
+see [Accessing a stale view](creating_views.html#accessing-a-stale-view)

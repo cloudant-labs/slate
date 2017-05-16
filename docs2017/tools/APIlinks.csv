@@ -1,0 +1,4 @@
+Endpoint,Method,Cloudant,Couch20,Couch16
+/,GET,http://docs.cloudant.com/,http://docs.cloudant.com/,http://docs.cloudant.com/
+/_active_tasks,GET,http://docs.cloudant.com/,http://docs.cloudant.com/,http://docs.cloudant.com/
+/_all_dbs,GET,http://docs.cloudant.com/,http://docs.cloudant.com/,http://docs.cloudant.com/

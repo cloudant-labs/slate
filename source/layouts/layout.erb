@@ -29,9 +29,6 @@ under the License.
     <%= stylesheet_link_tag "screen", media: 'screen' %>
     <%= stylesheet_link_tag "typeahead", media: 'screen' %>
     <%= stylesheet_link_tag "print", media: 'print' %>
-    <% if current_page.data.thebe %>
-      <%= stylesheet_link_tag "libraries", media: 'screen' %>
-    <% end %>
     <%= javascript_include_tag  "all" %>
 
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/default.min.css">
@@ -191,14 +188,16 @@ under the License.
               Page.new('Contents', 'index.html#contents', []),
               Page.new('Contribute', 'index.html#contribute', [])
             ]),
-              Page.new('Cloudant Basics', 'basics.html', [
-              	Page.new('Database as a Service', 'basics.html#database-as-a-service', []),
-              	Page.new('IBM Bluemix', 'basics.html#ibm-bluemix', []),
-              	Page.new('HTTP API', 'basics.html#http-api', []),
-              	Page.new('JSON', 'basics.html#json', []),
-              	Page.new('Distributed', 'basics.html#distributed', []),
-              	Page.new('Replication', 'basics.html#replication', []),
-              	Page.new('Versions of Cloudant', 'basics.html#versions-of-cloudant', [])
+			Page.new('Cloudant Offerings', 'offerings.html', [
+				Page.new('Database as a Service', 'offerings.html#database-as-a-service', []),
+				Page.new('Cloudant Local', 'offerings.html#cloudant-local', []),
+				Page.new('IBM Bluemix', 'bluemix.html', [])
+            ]),
+			Page.new('Cloudant Basics', 'basics.html', [
+				Page.new('HTTP API', 'basics.html#http-api', []),
+				Page.new('JSON', 'basics.html#json', []),
+				Page.new('Distributed Systems', 'basics.html#distributed', []),
+				Page.new('Replication', 'basics.html#replication', [])
             ]),
             Page.new('Client Libraries', 'libraries.html', [
               Page.new('Supported', 'libraries.html#supported-client-libraries', []),
@@ -229,13 +228,11 @@ under the License.
             ]),
             Page.new('Guides', 'guides.html', [
               Page.new('JSON', 'json.html', []),
-              Page.new('Querying data', 'querying.html', []),
               Page.new('Replication', 'replication_guide.html', []),
               Page.new('Managing tasks', 'managing_tasks.html', []),
               Page.new('Document versioning and conflicts', 'mvcc.html', []),
               Page.new('Grouping related documents together in Cloudant', 'transactions.html', []),
               Page.new('CAP theorem', 'cap_theorem.html', []),
-              Page.new('AcID', 'acid.html', []),
               Page.new('Backup', 'backup-guide.html', []),
               Page.new('Backup using Replication', 'backup-guide-using-replication.html', []),
               Page.new('CouchApps', 'couchapps.html', []),
@@ -316,40 +313,5 @@ under the License.
         </div>
       </div>
     </div>
-    <% if current_page.data.thebe %>
-      <script src="thebe/static/main-built.js" type="text/javascript" charset="utf-8"></script>
-      <script type="text/javascript" >
-        $(function() {
-          function startThebe(url) {
-            new Thebe({
-              url: url,
-  		        selector: 'pre.thebe',
-              tmpnb_mode: true,
-              kernel_name: '<%= current_page.data.thebe.kernel_name %>',
-  		        debug: true,
-            	image_name: 'kimstebel/thebe-demo-notebook',
-  	          inject_css: true,
-              load_mathjax: false,
-              codemirror_mode_name: '<%= current_page.data.thebe.codemirror_mode_name %>'
-            });
-          }
-          var tmpnbHosts = ['https://tmpnb2.kimstebel.com:8000', 'https://tmpnb.kimstebel.com:8000'];
-          $.ajax(tmpnbHosts[0] + '/api/stats', {
-            success: function(data) {
-              if (data.available > 0) {
-                startThebe(tmpnbHosts[0]);
-              } else {
-                startThebe(tmpnbHosts[1]);
-              }
-            },
-            error: function() {
-              startThebe(tmpnbHosts[1]);
-            },
-            dataType: 'json',
-            timeout: 2000
-          });
-        });
-      </script>
-    <% end %>
   </body>
 </html>

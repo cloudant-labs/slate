@@ -1,5 +1,18 @@
 ## HTTP
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the HTTP topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/api/http.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 This section provides details of the [HTTP Headers](#http-headers) and [HTTP Status Codes](#http-status-codes) you need to know when using Cloudant.
 
 ### HTTP Headers
@@ -215,6 +228,12 @@ A list of the error codes returned by Cloudant and generic descriptions of the r
 -   `417 - Expectation Failed`
 
     When sending documents in bulk, the bulk load operation failed.
+
+<div id="429"></div>
+
+-   `429 - Too Many Requests`
+
+    The user has sent too many requests in a given amount of time. More information is available in the corresponding [RFC 6585](https://tools.ietf.org/html/rfc6585#page-3).
 
 -   `500 - Internal Server Error`
 
