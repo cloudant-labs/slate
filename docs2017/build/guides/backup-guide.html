@@ -300,6 +300,9 @@ from the most recent version held in a specific backup database:</em></p>
   <p>Incremental backups save only the delta between backups. At regular intervals, the source database is replicated to a target database. Replication uses sequence values to identify the documents changed during the interval period.</p>
   <p>The backup operation uses replication to get and store a checkpoint. This checkpoint is another database with an internal name.</p>
   <p>The replication process for a database starts by finding the value of the <code>since_seq</code> parameter. The parameter indicates where the last replication finished.</p>
+  <blockquote>
+    <p> <strong>Note</strong>: By definition, using the <code>since_seq</code> option disables the normal replication checkpointing facility. Only use <code>since_seq</code> with caution. </p>
+  </blockquote>
   <p>The following steps outline how incremental backups are created:</p>
   <ol>
     <li><a href="#find-the-id-of-the-checkpoint-document-for-the-last-replication">Find the ID of the checkpoint document for the last replication.</a></li>

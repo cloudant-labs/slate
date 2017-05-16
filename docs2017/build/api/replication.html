@@ -7,29 +7,31 @@
 </head>
 
 <body>
+  <!-- Acrolinx: 2017-04-25 -->
+
   <div id="ReplicationAPI"></div>
   <h1 id="replication">Replication</h1>
   <p class="shortdesc">Cloudant replication is the process that synchronizes (&#39;syncs&#39;) the state of two databases.</p>
-  <p>Any change which has occurred in the source database is reproduced in the target database. You can create replications between any number of databases, whether continuous or not.</p>
+  <p>Any change that occurred in the source database is reproduced in the target database. You can create replications between any number of databases, whether continuous or not.</p>
   <p>Depending on your application requirements, you use replication to share and aggregate state and content.</p>
-  <p>Replication takes place in one direction only. To keep two databases synchronized with each other, you must replicate in both directions. This means that you must replicate from <code>database1</code> to <code>database2</code>, and separately from <code>database2</code>    to <code>database1</code>.</p>
+  <p>Replication takes place in one direction only. To keep two databases synchronized with each other, you must replicate in both directions. Do this by replicating from <code>database1</code> to <code>database2</code>, and separately from <code>database2</code>    to <code>database1</code>.</p>
   <h2 id="important-notes">Important notes</h2>
-  <p>Replications can severely impact the performance of a Cloudant cluster. Performance testing is recommended to understand the impact on your environment under an increasing number of concurrent replications.</p>
-  <p>Continuous replication can result in a large number of internal calls. This might affect costs for multi-tenant users of Cloudant systems. Continuous replication is disabled by default.</p>
-  <p>The target database must exist. It is not automatically created if it does not exist. Add <code>&quot;create_target&quot;:true</code> to the JSON document describing the replication if the target database does not exist prior to replication.</p>
+  <p>Replications can severely impact the performance of a Cloudant cluster. Performance testing helps you understand the impact on your environment under an increasing number of concurrent replications.</p>
+  <p>Continuous replication can result in many internal calls. Requiring many calls might affect the costs for multi-tenant users of Cloudant systems. By default, continuous replication is not enabled.</p>
+  <p>The target database must exist. It is not automatically created if it does not exist. Add <code>&quot;create_target&quot;:true</code> to the JSON document that describes the replication if the target database does not exist before replication.</p>
   <p>Replicator databases must be maintained and looked after, just like any other valuable data store. For more information, see <a href="#replication-database-maintenance">replication database maintenance</a>.</p>
   <h2 id="creating-replications">Creating replications</h2>
   <p>Replications are created in one of two ways:</p>
   <ol>
-    <li>A replication can be created using a <a href="#replication-document-format">replication document</a> in the <code>_replicator</code> database. Creating and modifying replications in this way allows you to control replication in the same as working
+    <li>A replication can be created by using a <a href="#replication-document-format">replication document</a> in the <code>_replicator</code> database. Creating and modifying replications in this way enables control of a replication in the same as working
       with other documents. Replication jobs created this way are resumed automatically after a node restart.</li>
-    <li>A replication can be started by <code>POST</code>ing a JSON document describing the desired replication directly to the <code>/_replicate</code> endpoint. Replication jobs created this way are not resumed if the node they run on is restarted. </li>
+    <li>A replication can be started by <code>POST</code>ing a JSON document that describes the wanted replication directly to the <code>/_replicate</code> endpoint. Replication jobs created this way are not resumed if the node they run on is restarted. </li>
   </ol>
   <h2 id="replication-document-format">Replication document format</h2>
   <blockquote>
-    <p> <strong>Note</strong>: You must use the <em>full</em> URL when specifying the source and target databases in a replication document.</p>
+    <p> <strong>Note</strong>: You must use the <em>full</em> URL when you specify the source and target databases in a replication document.</p>
   </blockquote>
-  <p>The format of the document used to describe a replication is as follows:</p>
+  <p>The format of the document that is used to describe a replication is as follows:</p>
   <div id="checkpoints"></div>
   <table>
     <thead>
@@ -53,7 +55,7 @@
       <tr>
         <td><code>continuous</code></td>
         <td>no</td>
-        <td>Continuously syncs state from the <code>source</code> to the <code>target</code>, only stopping when deleted.</td>
+        <td>Continuously syncs state from the <code>source</code> to the <code>target</code>, stopping only when deleted.</td>
       </tr>
       <tr>
         <td><code>create_target</code></td>
@@ -68,8 +70,8 @@
       <tr>
         <td><code>filter</code></td>
         <td>no</td>
-        <td>Name of a <a href="design_documents.html#filter-functions">filter function</a>, defined in a design document. The filter function determines which documents get replicated. Note that using the <code>selector</code> option provides performance
-          benefits compared with using the <code>filter</code> option. You should use the <code>selector</code> option where possible.</td>
+        <td>Name of a <a href="design_documents.html#filter-functions">filter function</a>, defined in a design document. The filter function determines which documents get replicated. Using the <code>selector</code> option provides performance benefits when
+          compared with using the <code>filter</code> option. Use the <code>selector</code> option where possible.</td>
       </tr>
       <tr>
         <td><code>proxy</code></td>
@@ -79,29 +81,29 @@
       <tr>
         <td><code>query_params</code></td>
         <td>no</td>
-        <td>A field containing key:value pairs, for use in <a href="design_documents.html#filter-functions">filter function</a>.</td>
+        <td>A field that contains key:value pairs, for use in <a href="design_documents.html#filter-functions">filter function</a>.</td>
       </tr>
       <tr>
         <td><code>selector</code></td>
         <td>no</td>
-        <td>Provide a simple filter to select the documents that are included in the replication. Using the <code>selector</code> option provides performance benefits compared with using the <code>filter</code> option. More information about <code>selector</code>          is available <a href="#selector-field">here</a>.</td>
+        <td>Provide a simple filter to select the documents that are included in the replication. Using the <code>selector</code> option provides performance benefits when compared with using the <code>filter</code> option. More information about <code>selector</code>          is available <a href="#selector-field">here</a>.</td>
       </tr>
       <tr>
         <td><code>since_seq</code></td>
         <td>no</td>
-        <td>Sequence from which the replication should start. More information about <code>since_seq</code> is available <a href="#since-seq-field">here</a>.</td>
+        <td>Override the incremental nature of replication. More information about <code>since_seq</code> is available <a href="#since-seq-field">here</a>.</td>
       </tr>
       <tr>
         <td><code>use_checkpoints</code></td>
         <td>no</td>
-        <td>Indicate whether to create checkpoints. Checkpoints greatly reduce the time and resources needed for repeated replications. Setting this to <code>false</code> removes the requirement for write access to the <code>source</code> database. Defaults
-          to <code>true</code>.</td>
+        <td>Indicate whether to create checkpoints. Checkpoints greatly reduce the time and resources that are needed for repeated replications. Setting this field to <code>false</code> removes the requirement for write access to the <code>source</code> database.
+          Defaults to <code>true</code>.</td>
       </tr>
       <tr>
         <td><code>user_ctx</code></td>
         <td>no</td>
-        <td>An object containing the username and optionally an array of roles, for example: <code>&quot;user_ctx&quot;: {&quot;name&quot;: &quot;jane&quot;, &quot;roles&quot;: [&quot;admin&quot;]}</code>. This is needed for the replication to show up in
-          the output of <code>/_active_tasks</code>.</td>
+        <td>An object that contains the user name and optionally an array of roles, for example: <code>&quot;user_ctx&quot;: {&quot;name&quot;: &quot;jane&quot;, &quot;roles&quot;: [&quot;admin&quot;]}</code>. This object is needed for the replication to
+          show up in the output of <code>/_active_tasks</code>.</td>
       </tr>
     </tbody>
   </table>
@@ -109,13 +111,13 @@
   <h3 id="the-selector-field">The <code>selector</code> field</h3>
   <p>If you do not want to replicate the entire contents of a database, you can specify a simple filter in the <code>selector</code> field. The filter takes the form of a <a href="cloudant_query.html">Cloudant Query</a> selector object.</p>
   <p>Using a selector object provides performance benefits when compared with using a
-    <a href="design_documents.html#filter-functions">filter function</a>. You should use the <code>selector</code> option where possible.</p>
+    <a href="design_documents.html#filter-functions">filter function</a>. Use the <code>selector</code> option where possible.</p>
   <p>The selector object identifies a field (such as <code>_id</code> in the following example), and an expression (such as <code>&quot;$gte&quot;: &quot;d2&quot;</code>) that must be true for that field in order for the selector to allow the document to
     be replicated. In the following example, only documents that have a <code>_id</code> field with a value greater than or equal to <code>&quot;d2&quot;</code> are replicated.</p>
   <p><em>Example <code>selector</code> object in a replication document:</em></p>
   <pre class="codeblock"><code class="lang-json hljs">{
-    <span class="hljs-attr">"source"</span>: <span class="hljs-string">"https://$USERNAME1:$PASSWORD1@$USERNAME1.cloudant.com/$DATABASE1"</span>,
-    <span class="hljs-attr">"target"</span>: <span class="hljs-string">"https://$USERNAME2:$PASSWORD2@$USERNAME2.cloudant.com/$DATABASE2"</span>,
+    <span class="hljs-attr">"source"</span>: <span class="hljs-string">"https://$USERNAME1:$PASSWORD1@$ACCOUNT1.cloudant.com/$DATABASE1"</span>,
+    <span class="hljs-attr">"target"</span>: <span class="hljs-string">"https://$USERNAME2:$PASSWORD2@$ACCOUNT2.cloudant.com/$DATABASE2"</span>,
     <span class="hljs-attr">"selector"</span>: {
         <span class="hljs-attr">"_id"</span>: {
             <span class="hljs-attr">"$gte"</span>: <span class="hljs-string">"d2"</span>
@@ -124,8 +126,8 @@
     <span class="hljs-attr">"continuous"</span>: <span class="hljs-literal">true</span>
 }
 </code></pre>
-  <p>If there is a problem with the replication request, an HTTP <a href="http.html#400"><code>400</code></a> error is returned, including more details about the problem in the <code>&quot;reason&quot;</code> field of the response. The reason might be one
-    of:</p>
+  <p>A problem with the replication request results in the return of an HTTP <a href="http.html#400"><code>400</code></a> error. The error includes more details about the problem in the <code>&quot;reason&quot;</code> field of the response. The reason might
+    be one of:</p>
   <ul>
     <li>The Cloudant Query selector object is missing.</li>
     <li>The selector object is not valid JSON.</li>
@@ -142,22 +144,25 @@
   <div id="since-seq-field"></div>
   <h3 id="the-since_seq-field">The <code>since_seq</code> field</h3>
   <p>If you do not want to replicate the entire contents of a database, you can specify a &#39;replication sequence value&#39; in the <code>since_seq</code> field.</p>
-  <p>The replication sequence value indicates how far you have progressed &#39;through&#39; a database, for example as part of a replication. Setting the contents of the <code>since_seq</code> field to this value ensures that the replication starts from
-    that point, rather than from the very beginning.</p>
-  <p>This field is especially useful for creating incremental copies of databases. To do this:</p>
+  <p>The replication sequence value indicates how far to step &#39;through&#39; a database, for example as part of a replication. Setting the contents of the <code>since_seq</code> field to this value ensures that the replication starts from that point,
+    rather than from the very beginning.</p>
+  <p>This field might be used for creating incremental copies of databases. To do this:</p>
   <ol>
     <li>Find the ID of the <a href="#checkpoints">checkpoint</a> document for the last replication. It is stored in the <code>_replication_id</code> field of the replication document in the <a href="#replicator-database"><code>_replicator</code> database</a>.</li>
     <li>Open the checkpoint document at <code>/&lt;database&gt;/_local/&lt;_replication_id&gt;</code>, where <code>&lt;_replication_id&gt;</code> is the ID you found in the previous step, and <code>&lt;database&gt;</code> is the name of the source or the
-      target database. The document usually exists on both databases but might only exist on one.</li>
+      target database. The document usually exists on both databases but might exist on one only.</li>
     <li>Search for the <code>recorded_seq</code> field of the first element in the history array.</li>
     <li>Set the <code>since_seq</code> field in the replication document to the value of the <code>recorded_seq</code> field.</li>
-    <li>Start replicating to a new database.</li>
+    <li>Replicate to a new database.</li>
   </ol>
+  <blockquote>
+    <p> <strong>Note</strong>: By definition, using <code>since_seq</code> disables the normal replication checkpointing facility, so use <code>since_seq</code> with caution.</p>
+  </blockquote>
   <div id="replicator-database"></div>
   <h2 id="the-_replicator-database">The <code>_replicator</code> database</h2>
-  <p>The <code>_replicator</code> database is a special database where you can <code>PUT</code> or <code>POST</code> documents to trigger replications, or <code>DELETE</code> to cancel ongoing replications. These documents have exactly the same content as
-    the JSON documents you can <code>POST</code> to the
-    <a href="#the-_replicate-endpoint"><code>/_replicate</code></a> endpoint. The fields supplied in the replication document are <code>source</code>,
+  <p>The <code>_replicator</code> database is a special database where you can <code>PUT</code> or <code>POST</code> documents to trigger replications, or <code>DELETE</code> to cancel ongoing replications. These documents have the same content as the JSON
+    documents you can <code>POST</code> to the
+    <a href="#the-_replicate-endpoint"><code>/_replicate</code></a> endpoint. The fields that are supplied in the replication document are <code>source</code>,
     <code>target</code>,
     <code>continuous</code>,
     <code>create_target</code>,
@@ -166,19 +171,19 @@
     <code>proxy</code>,
     <code>query_params</code>, and
     <code>use_checkpoints</code>. These fields are described in the <a href="#replication-document-format">Replication document format</a>.</p>
-  <p>Replication documents can have a user defined <code>_id</code>.</p>
+  <p>Optionally, replication documents have a user-defined <code>_id</code>.</p>
   <p>The names of the source and target databases do not have to be the same.</p>
   <blockquote>
     <p> <strong>Note</strong>: All design documents and <code>_local</code> documents added to the <code>/_replicator</code> database are ignored.</p>
   </blockquote>
   <h3 id="creating-a-replication">Creating a replication</h3>
   <p>To start a replication, add a <a href="#replication-document-format">replication document</a> to the <code>_replicator</code> database.</p>
-  <p><em>Example instructions for creating a replication document, using HTTP:</em></p>
+  <p><em>Example instructions for using HTTP to create a replication document:</em></p>
   <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">PUT</span> <span class="hljs-string">/_replicator/replication-doc</span> HTTP/1.1
 <span class="hljs-attribute">Content-Type</span>: application/json
 </code></pre>
-  <p><em>Example instructions for creating a replication document, using the command line:</em></p>
-  <pre class="codeblock"><code class="lang-sh hljs">curl -X PUT https://<span class="hljs-variable">$USERNAME</span>:<span class="hljs-variable">$PASSWORD</span>@USERNAME.cloudant.com/_replicator/replication-doc -H <span class="hljs-string">'Content-Type: application/json'</span> <span class="hljs-_">-d</span> @replication-document.json
+  <p><em>Example instructions for using the command line to create a replication document:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl -X PUT https://<span class="hljs-variable">$USERNAME</span>:<span class="hljs-variable">$PASSWORD</span>@<span class="hljs-variable">$ACCOUNT</span>.cloudant.com/_replicator/replication-doc -H <span class="hljs-string">'Content-Type: application/json'</span> <span class="hljs-_">-d</span> @replication-document.json
 <span class="hljs-comment">#assuming replication-document.json is a json file with valid replication information.</span>
 </code></pre>
   <p><em>Example replication document:</em></p>
@@ -191,26 +196,26 @@
 </code></pre>
   <h3 id="-optional-creating-a-replication-to-two-bluemix-environments">(Optional) Creating a replication to two Bluemix environments</h3>
   <p>You can replicate a Cloudant database to multiple Bluemix environments. When you set up the replication job for each environment, the source database and target database names you provide must use the following format:</p>
-  <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-attribute">https://$USERNAME:$PASSWORD@$REMOTE_USERNAME.cloudant.com/$DATABASE_NAME</span>
+  <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-attribute">https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE_NAME</span>
 </code></pre>
-  <p>You create the database within Bluemix using the name: <code>$DATABASE_NAME</code>, and add it to the URL format. Do not copy the <code>URL</code> field from the <code>VCAP_SERVICES</code> environment variable.</p>
+  <p>You create the database within Bluemix by using the name: <code>$DATABASE_NAME</code>, and add it to the URL format. Do not copy the <code>URL</code> field from the <code>VCAP_SERVICES</code> environment variable.</p>
   <h3 id="monitoring-a-replication">Monitoring a replication</h3>
-  <p>To monitor replicators currently in process, make a <code>GET</code> request to <code>https://$USERNAME.cloudant.com/_active_tasks</code>. This returns any active tasks, including replications. To filter for replications, look for documents with <code>&quot;type&quot;: &quot;replication&quot;</code>.</p>
-  <p>If you monitor the <code>_active_tasks</code> and find that the state of a replication is not changing, you might have a &#39;stalled&#39; replication. If you are sure that the replication has stalled, contact Cloudant support for assistance.</p>
-  <p>For more details about the information provided by <code>_active_tasks</code>, see <a href="active_tasks.html">Active tasks</a>.</p>
-  <p><em>Example instructions for monitoring a replication, using HTTP:</em></p>
+  <p>To monitor replicators currently in process, make a <code>GET</code> request to <code>https://$ACCOUNT.cloudant.com/_active_tasks</code>. This returns any active tasks, including replications. To filter for replications, look for documents with <code>&quot;type&quot;: &quot;replication&quot;</code>.</p>
+  <p>If you monitor the <code>_active_tasks</code> and find that the state of a replication is not changing, you might have a &#39;stalled&#39; replication. If you are sure that the replication stalled, contact Cloudant support for assistance.</p>
+  <p>For more information, see <a href="active_tasks.html">Active tasks</a>.</p>
+  <p><em>Example instructions for using HTTP to monitor a replication:</em></p>
   <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">GET</span> <span class="hljs-string">/_active_tasks</span> HTTP/1.1
 </code></pre>
-  <p><em>Example instructions for monitoring a replication, using the command line:</em></p>
-  <pre class="codeblock"><code class="lang-http hljs">curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/_active_tasks
+  <p><em>Example instructions for using the command line to monitor a replication:</em></p>
+  <pre class="codeblock"><code class="lang-http hljs">curl https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/_active_tasks
 </code></pre>
   <!--
 
-_Example instructions for monitoring a replication, using Javascript:_
+_Example instructions for  using Javascript to monitor a replication:_
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$ACCOUNT+".cloudant.com");
 
 account.request(
     { path: '_active_tasks' },
@@ -226,13 +231,13 @@ account.request(
 
 -->
 
-  <p><em>Example response (abbreviated) following active task request, including continuous replication:</em></p>
+  <p><em>Example response (abbreviated) after an active task request, including continuous replication:</em></p>
   <pre class="codeblock"><code class="lang-json hljs">[
     {
         <span class="hljs-attr">"user"</span>: <span class="hljs-literal">null</span>,
         <span class="hljs-attr">"updated_on"</span>: <span class="hljs-number">1363274088</span>,
         <span class="hljs-attr">"type"</span>: <span class="hljs-string">"replication"</span>,
-        <span class="hljs-attr">"target"</span>: <span class="hljs-string">"https://username:password@tsm.cloudant.com/user-3dg...imy/"</span>,
+        <span class="hljs-attr">"target"</span>: <span class="hljs-string">"https://$USERNAME2:$PASSWORD2@$ACCOUNT2.cloudant.com/user-3dg...imy/"</span>,
         <span class="hljs-attr">"docs_read"</span>: <span class="hljs-number">0</span>,
         <span class="hljs-attr">"doc_write_failures"</span>: <span class="hljs-number">0</span>,
         <span class="hljs-attr">"doc_id"</span>: <span class="hljs-string">"tsm-admin__to__user-3dg...imy"</span>,
@@ -245,13 +250,13 @@ account.request(
         <span class="hljs-attr">"missing_revisions_found"</span>: <span class="hljs-number">0</span>,
         <span class="hljs-attr">"replication_id"</span>: <span class="hljs-string">"d0cdbfee50a80fd43e83a9f62ea650ad+continuous"</span>,
         <span class="hljs-attr">"revisions_checked"</span>: <span class="hljs-number">0</span>,
-        <span class="hljs-attr">"source"</span>: <span class="hljs-string">"https://repl:*****@tsm.cloudant.com/tsm-admin/"</span>,
+        <span class="hljs-attr">"source"</span>: <span class="hljs-string">"https://$USERNAME1:$PASSWORD1@$ACCOUNT1.cloudant.com/tsm-admin/"</span>,
         <span class="hljs-attr">"source_seq"</span>: <span class="hljs-string">"537-g1A...LVQ"</span>,
         <span class="hljs-attr">"started_on"</span>: <span class="hljs-number">1363274083</span>
     }
 ]
 </code></pre>
-  <p><em>Example response following active task, including single replication:</em></p>
+  <p><em>Example response after an active task request, including single replication:</em></p>
   <pre class="codeblock"><code class="lang-json hljs">[
     {
         <span class="hljs-attr">"pid"</span>: <span class="hljs-string">"&lt;0.1303.0&gt;"</span>,
@@ -264,7 +269,7 @@ account.request(
         <span class="hljs-attr">"missing_revisions_found"</span>: <span class="hljs-number">17833</span>,
         <span class="hljs-attr">"progress"</span>: <span class="hljs-number">3</span>,
         <span class="hljs-attr">"revisions_checked"</span>: <span class="hljs-number">17833</span>,
-        <span class="hljs-attr">"source"</span>: <span class="hljs-string">"http://username.cloudant.com/db/"</span>,
+        <span class="hljs-attr">"source"</span>: <span class="hljs-string">"http://$ACCOUNT.cloudant.com/$DATABASE/"</span>,
         <span class="hljs-attr">"source_seq"</span>: <span class="hljs-number">551202</span>,
         <span class="hljs-attr">"started_on"</span>: <span class="hljs-number">1316229471</span>,
         <span class="hljs-attr">"target"</span>: <span class="hljs-string">"test_db"</span>,
@@ -274,27 +279,28 @@ account.request(
 ]
 </code></pre>
   <div id="delete"></div>
-  <h3 id="cancelling-a-replication">Cancelling a replication</h3>
-  <p>To cancel a replication, simply <a href="document.html#delete">delete its replication document</a> from the <code>_replicator</code> database.</p>
+  <h3 id="canceling-a-replication">Canceling a replication</h3>
+  <p>To cancel a replication,
+    <a href="document.html#delete">delete its replication document</a> from the <code>_replicator</code> database.</p>
   <p>If the replication is in an <a href="advanced_replication.html#replication-status"><code>error</code> state</a>, the replicator makes repeated attempts to achieve a successful replication. A consequence is that the replication document is updated with
-    each attempt. This also changes the document revision value. Therefore, you should get the revision value immediately before deleting the document, otherwise you might get an <a href="http.html#409">HTTP 409 &quot;document update conflict&quot;</a>    response.</p>
-  <p><em>Example instructions for deleting a replication document, using HTTP:</em></p>
+    each attempt. This also changes the document revision value. Therefore, get the revision value immediately before you delete the document, otherwise you might get an <a href="http.html#409">HTTP 409 &quot;document update conflict&quot;</a> response.</p>
+  <p><em>Example instructions for using HTTP to delete a replication document:</em></p>
   <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">DELETE</span> <span class="hljs-string">/_replicator/replication-doc?rev=1-...</span> HTTP/1.1
 </code></pre>
   <p><em>Example instructions for deleting a replication document, the command line:</em></p>
-  <pre class="codeblock"><code class="lang-sh hljs">curl -X DELETE https://<span class="hljs-variable">$USERNAME</span>:<span class="hljs-variable">$PASSWORD</span>@<span class="hljs-variable">$USERNAME</span>.cloudant.com/_replicator/replication-doc?rev=1-...
+  <pre class="codeblock"><code class="lang-sh hljs">curl -X DELETE https://<span class="hljs-variable">$USERNAME</span>:<span class="hljs-variable">$PASSWORD</span>@<span class="hljs-variable">$ACCOUNT</span>.cloudant.com/_replicator/replication-doc?rev=1-...
 </code></pre>
   <h2 id="the-_replicate-endpoint">The <code>/_replicate</code> endpoint</h2>
   <p>You can use this endpoint to request, configure, or stop, a replication operation.</p>
-  <p>You do this by sending a <code>POST</code> request directly to the <code>/_replicate</code> endpoint. The <code>POST</code> contains a JSON document that describes the desired replication.</p>
+  <p>You do this by sending a <code>POST</code> request directly to the <code>/_replicate</code> endpoint. The <code>POST</code> contains a JSON document that describes the wanted replication.</p>
   <ul>
     <li><strong>Method</strong>: <code>POST</code></li>
     <li><strong>Path</strong>: <code>/_replicate</code></li>
     <li><strong>Request</strong>: Replication specification</li>
     <li><strong>Response</strong>: TBD</li>
-    <li><strong>Roles permitted</strong>: <code>_admin</code></li>
+    <li><strong>Roles</strong>: <code>_admin</code></li>
   </ul>
-  <p>The specification of the replication request is controlled through the JSON content of the request. The JSON should be an object with fields defining the source, target and other options.</p>
+  <p>The specification of the replication request is controlled through the JSON content of the request. The JSON document must contain fields that define the source, target, and other options.</p>
   <p>The fields of the JSON request are as follows:</p>
   <table>
     <thead>
@@ -327,7 +333,7 @@ account.request(
       </tr>
       <tr>
         <td><code>proxy</code></td>
-        <td>Address of a proxy server through which replication should occur.</td>
+        <td>Address of a proxy server through which replication occurs.</td>
         <td>Yes</td>
       </tr>
       <tr>
@@ -343,19 +349,19 @@ account.request(
     </tbody>
   </table>
   <blockquote>
-    <p> <strong>Note</strong>: It is preferable to use the <a href="#the-_replicator-database">Replicator Database</a> to manage replication. Details of why are provided <a href="#avoiding-the-_replicate-endpoint">here</a>.</p>
+    <p> <strong>Note</strong>: It is preferable to use the <a href="#the-_replicator-database">Replicator database</a> to manage replication. Details of why are provided <a href="#avoiding-the-_replicate-endpoint">here</a>.</p>
   </blockquote>
-  <p><em>Example instructions for starting a replication through the <code>_replicate</code> endpoint, using HTTP:</em></p>
+  <p><em>Example instructions for using HTTP to start a replication through the <code>_replicate</code> endpoint:</em></p>
   <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">POST</span> <span class="hljs-string">/_replicate</span> HTTP/1.1
 <span class="hljs-attribute">Content-Type</span>: application/json
 </code></pre>
-  <p><em>Example instructions for starting a replication through the <code>_replicate</code> endpoint, using the command line:</em></p>
-  <pre class="codeblock"><code class="lang-sh hljs">curl -H <span class="hljs-string">'Content-Type: application/json'</span> -X POST <span class="hljs-string">"https://<span class="hljs-variable">$USERNAME</span>:<span class="hljs-variable">$PASSWORD</span>@<span class="hljs-variable">$USERNAME</span>.cloudant.com/_replicate"</span> <span class="hljs-_">-d</span> @replication-doc.json
+  <p><em>Example instructions for using the command line to start a replication through the <code>_replicate</code> endpoint:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl -H <span class="hljs-string">'Content-Type: application/json'</span> -X POST <span class="hljs-string">"https://<span class="hljs-variable">$USERNAME</span>:<span class="hljs-variable">$PASSWORD</span>@<span class="hljs-variable">$ACCOUNT</span>.cloudant.com/_replicate"</span> <span class="hljs-_">-d</span> @replication-doc.json
 <span class="hljs-comment"># with the file replication-doc.json containing the required replication information.</span>
 </code></pre>
-  <p><em>Example JSON document describing the required replication:</em></p>
+  <p><em>Example JSON document that describes the required replication:</em></p>
   <pre class="codeblock"><code class="lang-json hljs">{
-    <span class="hljs-attr">"source"</span>: <span class="hljs-string">"http://$USERNAME:$PASSWORD@username.cloudant.com/example-database"</span>,
+    <span class="hljs-attr">"source"</span>: <span class="hljs-string">"http://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/example-database"</span>,
     <span class="hljs-attr">"target"</span>: <span class="hljs-string">"http://$USERNAME2:$PASSWORD2@example.org/example-target-database"</span>
 }
 </code></pre>
@@ -387,13 +393,15 @@ account.request(
     </tbody>
   </table>
   <h3 id="avoiding-the-_replicate-endpoint">Avoiding the <code>/_replicate</code> endpoint</h3>
-  <p>You should use the <a href="#replicator-database"><code>_replicator</code> database</a> in preference to the <code>/_replicate</code> endpoint.</p>
-  <p>A significant reason for this is that in the event of problem during replication, such as a stall, timeout, or application crash, a replication defined within the <code>_replicator</code> database is automatically restarted by the system.</p>
+  <blockquote>
+    <p> <strong>Note</strong>: Use the <a href="#replicator-database"><code>_replicator</code> database</a> in preference to the <code>/_replicate</code> endpoint.</p>
+  </blockquote>
+  <p>A significant reason is that if there was a problem during replication, such as a stall, timeout, or application crash, then a replication that is defined within the <code>_replicator</code> database is automatically restarted by the system.</p>
   <p>If you defined a replication by sending a request to the <code>/_replicate</code> endpoint, it cannot be restarted by the system if a problem occurs because the replication request does not persist.</p>
-  <p>In addition, replications defined in the <code>_replicator</code> database are easier to <a href="advanced_replication.html#replication-status">monitor</a>.</p>
+  <p>In addition, replications that are defined in the <code>_replicator</code> database are easier to <a href="advanced_replication.html#replication-status">monitor</a>.</p>
   <h2 id="replication-operation">Replication Operation</h2>
   <p>The aim of replication is that at the end of the process, all active documents in the source database are also in the destination or &#39;target&#39; database,
-    <em>and</em> that all documents deleted from the source databases are also deleted from the destination database (if they existed there).</p>
+    <em>and</em> that all documents that are deleted from the source databases are also deleted from the destination database (if they existed there).</p>
   <p>Replication has two forms: push or pull replication:</p>
   <ul>
     <li><em>Push replication</em> is where the source is a local database, and the destination is a remote database.</li>
@@ -409,48 +417,48 @@ Content-Type: application/json
 Accept: application/json
 
 {
-    &quot;source&quot; : &quot;http://user:pass@example.com/db&quot;,
-    &quot;target&quot; : &quot;http://user:pass@user.cloudant.com/db&quot;,
+    &quot;source&quot; : &quot;http://$USERNAME1:$PASSWORD1@example.com/db&quot;,
+    &quot;target&quot; : &quot;http://$USERNAME2:$PASSWORD2@$ACCOUNT2.cloudant.com/db&quot;,
 }
 </code></pre>
   <p><em>Example error response if one of the requested databases for a replication does not exist:</em></p>
   <pre class="codeblock"><code class="lang-json hljs">{
     <span class="hljs-attr">"error"</span> : <span class="hljs-string">"db_not_found"</span>,
-    <span class="hljs-attr">"reason"</span> : <span class="hljs-string">"could not open http://username.cloudant.com/ol1ka/"</span>
+    <span class="hljs-attr">"reason"</span> : <span class="hljs-string">"could not open http://$ACCOUNT.cloudant.com/ol1ka/"</span>
 }
 </code></pre>
   <h2 id="creating-a-target-database-during-replication">Creating a target database during replication</h2>
   <p>If your user credentials allow it, you can create the target database during replication by adding the <code>create_target</code> field to the request object.</p>
-  <p>The <code>create_target</code> field is not destructive. If the database already exists, the replication proceeds as normal.</p>
+  <p>The <code>create_target</code> field is not destructive. If the database exists, the replication proceeds as normal.</p>
   <p><em>Example request to create a target database and replicate onto it:</em></p>
-  <pre class="codeblock"><code class="lang-http hljs">POST http://username.cloudant.com/_replicate
+  <pre class="codeblock"><code class="lang-http hljs">POST http://$ACCOUNT.cloudant.com/_replicate
 Content-Type: application/json
 Accept: application/json
 
 {
     &quot;create_target&quot; : true
-    &quot;source&quot; : &quot;http://user:pass@example.com/db&quot;,
-    &quot;target&quot; : &quot;http://user:pass@user.cloudant.com/db&quot;,
+    &quot;source&quot; : &quot;http://$USERNAME:$PASSWORD@example.com/db&quot;,
+    &quot;target&quot; : &quot;http://$USERNAME2:$PASSWORD2@$ACCOUNT.cloudant.com/db&quot;,
 }
 </code></pre>
   <h2 id="canceling-replication">Canceling replication</h2>
-  <p>A replication triggered by <code>POST</code>ing to <code>/_replicate</code> can be canceled by <code>POST</code>ing the exact same JSON object but with the additional <code>cancel</code> property set to <code>true</code>.</p>
+  <p>A replication that is triggered by <code>POST</code>ing to <code>/_replicate</code> can be canceled by <code>POST</code>ing the exact same JSON object but with the additional <code>cancel</code> property set to <code>true</code>.</p>
   <blockquote>
-    <p> <strong>Note</strong>: If a replication is canceled, the request which initiated the replication fails with <a href="http.html#500">error 500 (shutdown)</a>.</p>
+    <p> <strong>Note</strong>: If a replication is canceled, the request that initiated the replication fails with <a href="http.html#500">error 500 (shutdown)</a>.</p>
   </blockquote>
   <p>The replication ID can be obtained from the original replication request if it is a continuous replication. Alternatively, the replication ID can be obtained from <a href="active_tasks.html"><code>/_active_tasks</code></a>.</p>
-  <p><em>Example instructions for canceling a replication, using HTTP:</em></p>
+  <p><em>Example of using HTTP to cancel a replication:</em></p>
   <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">POST</span> <span class="hljs-string">/_replicate</span> HTTP/1.1
 <span class="hljs-attribute">Content-Type</span>: application/json
 </code></pre>
-  <p><em>Example instructions for canceling a replication, using the command line:</em></p>
-  <pre class="codeblock"><code class="lang-sh hljs">curl -H <span class="hljs-string">'Content-Type: application/json'</span> -X POST <span class="hljs-string">'https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/_replicate HTTP/1.1'</span> <span class="hljs-_">-d</span> @replication-doc.json
+  <p><em>Example of using the command line to cancel a replication:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl -H <span class="hljs-string">'Content-Type: application/json'</span> -X POST <span class="hljs-string">'https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/_replicate HTTP/1.1'</span> <span class="hljs-_">-d</span> @replication-doc.json
 <span class="hljs-comment"># the file replication-doc.json must be supplied.</span>
 </code></pre>
-  <p><em>Example JSON document describing the replication to be canceled:</em></p>
+  <p><em>Example JSON document that describes the replication to be canceled:</em></p>
   <pre class="codeblock"><code class="lang-json hljs">{
-    <span class="hljs-attr">"source"</span>: <span class="hljs-string">"https://username:password@username.cloudant.com/example-database"</span>,
-    <span class="hljs-attr">"target"</span>: <span class="hljs-string">"https://username:password@example.org/example-database"</span>,
+    <span class="hljs-attr">"source"</span>: <span class="hljs-string">"https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/example-database"</span>,
+    <span class="hljs-attr">"target"</span>: <span class="hljs-string">"https://$USERNAME2:$PASSWORD2@example.org/example-database"</span>,
     <span class="hljs-attr">"cancel"</span>: <span class="hljs-literal">true</span>
 }
 </code></pre>
@@ -538,22 +546,22 @@ Accept: application/json
       </tr>
     </tbody>
   </table>
-  <p><em>Example instructions for requesting for a single replication, using HTTP:</em></p>
+  <p><em>Example instructions for using HTTP to request a single replication:</em></p>
   <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">POST</span> <span class="hljs-string">/_replicate</span> HTTP/1.1
 <span class="hljs-attribute">Content-Type</span>: application/json
 <span class="hljs-attribute">Accept</span>: application/json
 </code></pre>
-  <p><em>Example instructions for requesting for a single replication, using the command line:</em></p>
-  <pre class="codeblock"><code class="lang-sh hljs">curl -H <span class="hljs-string">'Content-Type: application/json'</span> -X POST <span class="hljs-string">'https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/_replicate HTTP/1.1'</span> <span class="hljs-_">-d</span> @replication-doc.json
+  <p><em>Example instructions for using the command line to request a single replication:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl -H <span class="hljs-string">'Content-Type: application/json'</span> -X POST <span class="hljs-string">'https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/_replicate HTTP/1.1'</span> <span class="hljs-_">-d</span> @replication-doc.json
 <span class="hljs-comment"># the file replication-doc.json must be supplied.</span>
 </code></pre>
-  <p><em>Example JSON document describing a single replication between the source database <code>recipes</code> and the target database <code>recipes2</code>:</em></p>
+  <p><em>Example JSON document that describes a single replication between the source database <code>recipes</code> and the target database <code>recipes2</code>:</em></p>
   <pre class="codeblock"><code class="lang-json hljs">{
-    <span class="hljs-attr">"source"</span> : <span class="hljs-string">"http://user:pass@user.cloudant.com/recipes"</span>,
-    <span class="hljs-attr">"target"</span> : <span class="hljs-string">"http://user:pass@user.cloudant.com/recipes2"</span>
+    <span class="hljs-attr">"source"</span> : <span class="hljs-string">"http://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/recipes"</span>,
+    <span class="hljs-attr">"target"</span> : <span class="hljs-string">"http://$USERNAME2:$PASSWORD2@$ACCOUNT2.cloudant.com/recipes2"</span>
 }
 </code></pre>
-  <p><em>Example response following a request for a single replication:</em></p>
+  <p><em>Example response that follows a request for a single replication:</em></p>
   <pre class="codeblock"><code class="lang-json hljs">{
     <span class="hljs-attr">"ok"</span> : <span class="hljs-literal">true</span>,
     <span class="hljs-attr">"history"</span> : [
@@ -576,27 +584,27 @@ Accept: application/json
 }
 </code></pre>
   <h2 id="continuous-replication">Continuous Replication</h2>
-  <p>By default, the synchronization of a database during replication happens only once: at the time the replicate request is made. To ensure that replication from the source database to the target database takes place continually, set the <code>continuous</code>    field of the JSON object within the request to <code>true</code>.</p>
+  <p>By default, the synchronization of a database during replication happens one time when the replicate request is made. To ensure that replication from the source database to the target database takes place continually, set the <code>continuous</code>    field of the JSON object within the request to <code>true</code>.</p>
   <p>With continuous replication, changes in the source database are replicated to the target database forever, until you specifically cancel the replication.</p>
-  <p>Changes are replicated between the two databases as long as a network connection is available between the two instances.</p>
-  <p>When in operation, the replication process does not stop when it has processed all current updates. Instead, the replication process continues to wait for further updates to the source database, and applies them to the target.</p>
+  <p>Changes are replicated between the two databases while a network connection is available between the two instances.</p>
+  <p>When in operation, the replication process does not stop when it finishes processing all current updates. Instead, the replication process continues to wait for further updates to the source database, and applies them to the target.</p>
   <blockquote>
-    <p> <strong>Note</strong>: Continuous replication forces checks to be made continuously on the source database. This results in an increasing number of database accesses, even if the source database content has not changed. Database accesses are counted
-      as part of the work performed by a multi-tenant database configuration.</p>
+    <p> <strong>Note</strong>: Continuous replication forces checks to be made continuously on the source database. This results in an increasing number of database accesses, even if the source database content did not change. Database accesses are counted
+      as part of the work that is done within a multi-tenant database configuration.</p>
   </blockquote>
-  <p><em>Example instructions for requesting continuous replication, using HTTP:</em></p>
+  <p><em>Example instructions for using HTTP to request continuous replication:</em></p>
   <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">POST</span> <span class="hljs-string">/_replicate</span> HTTP/1.1
 <span class="hljs-attribute">Content-Type</span>: application/json
 <span class="hljs-attribute">Accept</span>: application/json
 </code></pre>
-  <p><em>Example instructions for requesting continuous replication, using the command line:</em></p>
-  <pre class="codeblock"><code class="lang-sh hljs">curl -H <span class="hljs-string">'Content-Type: application/json'</span> -X POST <span class="hljs-string">'https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/_replicate HTTP/1.1'</span> <span class="hljs-_">-d</span> @replication-doc.json
+  <p><em>Example instructions for using the command line to request continuous replication:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl -H <span class="hljs-string">'Content-Type: application/json'</span> -X POST <span class="hljs-string">'https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/_replicate HTTP/1.1'</span> <span class="hljs-_">-d</span> @replication-doc.json
 <span class="hljs-comment"># the file replication-doc.json must be supplied.</span>
 </code></pre>
-  <p><em>Example JSON document describing continuous replication between the source database <code>recipes</code> and the target database <code>recipes2</code>:</em></p>
+  <p><em>Example JSON document that describes continuous replication between the source database <code>recipes</code> and the target database <code>recipes2</code>:</em></p>
   <pre class="codeblock"><code class="lang-json hljs">{
-    <span class="hljs-attr">"source"</span> : <span class="hljs-string">"http://user:pass@user.cloudant.com/recipes"</span>,
-    <span class="hljs-attr">"target"</span> : <span class="hljs-string">"http://user:pass@user.cloudant.com/recipes2"</span>, 
+    <span class="hljs-attr">"source"</span> : <span class="hljs-string">"http://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/recipes"</span>,
+    <span class="hljs-attr">"target"</span> : <span class="hljs-string">"http://$USERNAME2:$PASSWORD2@$ACCOUNT2.cloudant.com/recipes2"</span>, 
     <span class="hljs-attr">"continuous"</span>: <span class="hljs-literal">true</span>
 }
 </code></pre>
@@ -608,8 +616,8 @@ Accept: application/json
   <p>Requesting cancellation of a replication that does not exist results in a <a href="http.html#404">404 error</a>.</p>
   <p><em>Example replication request to create the target database if it does not exist, and to replicate continuously:</em></p>
   <pre class="codeblock"><code class="lang-json hljs">{
-    <span class="hljs-attr">"source"</span> : <span class="hljs-string">"http://user:pass@example.com/db"</span>,
-    <span class="hljs-attr">"target"</span> : <span class="hljs-string">"http://user:pass@user.cloudant.com/db"</span>,
+    <span class="hljs-attr">"source"</span> : <span class="hljs-string">"http://$USERNAME:$PASSWORD@example.com/db"</span>,
+    <span class="hljs-attr">"target"</span> : <span class="hljs-string">"http://$USERNAME2:$PASSWORD2@$ACCOUNT.cloudant.com/db"</span>,
     <span class="hljs-attr">"create_target"</span> : <span class="hljs-literal">true</span>,
     <span class="hljs-attr">"continuous"</span> : <span class="hljs-literal">true</span>
 }
@@ -619,43 +627,43 @@ Accept: application/json
     <span class="hljs-attr">"cancel"</span> : <span class="hljs-literal">true</span>,
     <span class="hljs-attr">"continuous"</span> : <span class="hljs-literal">true</span>,
     <span class="hljs-attr">"create_target"</span> : <span class="hljs-literal">true</span>,
-    <span class="hljs-attr">"source"</span> : <span class="hljs-string">"http://user:pass@example.com/db"</span>,
-    <span class="hljs-attr">"target"</span> : <span class="hljs-string">"http://user:pass@user.cloudant.com/db"</span>
+    <span class="hljs-attr">"source"</span> : <span class="hljs-string">"http://$USERNAME:$PASSWORD@example.com/db"</span>,
+    <span class="hljs-attr">"target"</span> : <span class="hljs-string">"http://$USERNAME2:$PASSWORD2@$ACCOUNT.cloudant.com/db"</span>
 }
 </code></pre>
   <h2 id="example-replication-sequence">Example replication sequence</h2>
-  <p>The following examples go through all the steps of creating a replication task, then cancelling it.</p>
-  <p><em>Example of sending a request to start a replication, using HTTP:</em></p>
+  <p>The following examples go through all the steps of creating a replication task, then canceling it.</p>
+  <p><em>Example of using HTTP to send a request to start a replication:</em></p>
   <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">POST</span> <span class="hljs-string">/_replicate</span> HTTP/1.1
 <span class="hljs-attribute">Content-Type</span>: application/json
 </code></pre>
-  <p><em>Example of sending a request to start a replication, using the command line:</em></p>
-  <pre class="codeblock"><code class="lang-sh hljs">curl -H <span class="hljs-string">'Content-Type: application/json'</span> -X POST <span class="hljs-string">'http://username.cloudant.com/_replicate'</span> <span class="hljs-_">-d</span> @replication-doc.json
+  <p><em>Example of using the command line to send a request to start a replication:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl -H <span class="hljs-string">'Content-Type: application/json'</span> -X POST <span class="hljs-string">'http://$ACCOUNT.cloudant.com/_replicate'</span> <span class="hljs-_">-d</span> @replication-doc.json
 <span class="hljs-comment"># the file replication-doc.json describes the intended replication.</span>
 </code></pre>
-  <p><em>Example document describing the intended replication:</em></p>
+  <p><em>Example JSON document that describes the intended replication:</em></p>
   <pre class="codeblock"><code class="lang-json hljs">{
-    <span class="hljs-attr">"source"</span>: <span class="hljs-string">"https://username:password@example.com/foo"</span>, 
-    <span class="hljs-attr">"target"</span>: <span class="hljs-string">"https://username:password@username.cloudant.com/bar"</span>, 
+    <span class="hljs-attr">"source"</span>: <span class="hljs-string">"https://$USERNAME:$PASSWORD@example.com/foo"</span>, 
+    <span class="hljs-attr">"target"</span>: <span class="hljs-string">"https://$USERNAME2:$PASSWORD2@$ACCOUNT.cloudant.com/bar"</span>, 
     <span class="hljs-attr">"create_target"</span>: <span class="hljs-literal">true</span>, 
     <span class="hljs-attr">"continuous"</span>: <span class="hljs-literal">true</span>
 }
 </code></pre>
-  <p><em>Example response after starting the replication successfully:</em></p>
+  <p><em>Example response after the replication starts successfully:</em></p>
   <pre class="codeblock"><code class="lang-json hljs">{
     <span class="hljs-attr">"ok"</span>: <span class="hljs-literal">true</span>,
     <span class="hljs-attr">"_local_id"</span>: <span class="hljs-string">"0a81b645497e6270611ec3419767a584+continuous+create_target"</span>
 }
 </code></pre>
-  <p><em>Example of sending a request to cancel a replication, using HTTP:</em></p>
+  <p><em>Example of using HTTP to send a request to cancel a replication:</em></p>
   <pre class="codeblock"><code class="lang-http hljs"><span class="hljs-keyword">POST</span> <span class="hljs-string">/_replicate</span> HTTP/1.1
 <span class="hljs-attribute">Content-Type</span>: application/json
 </code></pre>
-  <p><em>Example of sending a request to cancel a replication, using the command line:</em></p>
-  <pre class="codeblock"><code class="lang-sh hljs">curl -H <span class="hljs-string">'Content-Type: application/json'</span> -X POST http://<span class="hljs-variable">$USERNAME</span>:<span class="hljs-variable">$PASSWORD</span>@<span class="hljs-variable">$USERNAME</span>.cloudant.com/_replicate <span class="hljs-_">-d</span> @replication-doc.json
+  <p><em>Example of using the command line to send a request to cancel a replication:</em></p>
+  <pre class="codeblock"><code class="lang-sh hljs">curl -H <span class="hljs-string">'Content-Type: application/json'</span> -X POST http://<span class="hljs-variable">$USERNAME</span>:<span class="hljs-variable">$PASSWORD</span>@<span class="hljs-variable">$ACCOUNT</span>.cloudant.com/_replicate <span class="hljs-_">-d</span> @replication-doc.json
 <span class="hljs-comment"># where the file replication-doc.json specifies the replication task to be canceled.</span>
 </code></pre>
-  <p><em>Example document specifying the replication to be canceled:</em></p>
+  <p><em>Example document that specifies the replication to be canceled:</em></p>
   <pre class="codeblock"><code class="lang-json hljs">{
     <span class="hljs-attr">"replication_id"</span>: <span class="hljs-string">"0a81b645497e6270611ec3419767a584+continuous+create_target"</span>,
     <span class="hljs-attr">"cancel"</span>: <span class="hljs-literal">true</span>
@@ -668,9 +676,9 @@ Accept: application/json
 }
 </code></pre>
   <h2 id="replication-database-maintenance">Replication database maintenance</h2>
-  <p>A replication database should be looked after like any other database. If you do not perform regular maintenance, you might accumulate invalid documents caused by interruptions to the replication process. A large number of invalid documents can result
-    in excess load being placed on your cluster when the replicator process is restarted by Cloudant operations.</p>
-  <p>The main action you can perform to maintain a replication database is to remove old documents. This can be done simply by determining the age of documents, and <a href="document.html#delete">deleting them</a> if they are no longer required.</p>
+  <p>A replication database must be looked after like any other database. Without regular database maintenance, you might accumulate invalid documents that were caused by interruptions to the replication process. Having many invalid documents can result
+    in an excess load on your cluster when the replicator process is restarted by Cloudant operations.</p>
+  <p>The main action that you can do to maintain a replication database is to remove old documents. This can be done by determining the age of documents, and <a href="document.html#delete">deleting them</a> if they are no longer needed.</p>
   <footer>
     <div>
       <p>Copyright &copy; 2015, 2017. All Rights Reserved.</p>

@@ -38,6 +38,9 @@
     <li>Search for the <code>recorded_seq</code> field of the first element in the history array that is found in the checkpoint document.</li>
     <li>Replicate to the new incremental backup database, setting the <a href="../api/replication.html#the-since_seq-field"><code>since_seq</code> field</a> in the replication document to the value of the <a href="backup-guide.html#get-the-recorded_seq-value"><code>recorded_seq</code> field</a>      found in the previous step.</li>
   </ol>
+  <blockquote>
+    <p> <strong>Note</strong>: By definition, using the <code>since_seq</code> option bypasses the normal checkpointing facility. Only use <code>since_seq</code> with caution. </p>
+  </blockquote>
   <h2 id="restoring-a-database">Restoring a database</h2>
   <p>To restore a database from incremental backups, you replicate each incremental backup to a new database, starting with the most recent increment.</p>
   <p>You might start with the oldest backup, then apply the subsequent backups in order. However, replicating from the most recent incremental backup first is faster because updated documents are written only to the target database one time. Any documents
