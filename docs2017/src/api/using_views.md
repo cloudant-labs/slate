@@ -460,7 +460,7 @@ where the key for the view matches either `claret` or `clear apple juice`,
 that uses the command line:_
 
 ```sh
-curl -X POST "https://$ACCOUNT:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE/_design/$DDOC/_view/$VIEWNAME" -d @request.json
+curl -X POST "https://INDEX_NAME$ACCOUNT.cloudant.com/$DATABASE/_design/$DDOC/_view/$VIEWNAME" -d @request.json
 ```
 {:codeblock}
 
@@ -563,7 +563,7 @@ _Example JSON document that lists the keys to match:_
 _Example request using the command line to obtain the full content of documents that match the listed keys:_
 
 ```sh
-curl "https://$ACCOUNT:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE/_design/$DDOC/_view/by_ingredient?include_docs=true"
+curl "https://INDEX_NAME$ACCOUNT.cloudant.com/$DATABASE/_design/$DDOC/_view/by_ingredient?include_docs=true"
     -X POST \
     -H "Content-Type: application/json" \
     -d "{ "keys" : [ "claret", "clear apple juice" ] }"
@@ -663,7 +663,7 @@ _Example (abbreviated) response, returning the full document for each recipe tha
 ## Sending several queries to a view
 
 To send several view queries in one request,
-use a `POST` request to `/$DATABASE/_design/$DDOC/_view/$VIEW`.
+use a `POST` request to `/$DATABASE/_design/$DDOC/_view/$VIEWNAME`.
 
 The request body is a JSON object that contains only the `queries` field.
 It holds an array of query objects with fields for the parameters of the query.
@@ -677,7 +677,7 @@ Each result object contains the same fields as the response to a regular view re
 _Example request using HTTP that contains several queries:_
 
 ```http
-POST /$DATABASE/_design/$DDOC/_view/$VIEW HTTP/1.1
+POST /$DATABASE/_design/$DDOC/_view/$VIEWNAME HTTP/1.1
 Content-Type: application/json
 ```
 {:codeblock}
@@ -685,7 +685,7 @@ Content-Type: application/json
 _Example request containing several queries, that uses the command line:_
 
 ```sh
-curl https://$ACCOUNT:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE/_design/$DDOC/_view/$VIEW -H 'Content-Type: application/json' -d @request-body.json
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DDOC/_view/$VIEWNAME -H 'Content-Type: application/json' -d @request-body.json
     # where request-body.json is a file containing JSON data describing the queries
 ```
 {:codeblock}

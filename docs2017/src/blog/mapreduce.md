@@ -151,7 +151,7 @@ If you want to follow along at home, you have two choices.
 
 1.  Use CouchDB replication to copy my db into yours via:
     ```sh
-    curl 'http://$ACCOUNT:$PASSWORD@$ACCOUNT.cloudant.com/_replicate' -Hcontent-type:application/json -d '{"source":"http://mlmiller.cloudant.com/planes","target":"http://$ACCOUNT:$PASSWORD@$ACCOUNT.cloudant.com/planes","create_target":true}'
+    curl 'http://$ACCOUNT.cloudant.com/_replicate' -Hcontent-type:application/json -d '{"source":"http://mlmiller.cloudant.com/planes","target":"http://$ACCOUNT:$PASSWORD@$ACCOUNT.cloudant.com/planes","create_target":true}'
     ```
     {:pre}
 2.  Repeat from scratch by

@@ -423,7 +423,7 @@ _Result of testing the `standard` analyzer:_
 
 After you create an index,
 you can query it with a `GET` request to
-`https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DESIGN_ID/_search/$INDEX_NAME`.
+`https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DDOC/_search/$INDEX_NAME`.
 Specify your search by using the `query` parameter.
 
 _Example of using HTTP to query an index:_
@@ -439,7 +439,6 @@ _Example to using the command line to query an index:_
 
 ```sh
 curl https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DDOC/_search/$INDEX_NAME?include_docs=true\&query="*:*"\&limit=1 \
-	-u $ACCOUNT
 ```
 {:codeblock}
 
@@ -1153,20 +1152,20 @@ To retrieve information about a search index,
 you send a `GET` request to the `_search_info` endpoint,
 as shown in the following example.
 `DDOC` refers to the design document that contains the index,
-and `INDEX` is the name of the index.
+and `INDEX_NAME` is the name of the index.
 
 _Example of using HTTP to request search index metadata:_
 
 ```http
-GET /$DATABASE/_design/$DDOC/_search_info/$INDEX HTTP/1.1
+GET /$DATABASE/_design/$DDOC/_search_info/$INDEX_NAME HTTP/1.1
 ```
 {:codeblock}
 
 _Example of using the command line to request search index metadata:_
 
 ```sh
-curl "https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DDOC/_search_info/$INDEX" \
-     -X GET -u "$ACCOUNT:$PASSWORD"
+curl "https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DDOC/_search_info/$INDEX_NAME" \
+     -X GET
 ```
 {:codeblock}
 

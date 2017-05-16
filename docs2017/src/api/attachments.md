@@ -64,7 +64,7 @@ Content-Type: $$ATTACHMENT_MIME_TYPE
 _Example instruction for creating or updating an attachment, using the command line:_
 
 ```sh
-curl https://$ACCOUNT:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE/$DOCUMENT_ID/$ATTACHMENT?rev=$REV \
+curl https://$ACCOUNT.cloudant.com/$DATABASE/$DOCUMENT_ID/$ATTACHMENT?rev=$REV \
 	 -X PUT \
 	 -H "Content-Type: $ATTACHMENT_MIME_TYPE" \
 	 --data-binary @$ATTACHMENT_FILEPATH

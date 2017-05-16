@@ -133,7 +133,7 @@ _Example of starting a replication job, using the command line:_
 ```sh
 curl -X POST \
     -H 'Content-type: application/json' \
-    'https://$ACCOUNT:$PASSWORD@$ACCOUNT.cloudant.com/_replicator' \
+    'https://$ACCOUNT.cloudant.com/_replicator' \
     -d '@replication.json'
 ```
 {:codeblock}
@@ -306,7 +306,7 @@ _Example of starting a continuous replication, using the command line:_
 ```sh
 curl -X POST \
     -H "Content-type: application/json" \
-    https://$ACCOUNT:$PASSWORD@$ACCOUNT.cloudant.com/_replicator \
+    https://$ACCOUNT.cloudant.com/_replicator \
     -d @continuous-replication.json
 ```
 {:codeblock}
@@ -509,7 +509,7 @@ _Example of starting a filtered replication, using the command line:_
 ```sh
 curl -X POST \
     -H "Content-type: application/json" \
-    https://$ACCOUNT:$PASSWORD@$ACCOUNT.cloudant.com/_replicator \
+    https://$ACCOUNT.cloudant.com/_replicator \
     -d @filtered-replication.json
 ```
 {:codeblock}

@@ -208,7 +208,7 @@ Content-Type: application/json
 _Example instructions for creating a replication document, using the command line:_
 
 ```sh
-curl -X PUT https://$ACCOUNT:$PASSWORD@USERNAME.cloudant.com/_replicator/replication-doc -H 'Content-Type: application/json' -d @replication-document.json
+curl -X PUT https://$ACCOUNT.cloudant.com/_replicator/replication-doc -H 'Content-Type: application/json' -d @replication-document.json
 #assuming replication-document.json is a json file with valid replication information.
 ```
 {:codeblock}
@@ -267,7 +267,7 @@ GET /_active_tasks HTTP/1.1
 _Example instructions for monitoring a replication, using the command line:_
 
 ```http
-curl https://$ACCOUNT:$PASSWORD@$ACCOUNT.cloudant.com/_active_tasks
+curl https://$ACCOUNT.cloudant.com/_active_tasks
 ```
 {:codeblock}
 
@@ -370,7 +370,7 @@ DELETE /_replicator/replication-doc?rev=1-... HTTP/1.1
 _Example instructions for deleting a replication document, the command line:_
 
 ```sh
-curl -X DELETE https://$ACCOUNT:$PASSWORD@$ACCOUNT.cloudant.com/_replicator/replication-doc?rev=1-...
+curl -X DELETE https://$ACCOUNT.cloudant.com/_replicator/replication-doc?rev=1-...
 ```
 {:codeblock}
 
@@ -420,7 +420,7 @@ Content-Type: application/json
 _Example instructions for starting a replication through the `_replicate` endpoint, using the command line:_
 
 ```sh 
-curl -H 'Content-Type: application/json' -X POST "https://$ACCOUNT:$PASSWORD@$ACCOUNT.cloudant.com/_replicate" -d @replication-doc.json
+curl -H 'Content-Type: application/json' -X POST "https://$ACCOUNT.cloudant.com/_replicate" -d @replication-doc.json
 # with the file replication-doc.json containing the required replication information.
 ```
 {:codeblock}
@@ -556,7 +556,7 @@ Content-Type: application/json
 _Example instructions for canceling a replication, using the command line:_
 
 ```sh
-curl -H 'Content-Type: application/json' -X POST 'https://$ACCOUNT:$PASSWORD@$ACCOUNT.cloudant.com/_replicate HTTP/1.1' -d @replication-doc.json
+curl -H 'Content-Type: application/json' -X POST 'https://$ACCOUNT.cloudant.com/_replicate HTTP/1.1' -d @replication-doc.json
 # the file replication-doc.json must be supplied.
 ```
 {:codeblock}
@@ -620,7 +620,7 @@ Accept: application/json
 _Example instructions for requesting for a single replication, using the command line:_
 
 ```sh
-curl -H 'Content-Type: application/json' -X POST 'https://$ACCOUNT:$PASSWORD@$ACCOUNT.cloudant.com/_replicate HTTP/1.1' -d @replication-doc.json
+curl -H 'Content-Type: application/json' -X POST 'https://$ACCOUNT.cloudant.com/_replicate HTTP/1.1' -d @replication-doc.json
 # the file replication-doc.json must be supplied.
 ```
 {:codeblock}
@@ -699,7 +699,7 @@ Accept: application/json
 _Example instructions for requesting continuous replication, using the command line:_
 
 ```sh
-curl -H 'Content-Type: application/json' -X POST 'https://$ACCOUNT:$PASSWORD@$ACCOUNT.cloudant.com/_replicate HTTP/1.1' -d @replication-doc.json
+curl -H 'Content-Type: application/json' -X POST 'https://$ACCOUNT.cloudant.com/_replicate HTTP/1.1' -d @replication-doc.json
 # the file replication-doc.json must be supplied.
 ```
 {:codeblock}
@@ -807,7 +807,7 @@ Content-Type: application/json
 _Example of sending a request to cancel a replication, using the command line:_
 
 ```sh
-curl -H 'Content-Type: application/json' -X POST http://$ACCOUNT:$PASSWORD@$ACCOUNT.cloudant.com/_replicate -d @replication-doc.json
+curl -H 'Content-Type: application/json' -X POST http://$ACCOUNT.cloudant.com/_replicate -d @replication-doc.json
 # where the file replication-doc.json specifies the replication task to be canceled.
 ```
 {:codeblock}

@@ -54,7 +54,7 @@ HOST: $ACCOUNT.cloudant.com
 _Example of using the command line to create a database:_
 
 ```sh
-curl https://$ACCOUNT:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE -X PUT
+curl https://$ACCOUNT.cloudant.com/$DATABASE -X PUT
 ```
 {:codeblock}
 
@@ -130,7 +130,6 @@ _Example of using the command line to get database details:_
 
 ```sh
 curl https://$ACCOUNT.cloudant.com/$DATABASE \
-	-u $ACCOUNT
 ```
 {:codeblock}
 
@@ -207,7 +206,6 @@ _Example of using the command line to list all databases:_
 
 ```sh
 curl https://$ACCOUNT.cloudant.com/_all_dbs \
-     -u $ACCOUNT
 ```
 {:codeblock}
 
@@ -282,7 +280,7 @@ GET /_all_docs HTTP/1.1
 _Example of using the command line to list all documents in a database,_
 
 ```sh
-curl https://%USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE/_all_docs
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_all_docs
 ```
 {:codeblock}
 
@@ -311,7 +309,7 @@ GET /_all_docs?keys=["somekey","someotherkey"] HTTP/1.1
 _Example of using the command line to list all documents in a database that match at least one of the specified keys:_
 
 ```sh
-curl https://%USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE/_all_docs?keys=["somekey","someotherkey"]
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_all_docs?keys=["somekey","someotherkey"]
 ```
 {:codeblock}
 
@@ -400,7 +398,6 @@ _Example of using the command line to get a list of changes made to documents in
 
 ```sh
 curl https://$ACCOUNT.cloudant.com/$DATABASE/_changes \
-     -u $ACCOUNT
 ```
 {:codeblock}
 
@@ -682,7 +679,6 @@ _Example of using the command line to delete a Cloudant database:_
 ```sh
 curl https://$ACCOUNT.cloudant.com/$DATABASE \
 	-X DELETE \
-	-u $ACCOUNT
 ```
 {:codeblock}
 

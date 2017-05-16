@@ -232,7 +232,6 @@ _Example request, using the command line:_
 
 ```sh
 curl https://$ACCOUNT.cloudant.com/crimes/_design/geodd/_geo_info/geoidx \
-     -u $ACCOUNT
 ```
 {:codeblock}
 
@@ -271,7 +270,7 @@ _	Result set.
 _Example format for a Cloudant Geo API call:_
 
 ```http
-/$DATABASE/_design/$ACCOUNT/_geo/<geoindexname>?<query-parameters
+/$DATABASE/_design/$DDOCS/_geo/$INDEX_NAME?$QUERY_PARAMS
 ```
 {:codeblock}
 
