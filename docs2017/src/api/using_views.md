@@ -187,7 +187,7 @@ by using an existing version of the index.
 
 If you are prepared to accept a response that is quicker,
 but might not have the most current data,
-you can use three options :
+you can use three options:
 
 Option   | Purpose                                                                                                                               | Default value
 ---------|---------------------------------------------------------------------------------------------------------------------------------------|--------------
