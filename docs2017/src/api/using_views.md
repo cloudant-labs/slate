@@ -183,7 +183,8 @@ a stale view might not return the most recent information.
 Nevertheless, a stale view returns the results of the view query quickly,
 by using an existing version of the index.
 
-## <div id="accessing-a-stale-view">View freshness</div>
+<div id="accessing-a-stale-view"></div>
+## View freshness
 
 By default, all	index results reflect the current state of the database. Cloudant builds its indexes automatically and asynchronously in the background.	
 This usually means the index is	fully up-to-date 
