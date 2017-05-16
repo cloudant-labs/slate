@@ -475,6 +475,7 @@ send an HTTP `PUT` request to the same `_security` API endpoint you used to [cre
 Provide an updated list of the user names that have access permission.
 The updated list _must omit_ the API key.
 
+<div id="enabling-the-_users-database-with-cloudant"></div>
 ## Using the _users database with Cloudant
 
 You can use the
