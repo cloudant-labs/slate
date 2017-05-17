@@ -87,7 +87,7 @@ prefix `#!/usr/bin/env python` to each command to instruct your shell to execute
   Your database name must begin with a letter and can include only lowercase characters (a-z), 
   numerals (0-9),
   and any of the following characters `_`, `$`, `(`, `)`, `+`, `-`, and `/`.
-  {: .tip}
+  {: tip}
 
 2. Create the database:
   ```python
