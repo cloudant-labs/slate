@@ -1,0 +1,21 @@
+keyword:
+  Bluemix:
+     IBM&reg; Bluemix&reg;
+  Bluemix_short:
+     Bluemix&reg;
+  Bluemix_notm:
+    Bluemix
+  IBM:
+    IBM&reg;
+  IBM_notm:
+    IBM
+  cloudant:
+    Cloudant&reg; NoSQL DB
+  cloudant_short_notm:
+    Cloudant NoSQL DB
+  cloudantfull:
+    IBM&reg; Cloudant&reg; NoSQL DB for Bluemix&reg;
+
+copyright:
+  year:
+    2016

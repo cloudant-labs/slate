@@ -442,6 +442,8 @@ curl https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DDOC/_search/$INDEX_NAME?i
 ```
 {:codeblock}
 
+<!--
+
 _Example of using JavaScript to query an index:_
 
 ```javascript
@@ -458,6 +460,8 @@ db.search($DESIGN_ID, $SEARCH_INDEX, {
 });
 ```
 {:codeblock}
+
+-->
 
 ### Query Parameters
 
@@ -779,6 +783,14 @@ you can run a query with `~` to find terms like the search term.
 For instance,
 `look~` finds the terms `book` and `took`.
 
+>   **Note**: If the lower and upper bounds of a range 
+> query are both strings that contain only numeric digits, 
+> the bounds are treated as numbers not as strings.
+> 
+> For example, this search: 
+> mod_date:["20170101" TO "20171231"]
+> returns documents for which mod_date is between 20170101 and 20171231 (not between "20170101" and "20171231").
+
 You can alter the importance of a search term by adding `^` and a positive number.
 This alteration makes matches containing the term more or less relevant,
 proportional to the power of the boost value.
@@ -859,7 +871,7 @@ function(doc) {
 >   **Note**: To use facets,
     all the documents in the index must include all the fields that have faceting enabled.
     If your documents do not include all the fields,
-    you receive a `bad_request` error with the following reason, "dim `field_name` does not exist."
+    you receive a `bad_request` error with the following reason, "Dim `field_name` does not exist."
     If each document does not contain all the fields for facets,
     create separate indexes for each field.
     If you do not create separate indexes for each field,
@@ -871,7 +883,7 @@ _Example `if` statement to verify that the required fields exist in each documen
 ```javascript
 if (typeof doc.town == "string" && typeof doc.name == "string") {
         index("town", doc.town, {facet: true});
-        index("town", doc.town, {facet: true});
+        index("town", doc.town, {facet: true});        
     }
 ```
 {:codeblock}

@@ -5,9 +5,10 @@
 BUILDDIR      = ../build
 MAINSRCDIR    = ../src
 CONFIGDIR     = ../tools/
-TOOLDIR       = $(HOME)/git/github.ibm.com/Grant-Gayed
-BUILDTOOLDIR  = $(TOOLDIR)/marked-it-cli
-BUILDTOOL     = $(BUILDTOOLDIR)/bin/marked-it-cli
+# TOOLDIR       = $(HOME)/git/github.ibm.com/Grant-Gayed
+# BUILDTOOLDIR  = $(TOOLDIR)/marked-it-cli
+# BUILDTOOL     = $(BUILDTOOLDIR)/bin/marked-it-cli
+BUILDTOOL = `which marked-it-cli`
 WEBCONTENTDIR = /var/www/html
 
 .PHONY: help
@@ -32,19 +33,19 @@ clean:
 html:
 	make clean
 	mkdir $(BUILDDIR)
-	node $(BUILDTOOL) $(MAINSRCDIR) --output=$(BUILDDIR) --extension-file=$(CONFIGDIR)/headerFooterExt.js --conref-file=$(CONFIGDIR)/conref.yml --toc-xml
+	node $(BUILDTOOL) $(MAINSRCDIR) --output=$(BUILDDIR) --extension-file=$(CONFIGDIR)/headerFooterExt.js --extension-file=$(CONFIGDIR)/xmlTocExt.js --conref-file=$(CONFIGDIR)/conref.yml --toc-xml
 
 .PHONY: pdf
 pdf:
 	make clean
 	mkdir $(BUILDDIR)
-	node $(BUILDTOOL) $(MAINSRCDIR) --output=$(BUILDDIR) --extension-file=$(CONFIGDIR)/headerFooterExt.js --conref-file=$(CONFIGDIR)/conref.yml --toc-xml --gen-pdf
+	node $(BUILDTOOL) $(MAINSRCDIR) --output=$(BUILDDIR) --extension-file=$(CONFIGDIR)/headerFooterExt.js --extension-file=$(CONFIGDIR)/xmlTocExt.js --conref-file=$(CONFIGDIR)/conref.yml --toc-xml --gen-pdf
 
 .PHONY: debughtml
 debughtml:
 	make clean
 	mkdir $(BUILDDIR)
-	node $(BUILDTOOL) $(MAINSRCDIR) --output=$(BUILDDIR) --extension-file=$(CONFIGDIR)/headerFooterExt.js --conref-file=$(CONFIGDIR)/conref.yml --toc-xml --verbose
+	node $(BUILDTOOL) $(MAINSRCDIR) --output=$(BUILDDIR) --extension-file=$(CONFIGDIR)/headerFooterExt.js --extension-file=$(CONFIGDIR)/xmlTocExt.js --conref-file=$(CONFIGDIR)/conref.yml --toc-xml --verbose
 
 .PHONY: publish
 publish:
