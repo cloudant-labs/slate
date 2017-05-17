@@ -183,6 +183,7 @@ a stale view might not return the most recent information.
 Nevertheless, a stale view returns the results of the view query quickly,
 by using an existing version of the index.
 
+<div id="accessing-a-stale-view"></div>
 ## View freshness
 
 By default, all	index results reflect the current state of the database. Cloudant builds its indexes automatically and asynchronously in the background.	
@@ -191,13 +192,10 @@ when you query it. If this is not the case, we call the database "stale" and the
 The results of your query include these updates. Cloudant builds three copies of every index in 
 alignment with the three copies of your primary data.
 
-We recommend that you do not use `stale=ok` or the new `stable` and `update` parameters by default. Cloudant supplies the best results and the best 
-performance with the defaults for these parameters.
-
-If the performance of your view, when queried with the default `stale=false` setting, and your application can tolerate inconsistent results, 
-we recommend `stable=false&update=false`. These settings ensure the fastest response without directing all queries to a single copy of 
-your index (in effect, reducing some aspects of performance to a 
- third of what it should be).
+Cloudant supplies better results and
+performance with the defaults for these parameters. If the performance of your view and your application can tolerate inconsistent results when queried with the 
+default `stale=false` setting, use `stable=false&update=false`. These settings avoid directing all queries to a single copy of 
+your index, which would, in effect, reduce some aspects of performance to a third of what it should be.
 
 Option   | Purpose                                                                                                                               | Default value
 ---------|---------------------------------------------------------------------------------------------------------------------------------------|--------------
