@@ -267,6 +267,8 @@ you can choose from the following {{site.data.keyword.Bluemix_notm}} Public regi
 -   US South
 -   United Kingdom
 -   Sydney
+-   Germany
+
 
 #### Security, Encryption, and Compliance
 
