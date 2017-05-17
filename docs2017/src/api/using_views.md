@@ -192,10 +192,8 @@ when you query it. If this is not the case, we call the database "stale" and the
 The results of your query include these updates. Cloudant builds three copies of every index in 
 alignment with the three copies of your primary data.
 
-Do not use `stale=ok` or the new `stable` and `update` parameters by default. Cloudant supplies better results and
-performance with the defaults for these parameters.
-
-If the performance of your view and your application can tolerate inconsistent results when queried with the 
+Cloudant supplies better results and
+performance with the defaults for these parameters. If the performance of your view and your application can tolerate inconsistent results when queried with the 
 default `stale=false` setting, use `stable=false&update=false`. These settings avoid directing all queries to a single copy of 
 your index, which would, in effect, reduce some aspects of performance to a third of what it should be.
 
