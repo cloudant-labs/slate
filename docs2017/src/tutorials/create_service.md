@@ -2,7 +2,7 @@
 
 copyright:
   years: 2017
-lastupdated: "2017-01-06"
+lastupdated: "2017-05-17"
 
 ---
 
@@ -15,7 +15,7 @@ lastupdated: "2017-01-06"
 # Creating a Cloudant instance on Bluemix
 
 This tutorial shows you how to create an {{site.data.keyword.cloudantfull}}
-service instance on {{site.data.keyword.Bluemix_notm}},
+service instance using the {{site.data.keyword.Bluemix_notm}} dashboard,
 and shows you where to find the essential information to enable your applications
 to work with the database.
 {:shortdesc}
