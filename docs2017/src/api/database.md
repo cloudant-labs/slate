@@ -34,7 +34,7 @@ Warehouses are also supported by Cloudant.
 ## Create
 
 To create a database,
-send a `PUT` request to `https://$USERNAME.cloudant.com/$DATABASE`.
+send a `PUT` request to `https://$ACCOUNT.cloudant.com/$DATABASE`.
 
 The database name must start with a lowercase letter,
 and contain only the following characters:
@@ -54,7 +54,7 @@ HOST: $ACCOUNT.cloudant.com
 _Example of using the command line to create a database:_
 
 ```sh
-curl https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE -X PUT
+curl https://$ACCOUNT.cloudant.com/$DATABASE -X PUT
 ```
 {:codeblock}
 
@@ -64,7 +64,7 @@ _Example of using JavaScript to create a database:_
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+":"+$PASSWORD+"@"+$ACCOUNT+".cloudant.com");
 
 account.db.create($DATABASE, function (err, body, headers) {
 	if (!err) {
@@ -160,7 +160,7 @@ Server: CouchDB/2.0.0 (Erlang OTP/17)
 
 ## Getting database details 
 
-Sending a `GET` request to `https://$USERNAME.cloudant.com/$DATABASE`
+Sending a `GET` request to `https://$ACCOUNT.cloudant.com/$DATABASE`
 returns details about the database,
 such as how many documents it contains.
 
@@ -174,8 +174,7 @@ GET /$DATABASE HTTP/1.1
 _Example of using the command line to get database details:_
 
 ```sh
-curl https://$USERNAME.cloudant.com/$DATABASE \
-	-u $USERNAME
+curl https://$ACCOUNT.cloudant.com/$DATABASE \
 ```
 {:codeblock}
 
@@ -185,7 +184,7 @@ _Example of using JavaScript to get database details:_
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+":"+$PASSWORD+"@"+$ACCOUNT+".cloudant.com");
 
 account.db.get($DATABASE, function (err, body, headers) {
 	if (!err) {
@@ -243,7 +242,7 @@ _Example (abbreviated) response that contains database details:_
 ## Get a list of all databases in the account
 
 To list all the databases in an account,
-send a `GET` request to `https://$USERNAME.cloudant.com/_all_dbs`.
+send a `GET` request to `https://$ACCOUNT.cloudant.com/_all_dbs`.
 
 _Example of using HTTP to list all databases:_
 
@@ -255,8 +254,7 @@ GET /_all_dbs HTTP/1.1
 _Example of using the command line to list all databases:_
 
 ```sh
-curl https://$USERNAME.cloudant.com/_all_dbs \
-     -u $USERNAME
+curl https://$ACCOUNT.cloudant.com/_all_dbs \
 ```
 {:codeblock}
 
@@ -266,7 +264,7 @@ _Example of using JavaScript to list all databases:_
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+":"+$PASSWORD+"@"+$ACCOUNT+".cloudant.com");
 
 account.db.list(function (err, body, headers) {
   if (!err) {
@@ -296,7 +294,7 @@ _Example response:_
 ## Get Documents
 
 To list all the documents in a database,
-send a `GET` request to `https://$USERNAME.cloudant.com/$DATABASE/_all_docs`.
+send a `GET` request to `https://$ACCOUNT.cloudant.com/$DATABASE/_all_docs`.
 
 The `_all_docs` endpoint accepts the following query arguments:
 
@@ -333,7 +331,7 @@ GET /_all_docs HTTP/1.1
 _Example of using the command line to list all documents in a database,_
 
 ```sh
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/_all_docs
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_all_docs
 ```
 {:codeblock}
 
@@ -343,7 +341,7 @@ _Example of using JavaScript to list all documents in a database:_
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+":"+$PASSWORD+"@"+$ACCOUNT+".cloudant.com");
 var db = account.use($DATABASE);
 
 db.list(function (err, body, headers) {
@@ -366,7 +364,7 @@ GET /_all_docs?keys=["somekey","someotherkey"] HTTP/1.1
 _Example of using the command line to list all documents in a database that match at least one of the specified keys:_
 
 ```sh
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/_all_docs?keys=["somekey","someotherkey"]
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_all_docs?keys=["somekey","someotherkey"]
 ```
 {:codeblock}
 
@@ -415,7 +413,7 @@ _Example response after a request for all documents in a database:_
 
 ## Get Changes
 
-Sending a `GET` request to `https://$USERNAME.cloudant.com/$DATABASE/_changes`
+Sending a `GET` request to `https://$ACCOUNT.cloudant.com/$DATABASE/_changes`
 returns a list of changes that were made to documents in the database,
 including insertions,
 updates,
@@ -454,8 +452,7 @@ GET /$DATABASE/_changes HTTP/1.1
 _Example of using the command line to get a list of changes made to documents in a database_
 
 ```sh
-curl https://$USERNAME.cloudant.com/$DATABASE/_changes \
-     -u $USERNAME
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_changes \
 ```
 {:codeblock}
 
@@ -465,7 +462,7 @@ _Example of using JavaScript to get a list of changes made to documents in a dat
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+":"+$PASSWORD+"@"+$ACCOUNT+".cloudant.com");
 
 account.db.changes($DATABASE, function (err, body, headers) {
 	if (!err) {
@@ -711,8 +708,8 @@ the same as using `GET`.
 _Example of using HTTP to `POST` to the `_changes` endpoint:_
 
 ```http
-POST /$DB/_changes?filter=_selector HTTP/1.1
-Host: $USERNAME.cloudant.com
+POST /$DATABASE/_changes?filter=_selector HTTP/1.1
+Host: $ACCOUNT.cloudant.com
 Content-Type: application/json
 ```
 {:codeblock}
@@ -720,7 +717,7 @@ Content-Type: application/json
 _Example of using the command line to `POST` to the `_changes` endpoint:_
 
 ```sh
-curl -X POST "https://$USERNAME.cloudant.com/$DB/_changes?filter=_selector" -d @request.json
+curl -X POST "https://$ACCOUNT.cloudant.com/$DATABASE/_changes?filter=_selector" -d @request.json
 ```
 {:codeblock}
 
@@ -736,7 +733,7 @@ _Example of a JSON object `POST`ed to the `_changes` endpoint:_
 ## Deleting a database
 
 To delete a database and its contents,
-send a `DELETE` request to `https://$USERNAME.cloudant.com/$DATABASE`.
+send a `DELETE` request to `https://$ACCOUNT.cloudant.com/$DATABASE`.
 
 >	**Note**: No additional check is made to ensure that you really intended to delete the database ("Are you sure?").
 
@@ -744,16 +741,15 @@ _Example of using HTTP to delete a Cloudant database:_
 
 ```http
 DELETE /$DATABASE HTTP/1.1
-Host: $USERNAME.cloudant.com
+Host: $ACCOUNT.cloudant.com
 ```
 {:codeblock}
 
 _Example of using the command line to delete a Cloudant database:_
 
 ```sh
-curl https://$USERNAME.cloudant.com/$DATABASE \
+curl https://$ACCOUNT.cloudant.com/$DATABASE \
 	-X DELETE \
-	-u $USERNAME
 ```
 {:codeblock}
 
@@ -763,7 +759,7 @@ _Example of using JavaScript to delete a Cloudant database:_
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+":"+$PASSWORD+"@"+$ACCOUNT+".cloudant.com");
 
 account.db.destroy($DATABASE, function (err, body, headers) {
 	if (!err) {
