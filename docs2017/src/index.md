@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-05-16"
+lastupdated: "2017-05-18"
 
 ---
 
@@ -87,7 +87,7 @@ prefix `#!/usr/bin/env python` to each command to instruct your shell to execute
   Your database name must begin with a letter and can include only lowercase characters (a-z), 
   numerals (0-9),
   and any of the following characters `_`, `$`, `(`, `)`, `+`, `-`, and `/`.
-  {: .tip}
+  {: tip}
 
 2. Create the database:
   ```python
