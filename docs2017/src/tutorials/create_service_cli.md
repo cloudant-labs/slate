@@ -138,10 +138,12 @@ bx cf marketplace -s cloudantNoSQLDB
 
 The result is a summary of the available plans,
 similar to the following section of an example response (details correct as at May 2017):
-```sh
-...
-Lite   The Lite plan provides access to the full functionality of Cloudant for development and evaluation. The plan has a set amount of provisioned throughput capacity as shown and includes a max of 1GB of encrypted data storage.   free
-...
+
+```
+Lite
+The Lite plan provides access to the full functionality of Cloudant for development and evaluation.
+The plan has a set amount of provisioned throughput capacity as shown
+and includes a max of 1GB of encrypted data storage.   free
 ```
 {:pre}
 
@@ -149,6 +151,7 @@ Lite   The Lite plan provides access to the full functionality of Cloudant for d
 
 The basic command format to create a service instance
 within {{site.data.keyword.Bluemix_notm}} is as follows:
+
 ```sh
 bx service create <service> <plan> <instance name>
 ```
@@ -157,7 +160,9 @@ bx service create <service> <plan> <instance name>
 Assume we want to create an instance of
 a {{site.data.keyword.cloudant_short_notm}} service using the `Lite` plan,
 where the instance name is `cs20170517a`.
+
 Do this by using a command similar to the following example:
+
 ```sh
 bx service create cloudantNoSQLDB Lite cs20170517a
 ```
@@ -165,6 +170,7 @@ bx service create cloudantNoSQLDB Lite cs20170517a
 
 After creating the service instance,
 responds with a message similar to the following example:
+
 ```sh
 Invoking 'cf create-service cloudantNoSQLDB Lite cs20170517a'...
 
@@ -174,7 +180,7 @@ OK
 ```
 {:pre}
 
-## Understanding service credentials
+## Creating credentials for your Cloudant service
 
 Applications that require access to your {{site.data.keyword.cloudant_short_notm}} service
 must have the necessary credentials.
@@ -196,135 +202,88 @@ Field      | Purpose
 `port`     | The HTTP port number for accessing the service instance on the host. Normally 443 to force HTTPS access.
 `url`      | A string aggregating the other credential information into a single URL, suitable for use by applications.
 
-## Creating credentials for your Cloudant service
-
 The basic command format to create credentials for a service instance
 within {{site.data.keyword.Bluemix_notm}} is as follows:
+
 ```sh
-bx cf create-service-key cs20170517a creds20170517b
+bx cf create-service-key <instance name> <credentials name>
 ```
 {:pre}
 
-Assume we want to create an instance of
-a {{site.data.keyword.cloudant_short_notm}} service using the `Lite` plan,
-where the instance name is `cs20170517a`.
+Assume we want to create credentials for the `cs20170517a` instance of
+a {{site.data.keyword.cloudant_short_notm}} service,
+where the name for the credentials is `creds20170517a`.
+
 Do this by using a command similar to the following example:
+
 ```sh
-bx service create cloudantNoSQLDB Lite cs20170517a
+bx cf create-service-key cs20170517a creds20170517a
 ```
 {:codeblock}
 
-After creating the service instance,
-responds with a message similar to the following example:
+After receiving the request to create credentials for the service instance,
+{{site.data.keyword.Bluemix_notm}} responds with a message similar to the following example:
+
 ```sh
-Invoking 'cf create-service cloudantNoSQLDB Lite cs20170517a'...
+Invoking 'cf create-service-key cs20170517a creds20170517a'...
 
-Creating service instance cs20170517a in org J.Doe@email.com / space dev as J.Doe@email.com...
+Creating service key creds20170517a for service instance cs20170517a as J.Doe@email.com...
 OK
-
 ```
 {:pre}
 
+## Listing the service credentials for your Cloudant service
 
-# Old dashboard tutorial content from here onwards...
+The basic command format to retrieve the credentials for a service instance
+within {{site.data.keyword.Bluemix_notm}} is as follows:
 
-## Creating a service instance
+```sh
+bx cf service-key <instance name> <credentials name>
+```
+{:pre}
 
-1.  Log in to your {{site.data.keyword.Bluemix_notm}} account.<br/>
-    The {{site.data.keyword.Bluemix_notm}} dashboard can be found at:
-    [http://bluemix.net ![External link icon](../images/launch-glyph.svg "External link icon")](http://bluemix.net){:new_window}.
-    After authenticating with your user name and password,
-    you are presented with the {{site.data.keyword.Bluemix_notm}} dashboard:<br/>
-    ![{{site.data.keyword.Bluemix_notm}} dashboard](images/img0001.png)
+Assume we want to retrieve credentials for the `cs20170517a` instance of
+a {{site.data.keyword.cloudant_short_notm}} service,
+where the name for the credentials is `creds20170517a`.
 
-2.  Click the `Catalog` link:<br/>
-    ![{{site.data.keyword.Bluemix_notm}} catalog link](images/img0002.png)<br/>
-    A list of the services available on {{site.data.keyword.Bluemix_notm}} appears.
+Do this by using a command similar to the following example:
 
-3.  Click the `Data & Analytics` entry under the `Services` heading:<br/>
-    ![{{site.data.keyword.Bluemix_notm}} Data & Analytics services](images/img0003.png)<br/>
-    A list of the Data & Analytics services
-    available on {{site.data.keyword.Bluemix_notm}} appears.
+```sh
+bx cf service-key cs20170517a creds20170517a
+```
+{:codeblock}
 
-4.  Click the {{site.data.keyword.cloudant_short_notm}} service:<br>
-    ![{{site.data.keyword.Bluemix_notm}} {{site.data.keyword.cloudant_short_notm}} service selection](images/img0004.png)
+After receiving the request to retrieve the credentials for the service instance,
+{{site.data.keyword.Bluemix_notm}} responds with a message similar to the following (abbreviated) example:
 
-5.  In the service configuration window,
-    enter a service name and a credential name.
-    In this example,
-    the service name is `Cloudant Service 2017`,
-    and the credential name is `Credentials-2017`:<br/>
-    ![{{site.data.keyword.cloudant_short_notm}} service name and credentials](images/img0005.png)
+```sh
+Invoking 'cf service-key cs20170517a creds20170517a'...
 
-6.  By default,
-    the service is created by using the 'Lite' pricing plan,
-    which is free but offers limited capacity.
-    Other pricing plans,
-    with greater capacity,
-    [are available](../offerings/bluemix.html).<br/>
-    To create the service,
-    click the `Create` button:<br/>
-    ![Create the {{site.data.keyword.cloudant_short_notm}} service name and credentials](images/img0006.png)
+Getting key creds20170517a for service instance cs20170517a as J.Doe@email.com...
 
-7.  A service page appears,
-    confirming that your new {{site.data.keyword.cloudant_short_notm}} service is available.
-    To access the connection information that your application needs to connect to the service,
-    click the `Service Credentials` tab:<br/>
-    ![Accessing the {{site.data.keyword.cloudant_short_notm}} service credentials](images/img0007.png)
+{
+ "host": "946...46f-bluemix.cloudant.com",
+ "password": "4eb...eb5",
+ "port": 443,
+ "url": "https://946...46f-bluemix:4eb...eb5@946...46f-bluemix.cloudant.com",
+ "username": "946...46f-bluemix"
+}
+```
+{:pre}
 
-8.  The Service Credentials window appears.
-    To see the credentials that are required to access the service,
-    click the `View Credentials` dropdown:<br/>
-    ![Viewing the {{site.data.keyword.cloudant_short_notm}} service credentials](images/img0008.png)
+## Using your Cloudant service instance
 
-9.  The Service Credentials details appear:<br/>
-    ![The {{site.data.keyword.cloudant_short_notm}} service credentials](images/img0009.png)
+At this point,
+you have:
 
->   **Note**: The service credentials in these examples
-    were defined when a demonstration Cloudant service was created on Bluemix.
-    The credentials are reproduced here to show how they would appear in the dashboard.
-    However,
-    the demonstration Cloudant service was removed,
-    so these credentials are no longer valid;
-    you _must_ supply and use your own service credentials.
+1.  Created a {{site.data.keyword.cloudant_short_notm}} service
+  instance within {{site.data.keyword.Bluemix_notm}}.
+2.  Created credentials for the {{site.data.keyword.cloudant_short_notm}} service instance.
+3.  Retrieved the service instance credentials, so that they can be used by your application.
 
+A tutorial showing how to use a {{site.data.keyword.cloudant_short_notm}} service instance
+is available [here](create_database.html#context).
+Remember to substitute the credentials you created in this tutorial.
 
+## Tidying up afterwards
 
-## Locating your service credentials
-
-At any time,
-you can find the credentials for a service that is associated with your account.
-
-1.  Begin by logging in to Bluemix.
-    The {{site.data.keyword.Bluemix}} dashboard can be found at:
-    [http://bluemix.net ![External link icon](../images/launch-glyph.svg "External link icon")](http://bluemix.net){:new_window}.
-    After authenticating with your user name and password,
-    you are presented with the {{site.data.keyword.Bluemix_notm}} dashboard:<br/>
-    ![{{site.data.keyword.Bluemix_notm}} dashboard](images/img0001.png)
-
-2.  Scroll down the Dashboard,
-    until you reach the section that lists all your services:<br/>
-    ![{{site.data.keyword.Bluemix_notm}} service listing](images/img0010.png)
-
-3.  In this example,
-    we want to find the service credentials for the {{site.data.keyword.cloudant_short_notm}}
-    service instance that was created earlier in the tutorial,
-    called `Cloudant Service 2017`.
-    Click the corresponding row:<br/>
-    ![Selecting the {{site.data.keyword.cloudant_short_notm}} service](images/img0011.png)
-
-3.  The Service Credentials window appears.
-    To see the credentials that are required to access the service,
-    click the `View Credentials` dropdown:<br/>
-    ![Viewing the {{site.data.keyword.cloudant_short_notm}} service credentials](images/img0008.png)
-
-4.  The Service Credentials details appear:<br/>
-    ![The {{site.data.keyword.cloudant_short_notm}} service credentials](images/img0009.png)
-
->   **Note**: The service credentials in these examples
-    were defined when a demonstration Cloudant service was created on Bluemix.
-    The credentials are reproduced here to show how they would appear in the dashboard.
-    However,
-    the demonstration Cloudant service was removed,
-    so these credentials are no longer valid;
-    you _must_ supply and use your own service credentials.
