@@ -2,7 +2,7 @@
 
 copyright:
   years: 2017
-lastupdated: "2017-05-04"
+lastupdated: "2017-05-18"
 
 ---
 
@@ -16,51 +16,108 @@ lastupdated: "2017-05-04"
 
 # Cloudant Backup and Recovery
 
-This cookbook forms part of the [Cloudant Disaster Recovery guide](disaster-recovery-and-backup.html). It's worth starting there if you are new to the subject to understand where backup fits in with Cloudant's other features for Disaster Recovery and High Availability.
+This cookbook forms part of the [{{site.data.keyword.cloudantfull}} Disaster Recovery guide](disaster-recovery-and-backup.html).
+It's worth starting there if you are new to the subject and want to understand where backup fits in
+with the other capabilities that {{site.data.keyword.cloudant_short_notm}} offers
+to support Disaster Recovery (DR) and High Availability (HA) requirements.
 
-Although data is stored redundantly within a Cloudant cluster, it's important to consider further backup measures. For example, redundant data storage does not protect against mistaken changes to data.
+Although data is stored redundantly within a {{site.data.keyword.cloudant_short_notm}} cluster,
+it's important to consider additional backup measures.
+For example,
+redundant data storage does not protect against mistakes when data is changed.
 
-## CouchBackup (and CouchRestore)
+## Introducing CouchBackup
 
-Cloudant provides supported tooling for snapshot backup and restore. This tool is called `couchbackup` and is open source. It is a node.js library and is [available to install on npm ![External link icon](../images/launch-glyph.svg "External link icon")][1]{:new_window}.
+{{site.data.keyword.cloudant_short_notm}} provides a supported tool for snapshot backup and restore.
+The tool is called CouchBackup,
+and is open source.
+It is a `node.js` library,
+and is [available to install on npm ![External link icon](../images/launch-glyph.svg "External link icon")][1]{:new_window}.
 
-In addition to the library, the CouchBackup package contains two command line tools:
+In addition to the library,
+the CouchBackup package contains two command line tools:
 
-1. `couchbackup` -- this dumps the JSON data from a database to a backup text file.
-2. `couchrestore` -- restores data from a backup text file to a database.
+1. `couchbackup`, which dumps the JSON data from a database to a backup text file.
+2. `couchrestore`, which restores data from a backup text file to a database.
 
-### Backup
+<strong style="color:red;">Warning!</strong> The CouchBackup tools have [limitations](#limitations).
 
-A simple backup looks like the following:
+## Backing up your Cloudant data
 
-    couchbackup --url https://examples.cloudant.com -db animaldb > backup.txt
+You can do a simple backup using the `couchbackup` tool.
+For example,
+to backup the `animaldb` database to a text file called `backup.txt`,
+you might use a command similar to the following:
 
-The npm readme details the full options.
+```sh
+couchbackup --url https://examples.cloudant.com --db animaldb > backup.txt
+```
+{:codeblock}
 
-### Restore
+The npm readme details other options,
+including:
 
-Restoring data requires using the included `couchrestore` tool. Use `couchrestore` to first import the backup file into a new Cloudant database. Then ensure you build all indexes before pointing application servers to the restored data.
+* Environment variables to set the names of the database and URL.
+* Using a log file to record the progress of a backup.
+* The ability to resume an interrupted backup.
+  **Note**: This option is only available in conjunction with the log file for the interrupted backup.
+* Sending the backup text file to a named output file,
+  rather than redirecting the `stdout` output.
 
-To restore the data backed up in the previous example:
+<strong style="color:red;">Warning!</strong> The CouchBackup tools have [limitations](#limitations).
 
-    couchrestore --url https://myaccount.cloudant.com --db newanimaldb < backup.txt
+## Restoring your Cloudant data
 
-Again, see the readme for the full details.
+To restore your data,
+use the `couchrestore` tool.
+Do this by using `couchrestore` to import the backup file
+into a new {{site.data.keyword.cloudant_short_notm}} database.
+Then,
+ensure you build all indexes before any application attemps to use the restored data.
 
-### Limitations
+For example,
+to restore the data backed up in the earlier example:
 
-CouchBackup backs up a Cloudant database to a plain text file. This file contains only the JSON data in the database, including index definitions (but not index content).
+```sh
+couchrestore --url https://myaccount.cloudant.com --db newanimaldb < backup.txt
+```
+{:codeblock}
 
-<strong style="color:red;">Warning!</strong> This appoach comes with a number of limitations, detailed in [Cloudant Disaster Recovery guide](disaster-recovery-and-backup.html).
+The npm readme provides details of other restore options.
+
+<strong style="color:red;">Warning!</strong> The CouchBackup tools have [limitations](#limitations).
+
+## Limitations
+
+<strong style="color:red;">Warning!</strong> The CouchBackup tools have the following limitations: 
+
+* `_security` settings are not backed up by the tools.
+* Attachments are not backed up by the tools.
+* Backups are not precisely accurate "point-in-time" snapshots.
+  The reason is that the documents in the database are retrieved in batches,
+  but other applications might be updating documents at the same time.
+  Therefore,
+  the data in the database can change between the times when the first and last batches are read.
+* Index definitions held in design documents are backed up,
+  but the content of indexes is not backed up.
+  This limitation means that when data is restored,
+  the indexes must be rebuilt.
+  The rebuilding might take a considerable amount of time,
+  depending on how much data is restored.
 
 ## Examples
 
-The [npm page ![External link icon](../images/launch-glyph.svg "External link icon")][1]{:new_window} details the basics of using the command line tools to both backup and restore data.
+The [npm page ![External link icon](../images/launch-glyph.svg "External link icon")][1]{:new_window}
+details the basics of using the command line tools for backup and restore of data.
 
-As noted above, the `couchbackup` package provides two ways of using its core functionality.
+The `couchbackup` package provides two ways of using its core functionality.
 
-1.	Two command line tools that can be embedded into standard Unix command pipelines. For many scenarios, a combination of `cron` and simple shell scripting of the `couchbackup` application may prove sufficient.
-2.	A library usable from node.js. This allows more complicated backup processes to be orchestrated, such as dynamically determining the databases to be backed up.
+1.  Two command line tools can be embedded into standard Unix command pipelines.
+  For many scenarios,
+  a combination of `cron` and simple shell scripting of the `couchbackup` application is sufficient.
+2.  A library usable from node.js.
+  This library allows more complicated backup processes to be created and deployed,
+  such as determining dynamically which databases must be backed up.
 
 Below we examine using both the command line backup tool and library to embed backup from Cloudant databases into more complicated situations. In particular, scheduling backups using `cron` and automatically uploading data to [Cloud Object Storage](http://www-03.ibm.com/software/products/en/object-storage-public) for long term retention.
 
