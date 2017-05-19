@@ -2,7 +2,7 @@
 
 copyright:
   years: 2017
-lastupdated: "2017-05-10"
+lastupdated: "2017-05-19"
 
 ---
 
@@ -116,35 +116,35 @@ The result is that your application is able to tolerate the situation where one 
 
 The basic steps in creating cross-region redundancy are:
 
-1.	Create Cloudant accounts in two or more regions.
-2.	Create databases in each region as needed.
-3.	For databases that must be stored with cross-region redundancy, set up bidirectional continuous replications between the corresponding databases in each account.
-4.	Design and implement your applications so that data requests are routed depending on whether your environment is an Active-Passive or Active-Active configuration.
-	A detailed guide to setting this up is [available](active-active.html).
+1.  Create Cloudant accounts in two or more regions.
+2.  Create databases in each region as needed.
+3.  For databases that must be stored with cross-region redundancy, set up bidirectional continuous replications between the corresponding databases in each account.
+4.  Design and implement your applications so that data requests are routed depending on whether your environment is an Active-Passive or Active-Active configuration.
+  A detailed guide to setting this up is [available](active-active.html).
 
 When you design your applications to work with data across multiple regions,
 consider the following points:
 
-*	Applications can send requests to the database hosted nearest to their physical location.
-	This use of proximity can reduce network latency and improve response times.
-	This configuration is referred to as an 'Active-Active' method.
-	It is characterized by the concurrent use of multiple copies of data.
-	Applications that work within an active-active configuration must have
-	a [strategy for handling conflicts](mvcc.html#distributed-databases-and-conflicts) to avoid problems with multiple copies of data.
-*	Applications can request data from a single region by default.
-	If the region is not available,
-	the application can switch to requesting data from another region.
-	This configuration is referred to as an 'Active-Passive' method.
-	It is characterized by the active use of one set of data only at a time.
-*	An application might use a hybrid configuration,
-	where a single account is used for all data write requests,
-	and other locations as used exclusively for read-only requests.
-	This configuration is considered Active-Active for reads.
-*	In a disaster scenario,
-	your application must reroute data requests to access the accounts
-	that are hosted in the regions that are still online.
-	This requirement means that your application must be able to detect the loss of a region,
-	and then reroute data requests.
+* Applications can send requests to the database hosted nearest to their physical location.
+  This use of proximity can reduce network latency and improve response times.
+  This configuration is referred to as an 'Active-Active' method.
+  It is characterized by the concurrent use of multiple copies of data.
+  Applications that work within an active-active configuration must have
+  a [strategy for handling conflicts](mvcc.html#distributed-databases-and-conflicts) to avoid problems with multiple copies of data.
+* Applications can request data from a single region by default.
+  If the region is not available,
+  the application can switch to requesting data from another region.
+  This configuration is referred to as an 'Active-Passive' method.
+  It is characterized by the active use of one set of data only at a time.
+* An application might use a hybrid configuration,
+  where a single account is used for all data write requests,
+  and other locations as used exclusively for read-only requests.
+  This configuration is considered Active-Active for reads.
+* In a disaster scenario,
+  your application must reroute data requests to access the accounts
+  that are hosted in the regions that are still online.
+  This requirement means that your application must be able to detect the loss of a region,
+  and then reroute data requests.
 
 In summary,
 cross-region redundancy is similar to a high availability capability,

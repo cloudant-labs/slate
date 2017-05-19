@@ -2,7 +2,7 @@
 
 copyright:
   years: 2017
-lastupdated: "2017-05-18"
+lastupdated: "2017-05-19"
 
 ---
 
@@ -16,53 +16,75 @@ lastupdated: "2017-05-18"
 
 # Configuring Cloudant for Cross Region Disaster Recovery
 
-Configuring Cloudant in an active-active or active-passive topology
-across data centres for disaster recovery is a common requirement.
+The [{{site.data.keyword.cloudant_short_notm}} Disaster Recovery guide](disaster-recovery-and-backup.html)
+explains that one way to enable disaster recovery is to use
+[{{site.data.keyword.cloudantfull}} replication to create redundancy across regions.
 
-The following is a standard pattern for achieving this using two Cloudant accounts, one in each region:
+To do this,
+you can configure {{site.data.keyword.cloudant_short_notm}} in an 'active-active' or 'active-passive' topology
+across data centres.
 
-![active-active architecture](../images/active-active.png)
+The following diagram shows a typical configuration which uses two {{site.data.keyword.cloudant_short_notm}} accounts,
+one in each region:
 
-Some things to note:
+![Example active-active architecture](../images/active-active.png)
 
-*	Within each datacentre, Cloudant already offers high availablity
-	by storing data in triplicate across three servers.
-*	Replication occurs at the database rather than account level
-	and must be explicitly configured.
-*	Cloudant does not provide any SLA/guarantees around replication latency.
-*	Cloudant does not monitor individual replications. You should have a strategy for detecting failed replications and restarting them.
+Note the following points:
+
+* Within each datacentre,
+  {{site.data.keyword.cloudant_short_notm}} already offers high availablity
+  by storing data in triplicate across three servers.
+* Replication occurs at the database rather than account level
+  and must be explicitly configured.
+* {{site.data.keyword.cloudant_short_notm}} does not provide any Service Level Agreements (SLAs)
+  or guarantees about replication latency.
+* {{site.data.keyword.cloudant_short_notm}} does not monitor individual replications.
+  Your own strategy for detecting failed replications and restarting them is advisable.
 
 ## Before You Begin
 
-For an active-active deployment it is essential that a strategy for
-managing conflicts is in place. Therefore, be sure to understand
-how [replication](../api/replication.html) and [conflicts](mvcc.html#distributed-databases-and-conflicts) work before considering this architecture.
+> **Note**: For an active-active deployment,
+  it is essential that a strategy for managing conflicts is in place.
+  Therefore, be sure to understand how [replication](../api/replication.html) and
+  [conflicts](mvcc.html#distributed-databases-and-conflicts) work
+  before considering this architecture.
 
-Contact Cloudant support if you need help with how to model data to
-handle conflicts effectively.
+Contact [{{site.data.keyword.cloudant_short_notm}} support ![External link icon](../images/launch-glyph.svg "External link icon")](mailto:support@cloudant.com){:new_window}
+if you need help with how to model data to handle conflicts effectively.
 
-## Setup guide
+## Overview
 
-In the guide below, we configure bi-directional replication, allowing two databases to be used in an active-active fashion.
+In the following material,
+a bi-directional replication is created.
+This configuration allows two databases to work in an active-active topology.
 
-We'll assume 2 accounts in different regions - `myaccount-dc1.cloudant.com` and `myaccount-dc2.cloudant.com`.
+The configuration assumes you have 2 accounts in different regions:
 
-Once these are in place, the steps are:
+* `myaccount-dc1.cloudant.com`
+* `myaccount-dc2.cloudant.com`
 
-1. Create a pair of peer databases within the accounts.
-2. Set up API keys to use for the replications between these databases.
+Once these accounts are in place,
+the basic steps are as follows:
+
+1. [Create](#step-1-create-your-databases) a pair of peer databases within the accounts.
+2. [Set up](#step-2-create-an-api-key-for-your-replications) API keys
+  to use for the replications between these databases.
 3. Grant appropriate permissions.
 4. Set up replications.
 5. Test replications are working as expected.
 6. Configure application and infrastructure for either active-active
-	or active-passive use of the databases.
+  or active-passive use of the databases.
 
-### Step 1: Create your databases
+## Step 1: Create your databases
 
-First, create the databases you want to replicate between in each
-account. For this example, we'll create a database called `mydb`.
-While the names used for the databases are unimportant, using the same
-name is clearer.
+[Create the databases](../api/database.html#create) you want to replicate between
+within each account.
+
+In this example,
+we create a database called `mydb`.
+
+The names used for the databases are not important,
+but using the same name is clearer.
 
 ```sh
 curl https://myaccount-dc1.cloudant.com/mydb -XPUT -u myaccount-dc1
@@ -70,32 +92,38 @@ curl https://myaccount-dc2.cloudant.com/mydb -XPUT -u myaccount-dc2
 ```
 {:codeblock}
 
-### Step 2: Create an API key for your replications
+## Step 2: Create an API key for your replications
 
-It's good practice to use an API key for continuous replications.
-This means that if your primary account details change (e.g.
-password reset), your replications won't break.
+It is a good idea to use an [API key](../api/authorization.html#api-keys) for continuous replications.
+The advantage is that if your primary account details change,
+for example after a password reset,
+your replications can continue unchanged.
 
-API keys once are not tied to a single account so we can create a single
-one and grant that key permissions for databases on both accounts.
+API keys are not tied to a single account.
+This characteristic means that we can create a single API key,
+then grant that key suitable database permissions for both accounts.
+
+For example,
+the following command requests an API key got the account `myaccount-dc1`:
 
 ```sh
 $ curl -XPOST https://myaccount-dc1.cloudant.com/_api/v2/api_keys -u myaccount-dc1
 ```
 {:codeblock}
 
-returns, for example:
+A successful response is similar to the following abbreviated example:
 
 ```json
 {
-	"password": "YPNCaIX1sJRX5upaL3eqvTfi",
-	"ok": true,
-	"key": "blentfortedsionstrindigl"
+  "password": "YPN...Tfi",
+  "ok": true,
+  "key": "ble...igl"
 }
 ```
 {:codeblock}
 
-Make a note of the password as you won't be able to retrieve it again.
+> **Note**: Take careful note of the password.
+  It is not possible to retrieve the password later.
 
 ### Step 3: Give API Key reader and writer permissions on both databases
 
