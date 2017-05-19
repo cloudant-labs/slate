@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-01-06"
+lastupdated: "2017-05-18"
 
 ---
 {:new_window: target="_blank"}
@@ -16,11 +16,29 @@ lastupdated: "2017-01-06"
 This tutorial demonstrates how to create a design document and an index, and use Cloudant Query to extract specific data 
 from the database.
 
+In this tutorial, you create a database, design document, index, and query. You learn how to create a simple database 
+by using the Cloudant Dashboard and creating the JSON documents. To create an index, you must tell Cloudant how to build it. 
+You create a design document that contains this information. The index you create makes it easier and faster to find data within the 
+large dataset. When you write the query, you use operators and selector syntax to reduce the amount of data you search.
 
+<ol>
+<li>[Creating a database using the Cloudant Dashboard](create_query.html#creating-a-database-using-the-cloudant-dashboard)</li>
+<li>[Creating a design document](create_query.html#creating-a-design-document)</li>
+<li>[Creating an index](create_query.html#creating-an-index)</li>
+<li>[Creating a query](create_query.html#creating-a-query)
+</li>
+</ol>
 
 ## Creating a database using the Cloudant Dashboard
 
-This tutorial is based on the `rolodex` [database](database.html#create) that you create using these steps. 
+This tutorial is based on the `rolodex` [database](../api/database.html#create) that you create using these steps. 
+
+When you create a query using Cloudant, you can create it using the Cloudant Dashboard or the command line. This tutorial
+focuses on creating a query with the Cloudant Dashboard. However, the documentation links provided throughout give
+examples for the command line and Cloudant Dashboard. 
+
+When you create the database in this exercise, you also create four JSON documents. The sample documents
+contain three fields: first name, last name, and age. 
 
 1.  Create a Cloudant account [here](https://cloudant.com/sign-in/) if you do not already have one.
 2.  Log in to the Cloudant Dashboard. 
@@ -30,8 +48,16 @@ This tutorial is based on the `rolodex` [database](database.html#create) that yo
     The `rolodex` database automatically opens. 
 6.  Click the Create icon, **+**, next to All Documents and select **New Doc**.
     The new document opens. 
-7.  Add the text for Document 1 below after the `_id` line and inside the brackets. 
-8.  Repeat steps 6 and 7 for documents 2 - 10.   
+7.  Add the text for Document 1 below after the `_id` line and inside the brackets. For example:
+    <br>_id
+    [
+        ```json
+            "firstname": "Sally",
+            "lastname": "Brown",
+            "age": "16"
+        ```
+    ]        
+8.  Repeat steps 6 and 7 for documents 2 - 4.   
 
 
 
@@ -68,13 +94,13 @@ Document 4
   "age": "44"
 ```
 
-The `rolodex` database now contains ten JSON documents. 
+The `rolodex` database now contains four JSON documents. 
 
 
 ##Creating a design document
 
-You configure a Search Index or a [MapReduce view](creating_views.html#views-mapreduce-) by adding 
-[design documents](design_documents.html#design-documents) 
+You configure a [Search Index](../api/search.html#search) or a [MapReduce view](../api/creating_views.html#views-mapreduce-) by adding 
+[design documents](../api/design_documents.html#design-documents) 
 to the database. Design documents contain instructions about how the view 
 or index must be built. When you change the design documents, the index is overwritten and recreated from scratch.
 
@@ -88,7 +114,7 @@ The index information for this tutorial will be stored in the `rolodex-index-des
 
 ## Creating an index 
 
-With Cloudant Query, you can build [indexes](cloudant_query.html#creating-an-index) using MapReduce 
+With Cloudant Query, you can build [indexes](../api/using_views.html#indexes) using MapReduce 
 Views (type=json) and Search Indexes (type=text). If you know exactly what data 
 you want to find, you can specify how to create the index by making it of type 
 JSON. This type of index reduces storage and processing to a minimum. For this 
@@ -108,7 +134,7 @@ exercise, the `rolodex` database columns include the following fields:
 
 ###Creating a "type=json" index
 
-Creating an index can reduce the load on your environment as well as the size of your data set. You
+Creating a ["type=json"](../api/cloudant_query.html#creating-a-type-json-index) index can reduce the load on your environment as well as the size of your data set. You
 select a subset of the columns listed in the table in the database to do this. To specify the columns, 
 add them to the `fields` parameter as demonstrated in the example. 
 
@@ -171,7 +197,7 @@ Return JSON confirms the index was created successfully.
 
 ###Creating a "type=text" index
 
-A "type=text" index automatically indexes all the documents and fields in your database. As such, you can 
+When you create a ["type=text"](../api/cloudant_query.html#creating-a-type-text-index) index, it automatically indexes all the documents and fields in your database. As such, you can 
 search and retrieve information from any field in the database.  
 
 To create an index, you select a subset of the columns listed in the database table. 
@@ -237,7 +263,7 @@ Content-Type: application/json
 
 ### Listing Cloudant Query indexes 
 
-You can list all the indexes in the `rolodex` database by using the GET command. 
+You can [list](../api/cloudant_query.html#list-all-cloudant-query-indexes) all the indexes in the `rolodex` database by using the GET command. 
 
 ```json
     GET /rolodex/_index
@@ -246,22 +272,44 @@ You can list all the indexes in the `rolodex` database by using the GET command.
 Return JSON lists the indexes in the database.
 
 ```
-{"total_rows":2,"indexes":[{"ddoc":null,"name":"_all_docs","type":"special","def":{"fields":[{"_id":"asc"}]}},{"ddoc":"_design/a7ee061f1a2c0c6882258b2f1e148b714e79ccea","name":"a7ee061f1a2c0c6882258b2f1e148b714e79ccea","type":"json","def":{"fields":[{"foo":"asc"}]}}]}
+{
+    "total_rows":2,
+      "indexes": [
+         {
+            "ddoc":null,
+            "name":"_all_docs",
+            "type":"special",
+            "def":{
+                "fields":[
+                    {"_id":"asc"}
+            ]
+          }
+       },
+       {    
+           "ddoc":"_design/a7ee061f1a2c0c6882258b2f1e148b714e79ccea",
+           "name":"a7ee061f1a2c0c6882258b2f1e148b714e79ccea",
+           "type":"json",
+           "def": {
+               "fields": [
+                   {"foo":"asc"}
+               ]
+            }
+         }
+     ]
+}
 ```
 
 
 
 ## Creating a query 
 
-When you write your query statement, you can narrow the data you search by using [selector syntax](cloudant_query.html#selector-syntax) and 
-[implicit](cloudant_query.html#implicit-operators) or [explicit](cloudant_query.html#explicit-operators) operators.
-
-
+When you write your [query](../api/cloudant_query.html#query) statement, you can narrow the data you search by using [selector syntax](../api/cloudant_query.html#selector-syntax) and 
+[implicit](../api/cloudant_query.html#implicit-operators) or [explicit](../api/cloudant_query.html#explicit-operators) operators.
 
 
 ### Searching the database using selector syntax
 
-When you use [selector syntax](cloudant_query.html#selector-syntax), you must specify at least one field and 
+When you use [selector expressions](../api/cloudant_query.html#creating-selector-expressions), you must specify at least one field and 
 its corresponding value. When the query runs, it uses these values to search for matches in the database. The 
 selector is a JSON object
 
@@ -339,7 +387,7 @@ Results from the search.
 ### Querying the database using operators
 
 Using operators in your query allows you to create a more granular search. Operators are described 
-[here](cloudant_query.html#query) under Query Parameters. In this example, the operators `$and`, `$text`, 
+[here](../api/cloudant_query.html#query-parameters). In this example, the operators `$and`, `$text`, 
 and `$gt` define the search parameters. These operators perform the following functions:
 
     *   $and    Finds a match when all the selectors in the array match. 
