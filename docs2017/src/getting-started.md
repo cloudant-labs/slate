@@ -21,7 +21,9 @@ we'll use Python to create a {{site.data.keyword.cloudant}} database
 and populate that database with a simple collection of data.
 {:shortdesc}
 
-## Prerequisites
+<div id="prerequisites"></div>
+
+## Before you begin
 {: #prereqs}
 
 You'll need a [Bluemix account](https://console.ng.bluemix.net/registration/),
@@ -47,7 +49,7 @@ an instance of the {{site.data.keyword.cloudant}} service, and the following Pyt
 	```
 	{:pre}
 
-## 1. Connect to your {{site.data.keyword.cloudant_short_notm}} service instance on {{site.data.keyword.Bluemix_notm}}
+## Step 1: Connect to your {{site.data.keyword.cloudant_short_notm}} service instance on {{site.data.keyword.Bluemix_notm}}
 
 1.	Run the following '`import`' statements of the {{site.data.keyword.cloudant_short_notm}}
 	Client Library components to enable your Python application to connect to
@@ -76,7 +78,7 @@ If you run into '`can't read`' errors,
 prefix `#!/usr/bin/env python` to each command to instruct your shell to execute through python.
 {: tip}
 
-## 2. Create a database
+## Step 2: Create a database
 
 1. Define a variable in the Python application:
   ```python
@@ -102,7 +104,7 @@ prefix `#!/usr/bin/env python` to each command to instruct your shell to execute
   ```
   {:pre}
 
-## 3. Store a small collection of data as documents within the database
+## Step 3: Store a small collection of data as documents within the database
 
 1. Define a collection of data:
   ```python
@@ -150,7 +152,7 @@ prefix `#!/usr/bin/env python` to each command to instruct your shell to execute
 Notice that we check that each document was successfully created.
 {: tip}
 
-## 4. Retrieving data through queries
+## Step 4: Retrieving data through queries
 
 At this point,
 a small collection of data has been stored as documents within the database.
@@ -224,7 +226,7 @@ You can do a minimal or full retrieval of that data from the database.
   ```
   {:screen}
 
-## 5. Retrieving data through the {{site.data.keyword.cloudant_short_notm}} API endpoint
+## Step 5: Retrieving data through the {{site.data.keyword.cloudant_short_notm}} API endpoint
 
 You can also request a list of all documents and their contents by
 invoking the Cloudant [`/_all_docs` endpoint](../api/database.html#get-documents).
@@ -288,7 +290,7 @@ The result is similar to the following _abbreviated_ example:
 ```
 {:screen}
 
-## 6. Delete the database
+## Step 6: Delete the database
 
 When you are finished with the database,
 it can be deleted.
@@ -306,7 +308,7 @@ else:
 We have included some basic error handling
 to illustrate how problems might be caught and addressed.
 
-## 7. Close the connection to the service instance
+## Step 7: Close the connection to the service instance
 
 The final step is to disconnect the Python client application from the service instance:
 

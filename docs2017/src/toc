@@ -1,11 +1,11 @@
 {:navgroup: .navgroup}
 {:topicgroup: .topicgroup}
 
-{: .toc subcollection="cloudant" audience="service" href="/docs/services/Cloudant/index.html"}
+{: .toc subcollection="cloudant" audience="service" href="/docs/services/Cloudant/getting-started.html"}
 Cloudant NoSQL DB
 
 	{: .navgroup id="learn"}
-	index.md
+	getting-started.md
 	cloudant.md
 
 	{: .topicgroup}
@@ -60,7 +60,6 @@ Cloudant NoSQL DB
 	{: .navgroup id="howto"}
 	{: .topicgroup}
 	Tutorials
-		tutorials/index.md
 		tutorials/create_service.md
 		tutorials/create_database.md
 		tutorials/create_bmxapp.md
@@ -72,7 +71,6 @@ Cloudant NoSQL DB
 
 	{: .topicgroup}
 	Guides
-		guides/index.md
 		guides/acurl.md
 		guides/disaster-recovery-and-backup.md
 			guides/active-active.md
