@@ -1,11 +1,11 @@
 {:navgroup: .navgroup}
 {:topicgroup: .topicgroup}
 
-{: .toc subcollection="cloudant" audience="service" href="/docs/services/Cloudant/index.html"}
+{: .toc subcollection="cloudant" audience="service" href="/docs/services/Cloudant/getting-started.html"}
 Cloudant NoSQL DB
 
 	{: .navgroup id="learn"}
-	index.md
+	getting-started.md
 	cloudant.md
 
 	{: .topicgroup}
