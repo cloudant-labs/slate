@@ -2,7 +2,7 @@
 
 copyright:
   years: 2017
-lastupdated: "2017-05-15"
+lastupdated: "2017-05-22"
 
 ---
 
@@ -285,5 +285,48 @@ A tutorial showing how to use a {{site.data.keyword.cloudant_short_notm}} servic
 is available [here](create_database.html#context).
 Remember to substitute the credentials you created in this tutorial.
 
-## Tidying up afterwards
+## (Optional) Tidying up afterwards
+
+The following short list of commands might be helpful in tidying up your development environment.
+
+### Deleting service credentials
+
+To delete a set of service credentials,
+use a command similar to the following:
+
+```sh
+bx cf delete-service-key <instance name> <credentials name>
+```
+{:pre}
+
+For example,
+to delete the credentials called `creds20170517a`
+from the `cs20170517a` instance of
+a {{site.data.keyword.cloudant_short_notm}} service,
+you might use a command like this:
+
+```sh
+bx cf delete-service-key cs20170517a creds20170517a
+```
+{:pre}
+
+### Deleting a service instance
+
+To delete a service instance,
+use a command similar to the following:
+
+```sh
+bx service delete <instance name>
+```
+{:pre}
+
+For example,
+to delete the `cs20170517a` instance of
+a {{site.data.keyword.cloudant_short_notm}} service,
+you might use a command like this:
+
+```sh
+bx service delete cs20170517a
+```
+{:pre}
 
