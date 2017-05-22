@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-05-19"
+lastupdated: "2017-05-22"
 
 ---
 
@@ -93,13 +93,13 @@ prefix `#!/usr/bin/env python` to each command to instruct your shell to execute
 
 2. Create the database:
   ```python
-  myDatabase = client.create_database(your_database_name)
+  myDatabase = client.create_database(databaseName)
   ```
   {:pre}
 
 3. Confirm the database was created successfully:
   ```python
-  if your_database_name.exists():
+  if myDatabase.exists():
       print "'{0}' successfully created.\n".format(databaseName)
   ```
   {:pre}
@@ -141,7 +141,7 @@ prefix `#!/usr/bin/env python` to each command to instruct your shell to execute
     }
 
     # Create a document using the Database API.
-    newDocument = myDatabaseDemo.create_document(jsonDocument)
+    newDocument = myDatabase.create_document(jsonDocument)
 
     # Check that the document exists in the database.
     if newDocument.exists():
@@ -161,7 +161,7 @@ You can do a minimal or full retrieval of that data from the database.
 * To perform a minimal retrieval:
   1. First, request a list of all documents within the database.
     ```python
-    result_collection = Result(YourDatabaseName.all_docs)
+    result_collection = Result(myDatabase.all_docs)
     ```      
     {:pre}
 
@@ -199,7 +199,7 @@ You can do a minimal or full retrieval of that data from the database.
   and specify that the document content must also be returned
   by providing the `include_docs` option.
   ```python
-  result_collection = Result(myDatabaseDemo.all_docs, include_docs=True)
+  result_collection = Result(myDatabase.all_docs, include_docs=True)
   print "Retrieved minimal document:\n{0}\n".format(result_collection[0])
   ```
   {:pre}
