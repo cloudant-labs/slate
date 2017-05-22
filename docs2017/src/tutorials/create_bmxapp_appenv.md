@@ -22,7 +22,7 @@ for creating an {{site.data.keyword.Bluemix}} application.
 
 <div id="creating"></div>
 
-## Creating a {{site.data.keyword.Bluemix_notm}} application environment
+## Creating a Bluemix application environment
 
 1.  Log in to your {{site.data.keyword.Bluemix_notm}} account.
     The {{site.data.keyword.Bluemix_notm}} dashboard can be found at:
@@ -77,7 +77,7 @@ the next step is to create a 'connection' between the application environment an
 
 <div id="connecting"></div>
 
-## Connecting {{site.data.keyword.Bluemix_notm}} applications and services
+## Connecting Bluemix applications and services
 
 This section of the tutorial explains how you connect
 {{site.data.keyword.Bluemix_notm}} application environments and services by using
@@ -141,6 +141,9 @@ or to start and stop a running application.
 
 The {{site.data.keyword.Bluemix_notm}} toolkit provides extra capabilities,
 which are required for working with applications hosted and running within a {{site.data.keyword.Bluemix_notm}} environment.
+
+> **Note**: Ensure you install both the Cloud Foundry _and_
+  the {{site.data.keyword.Bluemix_notm}} toolkits.
 
 Downloading and installing the toolkits is a one-off task.
 If the toolkits are already installed and working on your system,
