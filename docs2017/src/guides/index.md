@@ -19,8 +19,7 @@ as well as in-depth explorations of the important concepts behind
 the mechanics of a Cloudant database.
 {:shortdesc}
 
-Examples include the general [guide for backups](backup-guide.html)
-and the [guide for backups using replication](backup-guide-using-replication.html).
+An example includes the [guide for disaster recovery and backups](disaster-recovery-and-backup.html).
 
 For a quick index to the Cloudant API,
 see the [API reference](../api/index.html).

@@ -61,7 +61,7 @@ Enterprise customers can have daily incremental backups.
 
 If you are not an Enterprise customer,
 or you wish to create your own backup mechanism,
-consider [using Replication to perform backups](backup-guide-using-replication.html).
+consider [using Replication to perform backups](disaster-recovery-and-backup.html).
 
 >   **Note**: Daily incremental backup for Enterprise customers is currently a *Beta* capability.
     It is not enabled by default.
