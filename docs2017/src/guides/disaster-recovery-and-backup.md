@@ -200,7 +200,9 @@ the tools supported by Cloudant help you to:
 	This rebuilding might take a considerable amount of time,
 	depending on how much data is restored.
 
-## Conclusion
+<div id="conclusion"></div>
+
+## Next steps
 
 You can develop applications that build on basic Cloudant functions and supported tools
 to enable more complex data protection strategies.
