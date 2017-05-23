@@ -71,8 +71,6 @@ Cloudant NoSQL DB
 		guides/disaster-recovery-and-backup.md
 			guides/active-active.md
 			guides/backup-cookbook.md
-			guides/backup-guide.md
-			guides/backup-guide-using-replication.md
 		guides/cap_theorem.md
 		guides/couchapps.md
 		guides/warehousing.md
