@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-05-22"
+lastupdated: "2017-05-24"
 
 ---
 
@@ -37,6 +37,13 @@ an instance of the {{site.data.keyword.cloudant}} service, and the following Pyt
 	python --version
 	```
 	{:pre}
+	
+	You should get a result similar to:
+
+	```
+	Python 2.7.12
+	```
+	{:screen}
 
 *	Install the [Python library](../libraries/supported.html#python)
 	to enable your Python applications to work with
@@ -48,6 +55,13 @@ an instance of the {{site.data.keyword.cloudant}} service, and the following Pyt
 	pip freeze
 	```
 	{:pre}
+	
+	You should get a list of all the Python modules installed on your system. Inspect the list, looking for a {{site.data.keyword.cloudant_short_notm}} entry similar to the following:
+
+	```
+	cloudant==2.3.1
+	```
+	{:screen}
 
 ## Step 1: Connect to your {{site.data.keyword.cloudant_short_notm}} service instance on {{site.data.keyword.Bluemix_notm}}
 
@@ -74,9 +88,6 @@ an instance of the {{site.data.keyword.cloudant}} service, and the following Pyt
 	```
 	{:pre}
 
-If you run into '`can't read`' errors,
-prefix `#!/usr/bin/env python` to each command to instruct your shell to execute through python.
-{: tip}
 
 ## Step 2: Create a database
 
