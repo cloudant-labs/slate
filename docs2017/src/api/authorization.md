@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-03-20"
+lastupdated: "2017-05-24"
 
 ---
 
@@ -476,6 +476,7 @@ Provide an updated list of the user names that have access permission.
 The updated list _must omit_ the API key.
 
 <div id="enabling-the-_users-database-with-cloudant"></div>
+
 ## Using the _users database with Cloudant
 
 You can use the
