@@ -13,12 +13,12 @@ lastupdated: "2017-05-18"
 
 # Creating a Cloudant Query
 
-This tutorial demonstrates how to create a design document and an index, and use Cloudant Query to extract specific data 
+This tutorial demonstrates how to create a design document and an index, and how to use Cloudant Query to extract specific data 
 from the database.
 
-To write a query, you must first create a database and JSON documents that contain data. Next, you create a design document
-that contains information about how to build your index. You create an index. This tutorial shows how to build two different types of indexes. 
-When you run the query, the index you create makes it easier and faster to find data within the data set.
+To start the tutorial, you create a database and JSON documents that contain data. Next, you create a design document
+which contains information about how to build your index. You create two different types of indexes to demonstrate how
+they make it easier and faster to find data. Lastly, you write and run queries.  
 
 <ol>
 <li>[Creating a database using the Cloudant Dashboard](create_query.html#creating-a-database-using-the-cloudant-dashboard)</li>
@@ -27,96 +27,124 @@ When you run the query, the index you create makes it easier and faster to find 
 <li>[Writing a query](create_query.html#creating-a-query)
 </li>
 </ol>
+Follow these links to each task:
+
+1.  [Creating a database using the Cloudant Dashboard](create_query.html#creating-a-database-using-the-cloudant-dashboard)
+2.  [Creating a design document](create_query.html#creating-a-design-document)
+3.  [Creating an index](create_query.html#creating-an-index)
+4.  [Writing a query](create_query.html#creating-a-query)
+
 
 ## Creating a database using the Cloudant Dashboard
 
-This tutorial is based on the `rolodex` [database](../api/database.html#create) that you create using these steps. 
+This tutorial is based on the `rolodex` database that you create using these steps. 
 
 When you create a query using Cloudant, you create it using the Cloudant Dashboard or the command line. This tutorial
 focuses on creating a query with the Cloudant Dashboard. However, the documentation links provided throughout give
-examples for the command line and Cloudant Dashboard. 
+examples for both the command line and Cloudant Dashboard. 
 
-When you create the database in this exercise, you also create four JSON documents. The sample documents
-contain three fields: first name, last name, and age. 
+When you create the [database](../api/database.html#create) in this exercise, you also create four JSON documents.  
 
-<ol><li>Create a Cloudant account [here](https://cloudant.com/sign-in/) if you do not already have one.</li>
-<li>Log in to the Cloudant Dashboard.</li>
-<li>Verify that the Databases tab is selected in the left navigation. </li>
-<li>Click **Create Database**. </li>
-<li>Type `rolodex` as the name for the database and click **Create**.<br>
-    The `rolodex` database automatically opens.</li>
-<li>From the All Documents tab, click **+** and select **New Doc**.<br>
-    The new document opens. </li>
-<li>Add the text for the first document after the `_id` line and inside the brackets.</li></ol>
+To create a database and JSON documents:
+1.  Create a Cloudant account [here](https://cloudant.com/sign-in/) if you do not already have one.
+2.  Log in to the Cloudant Dashboard.
+3.  Verify that the Databases tab is selected in the left navigation. 
+4.  Click **Create Database**. 
+5.  Type `rolodex` as the name for the database and click **Create**.
+    The `rolodex` database automatically opens.
+6.  From the All Documents tab, click **+** and select **New Doc**.
+    The new document opens. 
+7.  Add the text for each document as shown in the examples below.
 
-_Details for the first document:_
+_First sample document:_
 ```json
     {
       "_id": "xxxxxxxxxxxxxxxxx"
                 "firstname": "Sally",
                 "lastname": "Brown",
-                "age": "16",
+                "age": 16,
                 "city": "New York City",
                 "state": "New York"                
         }
 ```
-
-<oL><li value="8">Repeat steps 6 and 7 for the remainder of the documents. 
-<p>Use the following information for the content of each document. 
-
-_Details for the second document:_
+_Second sample document:_
 ```json
-  "firstname": "John",
-  "lastname": "Brown",
-  "age": "21",
-  "city": "San Francisco",
-  "state": "California"     
+{
+     "_id": "xxxxxxxxxxxxxxxxx"
+            "firstname": "John",
+            "lastname": "Brown",
+            "age": 21,
+            "city": "San Francisco",
+            "state": "California"   
+}  
 ```
 
-_Details for the third document:_
+_Third sample document:_
 ```json
-  "firstname": "Greg",
-  "lastname": "Greene",
-  "age": "35",
-  "city": "Princeton",
-  "state": "New Jersey"     
+{
+    "_id": "xxxxxxxxxxxxxxxxx"
+        "firstname": "Greg",
+        "lastname": "Greene",
+        "age": 35,
+        "city": "Princeton",
+        "state": "New Jersey"   
+}  
 ```
 
-_Details for the fourth document:_
+_Fourth sample document:_
 ```json
-  "firstname": "Amanda",
-  "lastname": "Greene",
-  "age": "44",
-  "city": "New York City",
-  "state": "New York"     
+{
+  "_id": "xxxxxxxxxxxxxxxxx"
+    "firstname": "Amanda",
+    "lastname": "Greene",
+    "age": 44,
+    "city": "New York City",
+    "state": "New York"     
+}
 ```
 
-_Details for the fifth document:_
+_Fifth sample document:_
 ```json
-  "firstname": "Lois",
-  "lastname": "Smythe",
-  "age": "32",
-  "city": "Baton Rouge",
-  "state": "Louisiana"     
+{
+      "_id": "xxxxxxxxxxxxxxxxx"
+        "firstname": "Lois",
+        "lastname": "Brown",
+        "age": 33,
+        "city": "Baton Rouge",
+        "state": "Louisiana"     
+}
 ```
-</p></li>
-</ol>
 
-The `rolodex` database now contains five JSON documents. 
+
+The `rolodex` database and five JSON documents were created. 
 
 
 ##Creating a design document
 
-You configure a [Search Index](../api/search.html#search) or a [MapReduce view](../api/creating_views.html#views-mapreduce-) by adding 
-[design documents](../api/design_documents.html#design-documents) 
-to the database. An index contains pointers to the exact location of information in the database table based on one or more columns. 
+Design documents contain instructions about how views 
+and indexes must be built. When you change the design documents, the index is overwritten and 
+recreated from scratch.
 
-Design documents contain instructions about how the view 
-or index must be built. When you change the design documents, the index is overwritten and recreated from scratch.
+Indexes and views have the same purpose, to improve processing and return time for database queries.  
+However, the mechanics are different. A view selectively filters documents. You define 
+a view in the `view` field inside a design 
+document. In Cloudant, views are written using Javascript functions. When you run a query using 
+your view, Cloudant applies the Javascript function to 
+all the document in the database. 
+
+Cloudant search indexes are also defined in design documents. These indexes use [Lucene Query 
+Parsar Syntax](http://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#Overview) 
+to query databases. Each index is defined by an index function that determines 
+the data to index and store in the index. 
+
+You configure a [search index](../api/search.html#search) or a 
+[MapReduce view](../api/creating_views.html#views-mapreduce-) by adding 
+[design documents](../api/design_documents.html#design-documents) 
+to the database. 
 
 1.  From the Dashboard, open the `rolodex` database.
 2.  From the Design Documents tab, click **+** and select **New Doc**. 
-3.  Replace `_id` with `rolodex-index-design-doc` and click **Create Document**. <br>
+3.  Replace `_id` with `rolodex-index-design-doc` and click **Create Document**. 
     The design document is added to the list of documents in the database. 
 
 The index information for this tutorial is stored in the `rolodex-index-design-doc` design document. 
@@ -127,8 +155,8 @@ The index information for this tutorial is stored in the `rolodex-index-design-d
 With Cloudant Query, you build [indexes](../api/using_views.html#indexes) using MapReduce 
 Views (type=json) and Search Indexes (type=text). If you know exactly what data 
 you want to find, you specify how to create the index by making it of type 
-JSON. This type of index keeps storage and processing to a minimum. For this 
-exercise, the `rolodex` database columns include the following fields:
+JSON. This type of index keeps storage and processing to a minimum. The `rolodex` 
+database columns include the following fields:
 
 *   First name
 *   Last name
@@ -142,7 +170,7 @@ exercise, the `rolodex` database columns include the following fields:
 Creating a ["type=json"](../api/cloudant_query.html#creating-a-type-json-index) index reduces the load on 
 your environment as well as the size of your data set. You
 select a subset of the columns listed in the table in the database to do this. To specify the columns, 
-add them to the `fields` parameter as demonstrated in the example. 
+add them to the `fields` parameter as demonstrated in this exercise. 
 
 To create a new search index in the Cloudant Dashboard: 
 
@@ -152,26 +180,29 @@ To create a new search index in the Cloudant Dashboard:
 4.  In the Index name field, type `JSONindex`.
 5.  From the Search index function window, replace the text with the text below. 
 
-_Search index function text:_
+_Sample JSON search index:_
 ```json
-    function (doc) {
+    function (doc) [
+    {
         "index": {
             "fields": [
                 {
-                   "state", "area code"
+                   "firstname" : "string",
+                   "lastname" : "string",
+                   "city" : "string"                   
                     }
                 ]                    
         },
-        "name" : "rolodex-json",
-        "type" : "json"
     }
+]   
 ```
 <ol><li value="6">Accept the defaults for the remainder of the fields and click **Create Document and Build Index**.
     <p>The new index opens under the Design Documents tab.</p></li></ol>
 
 ###Creating a "type=text" index
 
-When you create a ["type=text"](../api/cloudant_query.html#creating-a-type-text-index) index, it automatically indexes all the documents and fields in your database. As such, you can 
+When you create a ["type=text"](../api/cloudant_query.html#creating-a-type-text-index) index, it 
+automatically indexes all the documents and fields in your database. As such, you can 
 search and retrieve information from any field.  
 
 To create an index, you select a subset of the columns listed in the database table. 
@@ -181,68 +212,49 @@ To specify the columns, add them to the `fields` parameter as shown in the examp
 2.  Verify New document is selected in the **Save to design document** field.
 3.  Type `rolodex-index-design-doc` for the name in the field next to `_design/`. 
 4.  In the Index name field, type `TEXTindex`.
-5.  Accept the defaults for the remainder of the fields and click **Create Document and Build Index**.<br>
+5.  Accept the defaults for the remainder of the fields and click **Create Document and Build Index**.
 6.  From the Search index function window, replace the text with the text below
 
-_Search index function text:_
-```json
- function (doc) 
- {           
-    "index": {
-       "default_field": {
-            "enabled": true,
-            "analyzer": "standard"
-            },           
-        "selector": {},
-                "fields": [
-                    {"name": "firstname", "type": "string"},
-                    {"name": "lastname", "type": "string"},
-                    {"name": "age", "type": "number"}
-               ]
-        }   
-    }
-```
-    The new index opens under the Design Documents tab.
+_Search text search index:_
+  function (doc) [
+    {
+        "index": {
+            "fields": [
+           {
+               "name": "firstname",
+               "type": "string"
+            },
+               {
+                "name": "lastname",
+                "type": "string"
+            },
+               {
+                "name": "age",
+                "type": "number"
+            },
+               {
+                "name": "city",
+                "type": "string"
+            },   
+               {
+                "name": "state",
+                "type": "string"
+            }             
+        ]
+    },
+}
+]
+
+
+The new index displays with `rolodex-index-design-doc`.
 
 ### Listing Cloudant Query indexes 
 
-You can [list](../api/cloudant_query.html#list-all-cloudant-query-indexes) all the indexes in the `rolodex` database by using the GET command. 
+You can see all the indexes in the `rolodex` database from the Cloudant Dashboard or [list](../api/cloudant_query.html#list-all-cloudant-query-indexes) them from the command line. 
 
-```json
-    GET /rolodex/_index
-```
-
-Return JSON lists the indexes in the database.
-
-```
-{
-    "total_rows":2,
-      "indexes": [
-         {
-            "ddoc":null,
-            "name":"_all_docs",
-            "type":"special",
-            "def":{
-                "fields":[
-                    {"_id":"asc"}
-            ]
-          }
-       },
-       {    
-           "ddoc":"_design/a7ee061f1a2c0c6882258b2f1e148b714e79ccea",
-           "name":"a7ee061f1a2c0c6882258b2f1e148b714e79ccea",
-           "type":"json",
-           "def": {
-               "fields": [
-                   {"foo":"asc"}
-               ]
-            }
-         }
-     ]
-}
-```
-
-
+1.  From the Databases tab, click `rolodex-index-design-doc`. 
+2.  Click Search Indexes.
+    The indexes for the database display. You can edit, clone, or delete an index here or query the database. 
 
 ## Writing a query 
 
@@ -254,27 +266,47 @@ When you write your [query](../api/cloudant_query.html#query) statement, you can
 
 In a [selector expressions](../api/cloudant_query.html#creating-selector-expressions), you must specify at least one field and 
 its corresponding value. When the query runs, it uses these values to search for matches in the database. The 
-selector is a JSON object
+selector is a JSON object.
 
-In this example, the query finds documents whose last name field equals `Greene`. The results only contain the 
-`firstname` and `lastname` fields. The value specified in the `sort` field determines the order and the sequence 
-of the results. The results in this example display by first name in ascending order. 
-
-1.  From the Databases tab in the Cloudant Dashbaord, click `rolodex` to open the database.
-2.  Click on the index created earlier, `JSONindex`.
-3.  Add the following selector statement into the Query field and click **Query**.<br>
-    The search results display.   
-
-
+Using the `selector` expression you specify the search results you want. In this case, search the `rolodex` database and find the
+documents with `lastname=Brown` and `city=New York City`.
+_Example selector expression:_
 ```json
 {
   "selector": {
-      "lastname": "Greene"
+      "lastname": "Brown",
+      "city" : "New York City"  
     }
-  },
-  "fields": ["firstname","lastname", 
-    "_id",
-    "_rev"
+```    
+
+The `"fields"` parameter indicates that the search results include the first and last name.
+_Example `"fields"` parameter:_
+```json
+  "fields": ["firstname","lastname"
+  ],
+```
+
+The `"sort"` parameter indicates that the search results sort in ascending order by first name.
+_Example `"sort"` parameter:_
+```json
+  "sort": [
+    {
+      "firstname": "asc"
+    }
+```    
+To run the query:
+1.  From the Databases tab, click `rolodex` to open the database.
+2.  Click on the `JSONindex` index that you created earlier.
+3.  Add the following selector statement into the Query field and click **Query**.  
+
+_Example query to find last name and city:_
+```json
+{
+  "selector": {
+      "lastname": "Greene",
+      "city" : "Syracuse"      
+    },
+  "fields": ["firstname","lastname"
   ],
   "sort": [
     {
@@ -284,7 +316,7 @@ of the results. The results in this example display by first name in ascending o
 }
 ```
 
-Results from the search.
+_Example results from the search:_
 
 
 ```json
@@ -294,13 +326,10 @@ Results from the search.
         "firstname": "Amanda", 
         "lastname": "Greene"   
         }
-   {
-        "firstname": "Greg",   
-        "lastname": "Greene"
-        }
      ]
 }
 ```
+
 
 ### Querying the database using operators
 
@@ -312,7 +341,19 @@ and `$gt` define the search parameters. These operators perform the following fu
     *   $text   Matches any word or string in the document. It is not case sensitive. The $text operator is only available with the index "type=text". However, searching for field names is an invalid use of the $text operator. 
     *   $gt     Finds matches greater than the specified value.  
 
+In this example, the search looks for documents whose last name field equals `Brown` and age value is greater than `20`. 
+The results contain the `firstname`, `lastname`, and `age` fields sorted in ascending order by `firstname`. 
 
+The expression used in this exercise demonstrates how operators can be used in combination. Together the operators create 
+a search that finds the Browns in the database who are older than 20.
+
+1.  In the Cloudant Dashboard on the Databases tab, click `rolodex` to open the database.
+2.  Click on `TEXTindex` created in a previous exercise.
+3.  Paste the example selector statement below into the Query field and click **Query**.
+    The search results display.    
+
+
+_Example query to find documents where last name=`Brown` and age is greater than 20:_
 ```json
 {
     "selector": {
@@ -323,7 +364,6 @@ and `$gt` define the search parameters. These operators perform the following fu
             {
                 "$gt": 20
                 }
-            }
     ]
    },
         "fields": [
@@ -336,42 +376,7 @@ and `$gt` define the search parameters. These operators perform the following fu
  } 
 ``` 
 
-In this example, the search looks for documents whose last name field equals `Brown` and age value is greater than `20`. 
-The results contain the `firstname`, `lastname`, and `age` fields sorted in ascending order by `firstname`. 
-
-1.  In the Cloudant Dashboard on the Databases tab, click `rolodex` to open the database.
-2.  Click on `JSONindex` created in a previous exercise.
-3.  Paste the example selector statement into the Query field and click **Query**.<br>
-    The search results display.    
- 
-
-            
-```json
-POST /rolodex/_find HTTP/1.1
-Content-Type: application/json
-{
-    "selector": {
-        "$and": [
-             {
-                "$text": "Brown"
-            },
-            {
-                "$gt": 20
-                }
-            }
-    ]
-   },
-        "fields": [
-            "firstname", "lastname", "age"],
-  "sort": [
-    {
-      "firstname": "asc"
-    }
-  ]            
- }        
-```
-
-Results from the search. 
+_Example results from the search:_
 
 ```json
 {
@@ -381,11 +386,11 @@ Results from the search.
     "lastname": "Brown",
     "age": "21"
        },
-{
-    "firstname": "Sally",
+ {     
+    "firstname": "Lois",
     "lastname": "Brown",
-    "age": "16"
-       }
+    "age": "33"
+       }       
   ]
 }
 ```
