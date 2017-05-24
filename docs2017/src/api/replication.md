@@ -115,8 +115,8 @@ _Example `selector` object in a replication document:_
 
 ```json
 {
-	"source": "https://$ACCOUNT1:$PASSWORD1@$ACCOUNT1.cloudant.com/$DATABASE1",
-	"target": "https://$ACCOUNT2:$PASSWORD2@$ACCOUNT2.cloudant.com/$DATABASE2",
+	"source": "https://$ACCOUNT1.cloudant.com/$DATABASE1",
+	"target": "https://$ACCOUNT2.cloudant.com/$DATABASE2",
 	"selector": {
 		"_id": {
 			"$gte": "d2"
