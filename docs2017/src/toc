@@ -1,39 +1,32 @@
 {:navgroup: .navgroup}
 {:topicgroup: .topicgroup}
 
-{: .toc subcollection="cloudant" audience="service"}
-IBM Cloudant NoSQL DB for Bluemix
+{: .toc subcollection="cloudant" audience="service" href="/docs/services/Cloudant/index.html"}
+Cloudant NoSQL DB
 
 	{: .navgroup id="learn"}
 	index.md
 	cloudant.md
 
 	{: .topicgroup}
-	[Offerings](offerings/index.html)
+	Offerings
+		offerings/index.md
 		offerings/bluemix.md
-
-	{: .topicgroup}
-	[Tutorials](tutorials/index.html)
-		tutorials/create_service.md
-		tutorials/create_database.md
-		tutorials/create_bmxapp.md
-		tutorials/create_bmxapp_prereq.md
-		tutorials/create_bmxapp_appenv.md
-		tutorials/create_bmxapp_createapp.md
-		tutorials/create_bmxapp_upload.md
-		tutorials/create_bmxapp_maintain.md
+		offerings/whatsnew.md
 	{: .navgroup-end}
 
 	{: .navgroup id="reference"}
 	basics/index.md
 
 	{: .topicgroup}
-	[Libraries](libraries/index.html)
+	Libraries
+		libraries/index.md
 		libraries/supported.md
 		libraries/thirdparty.md
 
 	{: .topicgroup}
-	[API Reference](api/index.html)
+	API Reference
+		api/index.md
 		api/http.md
 		api/compare.md
 		api/account.md
@@ -59,7 +52,21 @@ IBM Cloudant NoSQL DB for Bluemix
 	{: .navgroup-end}
 
 	{: .navgroup id="howto"}
-	guides/index.md
+	{: .topicgroup}
+	Tutorials
+		tutorials/index.md
+		tutorials/create_service.md
+		tutorials/create_database.md
+		tutorials/create_bmxapp.md
+		tutorials/create_bmxapp_prereq.md
+		tutorials/create_bmxapp_appenv.md
+		tutorials/create_bmxapp_createapp.md
+		tutorials/create_bmxapp_upload.md
+		tutorials/create_bmxapp_maintain.md
+
+	{: .topicgroup}
+	Guides
+		guides/index.md
 		guides/acurl.md
 		guides/backup-guide.md
 		guides/backup-guide-using-replication.md
@@ -69,8 +76,10 @@ IBM Cloudant NoSQL DB for Bluemix
 		guides/design_document_management.md
 		guides/mvcc.md
 		guides/transactions.md
+		guides/sharding.md
 		guides/json.md
 		guides/managing_tasks.md
 		guides/model_data.md
 		guides/replication_guide.md
 	{: .navgroup-end}
+

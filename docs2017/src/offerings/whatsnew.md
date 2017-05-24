@@ -12,9 +12,11 @@ lastupdated: "2017-05-24"
 {:codeblock: .codeblock}
 {:pre: .pre}
 
+<!-- Acrolinx: 2017-05-04 -->
+
 # What's new in Cloudant
 
-Keep up to date with the latest on Cloudant.
+Keep up to date with changes and updates for Cloudant.
 {:shortdesc} 
 
 ## Build 5638
@@ -24,14 +26,14 @@ Keep up to date with the latest on Cloudant.
 
 ## Build 5421
 
--   Changes feeds support view-based filters.
--   Changes feeds support the `_doc_ids` filter.
--   `POST` requests are supported for `_changes`.
--   Both `_all_docs` and `_changes` support the `attachments=true` parameter.
--   Support for the CouchDB 1.6 `_users` database features, including server-side password hashing when creating documents in the `_users` database.
--   `/_bulk_get` endpoint to reduce the number of requests used in replication to mobile clients.
--   Design document metadata contains an `update pending` field.
-
+-	Changes feeds support view-based filters.
+-	Changes feeds support the `_doc_ids` filter.
+-	`POST` requests are supported for `_changes`.
+-	Both `_all_docs` and `_changes` support the `attachments=true` parameter.
+-	Support for the CouchDB 1.6 `_users` database features, including server-side hashing of passwords when documents are created in the `_users` database.
+-	`/_bulk_get` endpoint to reduce the number of requests that are used in replication to mobile clients.
+-	Design document metadata contains an `update pending` field.
+-	Cloudant Query no longer returns an error if no valid index exists.
 
 ### Breaking/behavior changes
 
@@ -49,8 +51,8 @@ Views
 
 Design documents
 
--   Stricter validation of design documents. This should not cause problems with existing design documents, but malformed design documents will fail to save.
--   Views written in an unsupported language all respond with an `error` of `unknown_query_language`. Previously, the response was a `reason` of `unknown_query_language`.
+-   Stricter validation of design documents. This validation is not expected to cause problems with existing design documents, but malformed design documents fail to save.
+-   Views that are written in an unsupported language all respond with an `error` of `unknown_query_language`. Previously, the response was a `reason` of `unknown_query_language`.
 -   When a null reducer is used to put a database design document, the system responds with the error reason of `'(null)'`, previously it returned `((new String("null")))`.
 -   If `updates` is specified in a design document, it must not have a null value.
 
@@ -69,5 +71,5 @@ Replication
 
 Result set
 
--   The `_db_updates` endpoint returns a result set containing a key named  `db_name`. Previously, it returned a result set with a key named `dbname`.
+-   The `_db_updates` endpoint returns a result set containing a key that is named  `db_name`. Previously, it returned a result set with a key named `dbname`.
 -   Set the maximum length of the document ID. Previously, it was not possibly to define a maximum document ID length. 
