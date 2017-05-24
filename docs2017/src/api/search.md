@@ -789,7 +789,9 @@ For instance,
 > the bounds are treated as numbers not as strings.
 > 
 > For example, this search: 
+> ```
 > mod_date:["20170101" TO "20171231"]
+> ```
 > returns documents for which mod_date is between 20170101 and 20171231 (not between "20170101" and "20171231").
 
 You can alter the importance of a search term by adding `^` and a positive number.
