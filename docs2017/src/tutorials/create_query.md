@@ -20,19 +20,12 @@ To start the tutorial, you create a database and JSON documents that contain dat
 which contains information about how to build your index. You create two different types of indexes to demonstrate how
 they make it easier and faster to find data. Lastly, you write and run queries.  
 
-<ol>
-<li>[Creating a database using the Cloudant Dashboard](create_query.html#creating-a-database-using-the-cloudant-dashboard)</li>
-<li>[Creating a design document](create_query.html#creating-a-design-document)</li>
-<li>[Creating an index](create_query.html#creating-an-index)</li>
-<li>[Writing a query](create_query.html#creating-a-query)
-</li>
-</ol>
-Follow these links to each task:
+Here are the high-level tasks you will complete for this tutorial:
 
 1.  [Creating a database using the Cloudant Dashboard](create_query.html#creating-a-database-using-the-cloudant-dashboard)
 2.  [Creating a design document](create_query.html#creating-a-design-document)
 3.  [Creating an index](create_query.html#creating-an-index)
-4.  [Writing a query](create_query.html#creating-a-query)
+4.  [Creating a query](create_query.html#creating-a-query)
 
 
 ## Creating a database using the Cloudant Dashboard
@@ -119,7 +112,7 @@ _Fifth sample document:_
 The `rolodex` database and five JSON documents were created. 
 
 
-##Creating a design document
+## Creating a design document
 
 Design documents contain instructions about how views 
 and indexes must be built. When you change the design documents, the index is overwritten and 
@@ -165,7 +158,7 @@ database columns include the following fields:
 *   State
 
 
-###Creating a "type=json" index
+### Creating a "type=json" index
 
 Creating a ["type=json"](../api/cloudant_query.html#creating-a-type-json-index) index reduces the load on 
 your environment as well as the size of your data set. You
@@ -199,7 +192,7 @@ _Sample JSON search index:_
 <ol><li value="6">Accept the defaults for the remainder of the fields and click **Create Document and Build Index**.
     <p>The new index opens under the Design Documents tab.</p></li></ol>
 
-###Creating a "type=text" index
+### Creating a "type=text" index
 
 When you create a ["type=text"](../api/cloudant_query.html#creating-a-type-text-index) index, it 
 automatically indexes all the documents and fields in your database. As such, you can 
@@ -256,9 +249,9 @@ You can see all the indexes in the `rolodex` database from the Cloudant Dashboar
 2.  Click Search Indexes.
     The indexes for the database display. You can edit, clone, or delete an index here or query the database. 
 
-## Writing a query 
+## Creating a query 
 
-When you write your [query](../api/cloudant_query.html#query) statement, you can narrow the data you search by using [selector syntax](../api/cloudant_query.html#selector-syntax) and 
+When you create your [query](../api/cloudant_query.html#query) statement, you can narrow the data you search by using [selector syntax](../api/cloudant_query.html#selector-syntax) and 
 [implicit](../api/cloudant_query.html#implicit-operators) or [explicit](../api/cloudant_query.html#explicit-operators) operators.
 
 
