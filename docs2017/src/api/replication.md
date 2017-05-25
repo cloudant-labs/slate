@@ -115,8 +115,8 @@ _Example `selector` object in a replication document:_
 
 ```json
 {
-	"source": "https://$USERNAME1:$PASSWORD1@$ACCOUNT1.cloudant.com/$DATABASE1",
-	"target": "https://$USERNAME2:$PASSWORD2@$ACCOUNT2.cloudant.com/$DATABASE2",
+	"source": "https://$ACCOUNT1.cloudant.com/$DATABASE1",
+	"target": "https://$ACCOUNT2.cloudant.com/$DATABASE2",
 	"selector": {
 		"_id": {
 			"$gte": "d2"
@@ -165,7 +165,7 @@ rather than from the very beginning.
 This field might be used for creating incremental copies of databases. To do this:
 
 1.	Find the ID of the [checkpoint](#checkpoints) document for the last replication. It is stored in the  `_replication_id` field of the replication document in the [`_replicator` database](#replicator-database).
-2.	Open the checkpoint document at `/<database>/_local/<_replication_id>`, where `<_replication_id>` is the ID you found in the previous step, and `<database>` is the name of the source or the target database. The document usually exists on both databases but might exist on one only.
+2.	Open the checkpoint document at `/$DATABASE/_local/$REPLICATION`, where `$REPLICATION` is the ID you found in the previous step, and `$DATABASE` is the name of the source or the target database. The document usually exists on both databases but might exist on one only.
 3.	Search for the `recorded_seq` field of the first element in the history array.
 4.	Set the `since_seq` field in the replication document to the value of the `recorded_seq` field.
 5.	Replicate to a new database.
@@ -214,7 +214,7 @@ Content-Type: application/json
 _Example instructions for using the command line to create a replication document:_
 
 ```sh
-curl -X PUT https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/_replicator/replication-doc -H 'Content-Type: application/json' -d @replication-document.json
+curl -X PUT https://$ACCOUNT.cloudant.com/_replicator/replication-doc -H 'Content-Type: application/json' -d @replication-document.json
 #assuming replication-document.json is a json file with valid replication information.
 ```
 {:codeblock}
@@ -238,7 +238,7 @@ When you set up the replication job for each environment,
 the source database and target database names you provide must use the following format:
 
 ```http
-https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE_NAME
+https://$ACCOUNT:$PASSWORD@$REMOTE_USERNAME.cloudant.com/$DATABASE_NAME
 ```
 {:codeblock}
 

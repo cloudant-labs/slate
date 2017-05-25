@@ -286,7 +286,7 @@ GET /examples/_design/ddoc/_search/books?q=author:John HTTP/1.1
 <p id="request-curl-marker"></p>
 
 ```shell
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/examples/_design/ddoc/_search/books?q=author:John
+curl https://$ACCOUNT.cloudant.com/examples/_design/ddoc/_search/books?q=author:John
 ```
 
 > Response
