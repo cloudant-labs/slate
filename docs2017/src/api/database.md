@@ -292,7 +292,7 @@ GET /_all_docs HTTP/1.1
 _Example of using the command line to list all documents in a database,_
 
 ```sh
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/_all_docs
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_all_docs
 ```
 {:codeblock}
 
@@ -325,7 +325,7 @@ GET /_all_docs?keys=["somekey","someotherkey"] HTTP/1.1
 _Example of using the command line to list all documents in a database that match at least one of the specified keys:_
 
 ```sh
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/_all_docs?keys=["somekey","someotherkey"]
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_all_docs?keys=["somekey","someotherkey"]
 ```
 {:codeblock}
 

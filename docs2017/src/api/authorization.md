@@ -224,7 +224,7 @@ Content-Type: application/json
 _Example of using the command line to send an authorization modification request:_
 
 ```sh
-curl https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/_api/v2/db/$DATABASE/_security \
+curl https://$ACCOUNT.cloudant.com/_api/v2/db/$DATABASE/_security \
 	-X PUT \
 	-H "Content-Type: application/json" \
 	-d "$JSON"
@@ -497,7 +497,7 @@ Content-Type: application/json
 _Example of using the command line to submit a modification request:_
 
 ```sh
-curl https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE/_security \
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_security \
 	-X PUT \
 	-H "Content-Type: application/json" \
 	-d @request-body.json

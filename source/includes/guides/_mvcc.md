@@ -118,7 +118,7 @@ Then the two databases are replicated, leading to a conflict.
 
 You get the document with `conflicts=true` like this:
 
-`http://$USERNAME.cloudant.com/products/$_ID?conflicts=true`
+`http://<account>.cloudant.com/products/<_id>?conflicts=true`
 
 And get the following response:
 
@@ -141,9 +141,9 @@ The version with the changed price has been chosen arbitrarily as the latest ver
 
 To compare the revisions to see what has been changed, your application gets all of the versions from the database with URLs like this:
 
-* `http://$USERNAME.cloudant.com/products/$_ID`
-* `http://$USERNAME.cloudant.com/products/$_ID?rev=2-61ae00e029d4f5edd2981841243ded13`
-* `http://$USERNAME.cloudant.com/products/$_ID?rev=1-7438df87b632b312c53a08361a7c3299`
+* `http://<account>.cloudant.com/products/$_ID`
+* `http://<account>.cloudant.com/products/$_ID?rev=2-61ae00e029d4f5edd2981841243ded13`
+* `http://<account>.cloudant.com/products/$_ID?rev=1-7438df87b632b312c53a08361a7c3299`
 
 Since these two changes are for different fields of the document, it is easy to merge them.
 
@@ -179,12 +179,12 @@ send a `DELETE` request to the URLs with the revision we want to delete.
 > Example request to delete old revision
 
 ```http
-DELETE https://$USERNAME.cloudant.com/products/$_ID?rev=2-61ae00e029d4f5edd2981841243ded13
+DELETE https://<account>.cloudant.com/products/$_ID?rev=2-61ae00e029d4f5edd2981841243ded13
 ```
 
 ```shell
-curl "https://$USERNAME.cloudant.com/products/$_ID?rev=2-f796915a291b37254f6df8f6f3389121" -X DELETE
+curl "https://$ACCOUNT.cloudant.com/products/$_ID?rev=2-f796915a291b37254f6df8f6f3389121" -X DELETE
 ```
 
 After this, conflicts are resolved.
-You can verify this by `GET`ting the document again with the `conflicts` parameter set to `true`.
+You can verify this by making a `GET` request to the document again with the `conflicts` parameter set to `true`.
