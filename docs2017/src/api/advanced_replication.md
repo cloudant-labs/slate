@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-01-06"
+lastupdated: "2017-015-25"
 
 ---
 
@@ -11,6 +11,8 @@ lastupdated: "2017-01-06"
 {:screen: .screen}
 {:codeblock: .codeblock}
 {:pre: .pre}
+
+<!-- Acrolinx: 2017-05-25 -->
 
 # Advanced replication
 
@@ -22,6 +24,13 @@ You might also find it helpful to review details of the underlying
 as well as reviewing the [Advanced Methods](advanced.html) material.
 
 ## Replication Status
+
+There are two main ways to determine replications status:
+
+* Inspecting the [replication document](#status-checking-using-the-replication-document).
+* Checking the [replication scheduler](#status-checking-using-the-replication-scheduler).
+
+### Status checking using the replication document
 
 When replication is managed by storing a document in the `_replicator` database,
 the contents of the document are updated as the replication status changes.
@@ -89,6 +98,40 @@ _Example of automatic update to replication document, updated once replication s
 {:codeblock}
 
 A continuous replication can never have a `completed` state.
+
+### Status checking using the replication scheduler
+
+### Replication state
+
+Transition between states is managed by the replication scheduler.
+At any moment in time,
+a replication can be in one of the following seven states.
+
+1.  `initializing`:
+  The replication has been added to the scheduler,
+  but has not yet been initialized or scheduled to run.
+2.  `error`:
+  The replication could not be turned into a job.
+  This error might be caused in several different ways.
+  For example,
+  the replication must be [filtered](design_documents.html#filter-functions),
+  but the filter code could not be fetched from the source database.
+3.  `pending`:
+  The replication has been scheduled to run,
+  but is not yet running.
+4.  `running`:
+  The replication is currently running.
+5.  `crashing`:
+  A temporary error occurred that affects the job.
+  The job is automatically retried later.
+6.  `completed`:
+  The job has completed.
+  This state does not apply to [continuous replications](replication.html#continuous-replication).
+7.  `failed`:
+  The job has permanently failed.
+  This failuremight be caused in several different ways,
+  for example if the source or target URLs are not valid.
+  No further attempt is made to replicate.
 
 ## Authentication
 
