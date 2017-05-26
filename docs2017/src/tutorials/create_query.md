@@ -41,9 +41,19 @@ Now, you create the `rolodex` [database](../api/database.html#create) and JSON d
 3.  Select the Databases tab. 
 4.  Click ![Create Database icon](../images/create_database_icon.png). 
 5.  Type `rolodex` and click **Create**.<br>
-    The `rolodex` database automatically opens.
-6.  From the **All Documents** tab, click ![Create icon](../images/create_icon.png) and select **New Doc**.
-    The new document window opens. 
+    The `rolodex` database automatically opens.<br>
+    <br>
+    From the command line: 
+    ```
+    acurl https://<username>.bluemix.cloudant.com/rolodex -X PUT
+    ```
+    Results:
+    ```
+    {"ok":true}
+    ```
+6.  From the **All Documents** tab, click ![Create icon](../images/create_icon.png) and select **New Doc**.<br>
+    The New Document window opens. <br>
+    ![New Document window](../images/add_document_window.png)
 7.  To create a JSON document, copy and paste the sample text after the `_id` and inside the bracket.<br>
 *First sample document:*
 ```json
@@ -81,7 +91,7 @@ _Second sample document:_
 "firstname": "Amanda",<br>
 "lastname": "Greene",<br>
 "age": 44,<br>
-"city": "New York City",<br>
+"city": "Syracuse",<br>
 "state": "New York"<br>
 </code>    
 </blockquote>
@@ -95,6 +105,15 @@ _Second sample document:_
 "state": "Louisiana"<br>
 </code>    
 </blockquote>
+
+From the command line:
+
+1.  Copy and paste the sample document information in the previous step to a data file called `documents.dat`. 
+2.  Run the following `curl` command.  
+```
+curl https://<username>.bluemix.cloudant.com/rolodex -X POST -H "Content-Type: application/json" -d \@documents.dat
+```
+Notice that the '@' symbol, used to indicate that the data is included in a file, is identified by the supplied name.
 
 The `rolodex` database was created and populated with five JSON documents. 
 
@@ -198,15 +217,7 @@ To create the index:
             {
                 "name": "age",
                 "type": "number"
-                },
-             {
-                "name": "city",
-                "type": "string"
-                },   
-             {
-                "name": "state",
-                "type": "string"
-                }             
+                }         
                     ]
             },
         }
@@ -269,9 +280,9 @@ To run the query:
 ```json
 {
   "selector": {
-        "city" : "New York City",  
+        "city" : "New York City",    
         "state": "New York"      
-       },
+       },     
    "fields": ["firstname","lastname"
       ],
    "sort": [
@@ -288,16 +299,14 @@ _Example results returned from search:_
 {
   "docs": [
     {     
-        "firstname": "Amanda", 
-        "lastname": "Greene"   
-        }
-    {     
         "firstname": "John", 
-        "lastname": "Brown"   
+        "lastname": "Brown",
+        "city" : "New York City"        
         }
     {     
         "firstname": "Sally", 
-        "lastname": "Brown"   
+        "lastname": "Brown",
+        "city" : "New York City"        
         }        
    ]
 }
