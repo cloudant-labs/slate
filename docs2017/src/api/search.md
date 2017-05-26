@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-01-13"
+lastupdated: "2017-05-25"
 
 ---
 
@@ -783,13 +783,15 @@ you can run a query with `~` to find terms like the search term.
 For instance,
 `look~` finds the terms `book` and `took`.
 
->   **Note**: If the lower and upper bounds of a range 
-> query are both strings that contain only numeric digits, 
-> the bounds are treated as numbers not as strings.
-> 
-> For example, this search: 
-> mod_date:["20170101" TO "20171231"]
-> returns documents for which mod_date is between 20170101 and 20171231 (not between "20170101" and "20171231").
+> **Note**: If the lower and upper bounds of a range 
+  query are both strings that contain only numeric digits, 
+  the bounds are treated as numbers not as strings.
+  For example,
+  if you search by using the query
+  `mod_date:["20170101" TO "20171231"]`,
+  the results include documents for which `mod_date` is
+  between the numeric values 20170101 and 20171231,
+  not between the strings "20170101" and "20171231".
 
 You can alter the importance of a search term by adding `^` and a positive number.
 This alteration makes matches containing the term more or less relevant,
@@ -871,7 +873,7 @@ function(doc) {
 >   **Note**: To use facets,
     all the documents in the index must include all the fields that have faceting enabled.
     If your documents do not include all the fields,
-    you receive a `bad_request` error with the following reason, "Dim `field_name` does not exist."
+    you receive a `bad_request` error with the following reason, "The `field_name` does not exist."
     If each document does not contain all the fields for facets,
     create separate indexes for each field.
     If you do not create separate indexes for each field,
@@ -883,7 +885,7 @@ _Example `if` statement to verify that the required fields exist in each documen
 ```javascript
 if (typeof doc.town == "string" && typeof doc.name == "string") {
         index("town", doc.town, {facet: true});
-        index("town", doc.town, {facet: true});        
+        index("name", doc.name, {facet: true});        
     }
 ```
 {:codeblock}

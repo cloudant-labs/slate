@@ -49,8 +49,8 @@ The status of each replication task can be seen in the "All Replications" sectio
 
 ```json
 {
-  "source": "https://myfirstaccount.cloudant.com/a",
-  "target": "https://mysecondaccount.cloudant.com/b"
+  "source": "https://<account1>.cloudant.com/a",
+  "target": "https://<account2>.cloudant.com/b"
 }
 ```
 
@@ -70,7 +70,7 @@ Replication can be initiated at either the source or the destination end. This m
 ```http
 POST /_replicator HTTP/1.1
 Content-Type: application/json
-Host: myaccount.cloudant.com
+Host: <account>.cloudant.com
 Authorization: ...
 ```
 
@@ -78,15 +78,15 @@ Authorization: ...
 curl
    -X POST
    -H 'Content-type: application/json'
-   'https://myuser:mypassword@myaccount.cloudant.com/_replicator'
+   'https://$ACCOUNT.cloudant.com/_replicator'
    -d '@replication.json'
 ```
 
 ```json
 {
   "_id": "weekly_backup",
-  "source": "https://username:password@myaccount1.cloudant.com/source",
-  "target": "https://username:password@myaccount2.cloudant.com/destination",
+  "source": "https://<account>.cloudant.com/source",
+  "target": "https://<account>.cloudant.com/destination",
   "create_target": true
 }
 ```
@@ -213,7 +213,7 @@ You enable this by setting up two separate replication processes, one taking the
 ```http
 POST /_replicator HTTP/1.1
 Content-Type: application/json
-Host: myaccount.cloudant.com
+Host: <account>.cloudant.com
 Authorization: ...
 
 ```
@@ -222,15 +222,15 @@ Authorization: ...
 curl
    -X POST
    -H "Content-type: application/json"
-   https://myuser:mypassword@myaccount.cloudant.com/_replicator
+   https://$ACCOUNT.cloudant.com/_replicator
    -d @continuous-replication.json
 ```
 
 ```json
 {
   "_id": "weekly_continuous_backup",
-  "source": "https://username:password@myaccount1.cloudant.com/source",
-  "target": "https://username:password@myaccount2.cloudant.com/destination",
+  "source": "https://<account>.cloudant.com/source",
+  "target": "https://<account>.cloudant.com/destination",
   "continuous": true
 }
 ```
@@ -246,12 +246,12 @@ Two-way replication can be continuous in one or both of the directions by settin
 > Monitoring a replication process
 
 ```shell
-curl 'https://myaccount.cloudant.com/_replicator/weekly_backup'
+curl 'https://<account>.cloudant.com/_replicator/weekly_backup'
 ```
 
 ```http
 GET /_replicator/weekly_backup HTTP/1.1
-HOST: myaccount.cloudant.com
+HOST: <account>.cloudant.com
 Authorization: ...
 ```
 
@@ -261,9 +261,9 @@ Authorization: ...
 {
   "_id": "weekly_backup",
   "_rev": "22-c57c18f7e761f1a76fa977caa03cd098",
-  "source": "https://u:p@myaccount.cloudant.com/a",
+  "source": "https://<account>.cloudant.com/a",
   "create_target": false,
-  "target": "https://u:p@myaccount.cloudant.com/b",
+  "target": "https://<account>.cloudant.com/b",
   "continuous": true,
   "_replication_state": "triggered",
   "_replication_state_time": "2014-12-01T15:19:01+00:00",
@@ -280,12 +280,12 @@ If replication has failed, for example if the authentication credentials were in
 > Cancelling a replication
 
 ```shell
-curl -X DELETE 'https://myaccount.cloudant.com/_replicator/weekly_backup?rev=22-c57c18f7e761f1a76fa977caa03cd098'
+curl -X DELETE 'https://$ACCOUNT.cloudant.com/_replicator/weekly_backup?rev=22-c57c18f7e761f1a76fa977caa03cd098'
 ```
 
 ```http
 DELETE /_replicator/weekly_backup?rev=22-c57c18f7e761f1a76fa977caa03cd098 HTTP/1.1
-Host: myaccount.cloudant.com
+Host: <account>.cloudant.com
 Authorization:
 ```
 
@@ -310,7 +310,7 @@ Replication isn’t just for Cloudant-to-Cloudant data transfer. Cloudant’s re
 ```
 var db = new PouchDB("myfirstdatabase");
 
-var URL = "https://u:p@username.cloudant.com/my_database");
+var URL = "https://<account>..cloudant.com/<my_database>");
 
 db.sync(URL, { live: true });
 ```
@@ -322,7 +322,7 @@ db.sync(URL, { live: true });
 > Example javascript to enable replication using CloudantSync
 
 ```
-URI uri = new URI("https://u:p@username.cloudant.com/my_database");
+URI uri = new URI("https://<account>.cloudant.com/my_database");
 Datastore ds = manager.openDatastore("my_datastore");
 
 // Replicate from the local to remote database
@@ -361,7 +361,7 @@ function(doc, req) {
 ```http
 POST /_replicator HTTP/1.1
 Content-Type: application/json
-Host: myaccount.cloudant.com
+Host: <account>.cloudant.com
 Authorization: ...
 ```
 
@@ -369,15 +369,15 @@ Authorization: ...
 curl
    -X POST
    -H "Content-type: application/json"
-   https://myuser:mypassword@myaccount.cloudant.com/_replicator
+   https://$ACCOUNT.cloudant.com/_replicator
    -d @filtered-replication.json
 ```
 
 ```json
 {
   "_id": "weekly_backup",
-  "source": "https://username:password@myaccount1.cloudant.com/source",
-  "target": "https://username:password@myaccount2.cloudant.com/destination",
+  "source": "https://<account>.cloudant.com/source",
+  "target": "https://<account>.cloudant.com/destination",
   "filter": "mydesigndoc/myfilter",
   "query_params": {
     "foo": "bar",
@@ -395,13 +395,13 @@ When starting a replication job, a filter function’s name can be specified in 
 > Querying the changes feed
 
 ```http
-GET /$db/_changes?feed=continuous HTTP/1.1
-Host: myaccount.cloudant.com
+GET /$DATABASE/_changes?feed=continuous HTTP/1.1
+Host: <account>.cloudant.com
 Authorization: ...
 ```
 
 ```shell
-curl "https://myaccount.cloudant.com/$db/_changes?feed=continuous"
+curl "https://$ACCOUNT.cloudant.com/$DATABASE/_changes?feed=continuous"
 ```
 
 ```json
@@ -427,13 +427,13 @@ To see the document body itself, append `&include_docs=true` to the curl command
 > Using since
 
 ```http
-GET /$db/_changes?feed=continuous&include_docs=true&since=11-g1AAAAEueJzLYWBgYMlgTmGQSUlKzi9KdUhJMtTLTU1M0UvOyS9NScwr0ctLLckBqmJKZEiy____f1YGUyJLLlCA3cg0zdTS3II43UkOQDKpHmoAM9gAkxQzQ2OLNOIMyGMBkgwNQApoxv6sDGaoK1KTkgwTk1IJGEGKHQcgdoAdygDxaVJSorlhShYAJoFc1Q HTTP/1.1
-HOST: myaccount.cloudant.com
+GET /$DATABASE/_changes?feed=continuous&include_docs=true&since=11-g1AAAAEueJzLYWBgYMlgTmGQSUlKzi9KdUhJMtTLTU1M0UvOyS9NScwr0ctLLckBqmJKZEiy____f1YGUyJLLlCA3cg0zdTS3II43UkOQDKpHmoAM9gAkxQzQ2OLNOIMyGMBkgwNQApoxv6sDGaoK1KTkgwTk1IJGEGKHQcgdoAdygDxaVJSorlhShYAJoFc1Q HTTP/1.1
+HOST:<account>.cloudant.com
 Authorization: ...
 ```
 
 ```shell
-curl "https://myaccount.cloudant.com/$db/_changes?feed=continuous&include_docs=true&since=11-g1AAAAEueJzLYWBgYMlgTmGQSUlKzi9KdUhJMtTLTU1M0UvOyS9NScwr0ctLLckBqmJKZEiy____f1YGUyJLLlCA3cg0zdTS3II43UkOQDKpHmoAM9gAkxQzQ2OLNOIMyGMBkgwNQApoxv6sDGaoK1KTkgwTk1IJGEGKHQcgdoAdygDxaVJSorlhShYAJoFc1Q"
+curl "https://$ACCOUNT.cloudant.com/$DATABASE/_changes?feed=continuous&include_docs=true&since=11-g1AAAAEueJzLYWBgYMlgTmGQSUlKzi9KdUhJMtTLTU1M0UvOyS9NScwr0ctLLckBqmJKZEiy____f1YGUyJLLlCA3cg0zdTS3II43UkOQDKpHmoAM9gAkxQzQ2OLNOIMyGMBkgwNQApoxv6sDGaoK1KTkgwTk1IJGEGKHQcgdoAdygDxaVJSorlhShYAJoFc1Q"
 ```
 
 To join the changes feed from a known position, simply pass a `since` parameter with the sequence number you want to start from.
@@ -443,13 +443,13 @@ To join the changes feed from a known position, simply pass a `since` parameter 
 > since = now
 
 ```http
-GET /$db/_changes?feed=continuous&include_docs=true&since=now HTTP/1.1
-Host: myaccount.cloudant.com
+GET /$DATABASE/_changes?feed=continuous&include_docs=true&since=now HTTP/1.1
+Host: <account>.cloudant.com
 Authorization: ...
 ```
 
 ```shell
-curl "https://myaccount.cloudant.com/$db/_changes?feed=continuous&include_docs=true&since=now"
+curl "https://$ACCOUNT.cloudant.com/$DATABASE/_changes?feed=continuous&include_docs=true&since=now"
 ```
 
 ```
@@ -475,13 +475,13 @@ Example use cases might be:
 > Filtering the changes feed
 
 ```http
-GET /$db/_changes?feed=continuous&include_docs=true&since=now&filter=mydesigndoc/myfilter HTTP/1.1
-Host: myaccount.cloudant.com
+GET /$DATABASE/_changes?feed=continuous&include_docs=true&since=now&filter=mydesigndoc/myfilter HTTP/1.1
+Host: <account>.cloudant.com
 Authorization: ...
 ```
 
 ```shell
-curl "https://myaccount.cloudant.com/$db/_changes?feed=continuous&include_docs=true&since=now&filter=mydesigndoc/myfilter"
+curl "https://$ACCOUNT.cloudant.com/$DATABASE/_changes?feed=continuous&include_docs=true&since=now&filter=mydesigndoc/myfilter"
 ```
 
 The changes feed can be filtered with a filter function, by using a similar technique to [filtering during replication](replication_guide.html#filtered-replication).
@@ -508,12 +508,17 @@ Another consequence of setting user permissions incorrectly is that the `_replic
 
 You can check the size of your `_replicator` database by using the command:
 
+<<<<<<< HEAD
+	`GET https://<account>.cloudant.com/_replicator`
+	
+=======
 	`GET https://myaccount.cloudant.com/_replicator`
 
+>>>>>>> master
 In the returned JSON, look for the `disk_size` value.
 If the value indicates a size of over 1GB, contact [Cloudant support](https://cloudant.com/support/) for further advice.
 
-You can check an individual `_replicator` document for conflicts by querying `GET https://myaccount.cloudant.com/_replicator/<<docid>>?conflicts=true`.
+You can check an individual `_replicator` document for conflicts by querying `GET https://<account>.cloudant.com/_replicator/<<docid>>?conflicts=true`.
 
 ###### resetting-replicator-database
 
@@ -521,19 +526,19 @@ You can check an individual `_replicator` document for conflicts by querying `GE
 
 ```http
 DELETE /_replicator HTTP/1.1
-HOST: myaccount.cloudant.com
+HOST: <account>.cloudant.com
 Authorization: ...
 ```
 
 ```http
 PUT /_replicator HTTP/1.1
-HOST: myaccount.cloudant.com
+HOST: <account>.cloudant.com
 Authorization: ...
 ```
 
 ```shell
-curl -X DELETE 'https://myaccount.cloudant.com/_replicator'
-curl -X PUT 'https://myaccount.cloudant.com/_replicator'
+curl -X DELETE 'https://$ACCOUNT.cloudant.com/_replicator'
+curl -X PUT 'https://$ACCOUNT.cloudant.com/_replicator'
 ```
 
 If you want to cancel all replications and start with a new, clean `_replicator` database, delete then recreate the `replicator` database.
