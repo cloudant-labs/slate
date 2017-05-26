@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-05-25"
+lastupdated: "2017-05-26"
 
 ---
 
@@ -26,11 +26,11 @@ and populate that database with a simple collection of data.
 ## Before you begin
 {: #prereqs}
 
-You'll need a [Bluemix account](https://console.ng.bluemix.net/registration/),
+You'll need a [Bluemix account ![External link icon](images/launch-glyph.svg "External link icon")](https://console.ng.bluemix.net/registration/){:new_window},
 an instance of the {{site.data.keyword.cloudant}} service, and the following Python requirements:
 
 *	Install the latest version of the
-	[Python programming language ![External link icon](../images/launch-glyph.svg "External link icon")](https://www.python.org/){:new_window} on your system.
+	[Python programming language ![External link icon](images/launch-glyph.svg "External link icon")](https://www.python.org/){:new_window} on your system.
 	
 	To check this, run the following command at a prompt:
 	```sh
@@ -45,7 +45,7 @@ an instance of the {{site.data.keyword.cloudant}} service, and the following Pyt
 	```
 	{:screen}
 
-*	Install the [Python library](../libraries/supported.html#python)
+*	Install the [Python library](libraries/supported.html#python)
 	to enable your Python applications to work with
 	{{site.data.keyword.cloudant_short_notm}} on {{site.data.keyword.Bluemix_notm}}.
 	
@@ -80,7 +80,7 @@ an instance of the {{site.data.keyword.cloudant}} service, and the following Pyt
 	from cloudant.error import CloudantException
 	from cloudant.result import Result, ResultByKey
 	```
-	{:pre}
+	{: codeblock}
 
 2. Identify the {{site.data.keyword.cloudant_short_notm}} service credentials:
   1. In the {{site.data.keyword.Bluemix_notm}} console, open the dashboard for your service instance.
@@ -93,7 +93,7 @@ an instance of the {{site.data.keyword.cloudant}} service, and the following Pyt
 	client = Cloudant("<username>", "<password>", url="<url>")
 	client.connect()
 	```
-	{:pre}
+	{: codeblock}
 
 
 ## Step 2: Create a database
@@ -102,26 +102,23 @@ an instance of the {{site.data.keyword.cloudant}} service, and the following Pyt
   ```python
   databaseName = "<yourDatabaseName>"
   ```
-  {:pre}
+  {: codeblock}
   ... where `<yourDatabaseName>` is the name you would like to give your database. 
 
-  The database name must begin with a letter and can include only lowercase characters (a-z), 
-  numerals (0-9),
-  and any of the following characters `_`, `$`, `(`, `)`, `+`, `-`, and `/`.
-  {: tip}
+  > **Note:** The database name must begin with a letter and can include only lowercase characters (a-z), numerals (0-9), and any of the following characters `_`, `$`, `(`, `)`, `+`, `-`, and `/`.
 
 2. Create the database:
   ```python
   myDatabase = client.create_database(databaseName)
   ```
-  {:pre}
+  {: codeblock}
 
 3. Confirm the database was created successfully:
   ```python
   if myDatabase.exists():
       print "'{0}' successfully created.\n".format(databaseName)
   ```
-  {:pre}
+  {: codeblock}
 
 ## Step 3: Store a small collection of data as documents within the database
 
@@ -135,7 +132,7 @@ an instance of the {{site.data.keyword.cloudant}} service, and the following Pyt
       [5, "five", "freezing", 0]
     ]
   ```
-  {:pre}
+  {: codeblock}
 
 2. Use Python code to 'step' through the data and convert it into JSON documents.
   Each document is stored in the database:
@@ -166,7 +163,7 @@ an instance of the {{site.data.keyword.cloudant}} service, and the following Pyt
     if newDocument.exists():
         print "Document '{0}' successfully created.".format(number)
   ```
-  {:pre}
+  {: codeblock}
 
 Notice that we check that each document was successfully created.
 {: tip}
@@ -184,7 +181,7 @@ A full retrieval also includes the data _within_ a document.
     ```python
     result_collection = Result(myDatabase.all_docs)
     ```      
-    {:pre}
+    {: codeblock}
 
     This list is returned as an array.
 
@@ -192,15 +189,18 @@ A full retrieval also includes the data _within_ a document.
     ```python
     print "Retrieved minimal document:\n{0}\n".format(result_collection[0])
     ```
-    {:pre}
+    {: codeblock}
 
     The result is similar to the following example:
     
     ```
     [{u'value': {u'rev': u'1-106e76a2612ea13468b2f243ea75c9b1'}, u'id': u'14be111aac74534cf8d390eaa57db888', u'key': u'14be111aac74534cf8d390eaa57db888'}]
     ```
+    {:screen}
     
-    We can tidy the appearance a little, and see that the minimal document details we got back look like this:
+    > **Note:** The `u'` prefix is simply an indication that Python is displaying a Unicode string. 
+    
+    If we tidy the appearance a little, we can see that the minimal document details we got back are equivalent to this:
     
     ```json
     [
@@ -215,12 +215,11 @@ A full retrieval also includes the data _within_ a document.
     ```
     {:screen}
 
-  The nature of NoSQL databases,
+  > **Note:** The nature of NoSQL databases,
   such as {{site.data.keyword.cloudant_short_notm}},
   means that simple notions such as the first document stored in a database is always
   the first one returned in a list of results,
   do not necessarily apply.
-  {: tip}
 
 * To perform a full retrieval,
   request a list of all documents within the database,
@@ -230,14 +229,15 @@ A full retrieval also includes the data _within_ a document.
   result_collection = Result(myDatabase.all_docs, include_docs=True)
   print "Retrieved full document:\n{0}\n".format(result_collection[0])
   ```
-  {:pre}
+  {: codeblock}
   
   The result is similar to the following example:
   ```
   [{u'value': {u'rev': u'1-7130413a8c7c5f1de5528fe4d373045c'}, u'id': u'0cfc7d902f613d5fdb7b7818e262353b', u'key': u'0cfc7d902f613d5fdb7b7818e262353b', u'doc': {u'temperatureField': 40, u'descriptionField': u'hot', u'numberField': 2, u'nameField': u'two', u'_id': u'0cfc7d902f613d5fdb7b7818e262353b', u'_rev': u'1-7130413a8c7c5f1de5528fe4d373045c'}}]
   ```
+  {: screen}
   
-  We can tidy the appearance a little, and see that the full document details we got back look like this:
+  If we tidy the appearance a little, we can see that the full document details we got back are equivalent to this:
   
   ```json
   [
@@ -263,14 +263,14 @@ A full retrieval also includes the data _within_ a document.
 ## Step 5: Retrieving data through the {{site.data.keyword.cloudant_short_notm}} API endpoint
 
 You can also request a list of all documents and their contents by
-invoking the Cloudant [`/_all_docs` endpoint](../api/database.html#get-documents).
+invoking the Cloudant [`/_all_docs` endpoint](api/database.html#get-documents).
 
 1. Identify the endpoint to contact, and any parameters to supply along with the call:
   ```python
   end_point = '{0}/{1}'.format("<url>", databaseName + "/_all_docs")
   params = {'include_docs': 'true'}
   ```
-  {:pre}
+  {: codeblock}
   ... where `<url>` is the URL value from the service credentials you found in Step 1.
 
 2. Send the request to the service instance,
@@ -279,57 +279,58 @@ invoking the Cloudant [`/_all_docs` endpoint](../api/database.html#get-documents
   response = client.r_session.get(end_point, params=params)
   print "{0}\n".format(response.json())
   ```
-  {:pre}
+  {: codeblock}
 
-The result is similar to the following _abbreviated_ example:
-
-```
-{u'rows': [{u'value': {u'rev': u'1-6d8cb5905316bf3dbe4075f30daa9f59'}, u'id': u'0532feb6fd6180d79b842d871316c444', u'key': u'0532feb6fd6180d79b842d871316c444', u'doc': {u'temperatureField': 20, u'descriptionField': u'warm', u'numberField': 3, u'nameField': u'three', u'_id': u'0532feb6fd6180d79b842d871316c444', u'_rev': u'1-6d8cb5905316bf3dbe4075f30daa9f59'}}, ... , {u'value': {u'rev': u'1-3f61736fa96473d358365ce1665e3d97'}, u'id': u'db396f77bbe12a567b09177b4accbdbc', u'key': u'db396f77bbe12a567b09177b4accbdbc', u'doc': {u'temperatureField': 0, u'descriptionField': u'freezing', u'numberField': 5, u'nameField': u'five', u'_id': u'db396f77bbe12a567b09177b4accbdbc', u'_rev': u'1-3f61736fa96473d358365ce1665e3d97'}}], u'total_rows': 5, u'offset': 0}
-```
-
-We can tidy the appearance a little, and see that the _abbreviated_ details we got back look similar to this:
-
-```json
-{
-    "rows": [
-        {
-            "value": {
-              "rev": "1-6d8cb5905316bf3dbe4075f30daa9f59"
-            },
-            "id": "0532feb6fd6180d79b842d871316c444",
-            "key": "0532feb6fd6180d79b842d871316c444",
-            "doc": {
-                "temperatureField": 20,
-                "descriptionField": "warm",
-                "numberField": 3,
-                "nameField": "three",
-                "_id": "0532feb6fd6180d79b842d871316c444",
-                "_rev": "1-6d8cb5905316bf3dbe4075f30daa9f59"
-            }
-        },
-        ...
-        {
-            "value":
-            {
-              "rev": "1-6d8cb5905316bf3dbe4075f30daa9f59"
-            },
-            "id": "db396f77bbe12a567b09177b4accbdbc",
-            "key": "db396f77bbe12a567b09177b4accbdbc",
-            "doc": {
-                "temperatureField": 0,
-                "descriptionField": "freezing",
-                "numberField": 5,
-                "nameField": "five",
-                "_id": "db396f77bbe12a567b09177b4accbdbc",
-                "_rev": "1-6d8cb5905316bf3dbe4075f30daa9f59"
-            }
-        }
-    ],
-    "total_rows": 5,
-    "offset": 0
-}
-```
-{:screen}
+  The result is similar to the following _abbreviated_ example:
+  
+  ```
+  {u'rows': [{u'value': {u'rev': u'1-6d8cb5905316bf3dbe4075f30daa9f59'}, u'id': u'0532feb6fd6180d79b842d871316c444', u'key': u'0532feb6fd6180d79b842d871316c444', u'doc': {u'temperatureField': 20, u'descriptionField': u'warm', u'numberField': 3, u'nameField': u'three', u'_id': u'0532feb6fd6180d79b842d871316c444', u'_rev': u'1-6d8cb5905316bf3dbe4075f30daa9f59'}}, ... , {u'value': {u'rev': u'1-3f61736fa96473d358365ce1665e3d97'}, u'id': u'db396f77bbe12a567b09177b4accbdbc', u'key': u'db396f77bbe12a567b09177b4accbdbc', u'doc': {u'temperatureField': 0, u'descriptionField': u'freezing', u'numberField': 5, u'nameField': u'five', u'_id': u'db396f77bbe12a567b09177b4accbdbc', u'_rev': u'1-3f61736fa96473d358365ce1665e3d97'}}], u'total_rows': 5, u'offset': 0}
+  ```
+  {:screen}
+  
+  We can tidy the appearance a little, and see that the _abbreviated_ details we got back are similar to this:
+  
+  ```json
+  {
+      "rows": [
+          {
+              "value": {
+                "rev": "1-6d8cb5905316bf3dbe4075f30daa9f59"
+              },
+              "id": "0532feb6fd6180d79b842d871316c444",
+              "key": "0532feb6fd6180d79b842d871316c444",
+              "doc": {
+                  "temperatureField": 20,
+                  "descriptionField": "warm",
+                  "numberField": 3,
+                  "nameField": "three",
+                  "_id": "0532feb6fd6180d79b842d871316c444",
+                  "_rev": "1-6d8cb5905316bf3dbe4075f30daa9f59"
+              }
+          },
+          ...
+          {
+              "value":
+              {
+                "rev": "1-6d8cb5905316bf3dbe4075f30daa9f59"
+              },
+              "id": "db396f77bbe12a567b09177b4accbdbc",
+              "key": "db396f77bbe12a567b09177b4accbdbc",
+              "doc": {
+                  "temperatureField": 0,
+                  "descriptionField": "freezing",
+                  "numberField": 5,
+                  "nameField": "five",
+                  "_id": "db396f77bbe12a567b09177b4accbdbc",
+                  "_rev": "1-6d8cb5905316bf3dbe4075f30daa9f59"
+              }
+          }
+      ],
+      "total_rows": 5,
+      "offset": 0
+  }
+  ```
+  {:screen}
 
 ## Step 6: Delete the database
 
@@ -344,7 +345,7 @@ except CloudantException:
 else:
     print "'{0}' successfully deleted.\n".format(databaseName)
 ```
-{:pre}
+{: codeblock}
 
 We have included some basic error handling
 to illustrate how problems might be caught and addressed.
@@ -356,7 +357,7 @@ The final step is to disconnect the Python client application from the service i
 ```python
 client.disconnect()
 ```
-{:pre}
+{: codeblock}
 
 ## Next steps
 
