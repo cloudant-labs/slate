@@ -16,6 +16,8 @@ Cloudant NoSQL DB
   {: .navgroup-end}
 
   {: .navgroup id="reference"}
+  basics/index.md
+
   {: .topicgroup}
   API Reference
     api/index.md
@@ -53,8 +55,6 @@ Cloudant NoSQL DB
     libraries/index.md
     libraries/supported.md
     libraries/thirdparty.md
-
-  basics/index.md
   {: .navgroup-end}
 
   {: .navgroup id="howto"}
