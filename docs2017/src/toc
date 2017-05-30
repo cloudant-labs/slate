@@ -13,12 +13,6 @@ Cloudant NoSQL DB
 		offerings/index.md
 		offerings/bluemix.md
 		offerings/whatsnew.md
-
-	{: .topicgroup}
-    Security
-    	offerings/security.md
-    	offerings/compliance.md
-    	offerings/dataprivacygovernance.md
 	{: .navgroup-end}
 
 	{: .navgroup id="reference"}
@@ -88,5 +82,11 @@ Cloudant NoSQL DB
 		guides/managing_tasks.md
 		guides/model_data.md
 		guides/replication_guide.md
+
+	{: .topicgroup}
+    Security
+    	offerings/security.md
+    	offerings/compliance.md
+    	offerings/dataprivacygovernance.md
 	{: .navgroup-end}
 
