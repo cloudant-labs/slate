@@ -133,7 +133,7 @@ _Creating a document, using Javascript:_
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$ACCOUNT+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+":"+$PASSWORD+"@"+$ACCOUNT+".cloudant.com");
 var db = account.use($DATABASE);
 
 db.insert($JSON, function (err, body, headers) {
@@ -228,7 +228,7 @@ _Example of retrieving a document, using Javascript:_
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$ACCOUNT+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+":"+$PASSWORD+"@"+$ACCOUNT+".cloudant.com");
 var db = account.use($DATABASE);
 
 db.get($JSON._id, function (err, body, headers) {
@@ -291,7 +291,7 @@ by using the `include_docs` option.
 ## Update
 
 To update a document,
-send a `PUT` request with the updated JSON content *and* the most recent `_rev` value
+send a `PUT` request with the updated JSON content *and* the latest `_rev` value
 to `https://$ACCOUNT.cloudant.com/$DATABASE/$DOCUMENT_ID`.
 You can also use this `PUT` method to create a document,
 in which case you do not need to supply the most recent `_rev` value.
@@ -330,7 +330,7 @@ _Example of updating a document, using Javascript:_
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$ACCOUNT+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+":"+$PASSWORD+"@"+$ACCOUNT+".cloudant.com");
 var db = account.use($DATABASE);
 
 // make sure $JSON contains the correct `_rev` value!
@@ -424,7 +424,7 @@ _Example of a delete request, using Javascript:_
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$ACCOUNT+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+":"+$PASSWORD+"@"+$ACCOUNT+".cloudant.com");
 var db = account.use($DATABASE);
 
 // make sure $JSON contains the correct `_rev` value!
@@ -686,7 +686,7 @@ _Example request to create, update, or delete multiple documents, using Javascri
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://$USERNAME:$PASSWORD@$ACCOUNT.cloudant.com");
+var account = nano("https://$ACCOUNT:$PASSWORD@$ACCOUNT.cloudant.com");
 var db = account.use($DATABASE);
 
 db.bulk($JSON, function (err, body) {
