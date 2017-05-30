@@ -269,7 +269,7 @@ _Example of `PUT`ting a view into a design document called `training`,
 using the command line:_
 
 ```sh
-curl -X PUT https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/_design/training --data-binary @view.def
+curl -X PUT https://$ACCOUNT:$PASSWORD@$ACCOUNT.cloudant.com/$DATABASE/_design/training --data-binary @view.def
 	# where the design document is stored in the file `view.def`
 ```
 {:codeblock}

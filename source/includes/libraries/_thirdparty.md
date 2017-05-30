@@ -158,7 +158,7 @@ The couchdb-meteor package provides:
 
 To configure the Apache CouchDB or Cloudant server connection information, pass its URL as the COUCHDB_URL environment variable to the Meteor server process.
 
-`$export COUCHDB_URL=https://username:password@username.cloudant.com`
+`$export COUCHDB_URL=https://<account>.cloudant.com`
 
 See [API Reference](api.html) for more information about meteor-couchdb APIs. 
 

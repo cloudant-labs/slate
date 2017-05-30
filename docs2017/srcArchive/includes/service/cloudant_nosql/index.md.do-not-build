@@ -82,8 +82,7 @@ variable.
 	      "username": "someusername",
 	      "password": "secret",
 	      "host": "myhost-bluemix.cloudant.com",
-	      "port": 443,
-	      "url": "https://someusername:secret@myhost-bluemix.cloudant.com"
+	      "port": 443,<account>@myhost-bluemix.cloudant.com"
 	    }
 	  }
 	}```
@@ -231,7 +230,7 @@ You can provide your own client driver JAR files. The client driver JAR files mu
 
 The following code is a sample of Cloudant NoSQL DB configuration that might be provided in the local `server.xml` file. This sample assumes that when the packaged server is pushed to the cloud, it is bound to a Cloudant NoSLQ DB named `mycloudant`. In this case, the `jndiName` attribute can be whatever value you prefer. The value of the `jndiName` attribute is independent of the service name.
 
-	```<couchdb id="cloudantNoSQLDB-mycloudant" jndiName='couchdb/mycloudant' libraryRef='cloudantNoSQLDB-library' password='somepass' url='https://someuser:somepass@someuser.cloudant.com'/>
+	```<couchdb id="cloudantNoSQLDB-mycloudant" jndiName='couchdb/mycloudant' libraryRef='cloudantNoSQLDB-library' password='somepass' url='https://<account>.cloudant.com'/>
 	<library id="cloudantNoSQLDB-library">
 		<fileset id='cloudantNoSQLDB-fileset'
 			dir='c:/cloudantlibs'		
