@@ -64,24 +64,25 @@ Cloudant NoSQL DB
 		tutorials/create_bmxapp_upload.md
 		tutorials/create_bmxapp_maintain.md
 
-  guides/acurl.md
-
 	{: .topicgroup}
 	Recovery and backup
 		guides/disaster-recovery-and-backup.md
     guides/active-active.md
     guides/backup-cookbook.md
 
-  guides/cap_theorem.md
-  guides/couchapps.md
-  guides/warehousing.md
-  guides/design_document_management.md
-  guides/mvcc.md
-  guides/transactions.md
-  guides/sharding.md
-  guides/json.md
-  guides/managing_tasks.md
-  guides/model_data.md
-  guides/replication_guide.md
+	{: .topicgroup}
+	Guides
+    guides/acurl.md
+    guides/cap_theorem.md
+    guides/couchapps.md
+    guides/warehousing.md
+    guides/design_document_management.md
+    guides/mvcc.md
+    guides/transactions.md
+    guides/sharding.md
+    guides/json.md
+    guides/managing_tasks.md
+    guides/model_data.md
+    guides/replication_guide.md
 	{: .navgroup-end}
 
