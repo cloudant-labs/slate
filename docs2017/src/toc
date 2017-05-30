@@ -16,14 +16,6 @@ Cloudant NoSQL DB
 	{: .navgroup-end}
 
 	{: .navgroup id="reference"}
-    basics/index.md
-
-	{: .topicgroup}
-	Libraries
-		libraries/index.md
-		libraries/supported.md
-		libraries/thirdparty.md
-
 	{: .topicgroup}
 	API Reference
 		api/index.md
@@ -49,6 +41,20 @@ Cloudant NoSQL DB
 		api/advanced.md
 		api/monitoring.md
 		api/backup.md
+
+	{: .topicgroup}
+	Sample apps
+		[Feedback Mobile App using Ionic & Cloudant](https://github.com/IBM-Bluemix/feedbackapp-ionic-cloudant)
+		[Open Fridge](https://github.com/krook/openfridge)
+		[Online Catalog Store](https://github.com/ibm-bluemix-mobile-services/mobiledashboard-storecatalog-backend)
+
+	{: .topicgroup}
+	Libraries
+		libraries/index.md
+		libraries/supported.md
+		libraries/thirdparty.md
+
+	basics/index.md
 	{: .navgroup-end}
 
 	{: .navgroup id="howto"}
