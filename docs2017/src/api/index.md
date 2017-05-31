@@ -22,11 +22,11 @@ Contributions are welcome through [Cloudant Labs on GitHub ![External link icon]
 
 There are three ways you can supply the username and password data for a request.
 
-1.	The `-u $USERNAME` parameter on its own causes
+1.	The `-u $ACCOUNT` parameter on its own causes
 	cURL to ask you to enter your password interactively on the command line before performing the request.
 	This option is used for the cURL examples in the Cloudant API reference.
 
-2.	**[Caution: This option is not secure]** Entering the combination parameter `-u $USERNAME:$PASSWORD`
+2.	**[Caution: This option is not secure]** Entering the combination parameter `-u $ACCOUNT:$PASSWORD`
 	as part of your command means that you are not asked to enter your password interactively.
 	However,
 	a plain text copy of your password appears in the terminal log.
@@ -34,7 +34,7 @@ There are three ways you can supply the username and password data for a request
 	<br/>
 	A safer variation of this method lets you to define a curl control file,
 	containing the following details:<br/>
-	`--user "$USERNAME:$PASSWORD"`<br/>
+	`--user "$ACCOUNT:$PASSWORD"`<br/>
 	`--globoff`<br/>
 	`--proto "=https"`<br/>
 	You can then define an 'alias' that enables the curl command to apply the control file,
@@ -45,7 +45,7 @@ There are three ways you can supply the username and password data for a request
 
 3.	**[Caution: This option is not secure]** For an `https` cURL request,
 	you can supply the username and password as part of the URL:<br/>
-	`... https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com ...`<br/>
+	`... https://$ACCOUNT:$PASSWORD@$ACCOUNT.cloudant.com ...`<br/>
 	However, a plain text copy of your password appears in the terminal log.
 
 An alternative approach is to use a hashed version of your username and password combination,
@@ -53,4 +53,4 @@ and supply that data in your cURL command.
 The guide on [Authorized curl](../guides/acurl.html)
 explains how to create a more complex`acurl` command that makes use of this technique,
 enabling you to enter commands such as:<br/>
-`acurl https://$USERNAME.cloudant.com`
+`acurl https://$ACCOUNT.cloudant.com`

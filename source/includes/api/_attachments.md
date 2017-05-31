@@ -38,7 +38,7 @@ Content-Type: $$ATTACHMENT_MIME_TYPE
 ```
 
 ```shell
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/$DOCUMENT_ID/$ATTACHMENT?rev=$REV \
+curl https://$ACCOUNT.cloudant.com/$DATABASE/$DOCUMENT_ID/$ATTACHMENT?rev=$REV \
      -X PUT \
      -H "Content-Type: $ATTACHMENT_MIME_TYPE" \
      --data-binary @$ATTACHMENT_FILEPATH
@@ -47,7 +47,7 @@ curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/$DOCUMENT_ID/$
 ```javascript
 var nano = require('nano');
 var fs = require('fs');
-var account = nano("https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com");
+var account = nano("https://$ACCOUNT.cloudant.com");
 var db = account.use($DATABASE);
 
 fs.readFile($FILEPATH, function (err, data) {
@@ -67,7 +67,7 @@ include the attachment as an '[inline](#inline)' component of the JSON content.
 
 To create a new attachment on an existing document,
 or to update an attachment on a document,
-make a PUT request with the document's latest `_rev` to `https://$USERNAME.cloudant.com/$DATABASE/$DOCUMENT_ID/$ATTACHMENT`.
+make a PUT request with the document's latest `_rev` to `https://$ACCOUNT.cloudant.com/$DATABASE/$DOCUMENT_ID/$ATTACHMENT`.
 The attachment's [content type][mime] must be specified using the `Content-Type` header.
 The `$ATTACHMENT` value is the name by which the attachment is associated with the document.
 
@@ -93,18 +93,18 @@ The response contains the document ID and the new document revision. Note that a
 > Example instruction for reading an attachment:
 
 ```http
-GET /$DATABASE/$DOCUMENT_ID/$ATTACHMENT HTTP/1.1
+GET /$DATABASE/<documenat_id>/<attachment http>/1.1
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/$DATABASE/$DOCUMENT_ID/$ATTACHMENT \
-     -u $USERNAME >blob_content.dat
+curl https://$ACCOUNT.cloudant.com/$DATABASE/$DOCUMENT_ID/$ATTACHMENT \
+     -u $ACCOUNT >blob_content.dat
 # store the response content into a file for further processing.
 ```
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com");
+var account = nano("https://$ACCOUNT.cloudant.com");
 var db = account.use($DATABASE);
 
 db.attachment.get($DOCUMENT_ID, $FILENAME, function (err, body) {
@@ -115,7 +115,7 @@ db.attachment.get($DOCUMENT_ID, $FILENAME, function (err, body) {
 ```
 
 To retrieve an attachment,
-make a GET request to `https://$USERNAME.cloudant.com/$DATABASE/$DOCUMENT_ID/$ATTACHMENT`.
+make a GET request to `https://$ACCOUNT.cloudant.com/$DATABASE/$document_id/$attachment/`.
 The body of the response is the raw content of the attachment.
 
 ### Delete
@@ -123,18 +123,17 @@ The body of the response is the raw content of the attachment.
 > Example instruction for deleting an attachment:
 
 ```http
-DELETE /$DATABASE/$DOCUMENT_ID/$ATTACHMENT?rev=$REV HTTP/1.1
+DELETE /$DATABASE/$DOCUMENT_ID/$ATTACHMENT?rev=<rev HTTP>/1.1
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/$DATABASE/$DOCUMENT_ID/$ATTACHMENT?rev=$REV \
-     -u $USERNAME \
+curl https://$ACCOUNT.cloudant.com/$DATABASE/$DOCUMENT_ID/$ATTACHMENT?rev=$REV \
      -X DELETE
 ```
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com");
+var account = nano("https://$ACCOUNT.cloudant.com");
 var db = account.use($DATABASE);
 
 db.attachment.destroy($DOCUMENT_ID, $FILENAME, $REV, function (err, body) {
@@ -144,7 +143,7 @@ db.attachment.destroy($DOCUMENT_ID, $FILENAME, $REV, function (err, body) {
 });
 ```
 
-To delete an attachment, make a DELETE request with the document's latest `_rev` to `https://$USERNAME.cloudant.com/$DATABASE/$DOCUMENT_ID/$ATTACHMENT`.
+To delete an attachment, make a DELETE request with the document's latest `_rev` to `https://$ACCOUNT.cloudant.com/$DOCUMENT_ID/$ATTACHMENT`.
 If you do not supply the latest `_rev`,
 the response is a [409 error](basics.html#http-status-codes).
 
@@ -193,10 +192,7 @@ they do have implications for application performance.
 In particular,
 having a large number of attachments can have an adverse performance impact during replication.
 
-For example,
-if your application requires lots of images to be stored as attachments,
-or has large images,
-a better approach would be to use an alternative BLOb storage mechanism for the images,
-with the image metadata (such as URLs) in Cloudant.
+For example, if your application requires lots of images to be stored as attachments,
+or has large images, a better approach would be to use an alternative BLOb storage mechanism for the images, with the image metadata (such as URLs) in Cloudant.
 
 You might find it helpful to carry out performance testing for your specific application to determine which approach works best for your circumstances.  

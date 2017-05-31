@@ -33,9 +33,9 @@ So in accordance with IMDb’s (Conditions of Use)[http://www.imdb.com/help/show
 To follow along, replicate the database `https://examples.cloudant.com/movies-demo/` into your own account. This database only contains the sample data. No indexes have been defined yet. In order to do queries, you must define indexes yourself. Alternatively, you could instead use the following :ref:`test form <cloudant-query-guide-form>`.
 
 ```shell
-    curl 'https://user:password@user.cloudant.com/_replicate' -X POST -H 'Content-Type: application/json' -d '{
+    curl 'https://$ACCOUNT.cloudant.com/_replicate' -X POST -H 'Content-Type: application/json' -d '{
       "source": "https://examples.cloudant.com/movies-demo",
-      "target": "https://user:password@user.cloudant.com/movies-demo",
+      "target": "https://$ACCOUNT.cloudant.com/movies-demo",
       "create_target": true,
       "use_checkpoints": false
       }'
@@ -52,7 +52,7 @@ To create an index, you need to choose the fields you want to be indexed and sub
 You can create an index for the `Person_name``field:
 
 ```shell
-   curl -X POST 'https://<user>:<pass>@<user>.cloudant.com/movies-demo/_index' -d '{ "index": { "fields": ["Person_name"] } }'
+   curl -X POST 'https://$ACCOUNT.cloudant.com/movies-demo/_index' -d '{ "index": { "fields": ["Person_name"] } }'
 ```
 
 Let's look at the JSON object submitted in the request body.
@@ -90,7 +90,7 @@ In both cases, the HTTP status code will be 200.
 Once you have an index, you can query the database by POSTing a JSON document to the `_find` endpoint.
 
 ```shell
-curl -X POST https://<user>:<pass>@<user>.cloudant.com/movies-demo/_find -d '{ "selector": { "Person_name": "Zoe Saldana" } }'
+curl -X POST https://$ACCOUNT.cloudant.com/movies-demo/_find -d '{ "selector": { "Person_name": "Zoe Saldana" } }'
 ```
 
 And again we look at the request body:
@@ -132,7 +132,7 @@ The result format is very straight forward. You get an object with a single fiel
 As I warned you earlier, sending a query that doesn’t have a suitable index will result in an error. Let's see:
 
 ```shell
-curl -X POST 'https://<user>:<pass>@<user>.cloudant.com/movies-demo/_find' -d '{ "selector": { "Movie_earnings_rank": 191 } }'
+curl -X POST 'https://$ACCOUNT.cloudant.com/movies-demo/_find' -d '{ "selector": { "Movie_earnings_rank": 191 } }'
 ```
 
 Because your database may be terabytes in size, indexing all fields in all documents is not desirable. Cloudant Query will not automatically index your data. It *will* tell you the indexes you need to define, if a query cannot be satisfied. How you choose to handle that error is up to you, you can change your query or you can create a new index.
@@ -149,13 +149,13 @@ Because your database may be terabytes in size, indexing all fields in all docum
 Lets define a few more indexes. This one is for ``Person_dob``, date of birth, using descending sort order:
 
 ```shell
-curl -X POST 'https://<user>:<pass>@<user>.cloudant.com/movies-demo/_index' -d '{ "index": { "fields": [{"Person_dob": "desc"}] } }'
+curl -X POST 'https://$ACCOUNT.cloudant.com/movies-demo/_index' -d '{ "index": { "fields": [{"Person_dob": "desc"}] } }'
 ```
 
 And one to combine `Movie_name` and `Person_name`:
 
 ```shell
-curl -X POST 'https://<user>:<pass>@<user>.cloudant.com/movies-demo/_index' -d '{ "index": { "fields": ["Movie_name", "Person_name"] } }'
+curl -X POST 'https://$ACCOUNT.cloudant.com/movies-demo/_index' -d '{ "index": { "fields": ["Movie_name", "Person_name"] } }'
 ```
 
 This allows efficient queries to check whether an actor starred in a movie.
@@ -165,7 +165,7 @@ This allows efficient queries to check whether an actor starred in a movie.
 > Refining results
 
 ```shell
-curl -X POST 'https://<user>:<pass>@<user>.cloudant.com/movies-demo/_find' -d '
+curl -X POST 'https://$ACCOUNT.cloudant.com/movies-demo/_find' -d '
   {
     "selector": {
       "Movie_year": 1978,
@@ -226,7 +226,7 @@ db.movies_demo.find({
 > Here is the Cloudant query:
 
 ```shell
-curl -X POST 'https://<user>:<pass>@<user>.cloudant.com/movies-demo/_find' -d '{
+curl -X POST 'https://$ACCOUNT.cloudant.com/movies-demo/_find' -d '{
   "fields": ["Movie_name", "Movie_year", "_id", "_rev"],
   "selector": {
     "Movie_year": {"$gt": 1960},
@@ -331,7 +331,7 @@ When you create an index with Cloudant Query, a design document containing the i
 > Getting a list of indexes
 
 ```shell
-curl -X GET https://<user>:<pass>@<user>.cloudant.com/movies-demo/_index
+curl -X GET https://$ACCOUNT.cloudant.com/movies-demo/_index
 ```
 
 > Result showing several indexes:
@@ -402,7 +402,7 @@ You can use the `name` (view name) and the `ddoc` (design document ID) you find 
 > Here is how you would delete the first index listed:
 
 ```shell
-curl -X DELETE 'https://<user>:<pass>@<user>.cloudant.com/movies-demo/_index/4c4a214887d5ef7e5594091be1ce51ecb0aeaf37/json/4c4a214887d5ef7e5594091be1ce51ecb0aeaf37""'
+curl -X DELETE 'https://$ACCOUNT.cloudant.com/movies-demo/_index/4c4a214887d5ef7e5594091be1ce51ecb0aeaf37/json/4c4a214887d5ef7e5594091be1ce51ecb0aeaf37""'
 ```
 
 To delete an index, send a `DELETE` request to `/$db/_index/$designdoc/$type/$name`, where `$db` is the name of the database, `$designdoc` is the ID of the design document, `$type` is the type of the index (e.g. json or text), and `$name` is the name of the index. 
