@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-05-17"
+lastupdated: "2017-05-31"
 
 ---
 
@@ -18,7 +18,8 @@ This is the online documentation for the [{{site.data.keyword.cloudantfull}} ![E
 all intended to help you get going quickly.
 {:shortdesc}
 
-{{site.data.keyword.cloudant_short_notm}} is a document-oriented DataBase as a Service (DBaaS).
+[{{site.data.keyword.cloudant_short_notm}} ![External link icon](images/launch-glyph.svg "External link icon")](https://www.youtube.com/watch?v=xfO3m1I3SKg&feature=youtu.be){:new_window}
+is a document-oriented DataBase as a Service (DBaaS).
 It stores data as documents in JSON format.
 It's built with scalability,
 high availability,
