@@ -7,7 +7,6 @@ Cloudant NoSQL DB
 	{: .navgroup id="learn"}
 	getting-started.md
 	cloudant.md
-	[Tell me about IBM Cloudant](https://www.youtube.com/watch?v=xfO3m1I3SKg&feature=youtu.be)
 
 	{: .topicgroup}
 	Offerings
@@ -47,7 +46,7 @@ Cloudant NoSQL DB
 
 	{: .topicgroup}
 	Sample apps
-		[Feedback Mobile App using Ionic & Cloudant](https://github.com/IBM-Bluemix/feedbackapp-ionic-cloudant)
+		[Feedback Mobile App using Ionic and Cloudant](https://github.com/IBM-Bluemix/feedbackapp-ionic-cloudant)
 		[Open Fridge](https://github.com/krook/openfridge)
 		[Online Catalog Store](https://github.com/ibm-bluemix-mobile-services/mobiledashboard-storecatalog-backend)
 
