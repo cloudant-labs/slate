@@ -1,5 +1,18 @@
 ## Monitoring a Cloudant cluster
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the 'Monitoring a Cloudant Cluster' topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/api/monitoring.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 A key part of ensuring best performance,
 or troubleshooting any problems,
 is monitoring the affected system.
@@ -40,7 +53,7 @@ You can specify a `raw` format if you prefer.
 
 All requests to the monitoring API have the following form:
 
-`curl -u [ADMIN_USER] https://[ADMIN USER].cloudant.com/_api/v2/monitoring/[END_POINT]?cluster=[CLUSTER][&format=(json|raw)]`
+`curl -u $ADMIN_USER https://$ADMIN_USER.cloudant.com/_api/v2/monitoring/$END_[POINT?cluster=$CLUSTER[&format=(json|raw)]`
 
 The fields are described in the following table:
 
@@ -94,7 +107,7 @@ resolutions are trimmed by one interval's length.
 > Example monitoring request for disk use data returned in `JSON` format:
 
 ```
-curl -u myusername https://myusername.cloudant.com/_api/v2/monitoring/disk_use?cluster=myclustername&format=json
+curl -u $ACCOUNT https://$ACCOUNT.cloudant.com/_api/v2/monitoring/disk_use?cluster=myclustername&format=json
 ```
 
 > Example result after requesting disk use data in `JSON` format:
@@ -135,7 +148,7 @@ Each value returned consists of [datapoint, timestamp] values.
 > Example monitoring request for disk use data returned in `raw` format:
 
 ```
-curl -u myusername https://myusername.cloudant.com/_api/v2/monitoring/disk_use?cluster=myclustername&format=raw
+curl -u $ACCOUNT https://$ACCOUNT.cloudant.com/_api/v2/monitoring/disk_use?cluster=myclustername&format=raw
 ```
 
 > Example result after requesting disk use data in `raw` format:
@@ -160,7 +173,7 @@ with the disk use expressed as bytes stored.
 > Obtaining a list of the currently supported monitoring end points:
 
 ```
-curl -u myusername https://myusername.cloudant.com/_api/v2/monitoring
+curl -u $ACCOUNT https://$ACCOUNT.cloudant.com/_api/v2/monitoring
 ```
 
 > Example response, listing the available monitoring end points:
@@ -220,7 +233,7 @@ Endpoint | Description
 > Example of a `disk_use` monitoring request:
 
 ```
-curl -u myusername https://myusername.cloudant.com/_api/v2/monitoring/disk_use?cluster=myclustername&format=json
+curl -u $ACCOUNT https://$ACCOUNT.cloudant.com/_api/v2/monitoring/disk_use?cluster=myclustername&format=json
 ```
 
 > Example results (abbreviated) from a `disk_use` monitoring request:
@@ -285,7 +298,7 @@ curl -u myusername https://myusername.cloudant.com/_api/v2/monitoring/disk_use?c
 > Example of a `kv_emits` monitoring request:
 
 ```
-curl -u myusername https://myusername.cloudant.com/_api/v2/monitoring/kv_emits?cluster=myclustername&format=json
+curl -u $ACCOUNT https://$ACCOUNT.cloudant.com/_api/v2/monitoring/kv_emits?cluster=myclustername&format=json
 ```
 
 > Example results (abbreviated) from a `kv_emits` monitoring request:
@@ -328,7 +341,7 @@ curl -u myusername https://myusername.cloudant.com/_api/v2/monitoring/kv_emits?c
 > Example of a `map_doc` monitoring request:
 
 ```
-curl -u myusername https://myusername.cloudant.com/_api/v2/monitoring/map_doc?cluster=myclustername&format=json
+curl -u $ACCOUNT https://$ACCOUNT.cloudant.com/_api/v2/monitoring/map_doc?cluster=myclustername&format=json
 ```
 
 > Example results (abbreviated) from a `map_doc` monitoring request:
@@ -371,7 +384,7 @@ curl -u myusername https://myusername.cloudant.com/_api/v2/monitoring/map_doc?cl
 > Example of a `rate/status_code` monitoring request:
 
 ```
-curl -u myusername https://myusername.cloudant.com/_api/v2/monitoring/rate/status_code?cluster=myclustername&format=json
+curl -u $ACCOUNT https://$ACCOUNT.cloudant.com/_api/v2/monitoring/rate/status_code?cluster=myclustername&format=json
 ```
 
 > Example results (abbreviated) from a `rate/status_code` monitoring request:
@@ -464,7 +477,7 @@ curl -u myusername https://myusername.cloudant.com/_api/v2/monitoring/rate/statu
 > Example of a `rate/verb` monitoring request:
 
 ```
-curl -u myusername https://myusername.cloudant.com/_api/v2/monitoring/rate/verb?cluster=myclustername&format=json
+curl -u $ACCOUNT https://$ACCOUNT.cloudant.com/_api/v2/monitoring/rate/verb?cluster=myclustername&format=json
 ```
 
 > Example results (abbreviated) from a `rate/verb` monitoring request:
@@ -593,7 +606,7 @@ curl -u myusername https://myusername.cloudant.com/_api/v2/monitoring/rate/verb?
 > Example of a `response_time` monitoring request:
 
 ```
-curl -u myusername https://myusername.cloudant.com/_api/v2/monitoring/response_time?cluster=myclustername&format=json
+curl -u $ACCOUNT https://$ACCOUNT.cloudant.com/_api/v2/monitoring/response_time?cluster=myclustername&format=json
 ```
 
 > Example results (abbreviated) from a `response_time` monitoring request:
@@ -613,7 +626,7 @@ curl -u myusername https://myusername.cloudant.com/_api/v2/monitoring/response_t
 > Example of an `rps` monitoring request:
 
 ```
-curl -u myusername https://myusername.cloudant.com/_api/v2/monitoring/rps?cluster=myclustername&format=json
+curl -u $ACCOUNT https://$ACCOUNT.cloudant.com/_api/v2/monitoring/rps?cluster=myclustername&format=json
 ```
 
 > Example results (abbreviated) from an `rps` monitoring request:
@@ -652,7 +665,7 @@ curl -u myusername https://myusername.cloudant.com/_api/v2/monitoring/rps?cluste
 > Example of a `wps` monitoring request:
 
 ```
-curl -u myusername https://myusername.cloudant.com/_api/v2/monitoring/wps?cluster=myclustername&format=json
+curl -u $ACCOUNT https://$ACCOUNT.cloudant.com/_api/v2/monitoring/wps?cluster=myclustername&format=json
 ```
 
 > Example results (abbreviated) from a `wps` monitoring request:

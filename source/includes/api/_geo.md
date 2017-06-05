@@ -47,13 +47,12 @@ The `st_index` function specifically indexes objects, called geometries, encoded
 ### Queries
 
 ```shell
-curl https://$USERNAME.cloudant.com/$DATABASE/$DESIGN_ID/_geo/$INDEX_NAME?g=$GEOMETRY&relation=$RELATION \
-     -u $USERNAME
+curl https://$ACCOUNT.cloudant.com/$DATABASE/$DESIGN_ID/_geo/$INDEX_NAME?g=$GEOMETRY&relation=$RELATION \
 ```
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+".cloudant.com");
 
 account.request({
   db: $DATABASE,
@@ -69,13 +68,7 @@ account.request({
 });
 ```
 
-> Example response:
-
-```json
-TODO
-```
-
-Once you've got an index written, you can query it with a GET request to `https://$USERNAME.cloudant.com/$DATABASE/$DESIGN_DOCUMENT_ID/_geo/$INDEX_NAME`. All geo queries must provide these two query arguments: `relation` (a relation) and `g` (a geometry). Cloudant returns every document in the database whose indexed geometry has the specified relationship to the given geometry.
+Once you've got an index written, you can query it with a GET request to `https://<account>.cloudant.com/$DATABASE/<design_document_id>/_geo/<index_name>`. All geo queries must provide these two query arguments: `relation` (a relation) and `g` (a geometry). Cloudant returns every document in the database whose indexed geometry has the specified relationship to the given geometry.
 
 #### Geometries
 
@@ -140,8 +133,8 @@ Relation | Description
 ```shell
 curl \
   -H "Content-Type: application/json" \
-  -u "$USERNAME:$PASSWORD" \
-  'http://$USERNAME.cloudant.com/$DATABASE/$DESIGN_ID/_geo/$INDEX_NAME\
+  -u "$ACCOUNT:$PASSWORD" \
+  'http://$ACCOUNT.cloudant.com/$DATABASE/$DESIGN_ID/_geo/$INDEX_NAME\
   ?radius=100\
   &lat=0\
   &lon=0\
@@ -150,7 +143,7 @@ curl \
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+".cloudant.com");
 
 account.request({
   db: $DATABASE,
@@ -177,8 +170,8 @@ Specifying `lat`, `lon`, and `radius` creates a circle centered at that latitude
 ```shell
 curl 
   -H "Content-Type: application/json" \
-  -u "$USERNAME:$PASSWORD" \
-  "http://$USERNAME.cloudant.com/$DATABASE/$DESIGN_ID/_geo/$INDEX_NAME\
+  -u "$ACCOUNT:$PASSWORD" \
+  "http://$ACCOUNT.cloudant.com/$DATABASE/$DESIGN_ID/_geo/$INDEX_NAME\
   ?lat=0\
   &lon=0\
   &rangex=100\
@@ -188,7 +181,7 @@ curl
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+".cloudant.com");
 
 account.request({
   db: $DATABASE,

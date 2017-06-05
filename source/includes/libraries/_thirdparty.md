@@ -1,5 +1,18 @@
 ## Third-party client libraries
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the 'Third-party client libraries' topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/libraries/thirdparty.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 <aside class="warning" role="complementary" aria-label="notmaintained2">Third-party client libraries are not maintained or supported by Cloudant.</aside>
 
 ### Third-party Mobile libraries
@@ -145,7 +158,7 @@ The couchdb-meteor package provides:
 
 To configure the Apache CouchDB or Cloudant server connection information, pass its URL as the COUCHDB_URL environment variable to the Meteor server process.
 
-`$export COUCHDB_URL=https://username:password@username.cloudant.com`
+`$export COUCHDB_URL=https://<account>.cloudant.com`
 
 See [API Reference](api.html) for more information about meteor-couchdb APIs. 
 

@@ -1,5 +1,18 @@
 ## Back up your data using replication
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the 'Back up your data using replication' topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/guides/backup-guide-using-replication.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 Database backups protect your data against potential loss or corruption.
 You can use Cloudant’s replication facility to create a database backup,
 and store it on a Cloudant cluster.
@@ -67,7 +80,7 @@ To create an incremental backup,
 you must perform the following steps:
 
 1.	Find the ID of the checkpoint document for the last replication. It is stored in the  `_replication_id` field of the replication document, found in the `_replicator` database.
-2.	Open the checkpoint document at `/<database>/_local/<_replication_id>`, where `<_replication_id>` is the ID you found in the previous step, and `<database>` is the name of the source or the target database. The document usually exists on both databases but might only exist on one.
+2.	Open the checkpoint document at `/$DATABASE/_local/<_replication_id>`, where `<_replication_id>` is the ID you found in the previous step, and `$DATABASE` is the name of the source or the target database. The document usually exists on both databases but might only exist on one.
 3.	Search for the `recorded_seq` field of the first element in the history array found in the checkpoint document.
 4.	Start replicating to the new incremental backup database, setting the `since_seq` field in the replication document to the value of the `recorded_seq` field found in the previous step.
 
@@ -97,7 +110,7 @@ This example shows how to:
 
 ```
 # save base URL and the content type in shell variables
-$ url='https://<username>:<password>@<username>.cloudant.com'
+$ url='https://<account>.cloudant.com'
 $ ct='Content-Type: application-json'
 ```
 
@@ -387,7 +400,7 @@ or to a time when the cluster is less busy.
 ```json
 {
   "source": {
-    "url": "https://user:pass@example.com/db",
+    "url": "https://<account>@example.com/db",
     "headers": {
       "x-cloudant-io-priority": "low"
     }

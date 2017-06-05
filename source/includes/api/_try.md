@@ -262,6 +262,19 @@
 
 ## Try it!
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
+<div></div>
+
 > Request
 
 <p id="request-http-marker"></p>
@@ -273,7 +286,7 @@ GET /examples/_design/ddoc/_search/books?q=author:John HTTP/1.1
 <p id="request-curl-marker"></p>
 
 ```shell
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/examples/_design/ddoc/_search/books?q=author:John
+curl https://$ACCOUNT.cloudant.com/examples/_design/ddoc/_search/books?q=author:John
 ```
 
 > Response

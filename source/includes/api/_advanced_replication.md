@@ -1,5 +1,18 @@
 ## Advanced replication
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the Advanced replication topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/api/advanced_replication.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 This section contains details about more advanced replication concepts and tasks.
 
 You might also find it helpful to review details of the underlying [replication protocol](http://dataprotocols.org/couchdb-replication/), as well as reviewing the [Advanced Methods](advanced.html) material.
@@ -11,8 +24,8 @@ You might also find it helpful to review details of the underlying [replication 
 ```json
 {
   "_id": "my_rep",
-  "source":  "https://username:password@myserver.com:5984/fromthis",
-  "target":  "https://username:password@username.cloudant.com/tothat",
+  "source":  "https://<account>.<myserver>.com:5984/fromthis",
+  "target":  "https://<account>.cloudant.com/tothat",
   "create_target":  true
 }
 ```
@@ -22,8 +35,8 @@ You might also find it helpful to review details of the underlying [replication 
 ```json
 {
   "_id": "my_rep",
-  "source":  "https://username:password@myserver.com:5984/fromthis",
-  "target":  "https://username:password@username.cloudant.com/tothat",
+  "source":  "https://<account>.<myserver>.com:5984/fromthis",
+  "target":  "https://<account>.cloudant.com/tothat",
   "create_target":  true
   "_replication_id":  "c0ebe9256695ff083347cbf95f93e280",
   "_replication_state":  "triggered",
@@ -46,8 +59,8 @@ Field | Detail
 ```json
 {
   "_id": "my_rep",
-  "source":  "https://username:password@myserver.com:5984/fromthis",
-  "target":  "https://username:password@username.cloudant.com/tothat",
+  "source":  "https://<account>.<myserver>.com:5984/fromthis",
+  "target":  "https:/<account>.cloudant.com/tothat",
   "create_target":  true,
   "_replication_id":  "c0ebe9256695ff083347cbf95f93e280",
   "_replication_state":  "completed",
@@ -65,8 +78,8 @@ A continuous replication can never have a `completed` state.
 
 ```json
 {
-  "source": "https://username:password@example.com/db", 
-  "target": "https://username:password@username.cloudant.com/db"
+  "source": "https://<account>.<example>.com/db", 
+  "target": "https://<account>.cloudant.com/db"
 }
 ```
 
@@ -121,8 +134,8 @@ Filters are stored under the topmost `filters` key of the design document.
 
 ```json
 {
-  "source": "http://username:password@example.org/example-database",
-  "target": "http://username:password@username.cloudant.com/example-database",
+  "source": "http://<account>.<example>.org/<example-database>",
+  "target": "http://<account>.cloudant.com/<example-database>",
   "filter": "myddoc/myfilter"
 }
 ```
@@ -139,8 +152,8 @@ Filters are invoked by using a JSON statement that identifies:
 
 ```json
 {
-  "source": "http://username:password@example.org/example-database",
-  "target": "http://username:password@username.cloudant.com/example-database",
+  "source": "http://<account>.<example>.org/example-database",
+  "target": "http://<account>.cloudant.com/example-database",
   "filter": "myddoc/myfilter",
   "query_params": {
     "key": "value"
@@ -156,8 +169,8 @@ Arguments can be supplied to the filter function by including key:value pairs in
 
 ```json
 {
-  "source": "http://username:password@example.org/example-database",
-  "target": "http://username:password@127.0.0.1:5984/example-database",
+  "source": "http://<account>.example.org/example-database",
+  "target": "http://<account>.127.0.0.1:5984/example-database",
   "doc_ids": ["foo", "bar", "baz"]
 }
 ```
@@ -170,9 +183,9 @@ Sometimes you only want to replicate some documents. For this simple case, you d
 
 ```json
 {
-  "source": "http://username:password@username.cloudant.com/example-database",
-  "target": "http://username:password@example.org/example-database",
-  "proxy": "http://my-proxy.com:8888"
+  "source": "http://<account>.cloudant.com/<example-database>",
+  "target": "http://<account>.<example>.org/<example-database>",
+  "proxy": "http://<my-proxy>.com:8888"
 }
 ```
 
@@ -185,8 +198,8 @@ If you want replication to pass through an HTTP proxy, provide the proxy details
 ```json
 {
   "_id": "my_rep",
-  "source":  "https://username:password@myserver.com:5984/foo",
-  "target":  "https://username:password@username.cloudant.com/bar",
+  "source":  "https://<account>.<myserver>.com:5984/foo",
+  "target":  "https://<account>.cloudant.com/bar",
   "continuous":  true,
   "user_ctx": {
     "name": "joe",
@@ -225,8 +238,8 @@ As stated before, for admins the `user_ctx` property is optional, while for regu
 
 ```json
 {
-  "source": "https://username:password@example.com/example-database",
-  "target": "https://username:password@example.org/example-database",
+  "source": "https://<account>@example.com/example-database",
+  "target": "https://<account>@example.org/example-database",
   "connection_timeout": 60000,
   "retries_per_request": 20,
   "http_connections": 30

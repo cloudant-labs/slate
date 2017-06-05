@@ -1,0 +1,1043 @@
+#Bluemix conref equivalent file to cloudoeconrefs.dita
+
+#//this is a sample, and not the true source conref file - I have hosted this here so you can easily grab a copy to build locally with
+#//Do not translate - Begin
+
+keyword:
+  Bluemix:
+     IBM&reg; Bluemix&reg;
+  Bluemix_short:
+     Bluemix&reg;
+  Bluemix_notm:
+    Bluemix
+  IBM:
+    IBM&reg;
+  IBM_notm:
+    IBM
+  BluSoftlayer_full:
+    IBM&reg; Bluemix&reg; Infrastructure (SoftLayer)
+  BluSoftlayer:
+    Bluemix&reg; Infrastructure (SoftLayer)
+  BluSoftlayer_notm:
+    Bluemix Infrastructure (SoftLayer)
+#Service names
+#//AAA
+  cloudaccesstrailshort:
+    Access Trail
+  cloudaccesstraillong:
+    IBM&reg; Access Trail
+  cloudaccesstraillong_notm:  
+    IBM Access Trail
+  cloudaccesstrailfull:
+    IBM&reg; Access Trail for Bluemix&reg;
+  cloudaccesstrailfull_notm:
+    IBM Access Trail for Bluemix
+  activedeployshort:
+    Active Deploy
+  activedeploylong:
+    IBM&reg; Active Deploy
+  activedeploylong_notm:
+    IBM Active Deploy
+  activedeployfull:
+    IBM&reg; Active Deploy for Bluemix&reg;
+  activedeployfull_notm:
+    IBM Active Deploy for Bluemix
+  amashort_old:
+    Advanced Mobile Access
+  amafull_old:
+    IBM&reg; Advanced Mobile Access for Bluemix&reg;
+  alchemyapishort:
+    AlchemyAPI
+  alchemyapifull:
+    IBM&reg; AlchemyAPI for Bluemix&reg;
+  alchemydatanewsshort:
+    AlchemyData News
+  alchemydatanewsfull:
+    IBM&reg; AlchemyData News
+  alchemylanguageshort:
+    AlchemyLanguage
+  alchemylanguagefull:
+    IBM&reg; AlchemyLanguage
+  alchemyvisionshort:
+    AlchemyVision
+  alchemyvisionfull:
+    IBM&reg; AlchemyVision
+  alertnotificationshort:
+    Alert Notification
+  alertnotificationlong:
+    IBM&reg; Alert Notification
+  alertnotificationfull:
+    IBM&reg; Alert Notification for Bluemix&reg;
+  altadbshort:
+    AltaDB
+  altadbfull:
+    IBM&reg; AltaDB for Bluemix&reg;
+  hadoopst:
+    Analytics for Apache Hadoop
+  hadoop:
+   IBM&reg; Analytics for Apache Hadoop for Bluemix&reg;
+  sparks:
+    Analytics for Apache Spark
+  sparkl:
+    IBM&reg; Analytics for Apache Spark for Bluemix&reg;
+  apiconnect_short:
+    API Connect
+  apiconnect_long:
+    IBM&reg; API Connect
+  apiconnect_full:
+    IBM&reg; API Connect for Bluemix&reg;
+  APIHarmony:
+    API Harmony
+  APIHarmonyfull:
+    IBM&reg; API Harmony for Bluemix&reg;
+  APIM:
+    API Management
+  APIMfull:
+    IBM&reg; API Management for Bluemix&reg;
+  appconserviceshort:
+    IBM&reg; App Connect
+  appconservicefull:
+    IBM&reg; App Connect in Bluemix&reg;
+  Appdomainname:
+    AppDomainName
+  appid_short:
+    App ID
+  appid_short_notm:
+    App ID
+  appid_full:
+    IBM&reg; Bluemix&reg; App ID
+  appid_full_notm: 
+    IBM Bluemix App ID
+  appid_long:
+    IBM&reg; Bluemix&reg; App ID
+  appid_long_notm:
+    IBM Bluemix App ID
+  appsecshort:
+    Application Security Manager
+  appsecfull:
+    IBM&reg; Application Security Manager for Bluemix&reg;
+  appseccloudshort:
+    Application Security on Cloud
+  appseccloudfull:
+    IBM&reg; Application Security on Cloud for Bluemix&reg;
+  appserveroncloud_short:
+    Application Server on Cloud
+  appserveroncloud_full:
+    IBM&reg; Application Server on Cloud for Bluemix&reg;
+  userreg:
+    App User Registry
+  userregfull:
+    IBM&reg; App User Registry for Bluemix&reg;
+  APS_DA:
+    AppScan&reg; Dynamic Analyzer
+  APS_DA_full:
+    IBM&reg; AppScan&reg; Dynamic Analyzer for Bluemix&reg;
+  APS_MA:
+    AppScan&reg; Mobile Analyzer
+  APS_MA_full:
+    IBM&reg; AppScan&reg; Mobile Analyzer for Bluemix&reg;
+  dotnet_short:
+    ASP.NET Core
+  dotnet_full:
+    ASP.NET Core Buildpack
+  autoscaling:
+    Auto-Scaling
+  autoscalingfull:
+    IBM&reg; Auto-Scaling for Bluemix&reg;
+  autoscalingfull_notm:
+    IBM Auto-Scaling for Bluemix
+  prf_hubshort:
+    Availability Monitoring
+  prf_hublong:
+    IBM&reg; Bluemix&reg; Availability Monitoring
+#//BBB
+  baremetal_short:
+    Bare Metal Servers
+  baremetal_long:
+    IBM&reg; Bare Metal Servers
+  BluBareMetServers:
+    Bluemix&reg; Bare Metal Servers
+  BluBareMetServers_full:
+    IBM&reg; Bluemix&reg; Bare Metal Servers
+  bigicloudst:
+    BigInsights&reg;
+  ibist:
+    BigInsights&reg;
+  bigicloud:
+    IBM&reg; BigInsights&reg; for Apache Hadoopfor Bluemix&reg;
+  blockchain:
+    Blockchain
+  blockchainfull_notm:
+    IBM Blockchain
+  blockchainfull:
+    IBM&reg; Blockchain
+  blockstorageshort:
+    Block Storage
+  blockstoragefull:
+    IBM&reg; Block Storage for Bluemix&reg;
+  Bluemix_dedicated:
+    Bluemix&reg; Dedicated
+  Bluemix_dedicated_notm:
+    Bluemix Dedicated
+  Bluemix_local:
+    Bluemix&reg; Local
+  Bluemix_local_notm:
+    Bluemix Local
+  Bluemix_live:
+    Bluemix&reg; Live Sync
+  Bluemix_live_notm:
+    Bluemix Live Sync
+  rules_short:
+    Business Rules
+  rules:
+    IBM&reg; Business Rules for Bluemix&reg;
+#//CCC
+  cilive:
+    Cast Iron&reg; Live
+  castironlivefull:
+    IBM&reg; Cast Iron&reg; Live for Bluemix&reg;
+  cdn_short:
+    IBM&reg; CDN
+  clm_short:
+    CLM Services
+  clmtp_short:
+    CLM Track and Plan
+  clmtp_full:
+    IBM&reg; CLM Track and Plan for Bluemix&reg;
+  CAMshort:
+    Cloud Automation Manager
+  CAMlong:
+    IBM&reg; Cloud Automation Manager in Bluemix&reg;
+  CloudDataCent:
+    IBM&reg; Cloud Data Center
+  CloudDataCents:
+    IBM&reg; Cloud Data Centers
+  CloudDataCent_notm:
+    IBM Cloud Data Center
+  CloudDataCents_notm:
+    IBM Cloud Data Centers
+  cloudint:
+    Cloud Integration
+  cloudintegrationfull:
+    IBM&reg; Cloud Integration for Bluemix&reg;
+  iamshort:
+    Cloud Identity and Access Management
+  iamlong:
+    IBM&reg; Cloud Identity and Access Management
+  loganalysisshort:
+    Cloud Log Analysis
+  loganalysisshort_notm:
+    Cloud Log Analysis
+  loganalysislong:
+    IBM&reg; Cloud Log Analysis
+  loganalysislong_notm:
+    IBM Cloud Log Analysis
+  loganalysisfull:
+    IBM&reg; Cloud Log Analysis
+  loganalysisfull_notm:
+    IBM Cloud Log Analysis
+  monitoringshort:
+    Cloud Monitoring
+  monitoringlong:
+    IBM&reg; Cloud Monitoring
+  monitoringlong_notm:
+    IBM Cloud Monitoring
+  monitoringfull:
+    IBM&reg; Cloud Monitoring
+  monitoringfull_notm:
+    IBM Cloud Monitoring
+  cosdimshort:
+    Cloud Object Storage Dedicated IBM&reg; Managed
+  cosdimshort_notm:
+    Cloud Object Storage Dedicated IBM Managed
+  cosdimlong: 
+    IBM&reg; Cloud Object Storage Dedicated IBM Managed
+  cosdimfull: 
+    IBM&reg; Cloud Object Storage Dedicated IBM Managed
+  cloudoe:
+    Cloud Operating Environment
+  cloudant:
+    Cloudant&reg; NoSQL DB
+  cloudant_short_notm:
+    Cloudant NoSQL DB
+  cloudantfull:
+    IBM&reg; Cloudant&reg; NoSQL DB for Bluemix&reg;
+  clm_full:
+    IBM&reg; Collaborative Lifecycle Management Services for Bluemix&reg;
+  composeForElasticsearch:
+    Compose for Elasticsearch
+  composeForElasticsearch_full:
+    IBM&reg; Compose for Elasticsearch for Bluemix&reg;
+  composeForEtcd:
+    Compose for etcd
+  composeForEtcd_full:
+    IBM&reg; Compose for etcd for Bluemix&reg;
+  composeForMongoDB:
+    Compose for MongoDB
+  composeForMongoDB_full:
+    IBM&reg; Compose for MongoDB for Bluemix&reg;
+  composeForMySQL:
+    Compose for MySQL
+  composeForMySQL_full:
+    IBM&reg; Compose for MySQL for Bluemix&reg;
+  composeForPostgreSQL:
+    Compose for PostgreSQL
+  composeForPostgreSQL_full:
+    IBM&reg; Compose for PostgreSQL for Bluemix&reg;
+  composeForRabbitMQ:
+    Compose for RabbitMQ
+  composeForRabbitMQ_full:
+    IBM&reg; Compose for RabbitMQ for Bluemix&reg;
+  composeForRedis:
+    Compose for Redis
+  composeForRedis_full:
+    IBM&reg; Compose for Redis for Bluemix&reg;
+  composeForRethinkDB:
+    Compose for RethinkDB
+  composeForRethinkDB_full:
+    IBM&reg; Compose for RethinkDB for Bluemix&reg;
+  composeForScyllaDB:
+    Compose for ScyllaDB
+  composeForScyllaDB_full: 
+    IBM&reg; Compose for ScyllaDB for Bluemix&reg;
+  ConnectCompose:
+    Connect &amp; Compose
+  ConnectComposefull:
+    IBM&reg; Connect &amp; Compose for Bluemix&reg;
+  conceptexpansionshort:
+    Concept Expansion
+  conceptinsightsshort:
+    Concept Insights
+  registryshort:
+    Bluemix&reg; Container Registry
+  registryshort_notm:
+    Bluemix Container Registry
+  registrylong:
+    IBM&reg; Bluemix&reg; Container Registry
+  registrylong_notm:
+    IBM Bluemix Container Registry
+  registryfull:
+    IBM&reg; Bluemix&reg; Container Registry
+  registryfull_notm:
+    IBM Bluemix Container Registry
+  containershort:
+    IBM&reg; Bluemix&reg; Container Service
+  containershort_notm:
+    IBM Bluemix Container Service
+  containerlong:
+    IBM&reg; Bluemix&reg; Container Service
+  containerlong_notm:
+    IBM Bluemix Container Service
+  containerfull:
+    IBM&reg; Bluemix&reg; Container Service
+  containerfull_notm:
+    IBM Bluemix Container Service
+  cdn_full:
+    IBM&reg; Content Delivery Network
+  iotmapinsights_short:
+    Context Mapping
+  contdelivery_short:
+    Continuous Delivery
+  contdelivery_full:
+    IBM&reg; Bluemix&reg; Continuous Delivery
+  deliverypipelinelong:
+    IBM&reg; Continuous Delivery Pipeline for Bluemix&reg;
+  uccr_short: 
+    Continuous Release
+  uccr_full: 
+    IBM&reg; Cloud Continuous Release
+  conversationshort:
+    Conversation
+  customimageclassifier:
+    Customized Image Classifier
+#//DDD
+  dashdbshort:
+    dashDB&trade;
+  dashdbshort_notm:
+    dashDB
+  dashdblong:
+    IBM&reg; dashDB&trade; for Bluemix&reg;
+  datacshort:
+    Data Cache
+  datacfull:
+    IBM&reg; Data Cache for Bluemix&reg;
+  dataworks_short:
+    IBM&reg; Data Connect
+  dataworks_full:
+    IBM&reg; Bluemix&reg; Data Connect
+  datastagefull:
+    IBM&reg; DataStage&reg; on Cloud
+  DB2OnCloud_short:
+    DB2&reg; on Cloud
+  DB2OnCloud_full:
+    IBM&reg; DB2&reg; on Cloud for Bluemix&reg;
+  deepsentimine:
+    Deep Sentiment Mining
+  decision_short:
+    Decision Optimization
+  decision_full:
+    IBM&reg; Decision Optimization for Bluemix&reg;
+  ghe_dedicated_short:
+    Dedicated GitHub Enterprise
+  deliverypipeline:
+    Delivery Pipeline
+  dev_console:
+    Developer console
+  dev_cli_long:
+    IBM&reg; Bluemix&reg; CLI Developer Plug-in
+  dev_cli_notm:
+    IBM Bluemix CLI Developer Plug-in
+  dev_cli_short:
+    Developer Plug-in
+  DRA_short:
+    DevOps Insights
+  DRA_full:
+    IBM&reg; Cloud DevOps Insights
+  jazzhub_short:
+    DevOps Services
+  jazzhub:
+    IBM&reg; Bluemix&reg; DevOps Services
+  jazzhub_title:
+    Bluemix&reg; DevOps Services
+  dialogshort:
+    Dialog
+  BluDirectLink:
+    Bluemix&reg; Direct Link
+  documentconversionshort:
+    Document Conversion
+  docgen_short:
+    Document Generation
+  docgen_full:
+    IBM&reg; Document Generation for Bluemix&reg;
+  domainname:
+    DomainName
+  iotdriverinsights_short:
+    Driver Behavior
+#//EEE
+  eclipsetoolsfull:
+    IBM&reg; Eclipse Tools for Bluemix&reg;
+  imqs:
+    Elastic MQ
+  creshort:
+    Embeddable Reporting
+  crefull:
+    IBM&reg; Embeddable Reporting for Bluemix&reg;
+  emotionanalysisshort:
+    Emotion Analysis
+  evtmgt_short:
+    Event Management
+  evtmgt_full:
+    IBM&reg; Cloud Event Management for Bluemix&reg;
+#//FFF
+  featuretogglesshort:
+    Feature Toggles
+  featuretoggleslong:
+    IBM&reg; Feature Toggles
+  featuretogglesfull:
+    IBM&reg; Feature Toggles for Bluemix&reg;
+  filesync:
+    File Sync plugin service
+  BluFirewall:
+    Bluemix&reg; Firewall
+#//GGG
+  game:
+    Gamification
+  gamefull:
+    IBM&reg; Gamification for Bluemix&reg;
+  geospatialshort_Geospatial:
+    Geospatial Analytics
+  geospatialfull:
+    IBM&reg; Geospatial Analytics for Bluemix&reg;
+  githosting:
+    Git hosting
+  gitrepos:
+      Git Repos and Issue Tracking
+  ghe_short:
+    GitHub Enterprise
+  ghe_long:
+    IBM&reg; Bluemix&reg; Dedicated for GitHub Enterprise
+  globalizationshort:
+    Globalization
+  globalizationfull:
+    IBM&reg; Globalization
+  GlobalizationPipeline_short:
+    Globalization Pipeline
+  GlobalizationPipeline_full:
+    IBM&reg; Globalization Pipeline
+  graphshort:
+    IBM&reg; Graph
+  graphfull:
+    IBM&reg; Graph
+#//HHH
+  CHSTSshort:
+    Cloud High-Speed Transfer Service
+  CHSTSfull:
+    IBM&reg; Cloud High-Speed Transfer Service
+  CHSTSfull_notm:
+    IBM Cloud High-Speed Transfer Service
+  hybriddb:
+    Hybrid Database
+#//III
+  mf-starter-image:
+    ibm-mobilefirst-starter
+  identitymixershort:
+    Identity Mixer
+  identitymixerfull:
+    IBM&reg; Identity Mixer for Bluemix&reg;
+  IOCloud_short:
+    Informix&reg; on Cloud
+  IOCloud_full:
+    IBM&reg; Informix&reg; on Cloud for Bluemix&reg;
+  IntegrationTestingshort:
+    Integration Testing
+  IntegrationTestingfull:
+    IBM&reg; Integration Testing for Bluemix&reg;
+  interactivemaps_short:
+    Interactive Maps
+  interactivemaps_long:
+    Interactive Maps for Bluemix&reg;
+  iot4auto_short:
+    IoT for Automotive
+  iot4auto_full:
+    IBM&reg; IoT for Automotive
+  iotelectronics_full:
+    IBM&reg; IoT for Electronics
+  iotinsurance_short:
+    IoT for Insurance
+  iotinsurance_full:
+    IBM&reg; IoT for Insurance
+  iotrtinsights_short:
+    IoT Real-Time Insights
+  twittershort:
+    Insights for Twitter
+  twitterfull:
+    IBM&reg; Insights for Twitter
+  iotelectronics:
+    IoT for Electronics
+#//JJJ
+  jsondb:
+    JSONDB
+#//KKK
+  keymanagementserviceshort:
+    Key Protect
+  keymanagementservicelong:
+    IBM&reg; Key Protect
+  keymanagementservicelong_notm:
+    IBM Key Protect
+  keymanagementservicefull:
+    IBM&reg; Key Protect for Bluemix&reg;
+  keymanagementservicefull_notm:
+    IBM Key Protect for Bluemix
+#//LLL
+  languageidentificationshort:
+    Language Identification
+  wtsfull:
+    IBM&reg; Language Translation for Bluemix&reg;
+  dwl_short:
+    Lift
+  dwl_full:
+    IBM&reg; Bluemix&reg; Lift
+  loadbalancer_short:
+    Load Balancer
+  loadbalancer_full:
+    IBM&reg; Load Balancer for Bluemix&reg;
+  BluLocSys:
+    Bluemix&reg; Local System
+  BluLocSys_full:
+    IBM&reg; Bluemix&reg; Local System
+  mobilelocation:
+    Location
+#//MMM
+  mdmcloudfull:
+    IBM&reg; Master Data Management on Cloud
+  mapreduce:
+    MapReduce
+  mobilemam_short:
+    MAS
+  eventhubshort:
+    Message Connect
+  eventhubfull:
+    IBM&reg; Message Connect for Bluemix&reg;
+  messagehub:
+    Message Hub
+  messagehub_full:
+    IBM&reg; Message Hub for Bluemix&reg;
+  incubator:
+    Message Hub Incubator
+  incubator_full:
+    IBM&reg; Message Hub Incubator for Bluemix&reg;
+  messageresonanceshort:
+    Message Resonance
+  mmc_short:
+    Mobile Message Connect
+  mobileanalytics_short:
+    Mobile Analytics
+  mobileanalytics_full:
+    IBM&reg; Mobile Analytics for Bluemix&reg;
+  APS_MAiOS:
+    Mobile Analyzer for iOS
+  APS_MAiOS_full:
+    IBM&reg; Mobile Analyzer for iOS for Bluemix&reg;
+  mobileappbuilder_short:
+    Mobile App Builder
+  mobileappbuilder_full:
+    IBM&reg; Mobile App Builder for Bluemix&reg;
+  macm_short:
+    Mobile Application Content Manager
+  macm_long:
+      IBM&reg; Mobile Application Content Manager for Bluemix&reg;
+  mobilemam:
+    Mobile Application Security
+  masfull:
+    IBM&reg; Mobile Application Security for Bluemix&reg;
+  amashort:
+    Mobile Client Access
+  amafull:
+    IBM&reg; Mobile Client Access for Bluemix&reg;
+  mobilestarter:
+    Mobile Cloud
+  mobilecloud:
+    Mobile Cloud
+  mobilecloudfull:
+    IBM&reg; Mobile Cloud for Bluemix&reg;
+  mobilesdk:
+    Mobile Cloud Services SDK
+  mobiledata:
+    Mobile Data
+  mobiledatafull:
+    IBM&reg; Mobile Data for Bluemix&reg;
+  mobilefirst:
+    MobileFirst&trade;
+  mobilefirst_notm:
+    MobileFirst
+  mfp_oc_short:
+    MobileFirst&trade; Operations Console
+  mfp_oc_short_notm:
+    MobileFirst Operations Console
+  mfp_cli_long:
+    IBM&reg; MobileFirst&trade; Platform Command Line Interface
+  mfp_cli_long_notm:
+    IBM MobileFirst Platform Command Line Interface
+  mfp_dr_long:
+    IBM&reg; MobileFirst&trade; Platform Device Runtime
+  mfp_dr_long_notm:
+    IBM MobileFirst Platform Device Runtime
+  mfp_full:
+    IBM&reg; MobileFirst&trade; Platform Foundation
+  mfp_full_notm:
+    IBM MobileFirst Platform Foundation
+  mf-starter-image_full:
+    IBM&reg; MobileFirst&trade; Platform Foundation Getting Started Image V7.1
+  mfp_oc_long:
+    IBM&reg; MobileFirst&trade; Platform Operations Console
+  mfp_oc_long_notm:
+    IBM MobileFirst Platform Operations Console
+  mfserver_long:
+    IBM&reg; MobileFirst&trade; Platform Server
+  mfserver_long_notm:
+    IBM MobileFirst Platform Server
+  mfserver_short:
+    MobileFirst&trade; Server
+  mfserver_short_notm:
+    MobileFirst Server
+  mobilefirstbp:
+    IBM&reg; MobileFirst&trade; Services
+  mobilefoundation_short:
+    Mobile Foundation
+  mobilefoundation_long:
+    IBM&reg; Mobile Foundation for Bluemix&reg;
+  mqa:
+    Mobile Quality Assurance
+  mqafull:
+    IBM&reg; Mobile Quality Assurance for Bluemix&reg;
+  mobilemediasocialint:
+    Mobile Social Media Integration
+  mongodb:
+    MongoDB
+  manda:
+    Monitoring and Analytics
+  mql:
+    MQ Light
+  mqlfull:
+    IBM&reg; MQ Light for Bluemix&reg;
+  mysql:
+    MySQL
+#//NNN
+  namedentityrecog:
+    Named Entity Recognition
+  nlclassifiershort:
+    Natural Language Classifier
+  nlushort:
+    Natural Language Understanding
+  networksecuritygroups_short:
+    Network Security Groups
+  networksecuritygroups_full:
+    IBM&reg; Network Security Groups
+#//OOO
+  objectstorageshort:
+    Object Storage
+  objectstoragefull:
+    IBM&reg; Object Storage for Bluemix&reg;
+  openwhisk_short:
+    OpenWhisk
+  openwhisk:
+    IBM&reg; Bluemix&reg; OpenWhisk
+  ioa_short:
+    Operations Analytics
+  ioa_full:
+    IBM&reg; Operations Analytics
+#//PPP
+  PEshort:
+    Pattern Engine
+  PElong:
+    IBM&reg; Bluemix&reg; Pattern Engine
+  personalityinsightsshort:
+    Personality Insights
+  postgresql:
+    PostgreSQL
+  predmarketscenario_full:
+    Predictive Market Scenarios
+  predmarketscenario_short: 
+    Predictive Market Scenarios
+  presenceinsightsshort:
+    Presence Insights
+  presenceinsightsfull:
+    IBM&reg; Presence Insights
+  BluOpenStackDed:
+    Bluemix&reg; Private Cloud
+  BluOpenStackDed_full:
+    IBM&reg; Bluemix&reg; Private Cloud
+  BluOpenStackLoc:
+    Bluemix&reg; Private Cloud Local
+  BluOpenStackLoc_full:
+    IBM&reg; Bluemix&reg; Private Cloud Local
+  private_network_peering_full:
+    IBM&reg; Bluemix&reg; Private Network Peering
+  probmatchshort:
+    Probabilistic Match
+  probmatchfull:
+    IBM&reg; Probabilistic Match for Bluemix&reg;
+  product-insights_short:
+    Product Insights
+  product-insights_full:
+    IBM&reg; Cloud Product Insights
+  HybridConnect_short:
+    Product Insights
+  HybridConnect_full:
+    IBM&reg; Cloud Product Insights
+  mobilepush:
+    Push
+  pushfull:
+    IBM&reg; Push for Bluemix&reg;
+  mobilepushshort:
+    Push Notifications
+  mobilepushfull:
+    IBM&reg; Push Notifications for Bluemix&reg;
+#//QQQ
+  questionandanswershort:
+    Question and Answer
+#//RRR
+  rapidApps:
+    Rapid Apps
+  rapidAppsFull:
+    IBM&reg; Rapid Apps for Bluemix&reg;
+  rabbitmq:
+    RabbitMQ
+  redis:
+    Redis
+  relationshipextractionshort:
+    Relationship Extraction
+  retrieveandrankshort:
+    Retrieve and Rank
+  retrieveandrankfull:
+    IBM&reg; Retrieve and Rank
+  runbook_short:
+    Runbook Automation
+  runbook_full:
+    IBM&reg; Runbook Automation for Bluemix&reg;
+#//SSS
+  bpshort:
+    Schematics
+  bplong: 
+    IBM&reg; Cloud Schematics
+  bplong_notm:
+    IBM Cloud Schematics
+  bpfull:
+    IBM&reg; Cloud Schematics
+  bpfull_notm:
+    IBM Cloud Schematics
+  sdk4nodefull:
+    IBM&reg; SDK for Node.js for Bluemix&reg;
+  searchshort:
+    Search
+  SecureGateway:
+    Secure Gateway
+  SecureGatewayfull:
+    IBM&reg; Secure Gateway for Bluemix&reg;
+  SendGrid:
+    SendGrid
+  SendGridfull:
+    SendGrid
+  servicediscoveryshort:
+    Service Discovery
+  servicediscoverylong:
+    IBM&reg; Service Discovery
+  servicediscoveryfull:
+    IBM&reg; Service Discovery for Bluemix&reg;
+  serviceproxyshort:
+    Service Proxy
+  serviceproxylong:
+    IBM&reg; Service Proxy
+  serviceproxyfull:
+    IBM&reg; Service Proxy for Bluemix&reg;
+  ServiceVirtualizationshort:
+    Service Virtualization
+  ServiceVirtualiztionfull:
+    IBM&reg; Service Virtualization for Bluemix&reg;
+  sescashort:
+    Session Cache
+  sescafull:
+    IBM&reg; Session Cache for Bluemix&reg;
+  ssoshort:
+    Single Sign On
+  ssofull:
+    IBM&reg; Single Sign On
+  slportal:
+    SoftLayer Customer Portal
+  speechrecog:
+    Speech Recognition
+  speechtotextshort:
+    Speech to Text
+  speechtotextfull:
+    IBM&reg; Speech to Text
+  sqldb:
+    SQL Database
+  sqldbfull:
+    IBM&reg; SQL Database for Bluemix&reg;
+  staticanalyzershort:
+    Static Analyzer
+  staticanalyzerfull:
+    IBM&reg; Static Analyzer for Bluemix&reg;
+  streaminganalyticsshort:
+    Streaming Analytics
+  streaminganalyticsfull:
+    IBM&reg; Streaming Analytics for Bluemix&reg;
+  streamsshort:
+    IBM&reg; Streams
+  streamsfull:
+    IBM&reg; Streams
+#/TTT
+  texttospeechshort:
+    Text to Speech
+  texttospeechfull:
+    IBM&reg; Text to Speech
+  times:
+    Time Series Database
+  timesfull:
+    IBM&reg; Time Series Database for Bluemix&reg;
+  trackplan:
+    Track &amp; Plan
+  tp_short:
+    Track and Plan
+  trackplanlong:
+    IBM&reg; Track &amp; Plan for Bluemix&reg;
+  tp_full:
+    IBM&reg; Track and Plan for Bluemix&reg;
+  tradeoffanalyticsshort:
+    Tradeoff Analytics
+  toneanalyzershort:
+    Tone Analyzer
+#/VVV
+  vpn_full:
+    IBM&reg; Virtual Private Network
+  virtualmachinesshort:
+    Virtual Servers
+  virtualmachineslong:
+    IBM&reg; Virtual Servers
+  virtualmachinesfull:
+    IBM&reg; Virtual Servers for Bluemix&reg;
+  BluVirtServers:
+    Bluemix&reg; Virtual Servers
+  BluVirtServers_full:
+    IBM&reg; Bluemix&reg; Virtual Servers
+  BluVirtServers_short: 
+    Virtual Servers
+  visualinsightsshort:
+    Visual Insights
+  visualrecognitionshort:
+    Visual Recognition
+  visualizationrenderingshort:
+    Visualization Rendering
+  vmwaresolutions_short:   
+    IBM Cloud for VMware Solutions
+  vmwaresolutions_full:
+    IBM&reg; Cloud for VMware Solutions
+  vmwaresolutions_full_notm:
+    IBM Cloud for VMware Solutions
+  vpn_short:
+    IBM&reg; VPN
+  BluVPN:
+    Bluemix&reg; VPN
+#//Watson
+  ibmwatson:
+    IBM Watson&trade;
+  ibmwatson_notm:
+   IBM Watson
+  watson:
+    Watson
+  conceptexpansionfull:
+    IBM Watson&trade; Concept Expansion
+  conceptinsightsfull:
+    IBM Watson&trade; Concept Insights for Bluemix&reg;
+  conversationfull:
+    IBM Watson&trade; Conversation
+  dialogfull:
+    IBM Watson&trade; Dialog for Bluemix&reg;
+  discoveryshort:
+    Discovery
+  discoveryfull:
+    IBM Watson&trade; Discovery
+  documentconversionfull:
+    IBM Watson&trade; Document Conversion
+  emotionanalysisfull:
+    IBM Watson&trade; Emotion Analysis for Bluemix&reg;
+  hisinstranalshort:
+    Historical Instrument Analytics
+  instranalshort:
+    Instrument Analytics
+  investportshort:
+    Investment Portfolio
+  iotmapinsights_full:
+    IBM Watson&trade; IoT Context Mapping
+  iotdriverinsights_full:
+    IBM Watson&trade; IoT Driver Behavior
+  iot_short:
+    Watson&trade; IoT Platform
+  iot_short_notm:
+    Watson IoT Platform
+  iot_full:
+    IBM Watson&trade; IoT Platform
+  iotrtinsights_full:
+    IBM Watson&trade; IoT Platform Analytics Real-Time Insights
+  languageidentificationfull:
+    IBM Watson&trade; Language Identification
+  wts:
+    Language Translation
+  languagetranslationshort:
+    Language Translation
+  languagetranslationfull:
+    IBM Watson&trade; Language Translation for Bluemix&reg;
+  languagetranslatorshort:
+    Language Translator
+  languagetranslatorfull:
+    IBM Watson&trade; Language Translator
+  pm_short:
+    Machine Learning
+  pm_full:
+    IBM Watson&trade; Machine Learning
+  machinetranslationshort:
+    Machine Translation
+  machinetranslationfull:
+    IBM Watson&trade; Machine Translation
+  messageresonancefull:
+    IBM Watson&trade; Message Resonance
+  usermodelshort:
+    User Modeling
+  nlclassifierfull:
+    IBM Watson&trade; Natural Language Classifier
+  nlufull:
+    IBM Watson&trade; Natural Language Understanding
+  personalityinsightsfull:
+   IBM Watson&trade; Personality Insights
+  questionandanswerfull:
+    IBM Watson&trade; Question and Answer
+  relationshipextractionfull:
+    IBM Watson&trade; Relationship Extraction
+  searchfull:
+    IBM Watson&trade; Search
+  simhistinstruanalshort:
+    Simulated Historical Instrument Analytics
+  siminstruanalshort:
+    Simulated Instrument Analytics
+  tradeoffanalyticsfull:
+     IBM Watson&trade; Tradeoff Analytics
+  toneanalyzerfull:
+    IBM Watson&trade; Tone Analyzer
+  usermodelfull:
+    IBM Watson&trade; User Modeling
+  visualinsightsfull:
+    IBM Watson&trade; Visual Insights for Bluemix&reg;
+  visualrecognitionfull:
+    IBM Watson&trade; Visual Recognition
+  visualizationrenderingfull:
+    IBM Watson&trade; Visualization Rendering
+#//WWW
+  wearablefitness:
+    Wearable Fitness
+  weather_short:
+    Weather Company Data
+  weatherfull:
+    Weather Company Data for IBM&reg; Bluemix&reg;
+  webide:
+    Web IDE
+  web_ide_short:
+    web IDE
+  web_ide:
+    web IDE in &lt;jazzhub&gt;
+  appserver_short:
+    WebSphere Application Server
+  appserver_full:
+    IBM&reg; WebSphere Application Server for Bluemix&reg;
+  wasvpc_full:
+    IBM&reg; WebSphere Application Server in Bluemix&reg; - Virtual Processor Cores
+  wasvpc_long:
+    WAS Monthly Virtual Processor Cores
+  workflowfull:
+    IBM&reg; Workflow for Bluemix&reg;
+  workflow:
+    Workflow
+  workloadscheduler:
+    Workload Scheduler
+  workloadschedulerfull:
+    IBM&reg; Workload Scheduler
+#//XXX
+  xpagesruntime_short:
+    XPages
+  xpagesruntime_long:
+    IBM&reg; XPages for Bluemix&reg;
+  xpagesservice_short:
+    XPages NoSQL Database
+  xpagesservice_long:
+    IBM&reg; XPages NoSQL Database for Bluemix&reg;
+  xpagesboilerplate_short:
+    XPages Web Starter
+  xpagesboilerplate_long:
+    IBM&reg; XPages Web Starter
+#//ZZZ
+  zosserviceshort:
+    z/OS&reg; as a Service
+  zosservicefull:
+    IBM&reg; z/OS&reg; as a Service for Bluemix&reg;
+#Runtime names
+  sinatra:
+    Ruby Sinatra
+  sdk4node:
+    SDK for Node.js
+#//Do not translate - End
+#//Translatable terms - Start
+  ibmid:
+    IBMid
+#Refers to user ID for IBM.com
+  avatar:
+    Avatar
+#Refers to "user" or "profile" icon that initially looks like a person but can be customized with a profile picture
+  category:
+    category area
+#Refers to display associated with tabs on Bluemix dashboard such as Cloud Foundry Applications, Open Whisk, Containers, and Virtual Servers
+#//Translatable terms - End
+#//Common Bluemix-related links - Start
+  pricing_sheet:
+    "[Pricing Sheet](https://www.ibm.com/cloud-computing/bluemix/pricing/)"
+  prereqs:
+    "[Bluemix Prerequisites](https://console.ng.bluemix.net/docs/overview/whatisbluemix.html#bluemixoverview)"
+#//Common Bluemix-related links - End

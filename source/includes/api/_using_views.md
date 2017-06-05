@@ -1,5 +1,18 @@
 ## Using Views
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the 'Using Views' topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/api/using_views.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 View enable you to search for content within a database,
 that matches specific criteria.
 The criteria are specified within the view definition,
@@ -19,7 +32,7 @@ Executes the specified `view-name` from the specified `design-doc` design docume
 > Example of retrieving a list of the first five documents from a database, applying the user-created `by_title` view:
 
 ```http
-GET /<database>/_design/<design-doc>/_view/by_title?limit=5 HTTP/1.1
+GET /$DATABASE/_design/<design-doc>/_view/by_title?limit=5 HTTP/1.1
 Accept: application/json
 Content-Type: application/json
 ```
@@ -183,7 +196,7 @@ This would mean that a stale view index result might be different on different n
 > Example of requesting the last five records by reversing the sort order:
 
 ```http
-GET /<database>/_design/<design-doc>/_view/by_title?limit=5&descending=true HTTP/1.1
+GET /$DATABASE/_design/<design-doc>/_view/by_title?limit=5&descending=true HTTP/1.1
 Accept: application/json
 Content-Type: application/json
 ```
@@ -321,12 +334,12 @@ but also the `startkey` and `endkey` parameter values.
 > Example request to return all recipes, where the key for the view matches either "clear apple juice" or "lemonade":
 
 ```http
-POST /$DB/_design/$DDOC/_view/$VIEWNAME HTTP/1.1
+POST /$DATABASE/_design/$DESIGN_DOC/_view/$VIEWNAME HTTP/1.1
 Content-Type: application/json
 ```
 
 ```shell
-curl -X POST "https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DB/_design/$DDOC/_view/$VIEWNAME" -d @request.json
+curl -X POST "https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DDOC/_view/$VIEWNAME" -d @request.json
 ```
 
 ```json
@@ -485,12 +498,12 @@ However,
 > Example request:
 
 ```http
-POST /$DB/_design/$DESIGNDOC/_view/$VIEW HTTP/1.1
+POST /$DATABASE/_design/<design_doc>/_view/<view> HTTP/1.1
 Content-Type: application/json
 ```
 
 ```shell
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DB/_design/$DESIGNDOC/_view/$VIEW -H 'Content-Type: application/json' -d @request-body.json
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DESIGN_DOC/_view/$VIEW -H 'Content-Type: application/json' -d @request-body.json
 # where request-body.json is a file containing the following JSON data:
 ```
 
@@ -572,6 +585,6 @@ curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DB/_design/$DESIGNDOC/_
 }
 ```
 
-To send several view queries in one request, use a `POST` request to `/$DB/_design/$DESIGNDOC/_view/$VIEW`. The request body is a JSON object containing only the `queries` field. It holds an array of query objects with fields for the parameters of the query. The field names and their meaning are the same as the query parameters of a regular view request.
+To send several view queries in one request, use a `POST` request to `/$DATABASE/_design/<design_doc>/_view/<view>`. The request body is a JSON object containing only the `queries` field. It holds an array of query objects with fields for the parameters of the query. The field names and their meaning are the same as the query parameters of a regular view request.
 
 The JSON object returned in the response contains only the `results` field, which holds an array of result objects - one for each query. Each result object contains the same fields as the response to a regular view request.

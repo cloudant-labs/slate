@@ -1,5 +1,18 @@
 ## Managing tasks
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the 'Managing tasks' topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/guides/managing_tasks.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 Creating new indexes over lots of data or replicating a large database can take quite a while. So how can you see whether your tasks are making progress, or if they have completed? The `_active_tasks` endpoint provides information about all ongoing tasks. However, if you start a lot of tasks, some of them might be scheduled to run later and do not show up under `_active_tasks` until they have been started.
 
 This guide tells you how to use the `_active_tasks` endpoint to monitor long-running tasks.
@@ -13,7 +26,7 @@ Since this is a task-focused tutorial, it covers only what is essential to accom
 > Obtaining and formatting a list of active tasks:
 
 ```
-curl 'https://username:password@username.cloudant.com/_active_tasks' | jq '.'
+curl 'https://$ACCOUNT.cloudant.com/_active_tasks' | jq '.'
 ```
 
 To get all active tasks and format the output nicely, call your account using `curl`,
@@ -27,13 +40,13 @@ This makes it easier to get all replication documents, or the details of just on
 > Finding all view indexing tasks, by filtering for the `indexer` type:
 
 ```
-curl -s 'https://username:password@username.cloudant.com/_active_tasks' | jq '.[] | select(.type=="indexer")'
+curl -s 'https://$ACCOUNT.cloudant.com/_active_tasks' | jq '.[] | select(.type=="indexer")'
 ```
 
 > Finding all search indexing tasks, by filtering for the `search_indexer` type:
 
 ```
-curl -s 'https://username:password@username.cloudant.com/_active_tasks' | jq '.[] | select(.type=="search_indexer")'
+curl -s 'https://$ACCOUNT.cloudant.com/_active_tasks' | jq '.[] | select(.type=="search_indexer")'
 ```
 
 > Sample result after searching for view indexing tasks:
@@ -85,7 +98,7 @@ You should assume that these factors might combine to produce considerable inacc
 > Finding all replication tasks, by filtering for the `replication` type:
 
 ```
-curl -s 'https://username:password@username.cloudant.com/_active_tasks' | jq '.[] | select(.type=="replication")'
+curl -s 'https://$ACCOUNT.cloudant.com/_active_tasks' | jq '.[] | select(.type=="replication")'
 ```
 
 > Finding a specific replication task, by filtering for a known document identity:

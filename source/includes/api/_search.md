@@ -1,5 +1,20 @@
 ## Search
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the Search topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/api/search.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
+<div></div>
+
 > Example design document:
 
 ```json
@@ -271,7 +286,7 @@ Stop words are words that do not get indexed. You define them within a design do
 > [Example test of the `keyword` analyzer](try.html#requestType=analyzers&predefinedQuery=keyword)
 
 ```shell
-curl 'https://<account>.cloudant.com/_search_analyze' -H 'Content-Type: application/json'
+curl 'https://$ACCOUNT.cloudant.com/_search_analyze' -H 'Content-Type: application/json'
   -d '{"analyzer":"keyword", "text":"ablanks@renovations.com"}'
 ```
 
@@ -295,7 +310,7 @@ Content-Type: application/json
 > [Example test of the `standard` analyzer](try.html#requestType=analyzers&predefinedQuery=standard)
 
 ```shell
-curl 'https://<account>.cloudant.com/_search_analyze' -H 'Content-Type: application/json'
+curl 'https://$ACCOUNT.cloudant.com/_search_analyze' -H 'Content-Type: application/json'
   -d '{"analyzer":"standard", "text":"ablanks@renovations.com"}'
 ```
 
@@ -324,8 +339,12 @@ You can test the results of analyzer tokenization by posting sample data to the 
 > Example query of an index.
 
 ```shell
+<<<<<<< HEAD
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DESIGN_ID/_search/$INDEX_NAME?q=$QUERY \
+=======
 curl https://$USERNAME.cloudant.com/$DATABASE/_design/$DESIGN_DOC/_search/$INDEX_NAME?include_docs=true\&query="*:*"\&limit=1 \
      -u $USERNAME
+>>>>>>> master
 ```
 
 ```http
@@ -336,7 +355,7 @@ Host: account.cloudant.com
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+".cloudant.com");
 var db = account.use($DATABASE);
 
 db.search($DESIGN_ID, $SEARCH_INDEX, {
@@ -348,7 +367,7 @@ db.search($DESIGN_ID, $SEARCH_INDEX, {
 });
 ```
 
-Once you've got an index written, you can query it with a `GET` request to `https://$USERNAME.cloudant.com/$DATABASE/_design/$DESIGN_ID/_search/$INDEX_NAME`. Specify your search query in the `query` query parameter.
+Once you've got an index written, you can query it with a `GET` request to `https://<account>.cloudant.com/$DATABASE/_design/<deign_id>/_search/<index_name>`. Specify your search query in the `query` query parameter.
 
 #### Query Parameters
 
@@ -421,11 +440,11 @@ use the special fields `-<score>` or `<score>` within the `sort` parameter.
 ```http
 POST /db/_design/ddoc/_search/searchname HTTP/1.1
 Content-Type: application/json
-Host: account.cloudant.com
+Host: <account>.cloudant.com
 ```
 
 ```shell
-curl 'https://account.cloudant.com/db/_design/ddoc/_search/searchname' -X POST -H 'Content-Type: application/json' -d @search.json
+curl 'https://$ACCOUNT.cloudant.com/db/_design/ddoc/_search/searchname' -X POST -H 'Content-Type: application/json' -d @search.json
 ```
 
 ```json
@@ -758,7 +777,7 @@ Authorization: ...
 ```
 
 ```shell
-curl "https://$user:$password@$account.cloudant.com/movies/_design/searches/_search/movies?q=movie_name:Azazel&highlight_fields=\[\"movie_name\"\]&highlight_pre_tag=\"<b>\"&highlight_post_tag=\"</b>\"&highlights_size=30&highlights_number=2
+curl "https://$ACCOUNT.cloudant.com/movies/_design/searches/_search/movies?q=movie_name:Azazel&highlight_fields=\[\"movie_name\"\]&highlight_pre_tag=\"<b>\"&highlight_post_tag=\"</b>\"&highlights_size=30&highlights_number=2
 ```
 
 > Search result with highlights
@@ -785,12 +804,12 @@ In the response, a `highlights` field will be added with one subfield per field 
 > Example request
 
 ```http
-GET /<DATABASE>/_design/<DDOC>/_search_info/<INDEX> HTTP/1.1
+GET /$DATABASE/_design/$DESIGN_DOC/_search_info/$INDEX HTTP/1.1
 ```
 
 ```shell
-curl "https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DDOC/_search_info/$INDEX" \
-     -X GET -u "$USERNAME:$PASSWORD"
+curl "https://$ACCOUNT.cloudant.com/$DATABASE/$DESIGN_DOCUMENT/_search_info/$INDEX" \
+     -X GET -u "$ACCOUNT:$PASSWORD"
 ```
 
 To retrieve information about a search index, you can send a `GET` request to the `_search_info`

@@ -1,5 +1,18 @@
 ## Active tasks
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the Active tasks topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/api/active_tasks.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 The `/_active_tasks` endpoint provides a list of the tasks running on the server.
 For more examples on using this endpoint,
 see the [Managing tasks](managing_tasks.html) guide.
@@ -13,13 +26,12 @@ GET /_active_tasks HTTP/1.1
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/_active_tasks \
-     -u $USERNAME
+curl https://$ACCOUNT.cloudant.com/_active_tasks \
 ```
 
 ```javascript
 var nano = require('nano');
-var account = nano('https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com');
+var account = nano('https://$ACCOUNT.cloudant.com');
 
 account.request({
   path: '_active_tasks'

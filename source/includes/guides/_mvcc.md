@@ -1,5 +1,18 @@
 ## Document Versioning and MVCC
 
+<table border='1'>
+<tr>
+<td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
+You can find the new content
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+and the 'Document Versioning and MVCC' topic in particular
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/guides/mvcc.html">here</a>.
+<br/><br/>
+<p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
+</td>
+</tr>
+</table>
+
 Multi-version concurrency control (MVCC) is how Cloudant databases ensure that all of the nodes in a database's cluster contain only the [newest version](document.html) of a document. Since Cloudant databases are [eventually consistent](cap_theorem.html), this is necessary to prevent inconsistencies arising between nodes as a result of synchronizing between outdated documents.
 
 Multi-Version Concurrency Control (MVCC) enables concurrent read and write access to a Cloudant database. MVCC is a form of <a href="http://en.wikipedia.org/wiki/Optimistic_concurrency_control" target="_blank">optimistic concurrency</a>.
@@ -105,7 +118,7 @@ Then the two databases are replicated, leading to a conflict.
 
 You get the document with `conflicts=true` like this:
 
-`http://$USERNAME.cloudant.com/products/$_ID?conflicts=true`
+`http://<account>.cloudant.com/products/<_id>?conflicts=true`
 
 And get the following response:
 
@@ -128,9 +141,9 @@ The version with the changed price has been chosen arbitrarily as the latest ver
 
 To compare the revisions to see what has been changed, your application gets all of the versions from the database with URLs like this:
 
-* `http://$USERNAME.cloudant.com/products/$_ID`
-* `http://$USERNAME.cloudant.com/products/$_ID?rev=2-61ae00e029d4f5edd2981841243ded13`
-* `http://$USERNAME.cloudant.com/products/$_ID?rev=1-7438df87b632b312c53a08361a7c3299`
+* `http://<account>.cloudant.com/products/$_ID`
+* `http://<account>.cloudant.com/products/$_ID?rev=2-61ae00e029d4f5edd2981841243ded13`
+* `http://<account>.cloudant.com/products/$_ID?rev=1-7438df87b632b312c53a08361a7c3299`
 
 Since these two changes are for different fields of the document, it is easy to merge them.
 
@@ -166,12 +179,12 @@ send a `DELETE` request to the URLs with the revision we want to delete.
 > Example request to delete old revision
 
 ```http
-DELETE https://$USERNAME.cloudant.com/products/$_ID?rev=2-61ae00e029d4f5edd2981841243ded13
+DELETE https://<account>.cloudant.com/products/$_ID?rev=2-61ae00e029d4f5edd2981841243ded13
 ```
 
 ```shell
-curl "https://$USERNAME.cloudant.com/products/$_ID?rev=2-f796915a291b37254f6df8f6f3389121" -X DELETE
+curl "https://$ACCOUNT.cloudant.com/products/$_ID?rev=2-f796915a291b37254f6df8f6f3389121" -X DELETE
 ```
 
 After this, conflicts are resolved.
-You can verify this by `GET`ting the document again with the `conflicts` parameter set to `true`.
+You can verify this by making a `GET` request to the document again with the `conflicts` parameter set to `true`.
