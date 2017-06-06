@@ -34,12 +34,14 @@ You complete the following tasks during this tutorial:
 ## Creating a database
 
 In this section, you create the `rolodex` [database](../api/database.html#create) which is the database that we use in this tutorial.
-
-<ol><li>From the command line, run this command to create a database.
+<p>From the command line:</p>
+<ol><li>Create a database by running this command.
 <p><code>curl https://$ACCOUNT.bluemix.cloudant.com/rolodex -X PUT</code></p>
 <p><i>Results:</i></p>
-<code>{"ok":true}</code></li>
-<li>To create a database from Cloudant Dashboard, create an IBM Bluemix Cloudant account [here](https://console.ng.bluemix.net/registration/?target=%2Fcatalog%2Fservices%2Fcloudant-nosql-db%2F) if you do not already have one.</li>
+<code>{"ok":true}</code></li></ol>
+
+<p>From the Cloudant Dashboard:</p>
+<ol><li>Create an IBM Bluemix Cloudant account [here](https://console.ng.bluemix.net/registration/?target=%2Fcatalog%2Fservices%2Fcloudant-nosql-db%2F) if you do not already have one.</li>
 <li>Log in to the Cloudant Dashboard.</li>
 <li>From the Cloudant Dashboard, create a database by following these steps. 
 <ol type=a><li>Select the Databases tab.
@@ -54,15 +56,18 @@ In this section, you create the `rolodex` [database](../api/database.html#create
 
 Verify that the `rolodex` database was created correctly. 
 
-1.  From the command line, run this command to list the databases.
+From the command line:
+Show the database associated with your account by running this command.
 ```json
 curl https://$ACCOUNT.bluemix.cloudant.com/_all_dbs
 ```
 *Results:*
 ```["rolodex"]```
-2.  To see the database from the Cloudant Dashboard, click the Databases tab.
-    
-    The `rolodex` database appears in the list on the Your Databases pane.
+
+From the Cloudant Dashboard:
+Click the Databases tab.
+
+The `rolodex` database appears in the list on the Your Databases tab.
 
 
 
@@ -70,25 +75,28 @@ curl https://$ACCOUNT.bluemix.cloudant.com/_all_dbs
 
 If you decide to delete the database, for example, if you made a mistake, you can delete the database and start again. 
 
-<ol><li>From the command line, run this command to delete the database.
+<p>From the command line:</p>
+<ol><li>Delete the database by running this command.
 <p><code>curl https://$ACCOUNT.bluemix.cloudant.com/rolodex -X DELETE</code>
 <p><i>Results:</i></p>
-<code> {"ok":true}</code></li>
-<li>From the Cloudant Dashboard, delete the database.
-<ol type=a><li>Select the Your Databases tab.</li>
+<code> {"ok":true}</code></li></ol>
+
+<p>From the Cloudant Dashboard:</p>
+<ol>
+<li>Select Your Databases tab.</li>
 <li>Click the **Delete** button next to the database you want to delete.</li> 
-<li>Type the name of the database and click **Delete Database**.</li></ol>
+<li>Type the name of the database and click **Delete Database**.</li>
 </ol>
 
 ## Creating documents in the database
 
 The JSON documents we create here contain the data we query in later exercises. 
 
+<p>From the command line:</p>
 
-<ol><li>From the command line, create documents by following these steps.
-<ol type=a><li>Copy the sample data below to a data file named <code>bulkcreate.dat</code> to create all five documents.
+<ol><li>Copy the sample data below to a data file named <code>bulkcreate.dat</code> to create all five documents.
 <p><pre>{
-	"docs": [
+	"docs": {
         "firstname": "Sally",
         "lastname": "Brown",
         "age": 16,
@@ -106,7 +114,7 @@ The JSON documents we create here contain the data we query in later exercises.
     },
         {
         "firstname": "Greg",
-        "lastname": "Greene",>
+        "lastname": "Greene",
         "age": 35,
         "city": "San Diego",
         "state": "California",
@@ -129,7 +137,7 @@ The JSON documents we create here contain the data we query in later exercises.
         "_id": "doc5"
     }
   ]
-}</pre></p></li>
+}</pre></p></li></ol>
 <li>Run this command to create the documents. 
 <p>When you run the POST command in the next step, five individual documents are created at once. </p>
 <p><code>curl https://$ACCOUNT.bluemix.cloudant.com/rolodex/_bulk_docs -X POST -H "Content-Type: application/json" -d \@bulkcreate.dat</code></p>
@@ -141,9 +149,9 @@ The JSON documents we create here contain the data we query in later exercises.
 {"ok":true,"id":"doc4","rev":"1-6aa4873443ddce569b27ab35d7bf78a2"},
 {"ok":true,"id":"doc5","rev":"1-d881d863052cd9681650773206c0d65a"}]</pre></p>
 <p><b>Note:</b> Notice that the '@' symbol, used to indicate that the data is included in a file, is identified by the supplied name.</p></li>
-</ol></li>
-<li>From the Cloudant Dashboard, create JSON documents by following these steps: 
-<ol type=a>
+
+<p>From the Cloudant Dashboard:</p>
+<ol>
 <li>From the <b>All Documents</b> tab, click <b>+</b> and select <b>New Doc</b>.
 <p>The New Document window opens. </p></li>
 <li>To create a JSON document, copy the following sample text and replace the existing text in the new document.
@@ -193,16 +201,17 @@ The JSON documents we create here contain the data we query in later exercises.
 "state": "Louisiana"
 }
 </pre>
-</li></ol></li>
-<p>The `rolodex` database was created and populated with five JSON documents. </p></ol>
+</li>
+<p>The `rolodex` database was created and populated with five JSON documents. </p></li></ol>
 
 
 
 ### Listing all the documents in the database
 
-Check the database and verify that all the documents in the previous exercise were created successfully. 
+Check the database to verify that all the documents in the previous exercise were created successfully. 
 
-<ol><li> From the command line, run this command to list all the documents in the database.
+<p>From the command line:</p>
+<ol><li>List all the documents in the database.
 <p><code>curl https://$ACCOUNT.bluemix.cloudant.com/rolodex/_all_docs</code></p>
 <p><i>Results:</i></p>
 <p><pre>{"total_rows":5,"offset":0,"rows":[
@@ -214,7 +223,7 @@ Check the database and verify that all the documents in the previous exercise we
   ] 
 }
 </pre><p></li>
-<li>From the Cloudant Dashboard, select **Databases** > `rolodex` database > **All Documents**.</li>
+<li>From the Cloudant Dashboard, select <b>Databases</b> > `rolodex` database > <b>All Documents<b>.</li>
 <li>Verify that all the documents appear.</li>
 </ol>
 
@@ -237,13 +246,16 @@ to query databases.
 
 To create a design document:
 
-<ol><li>From the command line, run this command to create a design document.
+<p>From the command line:</p>
+<ol><li>Create a design document by running this command.
 <p><code>curl https://$ACCOUNT.bluemix.cloudant.com/rolodex -X POST -H "Content-Type: application/json" -d "{ \"_id\": \"doc1410\", \"_id\": \" rolodex-index-design-doc\" }"</code></p>
 <p><i>Results:</i></p>
 <p><code>{"ok":true,"id":" rolodex-index-design-doc","rev":"1-967a00dff5e02add41819138abb3284d"}</code><p>
-</li>
-<li>From the Cloudant Dashboard, create a design document by following these steps: 
-<ol type=a><li>Select <b>Design Documents</b> and click <b>Create</b> > <b>New Doc</b>.</li>
+</li></ol>
+
+<p>From Cloudant Dashboard:</p>
+<ol>
+<li>Select <b>Design Documents</b> and click <b>Create</b> > <b>New Doc</b>.</li>
 <li>Replace the <code>_id</code> value with <code>rolodex-index-design-doc</code> as seen in the example.
 <pre>
 {
@@ -252,7 +264,6 @@ To create a design document:
 </pre>
 <li>Click <b>Create Document</b>.
 <p>The <code>rolodex-index-design-doc</code> design document is created.</p></li>
-</ol></li>
 </ol>
 
 ## Creating an index
