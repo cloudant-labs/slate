@@ -31,28 +31,40 @@ You complete the following tasks during this tutorial:
 4.  [Create a query.](create_query.html#creating-a-query)
 
 
+## Assumptions
+
+Before you begin, follow these steps to prepare for this tutorial. 
+
+1.  [Create a Cloudant instance on Bluemix.](https://console.ng.bluemix.net/docs/services/Cloudant/tutorials/create_service.html#creating-a-cloudant-instance-on-bluemix)
+2.  (Optional) [Create an acurl alias](https://console.ng.bluemix.net/docs/services/Cloudant/guides/acurl.html#authorized-curl-acurl-) to make it easier and faster to run commands from the command line.
+3.  Log in to the [Cloudant Dashboard](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db).  
+
+
 ## Creating a database
 
 In this section, you create the `rolodex` [database](../api/database.html#create) which is the database that we use in this tutorial.
 
 From the command line:
 
-<ol><li>Create a database by running this command.
-<p><code>curl https://$ACCOUNT.bluemix.cloudant.com/rolodex -X PUT</code></p>
-<p><i>Results:</i></p>
-<code>{"ok":true}</code></li></ol>
+1.  Create a database by running this command.<br>
+```json
+curl https://$ACCOUNT.bluemix.cloudant.com/rolodex -X PUT
+```
+
+2.  Verify that the database was created successfully in the results. 
+*Results:*
+```json
+{"ok":true}
+```
 
 From the Cloudant Dashboard:
 
-<ol><li>Create an IBM Bluemix Cloudant account <a href="https://console.ng.bluemix.net/registration/?target=%2Fcatalog%2Fservices%2Fcloudant-nosql-db%2F">here</a> if you do not already have one.</li>
-<li>Log in to the Cloudant Dashboard.</li>
-<li>From the Cloudant Dashboard, create a database by following these steps. 
-<ol type=a><li>Select the Databases tab.
-<p>![Databases tab](../images/tabs.png)</p></li>
+<ol><li>Select the Databases tab. 
+<p><img src="../images/tabs.png" alt="Databases tab"></p></li>
 <li>Click <b>Create Database</b>. </li>
 <li>Type <code>rolodex</code> and click <b>Create</b>.
 <p>The <code>rolodex</code> database automatically opens.</p>
-</li></ol></li>
+</li>
 </ol>
 
 ### Listing all databases
@@ -60,19 +72,22 @@ From the Cloudant Dashboard:
 Verify that the `rolodex` database was created correctly. 
 
 From the command line:
-Show the database associated with your account by running this command.
+
+
+1.  Show the databases by running this command.
 ```json
 curl https://$ACCOUNT.bluemix.cloudant.com/_all_dbs
 ```
+2.  See the `rolodex` database and any other databases associated with your account.   
 *Results:*
 ```json
 ["rolodex"]
 ```
 
 From the Cloudant Dashboard:
-Click the Databases tab.
 
-The `rolodex` database appears in the list on the Your Databases tab.
+1.  Click the **Databases** tab.
+2.  See the `rolodex` database in the list on **Your Databases** tab.
 
 
 
@@ -80,69 +95,78 @@ The `rolodex` database appears in the list on the Your Databases tab.
 
 If you decide to delete the database, for example, if you made a mistake, you can delete the database and start again. 
 
-<p>From the command line:</p>
-<ol><li>Delete the database by running this command.
-<p><code>curl https://$ACCOUNT.bluemix.cloudant.com/rolodex -X DELETE</code>
-<p><i>Results:</i></p>
-<code> {"ok":true}</code></li></ol>
+From the command line:
 
-<p>From the Cloudant Dashboard:</p>
+1.  Delete the database by running this command.
+```json
+curl https://$ACCOUNT.bluemix.cloudant.com/rolodex -X DELETE
+```
+2.  See the results to verify the `rolodex` database was deleted. 
+*Results:*
+```json
+{"ok":true}
+```
+
+
+From the Cloudant Dashboard:
+
 <ol>
-<li>Select Your Databases tab.</li>
-<li>Click the **Delete** button next to the database you want to delete.</li> 
-<li>Type the name of the database and click **Delete Database**.</li>
+<li>Select <b>Your Databases</b> tab.</li>
+<li>Click the <b>Delete</b> button next to the database you want to delete.</li> 
+<li>Type the name of the database and click <b>Delete Database</b>.</li>
 </ol>
 
 ## Creating documents in the database
 
 The JSON documents we create here contain the data we query in later exercises. 
 
-<p>From the command line:</p>
+From the command line:
 
 <ol><li>Copy the sample data below to a data file named <code>bulkcreate.dat</code> to create all five documents.
 <p><pre>{
-	"docs": {
-        "firstname": "Sally",
-        "lastname": "Brown",
-        "age": 16,
-        "city": "New York City",
-        "state": "New York", 
-        "_id": "doc1"
-    },
-        { 
-        "firstname": "John",
-        "lastname": "Brown",
-        "age": 21,
-        "city": "New York City",
-        "state": "New York",
-        "_id": "doc2"
-    },
-        {
-        "firstname": "Greg",
-        "lastname": "Greene",
-        "age": 35,
-        "city": "San Diego",
-        "state": "California",
-        "_id": "doc3"
-    },
-        {
-        "firstname": "Amanda",
-        "lastname": "Greene",
-        "age": 44,
-        "city": "Syracuse",
-        "state": "New York",
-        "_id": "doc4"
-    },
-        {
-        "firstname": "Lois",
-        "lastname": "Brown",
-        "age": 33,
-        "city": "Baton Rouge",
-        "state": "Louisiana",
-        "_id": "doc5"
-    }
-  ]
-}</pre></p></li></ol>
+	"docs": [
+                { 
+                "firstname": "Sally",
+                "lastname": "Brown",
+                "age": 16,
+                "city": "New York City",
+                "state": "New York", 
+                "_id": "doc1"
+                },
+                { 
+                  "firstname": "John",
+                  "lastname": "Brown",
+                  "age": 21,
+                  "city": "New York City",
+                  "state": "New York",
+                  "_id": "doc2"
+                },
+                {
+                "firstname": "Greg",
+                "lastname": "Greene",
+                "age": 35,
+                "city": "San Diego",
+                "state": "California",
+                "_id": "doc3"
+                },
+                {
+                "firstname": "Amanda",
+                "lastname": "Greene",
+                "age": 44,
+                "city": "Syracuse",
+                "state": "New York",
+                "_id": "doc4"
+                },
+                {
+                "firstname": "Lois",
+                "lastname": "Brown",
+                "age": 33,
+                "city": "Baton Rouge",
+                "state": "Louisiana",
+                "_id": "doc5"
+                }
+        ]
+}</pre></p></li>
 <li>Run this command to create the documents. 
 <p>When you run the POST command in the next step, five individual documents are created at once. </p>
 <p><code>curl https://$ACCOUNT.bluemix.cloudant.com/rolodex/_bulk_docs -X POST -H "Content-Type: application/json" -d \@bulkcreate.dat</code></p>
@@ -153,69 +177,76 @@ The JSON documents we create here contain the data we query in later exercises.
 {"ok":true,"id":"doc3","rev":"1-9c9f9b893fcdd1cbe09420bc4e62cc71"},
 {"ok":true,"id":"doc4","rev":"1-6aa4873443ddce569b27ab35d7bf78a2"},
 {"ok":true,"id":"doc5","rev":"1-d881d863052cd9681650773206c0d65a"}]</pre></p>
-<p><b>Note:</b> Notice that the '@' symbol, used to indicate that the data is included in a file, is identified by the supplied name.</p></li>
+<p><b>Note:</b> Notice that the '@' symbol, used to indicate that the data 
+is included in a file, is identified by the supplied name.</p></li></ol>
 
-<p>From the Cloudant Dashboard:</p>
+From the Cloudant Dashboard:
+
 <ol>
 <li>From the <b>All Documents</b> tab, click <b>+</b> and select <b>New Doc</b>.
 <p>The New Document window opens. </p></li>
 <li>To create a JSON document, copy the following sample text and replace the existing text in the new document.
 <p><i>First sample document</i>:<br>
-<pre>{ "_id": "doc1",
-"firstname": "Sally",
-"lastname": "Brown",
-"age": 16,
-"city": "New York City",
-"state": "New York" 
-}</pre></p>
+<pre>{ 
+        "firstname": "Sally",
+        "lastname": "Brown",
+        "age": 16,
+        "city": "New York City",
+        "state": "New York", 
+        "_id": "doc1"
+     }</pre></p>
+
 </li>
 <li>Repeat the previous step and add the remaining documents to the database.
 <p><i>Second sample document</i>:<br>
-<pre>{ "_id": "doc2",
-  "firstname": "John",
-  "lastname": "Brown",
-  "age": 21,
-  "city": "New York City",
-  "state": "New York"
-}</pre></p>
+<pre>{ 
+        "firstname": "John",
+        "lastname": "Brown",
+        "age": 21,
+        "city": "New York City",
+        "state": "New York",
+        "_id": "doc2"
+   }</pre></p>
 <p><i>Third sample document:</i><br>
-<pre>{"_id": "doc3",
-"firstname": "Greg",
-"lastname": "Greene",
-"age": 35,
-"city": "San Diego",
-"state": "California"
-}
+<pre> {
+        "firstname": "Greg",
+        "lastname": "Greene",
+        "age": 35,
+        "city": "San Diego",
+        "state": "California",
+        "_id": "doc3"
+     }
 </pre>
 </p>
 <p><i>Fourth sample document:</i><br>
-<pre>{"_id": "doc4",
-"firstname": "Amanda",
-"lastname": "Greene",
-"age": 44,
-"city": "Syracuse",
-"state": "New York"
-}</pre>
+<pre>{
+        "firstname": "Amanda",
+        "lastname": "Greene",
+        "age": 44,
+        "city": "Syracuse",
+        "state": "New York",
+        "_id": "doc4"
+      }</pre>
 </p>
 <p><i>Fifth sample document:</i><br>
-<pre>{"_id": "doc5",
-"firstname": "Lois",
-"lastname": "Brown",
-"age": 33,
-"city": "Baton Rouge",
-"state": "Louisiana"
-}
+<pre>{
+        "firstname": "Lois",
+        "lastname": "Brown",
+        "age": 33,
+        "city": "Baton Rouge",
+        "state": "Louisiana",
+        "_id": "doc5"
+     }
 </pre>
 </li>
 <p>The `rolodex` database was created and populated with five JSON documents. </p></li></ol>
-
-
 
 ### Listing all the documents in the database
 
 Check the database to verify that all the documents in the previous exercise were created successfully. 
 
-<p>From the command line:</p>
+From the command line:
+
 <ol><li>List all the documents in the database.
 <p><code>curl https://$ACCOUNT.bluemix.cloudant.com/rolodex/_all_docs</code></p>
 <p><i>Results:</i></p>
@@ -227,15 +258,18 @@ Check the database to verify that all the documents in the previous exercise wer
     {"id":"doc5","key":"doc5","value":{"rev":"1-d881d863052cd9681650773206c0d65a"}},
   ] 
 }
-</pre><p></li>
-<li>From the Cloudant Dashboard, select <b>Databases</b> > `rolodex` database > <b>All Documents</b>.</li>
+</pre><p></li></ol>
+From the Cloudant Dashboard:
+
+<ol><li>Select <b>Databases</b> > `rolodex` database > <b>All Documents</b>.</li>
 <li>Verify that all the documents appear.</li>
 </ol>
 
 
 ## Creating a design document
 
-[Design documents](../api/design_documents.html#design-documents) contain instructions about how views
+[Design documents](../api/design_documents.html#design-documents) enable you to 
+create a Javascript formula to speed up an index. It also contain instructions about how views
 and indexes must be built. When you change a design document, the index is overwritten and
 re-created from scratch.
 
@@ -249,57 +283,40 @@ and store. These indexes use [Lucene Query
 Parser Syntax](http://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#Overview)
 to query databases.
 
-To create a design document:
+From the command line:
 
-<p>From the command line:</p>
-<ol><li>Create a design document by running this command.
-<p><code>curl https://$ACCOUNT.bluemix.cloudant.com/rolodex -X POST -H "Content-Type: application/json" -d "{ \"_id\": \"doc1410\", \"_id\": \" rolodex-index-design-doc\" }"</code></p>
-<p><i>Results:</i></p>
-<p><code>{"ok":true,"id":" rolodex-index-design-doc","rev":"1-967a00dff5e02add41819138abb3284d"}</code><p>
-</li></ol>
+1.  Create a data file using the JSON below. 
+```json
+{    
+	 "index": {       
+            "fields": ["firstname", "lastname", "city", "age"]  
+                    },
+	 "name": "JSONindex",
+	 "type": "json"            
+    }
+```    
+2. Create the design document and index by running this command.
+```json
+curl https://$ACCOUNT.bluemix.cloudant.com/rolodex/_index -X POST -H "Content-Type: application/json" -d \@designdoc.dat
+```
+*Results:*
+```json
+{"ok":true,"id":" rolodex-index-design-doc","rev":"1-967a00dff5e02add41819138abb3284d"}
+```
 
-<p>From Cloudant Dashboard:</p>
+From the Cloudant Dashboard:
 <ol>
-<li>Select <b>Design Documents</b> and click <b>Create</b> > <b>New Doc</b>.</li>
-<li>Replace the <code>_id</code> value with <code>rolodex-index-design-doc</code> as seen in the example.
-<pre>
-{
-  "_id": "rolodex-index-design-doc"
-}
-</pre>
-<li>Click <b>Create Document</b>.
-<p>The <code>rolodex-index-design-doc</code> design document is created.</p></li>
-</ol>
-
-## Creating an index
-
-In Cloudant, you use [search indexes](../api/search.html#search). You can specify a json or text type index. 
-Creating a ["type=json"](../api/cloudant_query.html#creating-a-type-json-index) index reduces the load on
-your environment and the size of your data set. You use this type of index if you are familar with your data and have a good idea  
-what you want to find. 
-
-If you choose a "type=text" index, 
-all the documents and fields in your database are automatically indexed. As such, you can
-search and retrieve information from any field. The time this takes varies based on the size of your data set. 
-
-For this tutorial, we create a "type=json" index. If you want to create a ["type=text"](../api/cloudant_query.html#creating-a-type-text-index) index, 
-change the value in the `type` field to `text`. 
-
-To create an index:
-
-<ol><li>From the command line, run this command to create an index.
-<p><code>curl https://$ACCOUNT.bluemix.cloudant.com/rolodex/_index -X POST -H "Content-Type: application/json" -d \@jsonindex.dat</p></code>
-<p><i>Sample JSON index</i></p>
-</p><code>{"ok":true,"id":"b92e4b2bcf0020b41255252ef7722854","rev":"1-ca5d4b21e532dddcd56d6507b79d9511"}</code></p>
-</li>
-<li>From the Cloudant Dashboard, create an index by following these steps:
-<ol type=a><li>Click <b>+</b> > <b>New Search Index</b>.</li>
-<li>Select <b>New document</b> from the <b>Save to design document</b> drop-down menu.</li>
-<li>Type <code>rolodex-index-design-doc</code> in the <code>_design</code> field.</li>
-<li>Type <code>JSONindex</code> in the Index name field.</li>
-<li>Replace the text in the Search index function field with the text in the sample.
-<p><i>Results:</i></p>
+<li>Select <b>Design Documents</b> and click <b>Create</b> > <b>New Search Index</b>.</li>
+<li>Type <code>rolodex-design-doc</code> in the <code>_design</code> field.</li>
+<li>Type <code>rolodex-index</code> in the Index name field.</li>
+<li>Accept the default selections on the rest of the page. </li>
+<li>Click <b>Create Document and Build Index</b>.
+<p>Under the Design Documents tab, you see the <code>rolodex-design-doc</code> design document and the rolodex-index.</p></li>
+<li>Click the wrench icon and select <b>Edit</b></li>
+<li>Copy and paste the sample JSON for the index below into the Search index function window. 
+<p><i>Sample index JSON</i></p>
 <p><pre>
+    function (doc)
 {    
 	 "index": {       
             "fields": ["firstname", "lastname", "city", "age"]  
@@ -307,25 +324,41 @@ To create an index:
 	 "name": "JSONindex",
 	 "type": "json"            
     } 
-</pre></p>
-</li></ol></li>
-<li>Accept the remaining default options.</li>
-<li>Click <b>Create Document and Build Index</b>.</li>
-</ol></li>
+</pre></p></li>
+<li>Accept the default selections on the rest of the page. </li>
+<li>Click <b>Create Document and Build Index</b>.
+<p>You created a design document and added the index information. </p></li>
 </ol>
 
-The `JSONindex` was created. 
+
 
 ### Listing Cloudant Query indexes
 
 Verify that the `JSONindex` is [listed](../api/cloudant_query.html#list-all-cloudant-query-indexes) in the `rolodex` database.
 
-<ol><li>From the command line, run this command to search for an index. 
-<p><code>curl https://$ACCOUNT.bluemix.cloudant.com/rolodex/_index</code>
-<p><i>Results:</i></p>
-<p><pre>{"total_rows":1,"indexes":[{"ddoc":null,"name":"_all_docs","type":"special","def":{"fields":[{"_id":"asc"}]}}]}
-</pre></p></li>
-<li>From the Cloudant Dashboard, select <b>Databases</b> > <b>Design Documents</b> to expand <code>rolodex-index-design-doc</code>.</li>
+From the command line:
+
+1.  Search for an index by running this command.  
+```json
+curl https://$ACCOUNT.bluemix.cloudant.com/rolodex/_index
+```
+2.  See the results to verify that the index was created. 
+*Results:*
+{"total_rows":1,
+    "indexes":
+        [{"ddoc":null,
+        "name":"_all_docs",
+        "type":"special",
+        "def":{"fields":[{"_id":"asc"}]
+        }
+     }
+   ]
+ }
+
+
+From the Cloudant Dashboard:
+
+<ol><li>Select <b>Databases</b> > <b>Design Documents</b> to expand <code>rolodex-index-design-doc</code>.</li>
 <li>Expand <b>Search Indexes</b>.
 <p>You can see the JSONindex you created. You can edit, clone, or delete indexes here. When you select an index, you can use it to query the database.</p></li>
 </ol>
@@ -372,12 +405,28 @@ name of everyone who meets the search criteria. The results are sorted by first 
 
 For anything but the most simple query, add the JSON to a data file and run it from the command line as shown below.  
 
-To run the query:
+From the command line:
 
-<ol><li>From the command line, run this query.
-<p><code>curl https://$ACCOUNT.bluemix.cloudant.com/rolodex/_find -X POST -H "Content-Type: application/json" -d \@query1.dat</code></p>
-</li>
-<li>From the Cloudant Dashboard, click the <code>JSONindex</code> index that you created earlier by expanding <code>rolodex-index-design-doc</code> > <b>Search Indexes</b> > <b>JSONindex</b>.</li>
+1.  Run this query.
+```json
+curl https://$ACCOUNT.bluemix.cloudant.com/rolodex/_find -X POST -H "Content-Type: application/json" -d \@query1.dat
+```
+2.  See the query results.
+*Results:*
+```json
+{
+"docs":
+   [
+    {"firstname":"John","lastname":"Brown","city":"New York City"},
+    {"firstname":"Sally","lastname":"Brown","city":"New York City"}
+   ]
+ }
+```
+
+
+From the Cloudant Dashboard:
+
+<ol><li>Click the <code>JSONindex</code> index that you created earlier by expanding <code>rolodex-index-design-doc</code> > <b>Search Indexes</b> > <b>JSONindex</b>.</li>
 <li>Copy and paste the following selector statement to the Query field and click <b>Query</b>.  
 <p><pre>
 {
@@ -403,7 +452,7 @@ To run the query:
 
 
 
-### Running a query with operators
+### Running a query by using operators
 
 This example searches the database for people with the last name Brown who are older than 20 years.
 
@@ -437,14 +486,36 @@ Based on the values specified in the `field` parameter, the results include the 
 ```
 {:codeblock}
 
-To run the query:
+From the command line:
 
-1.  From the command line, run this query:
+1. Run this query:
 ```json
 curl https://$ACCOUNT.bluemix.cloudant.com/rolodex/_find -X POST -H "Content-Type: application/json" -d \@query2.dat
 ```
-2.  From the Cloudant Dashboard, click the `JSONindex` index that you created earlier by expanding `rolodex-index-design-doc` > **Search Indexes** > **JSONindex**.
-3.  Copy and paste the JSON into the Query field and click **Query**.  
+2.  See the query results.
+_Results:_
+```json
+{
+  "docs": [
+ {     
+    "firstname": "John",
+    "lastname": "Brown",
+    "age": "21"
+       },
+ {     
+    "firstname": "Lois",
+    "lastname": "Brown",
+    "age": "33"
+       }       
+  ]
+}
+```
+{:codeblock}
+
+From the Cloudant Dashboard:
+
+1.  Click the `JSONindex` index that you created earlier by expanding `rolodex-index-design-doc` > **Search Indexes** > **JSONindex**.
+2.  Copy and paste the JSON into the Query field and click **Query**.  
 ```json
 {
     "selector": {
