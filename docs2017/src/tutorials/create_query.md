@@ -34,14 +34,17 @@ You complete the following tasks during this tutorial:
 ## Creating a database
 
 In this section, you create the `rolodex` [database](../api/database.html#create) which is the database that we use in this tutorial.
-<p>From the command line:</p>
+
+From the command line:
+
 <ol><li>Create a database by running this command.
 <p><code>curl https://$ACCOUNT.bluemix.cloudant.com/rolodex -X PUT</code></p>
 <p><i>Results:</i></p>
 <code>{"ok":true}</code></li></ol>
 
-<p>From the Cloudant Dashboard:</p>
-<ol><li>Create an IBM Bluemix Cloudant account [here](https://console.ng.bluemix.net/registration/?target=%2Fcatalog%2Fservices%2Fcloudant-nosql-db%2F) if you do not already have one.</li>
+From the Cloudant Dashboard:
+
+<ol><li>Create an IBM Bluemix Cloudant account <a href="https://console.ng.bluemix.net/registration/?target=%2Fcatalog%2Fservices%2Fcloudant-nosql-db%2F">here</a> if you do not already have one.</li>
 <li>Log in to the Cloudant Dashboard.</li>
 <li>From the Cloudant Dashboard, create a database by following these steps. 
 <ol type=a><li>Select the Databases tab.
@@ -62,7 +65,9 @@ Show the database associated with your account by running this command.
 curl https://$ACCOUNT.bluemix.cloudant.com/_all_dbs
 ```
 *Results:*
-```["rolodex"]```
+```json
+["rolodex"]
+```
 
 From the Cloudant Dashboard:
 Click the Databases tab.
@@ -223,7 +228,7 @@ Check the database to verify that all the documents in the previous exercise wer
   ] 
 }
 </pre><p></li>
-<li>From the Cloudant Dashboard, select <b>Databases</b> > `rolodex` database > <b>All Documents<b>.</li>
+<li>From the Cloudant Dashboard, select <b>Databases</b> > `rolodex` database > <b>All Documents</b>.</li>
 <li>Verify that all the documents appear.</li>
 </ol>
 
