@@ -59,7 +59,6 @@ Verify that the `rolodex` database was created correctly.
 curl https://$ACCOUNT.cloudant.com/_all_dbs
 ```
 *Results:*
-
 ```["rolodex"]```
 2.  To see the database from the Cloudant Dashboard, click the Databases tab.
     
