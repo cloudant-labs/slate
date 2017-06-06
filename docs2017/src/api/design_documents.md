@@ -125,7 +125,7 @@ _Example response to the copy request:_
 -	**Method**: `COPY /$DATABASE/_design/design-doc`
 -	**Request**: None
 -	**Response**: JSON describing the new document and revision.
--	**Roles permitted**: `_writer`
+-	**Roles permitted**: `_admin`
 -	**Query Arguments**:
 	-	**Argument**: `rev`
 		-	**Description**:  Revision to copy from.
