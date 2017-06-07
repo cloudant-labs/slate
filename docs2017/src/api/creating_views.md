@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-01-06"
+lastupdated: "2017-06-01"
 
 ---
 
@@ -246,7 +246,7 @@ Views are stored in design documents.
 So,
 to store a view,
 we simply store the function definition within a design document.
-A design document can be [created or updated](document.html#update)
+A design document can be [created or updated](design_documents.html#creating-or-updating-a-design-document)
 just like any other document.
 
 To store a view definitions,
