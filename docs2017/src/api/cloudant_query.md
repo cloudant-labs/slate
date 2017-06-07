@@ -2135,8 +2135,8 @@ add the `use_index` parameter to the query.
 
 The value of the `use_index` parameter takes one of two formats:
 
--	`"use_index": "<design_document>"`
--	`"use_index": ["<design_document>","<index_name"]`
+-	`"use_index": "$DDOC"`
+-	`"use_index": ["$DDOC","$INDEX_NAME"]`
 
 _Example query with instructions to use a specific index:_
 
@@ -2308,7 +2308,7 @@ Host: user.cloudant.com
 Content-Type: application/json
 {
 	"source": "https://examples.cloudant.com/query-movies",
-	"target": "https://<user:password>@<user>.cloudant.com/my-movies",
+	"target": "https://$ACCOUNT.cloudant.com/my-movies",
 	"create_target": true,
 	"use_checkpoints": false
 }
@@ -2318,12 +2318,12 @@ Content-Type: application/json
 _Example of using the command line to obtain a copy of the Cloudant Query movie database:_
 
 ```sh
-curl 'https://<user:password>@<user>.cloudant.com/_replicator' \
+curl 'https://$ACCOUNT:$PASSWORD@$ACCOUNT.cloudant.com/_replicator' \
 	-X POST \
 	-H 'Content-Type: application/json' \
 	-d '{
 		"source": "https://examples.cloudant.com/query-movies",
-		"target": "https://<user:password>@<user>.cloudant.com/my-movies",
+		"target": "https://$ACCOUNT.cloudant.com/my-movies",
 		"create_target": true,
 		"use_checkpoints": false
 	}'
@@ -2359,7 +2359,7 @@ Content-Type: application/json
 _Example of using the command line to create a _text_ index for your sample database:_
 
 ```sh
-curl 'https://<user:password>@<user>.cloudant.com/my-movies/_index' \
+curl 'https://$ACCOUNT.cloudant.com/my-movies/_index' \
 	-X POST \
 	-H 'Content-Type: application/json' \
 	-d '{"index": {}, "type": "text"}'
@@ -2403,7 +2403,7 @@ _Example of using the command line to search for a specific document within the 
 
 ```sh
 curl -X POST -H "Content-Type: application/json" \
-	https://<user:password>@<user>.cloudant.com/my-movies/_find \
+	https://$ACCOUNT.cloudant.com/my-movies/_find \
 	-d '{"selector": {"Person_name":"Zoe Saldana"}}'
 ```
 {:codeblock}
@@ -2451,7 +2451,7 @@ _Example of using the command line for a slightly more complex search:_
 
 ```sh
 curl -X POST -H "Content-Type: application/json" \
-	https://<user:password>@<user>.cloudant.com/my-movies/_find \
+	https://$ACCOUNT.cloudant.com/my-movies/_find \
 	-d '{"selector": {"Person_name":"Robert De Niro", "Movie_year": 1978}}'
 ```
 {:codeblock}
@@ -2500,7 +2500,7 @@ _Example of using the command line to search within a range:_
 
 ```sh
 curl -X POST -H "Content-Type: application/json" \
-	https://<user:password>@<user>.cloudant.com/my-movies/_find \
+	https://$ACCOUNT.cloudant.com/my-movies/_find \
 	-d '{"selector": {"Person_name":"Robert De Niro", "Movie_year": { "$in": [1974, 2009]}}}'
 ```
 {:codeblock}
