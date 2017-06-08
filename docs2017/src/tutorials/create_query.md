@@ -135,47 +135,47 @@ From the command line:
 <p><pre>{
 	"docs": 
        [
-	{ 
-		"_id": "doc1",
-		"firstname": "Sally",
-		"lastname": "Brown",
-		"age": 16,
-		"city": "New York City",
-		"state": "New York"	
-    },
-  { 
-		"_id": "doc2",
-	  	"firstname": "John",
-	    "lastname": "Brown",
-	    "age": 21,
-        "city": "New York City",
-        "state": "New York"
-  },
-   {
-		"_id": "doc3",
-		"firstname": "Greg",
-		"lastname": "Greene",
-		"age": 35,
-		"city": "San Diego",
-		"state": "California"
-
-   },
-  {
-		"_id": "doc4",
-		"firstname": "Amanda",
-		"lastname": "Greene",
-		"age": 44,
-		"city": "Syracuse",
-		"state": "New York"
-  },
-   {
-		"_id": "doc5",
-		"firstname": "Lois",
-		"lastname": "Brown",
-		"age": 33,
-		"city": "Baton Rouge",
-		"state": "Louisiana"
-   }
+       	{ 
+       		"_id": "doc1",
+       		"firstname": "Sally",
+       		"lastname": "Brown",
+       		"age": 16,
+       		"city": "New York City",
+       		"state": "New York"	
+           },
+         { 
+       		"_id": "doc2",
+       	  	"firstname": "John",
+       	    "lastname": "Brown",
+       	    "age": 21,
+               "city": "New York City",
+               "state": "New York"
+         },
+          {
+       		"_id": "doc3",
+       		"firstname": "Greg",
+       		"lastname": "Greene",
+       		"age": 35,
+       		"city": "San Diego",
+       		"state": "California"
+       
+          },
+         {
+       		"_id": "doc4",
+       		"firstname": "Amanda",
+       		"lastname": "Greene",
+       		"age": 44,
+       		"city": "Syracuse",
+       		"state": "New York"
+         },
+          {
+       		"_id": "doc5",
+       		"firstname": "Lois",
+       		"lastname": "Brown",
+       		"age": 33,
+       		"city": "Baton Rouge",
+       		"state": "Louisiana"
+          }
   ]
 }</pre></p></li>
 <li>Run this command to create the documents. 
@@ -324,7 +324,7 @@ Before you start this exercise, you must <a href="#Create a design document">cre
 <li>Click <b>Create Document and Build Index</b>.
 <p>The <code>rolodex-design-doc</code> design document and the `rolodex-index` index appear under the Design Documents tab.</p></li>
 <li>Click the **All Documents** tab and edit the <code>_design/rolodex-design-doc</code> design document.</li>
-<li>Copy the following sample `rolodexindex` JSON and replace the text in the Search index function window. 
+<li>Copy the following sample `rolodexindex` JSON and replace the text in the <code>rolodex-design-doc</code> design document. 
 <p><i>Sample `rolodexindex` JSON</i></p>
 <p><pre>
     {
