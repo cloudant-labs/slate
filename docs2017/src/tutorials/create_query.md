@@ -13,36 +13,36 @@ lastupdated: "2017-06-12"
 
 # Creating a Cloudant Query
 
-This tutorial demonstrates how to create a design document and an index, and how to use Cloudant Query to extract specific data
-from the database.
+This tutorial demonstrates how to create a database and populate it 
+with documents, as well as, how to create an index and use the index to query  
+the database.
 
-To begin, you create the `query-demo` database, some JSON documents that contain the data for these exercises, and a design document that contains information about how to build your index. Next, you create an index and run queries against it. 
+Exercises for both the <img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> command line 
+and <img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard are provided. 
+Links are provided throughout the tutorial with more information.
 
-In this tutorial, you can use either Cloudant
-Dashboard or the command line. Instructions for both methods are provided. Follow the links that are provided throughout 
-this tutorial for more information.
+To begin, you create the `query-demo` database and some JSON documents that 
+contain the data for these exercises.
 
-You complete the following tasks during this tutorial:
+After you complete this tutorial, you will know how to complete the following tasks:
 
 1.  [Create a database.](create_query.html#creating-a-database)
-2.  [Create a design document and index.](create_query.html#creating-a-design-document)
+2.  [Create an index.](create_query.html#creating-an-index)
 3.  [Query the database.](create_query.html#creating-a-query)
-
 
 ## Assumptions
 
-Before you begin, follow these steps to prepare for the tutorial. 
+Before you begin, follow these steps to prepare for the tutorial:
 
-1.  [Create a Bluemix account.](https://console.ng.bluemix.net/registration/)
-2.  Log in to the [Cloudant Dashboard](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db).  
-3.  [Create a Cloudant instance on Bluemix.](https://console.ng.bluemix.net/docs/services/Cloudant/tutorials/create_service.html#creating-a-cloudant-instance-on-bluemix)
-4.  (Optional) [Create an acurl alias](https://console.ng.bluemix.net/docs/services/Cloudant/guides/acurl.html#authorized-curl-acurl-) 
-    to make it easier and faster to run commands from the command line.
-5.  Replace the `$ACCOUNT` variable in the following commands with the name you use to 
-    log in to Cloudant Dashboard. If you decide not to set up `acurl`, use this
+<ol><li><a href="https://console.ng.bluemix.net/registration/">Create a Bluemix account</a>.</li>
+<li>Log in to the <a href="https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db">Cloudant Dashboard</a>.</li>
+<li><a href="https://console.ng.bluemix.net/docs/services/Cloudant/tutorials/create_service.html#creating-a-cloudant-instance-on-bluemix">Create a Cloudant instance on Bluemix</a>.</li>
+<li>(Optional) <a href="https://console.ng.bluemix.net/docs/services/Cloudant/guides/acurl.html#authorized-curl-acurl-">Create an acurl alias</a> to make it easier and faster to run commands from the command line.</li>
+<li>Replace the <code>$ACCOUNT</code> variable in the following commands with the name you use to 
+    log in to Cloudant Dashboard. If you decide not to set up <code>acurl</code>, use this
     URL instead of the one provided in the exercises. 
-    
-    <code>curl https://$ACCOUNT:$PASSWORD@$ACCOUNT.cloudant.com/foo -X PUT</code>
+    <p><code>curl https://$ACCOUNT:$PASSWORD@$ACCOUNT.cloudant.com/query-demo</code></p></li>
+</ol>
 
  
 
@@ -52,23 +52,18 @@ In this section, you create the `query-demo` [database](../api/database.html#cre
 
 <img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> Command line 
 
-1.  Create a database by running this command.<br>
-
-    <code>acurl https://$ACCOUNT.cloudant.com/query-demo -X PUT</code>
-
-2.  Verify that the database was created successfully in the results. 
- 
-    *Results:*
-    ```json
-    {"ok":true}
-    ```
+<ol><li>Create a database by running this command.
+<p><code>acurl https://$ACCOUNT.cloudant.com/query-demo -X PUT</code></p>
+<li>Verify that the database was created successfully in the results. 
+<p><b>Results</b>:</p>
+<p><code>{"ok":true}</code></p></li>
 
 <img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard
 
 <ol><li>Open the Cloudant service instance that you created. </li>
 <li>Select the Databases tab. 
 <p><img src="../images/tabs.png" alt="Databases tab"></img></p></li>
-<li>Click <b>Create Database</b>. </li>
+<li>Click <i>Create Database</i>. </li>
 <li>Enter <code>query-demo</code> and click <b>Create</b>.
 <p>The <code>query-demo</code> database automatically opens.</p>
 </li>
@@ -76,55 +71,21 @@ In this section, you create the `query-demo` [database](../api/database.html#cre
 
 ### Listing databases
 
-Verify that the `query-demo` database was created correctly. 
+You can list all the databases that are associated with your account.  
 
 <img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> Command line
 
-
-1.  List the database by running this command.
-
-    <code>acurl https://$ACCOUNT.cloudant.com/_all_dbs</code>
-
-2.  See the results to verify the `query-demo` database was created along with any other databases that are associated with your account.   
-
-    *Results:*
-    ```json
-    ["query-demo"]
-    ```
+<ol><li>List the databases by running this command.
+<p><code>acurl https://$ACCOUNT.cloudant.com/_all_dbs</code></p></li>
+<li>You can see the `query-demo` database in the list.
+<p><i>Results</i>:</p>
+<code>["query-demo"]</code></p></li></ol>
 
 <img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard
 
 1.  Click the **Databases** tab.
 2.  See the `query-demo` database in the list on the **Your Databases** tab.
 
-
-
-### Deleting a database
-
-If you decide to delete the database, for example, if you made a mistake, you can delete the database and start again. 
-
-<img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> Command line
-
-1.  Delete the database by running this command.
-
-    <code>acurl https://$ACCOUNT.cloudant.com/query-demo -X DELETE</code>
-
-2.  See the results to verify the `query-demo` database was deleted. 
-
-    *Results:*
-    ```json
-    {"ok":true}
-    ```
-
-
-<img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard
-
-<ol>
-<li>Select the <b>Your Databases</b> tab.</li>
-<li>Click <b>Delete</b> next to the database you want to delete.</li> 
-<li>Enter the name of the database and click <b>Delete Database</b>.
-<p>The database is deleted.</p></li>
-</ol>
 
 ## Creating documents in the database
 
@@ -175,9 +136,9 @@ The JSON documents that you create here contain the data you use to query the `q
 }</pre></p></li>
 <li>Run this command to create the documents. 
 <p><code>acurl https://$ACCOUNT.cloudant.com/query-demo/_bulk_docs -X POST -H "Content-Type: application/json" -d \@bulkcreate.dat</code></p>
-<p><b>Note:</b> Notice that the '@' symbol, used to indicate that the data 
+<p><b>Note</b>: Notice that the '@' symbol, used to indicate that the data 
 is included in a file, is identified by the supplied name.</p>
-<p><i>Results:</i></p> 
+<p><i>Results</i>:</p> 
 <p><pre>[{"ok":true,
 "id":"doc1","rev":"1-57a08e644ca8c1bb8d8931240427162e"},
 {"ok":true,"id":"doc2","rev":"1-bf51eef712165a9999a52a97e2209ac0"},
@@ -212,7 +173,7 @@ is included in a file, is identified by the supplied name.</p>
         "location": "New York City, NY",
         "_id": "doc2"
    }</pre></p>
-<p><i>Third sample document:</i><br>
+<p><i>Third sample document</i>:<br>
 <pre> {
         "firstname": "Greg",
         "lastname": "Greene",
@@ -222,7 +183,7 @@ is included in a file, is identified by the supplied name.</p>
      }
 </pre>
 </p>
-<p><i>Fourth sample document:</i><br>
+<p><i>Fourth sample document</i>:<br>
 <pre>{
         "firstname": "Anna",
         "lastname": "Greene",
@@ -231,7 +192,7 @@ is included in a file, is identified by the supplied name.</p>
         "_id": "doc4"
       }</pre>
 </p>
-<p><i>Fifth sample document:</i><br>
+<p><i>Fifth sample document</i>:<br>
 <pre>{
         "firstname": "Lois",
         "lastname": "Brown",
@@ -253,7 +214,7 @@ Check the database to verify that all the documents in the previous exercise wer
 <p><code>acurl https://$ACCOUNT.cloudant.com/query-demo/_all_docs</code></p>
 </li>
 <li>Verify that the results include the newly created documents. 
-<p><i>Results:</i></p>
+<p><i>Results</i>:</p>
 <p><pre>{"total_rows":5,"offset":0,"rows":[
     {"id":"doc1","key":"doc1","value":{"rev":"1-bf51eef712165a9999a52a97e2209ac0"}},
     {"id":"doc2","key":"doc2","value":{"rev":"1-57a08e644ca8c1bb8d8931240427162e"}},
@@ -292,8 +253,8 @@ change the value in the `type` field to `text`.
 <pre>{
   "index": {
     "fields": [
-         "firstname", 
-         "lastname", 
+         "lastname",
+         "firstname",  
          "location", 
          "age"
     ]
@@ -304,7 +265,7 @@ change the value in the `type` field to `text`.
 
 <li>Run this command to create an index.
 <p><code>acurl https://$ACCOUNT.cloudant.com/query-demo/_index -X POST -H "Content-Type: application/json" -d \@query-index.dat</p></code>
-<p><i>Results:</i></p>
+<p><i>Results</i>:</p>
 </p><pre>{"result":"created",
 "id":"_design/752c7031f3eaee0f907d18e1424ad387459bfc1d",
 "name":"query-index"}</pre></p>
@@ -318,8 +279,8 @@ change the value in the `type` field to `text`.
 {
   "index": {
     "fields": [
-         "firstname", 
-         "lastname", 
+         "lastname",
+         "firstname",  
          "location", 
          "age"
     ]
@@ -329,6 +290,44 @@ change the value in the `type` field to `text`.
 }</pre></p></li>
 <p>The index was created and is ready to query. </p>
 </li></ol>
+
+### Listing indexes
+
+Verify that the `query-index` index was created. 
+
+<img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> Command line
+
+<ol><li>List the index by running this command.
+<p><code>acurl https://$ACCOUNT.cloudant.com/_index</code></p></li>
+<li>See the results to verify that the `query-index` index was created.
+<p><i>Results</i>:</p>
+<pre>
+{"total_rows":2,"indexes":
+    [{"ddoc":null,
+        "name":"_all_docs",
+        "type":"special",
+        "def":{"fields":[{"_id":"asc"}]
+        }
+   },   
+   {"ddoc":"_design/752c7031f3eaee0f907d18e1424ad387459bfc1d",
+        "name":"query-index",
+        "type":"json",
+        "def":{"fields":
+            [{"firstname":"asc"},
+             {"lastname":"asc"},
+             {"location":"asc"},
+             {"age":"asc"}]
+       }
+     }
+   ]
+}</pre></p></li></ol>
+
+<img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard
+
+1.  From the **All Documents** tab.
+2.  In the list of documents, you will see a document id similar to this one.
+    `"_id": "_design/b2a21cd528df743d03f6723f84f7430b5852abb1"`. If you open the document, you 
+    see `query-index` below the `views` field. 
 
 
 ## Creating a query
@@ -381,13 +380,15 @@ You can create complex or simple queries.
 <img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard
 
 <ol><li>Click the <b>Query</b> tab..</li>
-<li>Copy and paste the following selector statement into the Cloudant Query window and click <b>Run Query</b>. 
+<li>Copy and paste the following selector statement into the Cloudant Query window. 
 <p><pre>{
   "selector": {
      "firstname" : "Sally"            
    }        
-}   </pre></p>
-<p>The document with Sally Brown's information appears in the right pane. </p>
+}   </pre></p></li>
+<li>Click <b>Run Query</b>.
+<p>The query results appear in the right pane.</p>
+<p><img src="../images/dashboard_query1_results.png" alt="Query 1 results"></img></p>
 </li></ol>
 
 ### Running a query with two fields
@@ -410,13 +411,17 @@ and last name of everyone who meets the search criteria. The results are sorted 
 in ascending order based on the `sort` parameters values.
 
 ```json
-    {
-    "fields": ["firstname","lastname", "location"   ],
-    "sort": [ { "firstname": "asc" }  ]
-   }      
+  "fields" : [ "lastname", "firstname", "location" ],
+  "sort" : [ { "lastname": "asc"},
+			 { "firstname": "asc"} ]      
 ```  
 {:codeblock}
-  
+
+>   **Note**: When you use the `sort` field. You must list each field as it appears in the index. For example, `sort`: [ {"firstname": "asc"} ] does not work. You must use 
+> ```json
+>  "sort": [ { "lastname": "asc"},
+			 { "firstname": "asc"} ]```
+> The last field is the field is sorted after the preceeding fields. 
 
 <img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> Command line
 
@@ -427,8 +432,9 @@ in ascending order based on the `sort` parameters values.
             "lastname": "Brown",
             "location": "New York City, NY" 
          },
-            "fields": ["firstname", "lastname", "city" ],
-            "sort": [ { "firstname": "asc" } ]  
+            "fields": ["firstname", "lastname", "location" ],
+              "sort": [ { "lastname": "asc"},
+			            { "firstname": "asc"} ] 
      }
     ```
 2.  Run this command to query the database.
@@ -437,35 +443,35 @@ in ascending order based on the `sort` parameters values.
 
 3.  See the query results.
 
-    _Results:_
     ```json
-    {
-        "docs":[
-            {"firstname":"John","lastname":"Brown"}          
-            {"firstname":"Sally","lastname":"Brown"}
-        ]
-    }
+        {"docs":[
+            {"firstname":"John","lastname":"Brown"},
+            {"firstname":"Sally","lastname":"Brown"} ]
+         }
     ```
 
 
 <img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard
 
 <ol><li>Click the <b>Query</b> tab.</li>
-<li>Copy and paste the following selector statement into the Cloudant Query window and click <b>Run Query</b>.  
+<li>Copy and paste the following selector statement into the Cloudant Query window.  
 <p><pre>
 {
     "selector": {
        "lastname": "Brown",
        "location": "New York City, NY" 
             },
-         "fields": ["firstname", "lastname", "city" ],
-         "sort": [ { "firstname": "asc" } ]  
+         "fields": ["firstname", "lastname", "location" ],
+           "sort": [ { "lastname": "asc"},
+		  	         { "firstname": "asc"} ]  
 }
-</pre></p>
-<p>The documents with John and Sally Brown's information appears in the right pane in alphabetical order by first name. </p>
+</pre></p></li>
+<li>Click <b>Run Query</b>.
+<p>The query results appear in the right pane.</p>
+<p><img src="../images/dashboard_query2_results.png" alt="Query 2 results"></img></p>
 </li></ol>
 
-### Running a query with multiple operators
+### Running a query with operators
 
 In this example, the $eq (equal) and $gt (greater than) operators are used to search for documents that contain the last name Greene and who are older than 30 years.
  
@@ -473,7 +479,7 @@ In this example, the $eq (equal) and $gt (greater than) operators are used to se
 ```json
 { "selector": {
     "lastname": {"$eq": "Greene"},
-    "age": {"$gt": 30}
+         "age": {"$gt": 30}
  }
 ```   
 {:codeblock}
@@ -481,15 +487,16 @@ In this example, the $eq (equal) and $gt (greater than) operators are used to se
 <img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> Command line
 
 1.  Copy this sample JSON to a file named `query3.dat`.
-```json
-{ "selector": {
-    "lastname": {"$eq": "Greene"},
-    "age": {"$gt": 30}
- },
-"fields" : [ "firstname","lastname", "age" ],
-"sort" : [ { "firstname": "asc" } ]    
-}
-```
+    ```json
+    { "selector": {
+        "lastname": {"$eq": "Greene"},
+             "age": {"$gt": 30}
+        },
+            "fields" : [ "firstname","lastname", "age" ],
+               "sort": [ { "lastname": "asc"},
+			             { "firstname": "asc"} ]  
+      }
+    ```
 2. Run this query:
 
     <code>acurl https://$ACCOUNT.cloudant.com/query-demo/_find -X POST -H "Content-Type: application/json" -d \@query3.dat</code>
@@ -497,12 +504,11 @@ In this example, the $eq (equal) and $gt (greater than) operators are used to se
 3.  See the query results.
 
     _Results:_
-    ```
-    { "docs":[
-            {"firstname":"Anna","lastname":"Greene","age":44}
-            {"firstname":"Greg","lastname":"Greene","age":35}
-        ]
-    }
+    ```json
+    {"docs":[
+            {"firstname":"Anna","lastname":"Greene","age":44},
+            {"firstname":"Greg","lastname":"Greene","age":35} ]
+       }
     ```
     {:codeblock}
 
@@ -510,17 +516,25 @@ In this example, the $eq (equal) and $gt (greater than) operators are used to se
 
 1.  Click the **Query** tab. 
 2.  Copy and paste the JSON into the Cloudant Query window and click **Run Query**.  
-```json
-{ "selector": {
-    "lastname": {"$eq": "Greene"},
-    "age": {"$gt": 30}
- },
-"fields" : [ "firstname","lastname", "age" ],
-"sort" : [ { "firstname": "asc" } ]    
-}
-```
+    ```json
+    { "selector": {
+        "lastname": {"$eq": "Greene"},
+             "age": {"$gt": 30}
+        },
+            "fields" : [ "firstname","lastname", "age" ],
+               "sort": [ { "lastname": "asc"},
+			             { "firstname": "asc"} ]   
+      }
+    ```
+    {:codeblock}
+3.  Click **Run Query**.
+    The query results appear in the right pane.
+    
+   ![Query 3 results](../images/dashboard_query3_results.png)
+
+</p>
+</li>
 The documents for Anna and Greg Greene appear in the left pane ordered by first name. 
-{:codeblock}
 
 For more information about Cloudant-related topics, see [Cloudant Documentation](https://console.ng.bluemix.net/docs/services/Cloudant/cloudant.html#overview).
 
