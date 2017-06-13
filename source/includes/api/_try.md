@@ -266,7 +266,7 @@
 <tr>
 <td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
 You can find the new content
-<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>.
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/getting-started.html">here</a>.
 <br/><br/>
 <p>Content on this page will no longer be updated (Jan 31st, 2017).</p>
 </td>
