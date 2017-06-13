@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-05-18"
+lastupdated: "2017-06-12"
 
 ---
 {:new_window: target="_blank"}
@@ -50,24 +50,24 @@ Before you begin, follow these steps to prepare for the tutorial.
 
 In this section, you create the `query-demo` [database](../api/database.html#create) which is the database that we use in this tutorial.
 
-From the command line:
+<img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> Command line 
 
 1.  Create a database by running this command.<br>
 
     <code>acurl https://$ACCOUNT.cloudant.com/query-demo -X PUT</code>
 
 2.  Verify that the database was created successfully in the results. 
-    
+ 
     *Results:*
     ```json
     {"ok":true}
     ```
 
-From the Cloudant Dashboard:
+<img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard
 
 <ol><li>Open the Cloudant service instance that you created. </li>
 <li>Select the Databases tab. 
-<p><img src="../images/tabs.png" alt="Databases tab"></p></li>
+<p><img src="../images/tabs.png" alt="Databases tab"></img></p></li>
 <li>Click <b>Create Database</b>. </li>
 <li>Enter <code>query-demo</code> and click <b>Create</b>.
 <p>The <code>query-demo</code> database automatically opens.</p>
@@ -78,21 +78,21 @@ From the Cloudant Dashboard:
 
 Verify that the `query-demo` database was created correctly. 
 
-From the command line:
+<img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> Command line
 
 
-1.  See the database by running this command.
+1.  List the database by running this command.
 
     <code>acurl https://$ACCOUNT.cloudant.com/_all_dbs</code>
 
-2.  See the `query-demo` database and any other databases that are associated with your account.   
+2.  See the results to verify the `query-demo` database was created along with any other databases that are associated with your account.   
 
     *Results:*
     ```json
     ["query-demo"]
     ```
 
-From the Cloudant Dashboard:
+<img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard
 
 1.  Click the **Databases** tab.
 2.  See the `query-demo` database in the list on the **Your Databases** tab.
@@ -103,7 +103,7 @@ From the Cloudant Dashboard:
 
 If you decide to delete the database, for example, if you made a mistake, you can delete the database and start again. 
 
-From the command line:
+<img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> Command line
 
 1.  Delete the database by running this command.
 
@@ -117,21 +117,22 @@ From the command line:
     ```
 
 
-From the Cloudant Dashboard:
+<img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard
 
 <ol>
 <li>Select the <b>Your Databases</b> tab.</li>
 <li>Click <b>Delete</b> next to the database you want to delete.</li> 
-<li>Enter the name of the database and click <b>Delete Database</b>.</li>
+<li>Enter the name of the database and click <b>Delete Database</b>.
+<p>The database is deleted.</p></li>
 </ol>
 
 ## Creating documents in the database
 
 The JSON documents that you create here contain the data you use to query the `query-demo` database in later exercises. 
 
-From the command line:
+<img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> Command line
 
-<ol><li>Copy the sample JSON to a data file named <code>bulkcreate.dat</code> to create all five documents.
+<ol><li>Copy the sample text to a data file named <code>bulkcreate.dat</code> to create all five documents.
 <p><pre>{
 	"docs": 
        [
@@ -158,7 +159,7 @@ From the command line:
    },
   {
 		"_id": "doc4",
-		"firstname": "Amanda",
+		"firstname": "Anna",
 		"lastname": "Greene",
 		"age": 44,
 		"location": "Baton Rouge, LA"
@@ -173,8 +174,9 @@ From the command line:
   ]
 }</pre></p></li>
 <li>Run this command to create the documents. 
-<p>The following POST command creates five individual documents at the same time. </p>
 <p><code>acurl https://$ACCOUNT.cloudant.com/query-demo/_bulk_docs -X POST -H "Content-Type: application/json" -d \@bulkcreate.dat</code></p>
+<p><b>Note:</b> Notice that the '@' symbol, used to indicate that the data 
+is included in a file, is identified by the supplied name.</p>
 <p><i>Results:</i></p> 
 <p><pre>[{"ok":true,
 "id":"doc1","rev":"1-57a08e644ca8c1bb8d8931240427162e"},
@@ -182,16 +184,15 @@ From the command line:
 {"ok":true,"id":"doc3","rev":"1-9c9f9b893fcdd1cbe09420bc4e62cc71"},
 {"ok":true,"id":"doc4","rev":"1-6aa4873443ddce569b27ab35d7bf78a2"},
 {"ok":true,"id":"doc5","rev":"1-d881d863052cd9681650773206c0d65a"}]</pre></p>
-<p><b>Note:</b> Notice that the '@' symbol, used to indicate that the data 
-is included in a file, is identified by the supplied name.</p></li></ol>
+</li></ol>
 
-From the Cloudant Dashboard:
+<img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard
 
 <ol>
 <li>Select the <b>All Documents</b> tab. </li>
 <li>Click <b>+</b> and select <b>New Doc</b>.
 <p>The New Document window opens. </p></li>
-<li>To create a JSON document, copy the following sample text and replace the existing text in the new document.
+<li><a name="step3"></a> To create a JSON document, copy the following sample text and replace the existing text in the new document.
 <p><i>First sample document</i>:<br>
 <pre>{ 
         "firstname": "Sally",
@@ -202,7 +203,7 @@ From the Cloudant Dashboard:
      }</pre></p>
 
 </li>
-<li>Repeat the previous step and add the remaining documents to the database.
+<li>Repeat <a href="#step3">step 3</a> to add the remaining documents to the database.
 <p><i>Second sample document</i>:<br>
 <pre>{ 
         "firstname": "John",
@@ -223,7 +224,7 @@ From the Cloudant Dashboard:
 </p>
 <p><i>Fourth sample document:</i><br>
 <pre>{
-        "firstname": "Amanda",
+        "firstname": "Anna",
         "lastname": "Greene",
         "age": 44,
 		"location": "Baton Rouge, LA",
@@ -246,7 +247,7 @@ From the Cloudant Dashboard:
 
 Check the database to verify that all the documents in the previous exercise were created successfully. 
 
-From the command line:
+<img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> Command line
 
 <ol><li>List all the documents in the database.
 <p><code>acurl https://$ACCOUNT.cloudant.com/query-demo/_all_docs</code></p>
@@ -264,7 +265,7 @@ From the command line:
 </pre></p></li></ol>
 
 
-From the Cloudant Dashboard:
+<img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard
 
 <ol><li>Select <b>Databases</b> > `query-demo` database > <b>All Documents</b>.</li>
 <li>Verify that all the documents are listed. </li>
@@ -277,24 +278,41 @@ Creating a ["type=json"](../api/cloudant_query.html#creating-a-type-json-index) 
 your environment and the size of your data set. You use this type of index if you are familar with your data and have a good idea  
 what you want to find. 
 
-If you choose a "type=text" index, 
+If you choose a ["type=text"](../api/cloudant_query.html#creating-a-type-text-index) index, 
 all the documents and fields in your database are automatically indexed. As such, you can
 search and retrieve information from any field. The time this takes varies based on the size of your data set. 
 
-For this tutorial, we create a "type=json" index. If you want to create a ["type=text"](../api/cloudant_query.html#creating-a-type-text-index) index, 
+For this tutorial, we create a "type=json" index. If you want to create a "type=text" index, 
 change the value in the `type` field to `text`. 
 
-To create an index:
+<img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> Command line
 
-<ol><li>From the command line, run this command to create an index.
-<p><code>curl https://$ACCOUNT.cloudant.com/query-demo/_index -X POST -H "Content-Type: application/json" -d \@index.dat</p></code>
+<ol><li>Copy the sample JSON into a data file named <code>query-index.dat</code>.
+<p>
+<pre>{
+  "index": {
+    "fields": [
+         "firstname", 
+         "lastname", 
+         "location", 
+         "age"
+    ]
+  },
+  "name": "query-index",
+  "type": "json"
+}</pre></p></li>
+
+<li>Run this command to create an index.
+<p><code>acurl https://$ACCOUNT.cloudant.com/query-demo/_index -X POST -H "Content-Type: application/json" -d \@query-index.dat</p></code>
 <p><i>Results:</i></p>
 </p><pre>{"result":"created",
 "id":"_design/752c7031f3eaee0f907d18e1424ad387459bfc1d",
 "name":"query-index"}</pre></p>
-</li>
-<li>From the Cloudant Dashboard, create an index by following these steps:
-<ol type=a><li>Click <b>+</b> > <b>Query Indexes</b>.</li>
+</li></ol>
+
+<img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard
+
+<ol><li>Click <b>+</b> > <b>Query Indexes</b>.</li>
 <li>Paste the following sample JSON into the Index field.
 <p><pre>
 {
@@ -324,19 +342,18 @@ selector is a JSON object. For this exercise, you use the selector expression th
 
 For anything but the most simple query, add the JSON to a data file and run it from the command line.
 
-### Running a query with a simple selector statement
+### Running a simple query
 
-To find a single document in the database, specify one piece of information, for example, a first name. 
+You can create complex or simple queries.  
 
-From the command line:
+<img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> Command line
 
 1.  Copy the sample JSON into a data file named `query1.dat`.
 ```json
 {
   "selector": {
         "firstname" : "Sally"            
-        },
-          "fields": ["firstname","lastname" ]        
+     }        
 }        
 ```    
 {:codeblock}
@@ -348,24 +365,28 @@ From the command line:
 
     _Results:_
     ```json
-    {
-    "docs":
-       [ {"firstname":"Sally","lastname":"Brown"} ]
-     }
+ {"docs":
+   [
+        {"_id":"doc1",
+        "_rev":"3-751ab049e8b5dd1ba045cea010a33a72",
+        "firstname":"Sally",
+        "lastname":"Brown",
+        "age":16,
+        "location":"New York City, NY"}
+    ]
+}
     ```
 
 
-From the Cloudant Dashboard:
+<img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard
 
 <ol><li>Click the <b>Query</b> tab..</li>
-<li>Copy and paste the following selector statement into the Cloudant Query window and click <b>Run Query</b>.  
-<p><pre>
-{
+<li>Copy and paste the following selector statement into the Cloudant Query window and click <b>Run Query</b>. 
+<p><pre>{
   "selector": {
-        "firstname" : "Sally"            
-        }    
-}   
-</pre></p>
+     "firstname" : "Sally"            
+   }        
+}   </pre></p>
 <p>The document with Sally Brown's information appears in the right pane. </p>
 </li></ol>
 
@@ -376,8 +397,8 @@ Specify the documents that you want to find in the database by using the `select
 ```json
 {
     "selector": {
-        "name": { "Brown" },
-                { "location": "New York City, NY" }
+            "lastname": "Brown",
+            "location": "New York City, NY" 
         }                
     }        
 ```    
@@ -397,123 +418,111 @@ in ascending order based on the `sort` parameters values.
 {:codeblock}
   
 
-From the command line:
+<img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> Command line
 
-1.  Copy the sample JSON into a data file named `query1.dat`.
-```json
-{
-    "selector": {
-        "name": { "Brown" },
-                { "location": "New York City, NY" }
-        }                
-    },
-  "fields": ["firstname", "lastname", "city" ],
-  "sort": [ { "lastname": "asc" } ]  
-}
-```
+1.  Copy the sample JSON into a data file named `query2.dat`.
+    ```json
+    {
+        "selector": {
+            "lastname": "Brown",
+            "location": "New York City, NY" 
+         },
+            "fields": ["firstname", "lastname", "city" ],
+            "sort": [ { "firstname": "asc" } ]  
+     }
+    ```
 2.  Run this command to query the database.
 
-    <code>acurl https://$ACCOUNT.cloudant.com/query-demo/_find -X POST -H "Content-Type: application/json" -d \@query1.dat</code>
+    <code>acurl https://$ACCOUNT.cloudant.com/query-demo/_find -X POST -H "Content-Type: application/json" -d \@query2.dat</code>
 
 3.  See the query results.
 
     _Results:_
     ```json
-    {"docs":[
-    {"_id":"doc2","_rev":"1-2c5ee70689bb75af6f65b0335d1c92f4","firstname":"John","lastname":"Brown","age":21,"location":"New York City, NY"},
-    {"_id":"doc3","_rev":"1-f6055e3e09f215c522d45189208a1bdf","firstname":"Greg","lastname":"Greene","age":35,"location":"San Diego, CA"},
-    {"_id":"doc4","_rev":"1-9c7b5fdee4c69148cba291fa7ecbbed4","firstname":"Amanda","lastname":"Greene","age":44,"location":"Baton Rouge, LA"},
-    {"_id":"doc5","_rev":"1-19f7ecbc68090bc7b3aa4e289e363576","firstname":"Lois","lastname":"Brown","age":33,"location":"Syracuse, NY"}
-    ]}
-        ```
+    {
+        "docs":[
+            {"firstname":"John","lastname":"Brown"}          
+            {"firstname":"Sally","lastname":"Brown"}
+        ]
+    }
+    ```
 
 
-From the Cloudant Dashboard:
+<img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard
 
 <ol><li>Click the <b>Query</b> tab.</li>
 <li>Copy and paste the following selector statement into the Cloudant Query window and click <b>Run Query</b>.  
 <p><pre>
 {
     "selector": {
-        "name": { "Brown" },
-                { "location": "New York City, NY" }
-        }                
-    },
-  "fields": ["firstname", "lastname", "city" ],
-  "sort": [ { "lastname": "asc" } ]  
+       "lastname": "Brown",
+       "location": "New York City, NY" 
+            },
+         "fields": ["firstname", "lastname", "city" ],
+         "sort": [ { "firstname": "asc" } ]  
 }
 </pre></p>
-<p>The documents with John and Sally Brown's information appears in the right pane. </p>
+<p>The documents with John and Sally Brown's information appears in the right pane in alphabetical order by first name. </p>
 </li></ol>
 
 ### Running a query with multiple operators
 
-In this example, the $and, $text, and $gt are used to search for people with the last name Brown who are older than 20 years.
-The combination of operators 
+In this example, the $eq (equal) and $gt (greater than) operators are used to search for documents that contain the last name Greene and who are older than 30 years.
+ 
 
 ```json
 { "selector": {
-    "$and": [   { "$eq": "Brown"  },
-                { "$gt": 20 }   ]
-   }, 
+    "lastname": {"$eq": "Greene"},
+    "age": {"$gt": 30}
+ }
 ```   
 {:codeblock}
 
-Based on the values that are specified in the `field` parameter, the results include the first name, last name, and age sorted by first name in ascending order.
+<img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> Command line
 
-```json
-  "fields": [ "firstname", "lastname", "age"],
-  "sort": [  { "firstname": "asc" } ]           
-```
-{:codeblock}
-
-From the command line:
-
-1.  Copy this sample JSON to a file named `query1.dat`.
+1.  Copy this sample JSON to a file named `query3.dat`.
 ```json
 { "selector": {
-    "$and": [   { "$eq": "Brown"  },
-                { "$gt": 20 }   ]
-     },
-   "fields" : [ "firstname","lastname", "age" ],
-   "sort" : [ { "firstname": "asc" } ]	
+    "lastname": {"$eq": "Greene"},
+    "age": {"$gt": 30}
+ },
+"fields" : [ "firstname","lastname", "age" ],
+"sort" : [ { "firstname": "asc" } ]    
 }
 ```
 2. Run this query:
 
-    <code>acurl https://$ACCOUNT.cloudant.com/query-demo/_find -X POST -H "Content-Type: application/json" -d \@query1.dat</code>
+    <code>acurl https://$ACCOUNT.cloudant.com/query-demo/_find -X POST -H "Content-Type: application/json" -d \@query3.dat</code>
 
 3.  See the query results.
 
     _Results:_
-    ```{ "docs":[
-    {"_id":"doc4","_rev":"1-9c7b5fdee4c69148cba291fa7ecbbed4","firstname":"Amanda","lastname":"Greene","age":44,"location":"Baton Rouge, LA"}
-    ]}
+    ```
+    { "docs":[
+            {"firstname":"Anna","lastname":"Greene","age":44}
+            {"firstname":"Greg","lastname":"Greene","age":35}
+        ]
+    }
     ```
     {:codeblock}
 
-From the Cloudant Dashboard:
+<img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard
 
 1.  Click the **Query** tab. 
 2.  Copy and paste the JSON into the Cloudant Query window and click **Run Query**.  
 ```json
 { "selector": {
-    "$and": [   { "$eq": "Brown"  },
-                { "$gt": 20 }   ]
-     },
-   "fields" : [ "firstname","lastname", "age" ],
-   "sort" : [ { "firstname": "asc" } ]	
+    "lastname": {"$eq": "Greene"},
+    "age": {"$gt": 30}
+ },
+"fields" : [ "firstname","lastname", "age" ],
+"sort" : [ { "firstname": "asc" } ]    
 }
 ```
-The following documents match the query criteria. 
-_Results:_
-```json
-Amanda Greene, 44
-Greg Greene, 35
-John Brown 21
-Lois Brown, 33
-```
+The documents for Anna and Greg Greene appear in the left pane ordered by first name. 
 {:codeblock}
+
+For more information about Cloudant-related topics, see [Cloudant Documentation](https://console.ng.bluemix.net/docs/services/Cloudant/cloudant.html#overview).
 
 
 
