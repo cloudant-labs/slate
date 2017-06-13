@@ -22,7 +22,7 @@ toc_footers:
 <tr>
 <td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
 You can find the new content
-<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/getting-started.html">here</a>,
 and the Overview topic in particular
 <a href="https://console.ng.bluemix.net/docs/services/Cloudant/cloudant.html">here</a>.
 <br/><br/>

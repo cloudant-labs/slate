@@ -108,7 +108,7 @@ cat << ENDREPLICATION >replication.json
 {
   "source": "https://examples.cloudant.com/query-movies",
   "target": {
-    "url": "$URL/$DBNAME",
+    "url": "$URL/$DATABASE",
     "headers": {
       "Cookie": "AuthSession=$(tail -1 cookie.txt | cut -f 7)"
     }
@@ -117,8 +117,8 @@ cat << ENDREPLICATION >replication.json
 }
 ENDREPLICATION
 
-echo "creating the replication job to copy data to $DBNAME ..."
-curl "$URL/_replicator/$DBNAME" \
+echo "creating the replication job to copy data to $DATABASE ..."
+curl "$URL/_replicator/$DATABASE" \
      -X PUT \
      -H 'Content-Type: application/json' \
      -d @replication.json \
@@ -134,10 +134,10 @@ Now that the replication job has been created, we can check on its status by run
 
 <pre class="thebe">
 echo 'querying the replication document...'
-curl "$URL/_replicator/$DBNAME" | jq '.'
+curl "$URL/_replicator/$DATABASE" | jq '.'
 
 echo 'getting more information about the replication status...'
-curl "$URL/_active_tasks" | jq ". | map(select(.doc_id == \"$DBNAME\"))"
+curl "$URL/_active_tasks" | jq ". | map(select(.doc_id == \"$DATABASE\"))"
 </pre>
 
 When the replication job has been started, the document in the replicator databse will have been updated with `"replication_state": "triggered"`
@@ -155,7 +155,7 @@ There is no need to wait though; you can continue with the tutorial while the sn
 
  * Changing the database name.
  * Creating multiple databases.
- * Using `curl "$URL/$DBNAME" -X DELETE` to remove the replicated database and start over.
+ * Using `curl "$URL/$DATABASE" -X DELETE` to remove the replicated database and start over.
 
 ### Creating an index
 
@@ -168,7 +168,7 @@ body.
 
 <pre class="thebe">
 echo 'creating an index...'
-curl "$URL/$DBNAME/_index" \
+curl "$URL/$DATABASE/_index" \
      -X POST \
      -H 'Content-Type: application/json' \
      -d '{
@@ -196,7 +196,7 @@ query in the request body. We limit our query to 3 so that the output won't be t
 
 <pre class="thebe">
 echo 'getting movies with rating = 8 ...'
-curl "$URL/$DBNAME/_find" \
+curl "$URL/$DATABASE/_find" \
      -X 'POST' \
      -H 'Content-Type: application/json' \
      -d '{
@@ -221,7 +221,7 @@ retrieve only the `title` field of each document.
 
 <pre class="thebe">
 echo 'getting 2001 movies sorted by title...'
-curl "$URL/$DBNAME/_find" \
+curl "$URL/$DATABASE/_find" \
      -X 'POST' \
      -H 'Content-Type: application/json' \
      -d  '{
@@ -243,7 +243,7 @@ illustrates:
 
 <pre class="thebe">
 echo 'getting bond movies...'
-curl "$URL/$DBNAME/_find" \
+curl "$URL/$DATABASE/_find" \
      -X 'POST' \
      -H 'Content-Type: application/json' \
      -d  '{
@@ -264,7 +264,7 @@ of the `cast` field.
 
 <pre class="thebe">
 echo 'getting movies featuring Zoe Saldana...'
-curl "$URL/$DBNAME/_find" \
+curl "$URL/$DATABASE/_find" \
      -X 'POST' \
      -H 'Content-Type: application/json' \
      -d  '{

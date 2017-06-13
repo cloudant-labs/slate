@@ -66,9 +66,13 @@ Vagrant.configure(2) do |config|
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
     sudo apt-get update
-    sudo apt-get install -y python python-pip jq ruby1.9.3 bundler python-dev libxml2-dev libxslt-dev perl aspell aspell-en curl
+    sudo apt-get install -y python python-pip jq ruby2.0 ruby2.0-dev bundler python-dev libxml2-dev libxslt-dev perl aspell aspell-en curl
     sudo pip install couchapp
     sudo pip install cloudant==0.5.10 beautifulsoup4
+    rm /usr/bin/ruby
+    ln -s /usr/bin/ruby2.0 /usr/bin/ruby
+    rm /usr/bin/gem
+    ln -s /usr/bin/gem2.0 /usr/bin/gem
     cd /slate
     sudo bundle install --path=/home/vagrant
   SHELL

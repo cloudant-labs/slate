@@ -4,7 +4,7 @@
 <tr>
 <td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
 You can find the new content
-<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/getting-started.html">here</a>,
 and the 'Design Document Management' topic in particular
 <a href="https://console.ng.bluemix.net/docs/services/Cloudant/guides/design_document_management.html">here</a>.
 <br/><br/>
@@ -192,7 +192,7 @@ To use the script, first define the URL of our CouchDB/Cloudant instance by sett
 > Defining the URL of the a Cloudant instance with authentication credentials
 
 ```
-export COUCH_URL=https://myusername:mypassword@myhost.cloudant.com
+export COUCH_URL=https://<account>@myhost.cloudant.com
 ```
 
 This URL can be HTTP or HTTPS, and can include authentication credentials.

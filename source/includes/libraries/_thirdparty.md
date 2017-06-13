@@ -4,7 +4,7 @@
 <tr>
 <td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
 You can find the new content
-<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/getting-started.html">here</a>,
 and the 'Third-party client libraries' topic in particular
 <a href="https://console.ng.bluemix.net/docs/services/Cloudant/libraries/thirdparty.html">here</a>.
 <br/><br/>
@@ -158,7 +158,7 @@ The couchdb-meteor package provides:
 
 To configure the Apache CouchDB or Cloudant server connection information, pass its URL as the COUCHDB_URL environment variable to the Meteor server process.
 
-`$export COUCHDB_URL=https://username:password@username.cloudant.com`
+`$export COUCHDB_URL=https://<account>.cloudant.com`
 
 See [API Reference](api.html) for more information about meteor-couchdb APIs. 
 

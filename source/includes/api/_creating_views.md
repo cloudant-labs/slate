@@ -7,7 +7,7 @@
 <tr>
 <td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
 You can find the new content
-<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/getting-started.html">here</a>,
 and the Views (MapReduce) topic in particular
 <a href="https://console.ng.bluemix.net/docs/services/Cloudant/api/creating_views.html">here</a>.
 <br/><br/>
@@ -219,7 +219,7 @@ Content-Type: application/json
 ```
 
 ```shell
-curl -X PUT https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/_design/training --data-binary @view.def
+curl -X PUT https://$ACCOUNT.cloudant.com/$DATABASE/_design/training --data-binary @view.def
 # where the design document is stored in the file `view.def`
 ```
 
@@ -265,13 +265,13 @@ Executes the specified `view-name` from the specified `design-doc` design docume
 > Example of retrieving a list of the first five documents from a database, applying the user-created `by_title` view:
 
 ```http
-GET /<database>/_design/<design-doc>/_view/by_title?limit=5 HTTP/1.1
+GET /$DATABASE/_design/<design-doc>/_view/by_title?limit=5 HTTP/1.1
 Accept: application/json
 Content-Type: application/json
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/$DATABASE/_design/$DESIGNDOCUMENT/_view/by_title?limit=5 \
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DESIGNDOCUMENT/_view/by_title?limit=5 \
      -H "Content-Type: application/json"
 ```
 
@@ -461,13 +461,13 @@ there is an indexing backlog.</aside>
 > Example of requesting the last five records by reversing the sort order:
 
 ```http
-GET /<database>/_design/<design-doc>/_view/by_title?limit=5&descending=true HTTP/1.1
+GET /$DATABASE/_design/<design-doc>/_view/by_title?limit=5&descending=true HTTP/1.1
 Accept: application/json
 Content-Type: application/json
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/$DATABASE/_design/$DESIGNDOCUMENT/_view/by_title?limit=5&descending=true \
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DESIGNDOCUMENT/_view/by_title?limit=5&descending=true \
      -H "Content-Type: application/json"
 ```
 
@@ -552,7 +552,7 @@ Content-Type: application/json
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/$DATABASE/_design/$DESIGNDOCUMENT/_view/by_ingredient?startkey="alpha"&endkey="beta" \
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DESIGNDOCUMENT/_view/by_ingredient?startkey="alpha"&endkey="beta" \
      -H "Content-Type: application/json"
 ```
 
@@ -573,7 +573,7 @@ Content-Type: application/json
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/$DATABASE/_design/$DESIGNDOCUMENT/_view/by_ingredient?descending=true&startkey="beta"&endkey="alpha" \
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DESIGN_DOCUMENT/_view/by_ingredient?descending=true&startkey="beta"&endkey="alpha" \
      -H "Content-Type: application/json"
 ```
 
@@ -607,7 +607,7 @@ Content-Type: application/json
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/$DATABASE/_design/$DESIGNDOCUMENT/_view/by_ingredient?descending=true&startkey="egg"&endkey="carrots" \
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DESIGN_DOCUMENT/_view/by_ingredient?descending=true&startkey="egg"&endkey="carrots" \
      -H "Content-Type: application/json"
 ```
 
@@ -619,12 +619,12 @@ but also the `startkey` and `endkey` parameter values.
 > Example request to return all recipes, where the key for the view matches either "claret" or "clear apple juice":
 
 ```http
-POST /$DB/_design/$DDOC/_view/$VIEWNAME HTTP/1.1
+POST /$DATABASE/_design/$DESIGN_DOC/_view/$VIEWNAME HTTP/1.1
 Content-Type: application/json
 ```
 
 ```shell
-curl -X POST "https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DB/_design/$DDOC/_view/$VIEWNAME" -d @request.json
+curl -X POST "https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DESIGN_DOC/_view/$VIEWNAME" -d @request.json
 ```
 
 ```json
@@ -689,7 +689,7 @@ Content-Type: application/json
 ```
 
 ```shell
-curl "https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DB/_design/$DDOC/_view/by_ingredient?include_docs=true"
+curl "https://$ACCOUNT.cloudant.com/$DATABASE/$DESIGN_DOC/_view/by_ingredient?include_docs=true"
      -X POST \
      -H "Content-Type: application/json" \
      -d "{ "keys" : [ "claret", "clear apple juice" ] }"
@@ -815,12 +815,12 @@ You could use the same approach for view indexes.
 > Example request:
 
 ```http
-POST /$DB/_design/$DESIGNDOC/_view/$VIEW HTTP/1.1
+POST /$DATABASE/_design/$DESIGNDOC/_view/$VIEW HTTP/1.1
 Content-Type: application/json
 ```
 
 ```shell
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DB/_design/$DESIGNDOC/_view/$VIEW -H 'Content-Type: application/json' -d @request-body.json
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_design/$DESIGNDOC/_view/$VIEW -H 'Content-Type: application/json' -d @request-body.json
 # where request-body.json is a file containing the following JSON data:
 ```
 
@@ -902,6 +902,6 @@ curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DB/_design/$DESIGNDOC/_
 }
 ```
 
-To send several view queries in one request, use a `POST` request to `/$DB/_design/$DESIGNDOC/_view/$VIEW`. The request body is a JSON object containing only the `queries` field. It holds an array of query objects with fields for the parameters of the query. The field names and their meaning are the same as the query parameters of a regular view request.
+To send several view queries in one request, use a `POST` request to `/$DATABASE/_design/$DESIGN_DOC/_view/$VIEW`. The request body is a JSON object containing only the `queries` field. It holds an array of query objects with fields for the parameters of the query. The field names and their meaning are the same as the query parameters of a regular view request.
 
 The JSON object returned in the response contains only the `results` field, which holds an array of result objects - one for each query. Each result object contains the same fields as the response to a regular view request.
