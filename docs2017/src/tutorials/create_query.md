@@ -433,9 +433,9 @@ for documents that contain the last name `Greene` who are older than 30 years.
 
 <img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard
 
-1.  Click the **Query** tab. 
-2.  Copy and paste the JSON into the Cloudant Query window.  
-    ```json
+<ol><li>Click the <b>Query</b> tab.</li>
+<li>Copy and paste the JSON into the Cloudant Query window.
+<p><pre>
     { "selector": {
         "lastname": {"$eq": "Greene"},
              "age": {"$gt": 30}
@@ -443,16 +443,10 @@ for documents that contain the last name `Greene` who are older than 30 years.
             "fields" : [ "firstname","lastname", "age" ],
                "sort": [ { "lastname": "asc"},
 			             { "firstname": "asc"} ]   
-      }
-    ```
-    {:codeblock}
-3.  Click **Run Query**.
-    The query results appear in the right pane.
-    
-   ![Query 3 results](../images/dashboard_query3_results.png)
-</p>
-</li>
- 
+      }</pre></p></li>
+<li>Click **Run Query**.
+<p>The query results appear in the right pane.</p>
+<p><img src="../images/dashboard_query3_results.png" alt="Query 3 results"></img></p></li></ol>
 
 For more information about Cloudant-related topics, see the [Cloudant Documentation](https://console.ng.bluemix.net/docs/services/Cloudant/cloudant.html#overview).
 
