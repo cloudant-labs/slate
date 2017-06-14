@@ -14,12 +14,12 @@ lastupdated: "2017-06-12"
 # Creating a Cloudant Query
 
 This tutorial demonstrates how to create a database and populate it 
-with documents, as well as, how to create an index and use the index to query  
-the database.
+with documents, as well as, how to create an index and use the index to query the database.
 
 Exercises for both the <img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> command line 
-and <img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard are provided. 
-Links are provided throughout the tutorial with more information.
+and <img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard are provided. The
+Cloudant Dashboard exercises give you a visual example of the concepts we cover. You can follow the links provided 
+throughout the tutorial for more information.
 
 To begin, you create the `query-demo` database and some JSON documents that 
 contain the data for these exercises.
@@ -48,15 +48,16 @@ Before you begin, follow these steps to prepare for the tutorial:
 
 ## Creating a database
 
-In this section, you create the `query-demo` [database](../api/database.html#create) which is the database that we use in this tutorial.
+In this section, you create the `query-demo` [database](../api/database.html#create) which 
+is the database that we use in this tutorial.
 
 <img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> Command line 
 
 <ol><li>Create a database by running this command.
 <p><code>acurl https://$ACCOUNT.cloudant.com/query-demo -X PUT</code></p>
 <li>Verify that the database was created successfully in the results. 
-<p><b>Results</b>:</p>
-<p><code>{"ok":true}</code></p></li>
+<p><i>Results</i>:</p>
+<p><code>{"ok":true}</code></p></li></ol>
 
 <img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard
 
@@ -69,27 +70,9 @@ In this section, you create the `query-demo` [database](../api/database.html#cre
 </li>
 </ol>
 
-### Listing databases
-
-You can list all the databases that are associated with your account.  
-
-<img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> Command line
-
-<ol><li>List the databases by running this command.
-<p><code>acurl https://$ACCOUNT.cloudant.com/_all_dbs</code></p></li>
-<li>You can see the `query-demo` database in the list.
-<p><i>Results</i>:</p>
-<code>["query-demo"]</code></p></li></ol>
-
-<img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard
-
-1.  Click the **Databases** tab.
-2.  See the `query-demo` database in the list on the **Your Databases** tab.
-
-
 ## Creating documents in the database
 
-The JSON documents that you create here contain the data you use to query the `query-demo` database in later exercises. 
+The JSON [documents](https://console.stage1.bluemix.net/docs/services/Cloudant/api/document.html#documents) that you create in this exercise contain the data you use to query the `query-demo` database in later exercises. 
 
 <img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> Command line
 
@@ -150,7 +133,6 @@ is included in a file, is identified by the supplied name.</p>
 <img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard
 
 <ol>
-<li>Select the <b>All Documents</b> tab. </li>
 <li>Click <b>+</b> and select <b>New Doc</b>.
 <p>The New Document window opens. </p></li>
 <li><a name="step3"></a> To create a JSON document, copy the following sample text and replace the existing text in the new document.
@@ -204,47 +186,23 @@ is included in a file, is identified by the supplied name.</p>
 </li>
 <p>The `query-demo` database was created and populated with five JSON documents. </p></li></ol>
 
-### Listing the documents in the database
-
-Check the database to verify that all the documents in the previous exercise were created successfully. 
-
-<img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> Command line
-
-<ol><li>List all the documents in the database.
-<p><code>acurl https://$ACCOUNT.cloudant.com/query-demo/_all_docs</code></p>
-</li>
-<li>Verify that the results include the newly created documents. 
-<p><i>Results</i>:</p>
-<p><pre>{"total_rows":5,"offset":0,"rows":[
-    {"id":"doc1","key":"doc1","value":{"rev":"1-bf51eef712165a9999a52a97e2209ac0"}},
-    {"id":"doc2","key":"doc2","value":{"rev":"1-57a08e644ca8c1bb8d8931240427162e"}},
-    {"id":"doc3","key":"doc3","value":{"rev":"1-9c9f9b893fcdd1cbe09420bc4e62cc71"}},
-    {"id":"doc4","key":"doc4","value":{"rev":"1-6aa4873443ddce569b27ab35d7bf78a2"}},
-    {"id":"doc5","key":"doc5","value":{"rev":"1-d881d863052cd9681650773206c0d65a"}},
-  ] 
-}
-</pre></p></li></ol>
-
-
-<img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard
-
-<ol><li>Select <b>Databases</b> > `query-demo` database > <b>All Documents</b>.</li>
-<li>Verify that all the documents are listed. </li>
-</ol>
-
 ## Creating an index
 
-In Cloudant, you use [search indexes](../api/search.html#search). You can specify a json or text type index. 
-Creating a ["type=json"](../api/cloudant_query.html#creating-a-type-json-index) index reduces the load on
-your environment and the size of your data set. You use this type of index if you are familar with your data and have a good idea  
-what you want to find. 
+Cloudant provides views and indexes to query the database. An index is a way to structure 
+data that improves retrieval time. A view runs a query that is saved to the database, and 
+the result is called the result set. When you submit a query to the view, your query searches 
+the result set. 
 
-If you choose a ["type=text"](../api/cloudant_query.html#creating-a-type-text-index) index, 
-all the documents and fields in your database are automatically indexed. As such, you can
-search and retrieve information from any field. The time this takes varies based on the size of your data set. 
+You can use the primary index that comes with Cloudant, or secondary indexes like views 
+(MapReduce), search indexes, Cloudant Geospatial queries, or Cloudant Query as described 
+in the following list: 
 
-For this tutorial, we create a "type=json" index. If you want to create a "type=text" index, 
-change the value in the `type` field to `text`. 
+*	Primary index – look up a document or list of documents by ID.  
+*	[View](https://console.stage1.bluemix.net/docs/services/Cloudant/api/creating_views.html#views-mapreduce-) – search for information in the database that matches the search criteria you specify, such as counts, sums, averages, and other mathematical functions. The criteria you can search is specified in the view's definition. Views use the MapReduce paradigm. 
+*	[Search index](../api/search.html#search) – create queries to search one or more fields, large amounts of text, or queries that require [Lucene Query Parser Syntax](http://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#Overview), such as wild cards, fuzzy search, or facets. 
+*	[Cloudant Geospatial](https://console.stage1.bluemix.net/docs/services/Cloudant/api/cloudant-geo.html#cloudant-geospatial) – search for documents based on a spatial relationship. 
+*	[Cloudant Query](https://console.stage1.bluemix.net/docs/services/Cloudant/api/cloudant_query.html#query) – use Mongo-style query syntax to search for documents by using one or more logical operators. Cloudant Query is a combination of a view and a search index. We use Cloudant Query in this tutorial. 
+
 
 <img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> Command line
 
@@ -291,59 +249,23 @@ change the value in the `type` field to `text`.
 <p>The index was created and is ready to query. </p>
 </li></ol>
 
-### Listing indexes
-
-Verify that the `query-index` index was created. 
-
-<img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> Command line
-
-<ol><li>List the index by running this command.
-<p><code>acurl https://$ACCOUNT.cloudant.com/_index</code></p></li>
-<li>See the results to verify that the `query-index` index was created.
-<p><i>Results</i>:</p>
-<pre>
-{"total_rows":2,"indexes":
-    [{"ddoc":null,
-        "name":"_all_docs",
-        "type":"special",
-        "def":{"fields":[{"_id":"asc"}]
-        }
-   },   
-   {"ddoc":"_design/752c7031f3eaee0f907d18e1424ad387459bfc1d",
-        "name":"query-index",
-        "type":"json",
-        "def":{"fields":
-            [{"firstname":"asc"},
-             {"lastname":"asc"},
-             {"location":"asc"},
-             {"age":"asc"}]
-       }
-     }
-   ]
-}</pre></p></li></ol>
-
-<img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard
-
-1.  From the **All Documents** tab.
-2.  In the list of documents, you will see a document id similar to this one.
-    `"_id": "_design/b2a21cd528df743d03f6723f84f7430b5852abb1"`. If you open the document, you 
-    see `query-index` below the `views` field. 
 
 
 ## Creating a query
 
-When you create your [query](../api/cloudant_query.html#query) statement, you can narrow the data that you search for with [selector syntax](../api/cloudant_query.html#selector-syntax) and
+When you create your [query](../api/cloudant_query.html#query) statement, you can narrow 
+your search by using the [selector](../api/cloudant_query.html#selector-syntax) with operators, either
 [implicit](../api/cloudant_query.html#implicit-operators) or [explicit](../api/cloudant_query.html#explicit-operators) operators.
 
 In a [selector expression](../api/cloudant_query.html#creating-selector-expressions), you specify at least one field and
-its corresponding value. When the query runs, it uses these values to search the database for matches. The
-selector is a JSON object. For this exercise, you use the selector expression that is described here.
+its corresponding value. When the query runs, it uses these values to search the database for matches. 
 
 For anything but the most simple query, add the JSON to a data file and run it from the command line.
 
 ### Running a simple query
 
-You can create complex or simple queries.  
+You can search the database for one or multiple fields, with or without operators. This 
+query searches for any documents whose `firstname` field contain the value `Sally`. 
 
 <img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> Command line
 
@@ -393,7 +315,7 @@ You can create complex or simple queries.
 
 ### Running a query with two fields
 
-Specify the documents that you want to find in the database by using the `selector` parameter. For example, everyone who lives in New York City, NY.
+This example uses two fields to find everyone named Brown who lives in New York City, NY.
 
 ```json
 {
@@ -405,10 +327,10 @@ Specify the documents that you want to find in the database by using the `select
 ```    
 {:codeblock}
 
-Specify the information that you want from each document that is a match. The values that are specified in 
-the `fields` parameter determine what is returned. In this case, the results include the first 
-and last name of everyone who meets the search criteria. The results are sorted by first name 
-in ascending order based on the `sort` parameters values.
+You can tailor the result set to meet your requirements. 
+The `fields` parameter specifies the fields to return. In this case, the results include the first name, 
+last name, and location. The results are sorted by first name in ascending order based on the values in the
+`sort` parameter.
 
 ```json
   "fields" : [ "lastname", "firstname", "location" ],
@@ -416,12 +338,6 @@ in ascending order based on the `sort` parameters values.
 			 { "firstname": "asc"} ]      
 ```  
 {:codeblock}
-
->   **Note**: When you use the `sort` field. You must list each field as it appears in the index. For example, `sort`: [ {"firstname": "asc"} ] does not work. You must use 
-> ```json
->  "sort": [ { "lastname": "asc"},
-			 { "firstname": "asc"} ]```
-> The last field is the field is sorted after the preceeding fields. 
 
 <img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> Command line
 
@@ -437,6 +353,8 @@ in ascending order based on the `sort` parameters values.
 			            { "firstname": "asc"} ] 
      }
     ```
+    {:codeblock}
+    
 2.  Run this command to query the database.
 
     <code>acurl https://$ACCOUNT.cloudant.com/query-demo/_find -X POST -H "Content-Type: application/json" -d \@query2.dat</code>
@@ -444,17 +362,17 @@ in ascending order based on the `sort` parameters values.
 3.  See the query results.
 
     ```json
-        {"docs":[
-            {"firstname":"John","lastname":"Brown"},
-            {"firstname":"Sally","lastname":"Brown"} ]
+         {"docs":[
+            {"firstname":"John","lastname":"Brown","location":"New York City, NY"},
+            {"firstname":"Sally","lastname":"Brown","location":"New York City, NY"}]
          }
     ```
-
-
+    {:codeblock}
+    
 <img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard
 
 <ol><li>Click the <b>Query</b> tab.</li>
-<li>Copy and paste the following selector statement into the Cloudant Query window.  
+<li>Copy and paste the following JSON into the Cloudant Query window.  
 <p><pre>
 {
     "selector": {
@@ -473,7 +391,8 @@ in ascending order based on the `sort` parameters values.
 
 ### Running a query with operators
 
-In this example, the $eq (equal) and $gt (greater than) operators are used to search for documents that contain the last name Greene and who are older than 30 years.
+In this example, the $eq (equal) and $gt (greater than) operators are used to search 
+for documents that contain the last name `Greene` who are older than 30 years.
  
 
 ```json
@@ -515,7 +434,7 @@ In this example, the $eq (equal) and $gt (greater than) operators are used to se
 <img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard
 
 1.  Click the **Query** tab. 
-2.  Copy and paste the JSON into the Cloudant Query window and click **Run Query**.  
+2.  Copy and paste the JSON into the Cloudant Query window.  
     ```json
     { "selector": {
         "lastname": {"$eq": "Greene"},
@@ -531,12 +450,11 @@ In this example, the $eq (equal) and $gt (greater than) operators are used to se
     The query results appear in the right pane.
     
    ![Query 3 results](../images/dashboard_query3_results.png)
-
 </p>
 </li>
-The documents for Anna and Greg Greene appear in the left pane ordered by first name. 
+ 
 
-For more information about Cloudant-related topics, see [Cloudant Documentation](https://console.ng.bluemix.net/docs/services/Cloudant/cloudant.html#overview).
+For more information about Cloudant-related topics, see the [Cloudant Documentation](https://console.ng.bluemix.net/docs/services/Cloudant/cloudant.html#overview).
 
 
 
