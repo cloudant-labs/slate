@@ -43,14 +43,14 @@ use the following URL instead of the one provided in the exercises.
 In this section, you create the `query-demo` [database](../api/database.html#create) that 
 is the database that we use in this tutorial.
 
-<img src="../images/CommandLineIcon.png" alt="Command Line icon">Command line</img>  
+<img src="../images/CommandLineIcon.png" alt="Command Line icon"> Command line</img>  
 
 <ol><li>Create a database by running this command.
 <p><code>acurl https://$ACCOUNT.cloudant.com/query-demo -X PUT</code></p></li>
 <li>See the results. 
 <p><code>{"ok":true}</code></p></li></ol>
 
-<img src="../images/DashboardIcon.png" alt="Dashboard icon">Cloudant Dashboard</img> 
+<img src="../images/DashboardIcon.png" alt="Dashboard icon"> Cloudant Dashboard</img> 
 
 <ol><li>Open the Cloudant service instance that you created. </li>
 <li>Select the Databases tab. 
@@ -66,7 +66,7 @@ is the database that we use in this tutorial.
 The [documents](https://console.stage1.bluemix.net/docs/services/Cloudant/api/document.html#documents) 
 that you create in this exercise contain the data that you use to query the `query-demo` database in later exercises. 
 
-<img src="../images/CommandLineIcon.png" alt="Command Line icon">Command line</img> 
+<img src="../images/CommandLineIcon.png" alt="Command Line icon"> Command line</img> 
 
 <ol><li>Copy the sample text to a data file named <code>bulkcreate.dat</code> to create all five documents.
 <p><pre>{
@@ -122,7 +122,7 @@ is included in a file, is identified by the supplied name.</p></li>
 {"ok":true,"id":"doc5","rev":"1-d881d863052cd9681650773206c0d65a"}]</pre></p>
 </li></ol>
 
-<img src="../images/DashboardIcon.png" alt="Dashboard icon">Cloudant Dashboard</img> 
+<img src="../images/DashboardIcon.png" alt="Dashboard icon"> Cloudant Dashboard</img> 
 
 <ol>
 <li>Click <b>+</b> and select <b>New Doc</b>.
@@ -198,7 +198,7 @@ Since the queries you create in this tutorial search for both `lastname` and `fi
 create two indexes. The field you search for must be the first field listed in the index. If an 
 index is not specified in the query, Cloudant chooses the best index to use. 
 
-<img src="../images/CommandLineIcon.png" alt="Command Line icon">Command line</img> 
+<img src="../images/CommandLineIcon.png" alt="Command Line icon"> Command line</img> 
 
 To create the first index: 
 
@@ -248,7 +248,7 @@ To create the second index:
 "name":"query-index2"}</pre></p>
 </li></ol>
 
-<img src="../images/DashboardIcon.png" alt="Dashboard icon">Cloudant Dashboard</img> 
+<img src="../images/DashboardIcon.png" alt="Dashboard icon"> Cloudant Dashboard</img> 
 
 To create the first index:
 
@@ -309,7 +309,7 @@ For anything but the most simple query, add the JSON to a data file and run it f
 
 This query searches for any documents whose `firstname` field contains the value `Sally`. 
 
-<img src="../images/CommandLineIcon.png" alt="Command Line icon">Command line</img> 
+<img src="../images/CommandLineIcon.png" alt="Command Line icon"> Command line</img> 
 
 1.  Copy the sample JSON into a data file named `query1.dat`.
     ```json
@@ -339,7 +339,7 @@ This query searches for any documents whose `firstname` field contains the value
     }
     ```
 
-<img src="../images/DashboardIcon.png" alt="Dashboard icon">Cloudant Dashboard</img> 
+<img src="../images/DashboardIcon.png" alt="Dashboard icon"> Cloudant Dashboard</img> 
 
 <ol><li>Click the <b>Query</b> tab.</li>
 <li>Copy and paste the sample JSON into the Cloudant Query window. 
@@ -379,7 +379,7 @@ name in ascending order based on the values in the `sort` parameter.
 ```  
 {:codeblock}
 
-<img src="../images/CommandLineIcon.png" alt="Command Line icon">Command line</img> 
+<img src="../images/CommandLineIcon.png" alt="Command Line icon"> Command line</img> 
 
 1.  Copy the sample JSON into a data file named `query2.dat`.
     ```json
@@ -409,7 +409,7 @@ name in ascending order based on the values in the `sort` parameter.
     ```
     {:codeblock}
     
-<img src="../images/DashboardIcon.png" alt="Dashboard icon">Cloudant Dashboard</img> 
+<img src="../images/DashboardIcon.png" alt="Dashboard icon"> Cloudant Dashboard</img> 
 
 <ol><li>Click the <b>Query</b> tab.</li>
 <li>Copy and paste the sample JSON into the Cloudant Query window.  
@@ -443,7 +443,7 @@ for documents that contain the last name `Greene` and an age that is greater tha
 ```   
 {:codeblock}
 
-<img src="../images/CommandLineIcon.png" alt="Command Line icon">Command line</img> 
+<img src="../images/CommandLineIcon.png" alt="Command Line icon"> Command line</img> 
 
 1.  Copy this sample JSON to a file named `query3.dat`.
     ```json
@@ -470,7 +470,7 @@ for documents that contain the last name `Greene` and an age that is greater tha
     ```
     {:codeblock}
 
-<img src="../images/DashboardIcon.png" alt="Dashboard icon">Cloudant Dashboard</img> 
+<img src="../images/DashboardIcon.png" alt="Dashboard icon"> Cloudant Dashboard</img> 
 
 <ol><li>Click the <b>Query</b> tab.</li>
 <li>Copy and paste the sample JSON into the Cloudant Query window.
