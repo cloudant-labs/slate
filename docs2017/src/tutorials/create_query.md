@@ -16,8 +16,8 @@ lastupdated: "2017-06-12"
 This tutorial demonstrates how to create a database and populate it 
 with documents, as well as, how to create an index and use the index to query the database.
 
-Exercises for both the <img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> command line 
-and <img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> are provided Cloudant Dashboard. The
+Exercises for both the <img src="../images/CommandLineIcon.png" alt="Command Line Icon">Command line</img>  
+and <img src="../images/DashboardIcon.png" alt="Dashboard Icon">Cloudant Dashboard</img> are provided. The
 Cloudant Dashboard exercises give you a visual example of the concepts. You can follow the links provided 
 throughout the tutorial for more information.
 
@@ -51,15 +51,15 @@ use the following URL instead of the one provided.
 In this section, you create the `query-demo` [database](../api/database.html#create) which 
 is the database that we use in this tutorial.
 
-<img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> Command line 
+<img src="../images/CommandLineIcon.png" alt="Command Line Icon">Command line</img>  
 
 <ol><li>Create a database by running this command.
-<p><code>acurl https://$ACCOUNT.cloudant.com/query-demo -X PUT</code></p>
+<p><code>acurl https://$ACCOUNT.cloudant.com/query-demo -X PUT</code></p></li>
 <li>See the results. 
 <p><i>Results</i>:</p>
 <p><code>{"ok":true}</code></p></li></ol>
 
-<img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard
+<img src="../images/DashboardIcon.png" alt="Dashboard Icon">Cloudant Dashboard</img> 
 
 <ol><li>Open the Cloudant service instance that you created. </li>
 <li>Select the Databases tab. 
@@ -72,9 +72,10 @@ is the database that we use in this tutorial.
 
 ## Creating documents in the database
 
-The [documents](https://console.stage1.bluemix.net/docs/services/Cloudant/api/document.html#documents) that you create in this exercise contain the data you use to query the `query-demo` database in later exercises. 
+The [documents](https://console.stage1.bluemix.net/docs/services/Cloudant/api/document.html#documents) 
+that you create in this exercise contain the data you use to query the `query-demo` database in later exercises. 
 
-<img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> Command line
+<img src="../images/CommandLineIcon.png" alt="Command Line Icon">Command line</img> 
 
 <ol><li>Copy the sample text to a data file named <code>bulkcreate.dat</code> to create all five documents.
 <p><pre>{
@@ -131,14 +132,14 @@ is included in a file, is identified by the supplied name.</p></li>
 {"ok":true,"id":"doc5","rev":"1-d881d863052cd9681650773206c0d65a"}]</pre></p>
 </li></ol>
 
-<img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard
+<img src="../images/DashboardIcon.png" alt="Dashboard Icon">Cloudant Dashboard</img> 
 
 <ol>
 <li>Click <b>+</b> and select <b>New Doc</b>.
 <p>The New Document window opens. </p></li>
 <li><a name="step3"></a> To create a document, copy the following sample text and replace the existing text in the new document.
-<p><i>First sample document</i>:<br>
-<pre>{ 
+<p><i>First sample document</i>:</p>
+<p><pre>{ 
         "firstname": "Sally",
         "lastname": "Brown",
         "age": 16,
@@ -148,16 +149,16 @@ is included in a file, is identified by the supplied name.</p></li>
 
 </li>
 <li>Repeat <a href="#step3">step 3</a> to add the remaining documents to the database.
-<p><i>Second sample document</i>:<br>
-<pre>{ 
+<p><i>Second sample document</i>:</p>
+<p><pre>{ 
         "firstname": "John",
         "lastname": "Brown",
         "age": 21,
         "location": "New York City, NY",
         "_id": "doc2"
    }</pre></p>
-<p><i>Third sample document</i>:<br>
-<pre> {
+<p><i>Third sample document</i>:</p>
+<p><pre> {
         "firstname": "Greg",
         "lastname": "Greene",
         "age": 35,
@@ -166,8 +167,8 @@ is included in a file, is identified by the supplied name.</p></li>
      }
 </pre>
 </p>
-<p><i>Fourth sample document</i>:<br>
-<pre>{
+<p><i>Fourth sample document</i>:</p>
+<p><pre>{
         "firstname": "Anna",
         "lastname": "Greene",
         "age": 44,
@@ -175,17 +176,17 @@ is included in a file, is identified by the supplied name.</p></li>
         "_id": "doc4"
       }</pre>
 </p>
-<p><i>Fifth sample document</i>:<br>
-<pre>{
+<p><i>Fifth sample document</i>:</p>
+<p><pre>{
         "firstname": "Lois",
         "lastname": "Brown",
         "age": 33,
         "location": "New York City, NY",
         "_id": "doc5"
      }
-</pre>
-</li>
-<p>The `query-demo` database was created and populated with five documents. </p></li></ol>
+</pre></p>
+<p>The `query-demo` database was created and populated with five documents. </p></li>
+</ol>
 
 ## Creating an index
 
@@ -204,10 +205,14 @@ in the following list:
 *	[Cloudant Geospatial](https://console.stage1.bluemix.net/docs/services/Cloudant/api/cloudant-geo.html#cloudant-geospatial) – search for documents based on a spatial relationship. 
 *	[Cloudant Query](https://console.stage1.bluemix.net/docs/services/Cloudant/api/cloudant_query.html#query) – use Mongo-style query syntax to search for documents by using logical operators. Cloudant Query is a combination of a view and a search index. We use Cloudant Query in this tutorial. 
 
+You can create multiple indexes. If the index is not specified, Cloudant selects the best index for your query.
+We use two indexes for this tutorial. 
 
-<img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> Command line
+<img src="../images/CommandLineIcon.png" alt="Command Line Icon">Command line</img> 
 
-<ol><li>Copy the sample JSON into a data file named <code>query-index.dat</code>.
+To create the first index: 
+
+<ol><li>Copy the sample JSON into a data file named <code>query-index1.dat</code>.
 <p>
 <pre>{
   "index": {
@@ -218,20 +223,46 @@ in the following list:
          "age"
     ]
   },
-  "name": "query-index",
+  "name": "query-index1",
   "type": "json"
 }</pre></p></li>
-
 <li>Run this command to create an index.
-<p><code>acurl https://$ACCOUNT.cloudant.com/query-demo/_index -X POST -H "Content-Type: application/json" -d \@query-index.dat</p></code></li>
+<p><code>acurl https://$ACCOUNT.cloudant.com/query-demo/_index -X POST -H "Content-Type: application/json" -d \@query-index1.dat</p></code></li>
+<li>See the results. 
+<p><i>Results</i>:</p>
+<p><pre>{"result":"created",
+"id":"_design/752c7031f3eaee0f907d18e1424ad387459bfc1d",
+"name":"query-index1"}</pre></p>
+</li></ol>
+
+To create the second index: 
+
+<ol><li>Copy the sample JSON into a data file named <code>query-index2.dat</code>.
+<p>
+<pre>{
+  "index": {
+    "fields": [
+         "firstname",
+         "lastname",  
+         "location", 
+         "age"
+    ]
+  },
+  "name": "query-index2",
+  "type": "json"
+}</pre></p></li>
+<li>Run this command to create an index.
+<p><code>acurl https://$ACCOUNT.cloudant.com/query-demo/_index -X POST -H "Content-Type: application/json" -d \@query-index2.dat</p></code></li>
 <li>See the results. 
 <p><i>Results</i>:</p>
 </p><pre>{"result":"created",
 "id":"_design/752c7031f3eaee0f907d18e1424ad387459bfc1d",
-"name":"query-index"}</pre></p>
+"name":"query-index2"}</pre></p>
 </li></ol>
 
-<img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard
+<img src="../images/DashboardIcon.png" alt="Dashboard Icon">Cloudant Dashboard</img> 
+
+To create the first index:
 
 <ol><li>Click <b>+</b> > <b>Query Indexes</b>.</li>
 <li>Paste the sample JSON into the Index field.
@@ -245,13 +276,31 @@ in the following list:
          "age"
     ]
   },
-  "name": "query-index",
+  "name": "query-index1",
   "type": "json"
-}</pre></p></li>
+}</pre></p>
 <p>The index was created and is ready to query. </p>
 </li></ol>
 
+To create the second index:
 
+<ol><li>Click <b>+</b> > <b>Query Indexes</b>.</li>
+<li>Paste the sample JSON into the Index field.
+<p><pre>
+{
+  "index": {
+    "fields": [
+         "lastname",
+         "firstname",  
+         "location", 
+         "age"
+    ]
+  },
+  "name": "query-index2",
+  "type": "json"
+}</pre></p>
+<p>The index was created and is ready to query. </p>
+</li></ol>
 
 ## Creating a query
 
@@ -270,39 +319,39 @@ For anything but the most simple query, add the JSON to a data file and run it f
 
 This query searches for any documents whose `firstname` field contains the value `Sally`. 
 
-<img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> Command line
+<img src="../images/CommandLineIcon.png" alt="Command Line Icon">Command line</img> 
 
 1.  Copy the sample JSON into a data file named `query1.dat`.
-```json
-{
-  "selector": {
-        "firstname" : "Sally"            
-     }        
-}        
-```    
-{:codeblock}
+    ```json
+    {
+      "selector": {
+            "firstname" : "Sally"            
+         }        
+    }        
+    ```    
+    {:codeblock}
 2.  Run this command to query the database.
 
     <code>acurl https://$ACCOUNT.cloudant.com/query-demo/_find -X POST -H "Content-Type: application/json" -d \@query1.dat</code>
 
 3.  See the query results.
 
-    _Results:_
-    ```json
- {"docs":
-   [
-        {"_id":"doc1",
-        "_rev":"3-751ab049e8b5dd1ba045cea010a33a72",
-        "firstname":"Sally",
-        "lastname":"Brown",
-        "age":16,
-        "location":"New York City, NY"}
-    ]
-}
+     _Results:_
+     ```json
+     {"docs":
+       [
+            {"_id":"doc1",
+            "_rev":"3-751ab049e8b5dd1ba045cea010a33a72",
+            "firstname":"Sally",
+            "lastname":"Brown",
+            "age":16,
+            "location":"New York City, NY"}
+        ]
+    }
     ```
 
 
-<img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard
+<img src="../images/DashboardIcon.png" alt="Dashboard Icon">Cloudant Dashboard</img> 
 
 <ol><li>Click the <b>Query</b> tab.</li>
 <li>Copy and paste the sample JSON into the Cloudant Query window. 
@@ -342,7 +391,7 @@ name in ascending order based on the values in the`sort` parameter.
 ```  
 {:codeblock}
 
-<img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> Command line
+<img src="../images/CommandLineIcon.png" alt="Command Line Icon">Command line</img> 
 
 1.  Copy the sample JSON into a data file named `query2.dat`.
     ```json
@@ -372,7 +421,7 @@ name in ascending order based on the values in the`sort` parameter.
     ```
     {:codeblock}
     
-<img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard
+<img src="../images/DashboardIcon.png" alt="Dashboard Icon">Cloudant Dashboard</img> 
 
 <ol><li>Click the <b>Query</b> tab.</li>
 <li>Copy and paste the sample JSON into the Cloudant Query window.  
@@ -406,7 +455,7 @@ for documents that contain the last name `Greene` and an age that is greater `30
 ```   
 {:codeblock}
 
-<img src="../images/CommandLineIcon.png" alt="Command Line Icon"></img> Command line
+<img src="../images/CommandLineIcon.png" alt="Command Line Icon">Command line</img> 
 
 1.  Copy this sample JSON to a file named `query3.dat`.
     ```json
@@ -434,7 +483,7 @@ for documents that contain the last name `Greene` and an age that is greater `30
     ```
     {:codeblock}
 
-<img src="../images/DashboardIcon.png" alt="Dashboard Icon"></img> Cloudant Dashboard
+<img src="../images/DashboardIcon.png" alt="Dashboard Icon">Cloudant Dashboard</img> 
 
 <ol><li>Click the <b>Query</b> tab.</li>
 <li>Copy and paste the sample JSON into the Cloudant Query window.
