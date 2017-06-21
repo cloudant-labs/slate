@@ -63,7 +63,7 @@ is the database that we use in this tutorial.
 
 ## Creating documents in the database
 
-The [documents](https://console.stage1.bluemix.net/docs/services/Cloudant/api/document.html#documents) 
+The [documents](href="https://console.ng.bluemix.net/docs/services/Cloudant/api/document.html#documents") 
 that you create in this exercise contain the data that you use to query the `query-demo` database in later exercises. 
 
 <img src="../images/CommandLineIcon.png" alt="Command Line icon"> Command line</img> 
@@ -189,10 +189,10 @@ You can use the primary index that comes with Cloudant, or secondary indexes lik
 in the following list: 
 
 *	Primary index – look up a document or list of documents by ID.  
-*	[View](https://console.stage1.bluemix.net/docs/services/Cloudant/api/creating_views.html#views-mapreduce-) – search for information in the database that matches the search criteria that you specify, such as counts, sums, averages, and other mathematical functions. The criteria you can search is specified in the view's definition. Views use the MapReduce paradigm. 
+*	[View](https://console.ng.bluemix.net/docs/services/Cloudant/api/creating_views.html#views-mapreduce-) – search for information in the database that matches the search criteria that you specify, such as counts, sums, averages, and other mathematical functions. The criteria you can search is specified in the view's definition. Views use the MapReduce paradigm. 
 *	[Search index](../api/search.html#search) – search one or more fields, large amounts of text, or use wildcards, fuzzy search, or facets with [Lucene Query Parser Syntax](http://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#Overview). 
-*	[Cloudant Geospatial](https://console.stage1.bluemix.net/docs/services/Cloudant/api/cloudant-geo.html#cloudant-geospatial) – search for documents based on a spatial relationship. 
-*	[Cloudant Query](https://console.stage1.bluemix.net/docs/services/Cloudant/api/cloudant_query.html#query) – use Mongo-style query syntax to search for documents by using logical operators. Cloudant Query is a combination of a view and a search index. We use Cloudant Query in this tutorial. 
+*	[Cloudant Geospatial](https://console.ng.bluemix.net/docs/services/Cloudant/api/cloudant-geo.html#cloudant-geospatial) – search for documents based on a spatial relationship. 
+*	[Cloudant Query](https://console.ng.bluemix.net/docs/services/Cloudant/api/cloudant_query.html#query) – use Mongo-style query syntax to search for documents by using logical operators. Cloudant Query is a combination of a view and a search index. We use Cloudant Query in this tutorial. 
 
 Since the queries you create in this tutorial search for both `lastname` and `firstname`, you must
 create two indexes. The field you search for must be the first field listed in the index. If an 
