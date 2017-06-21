@@ -1,8 +1,8 @@
 ---
 
 copyright:
-  years: 2015, 2017
-lastupdated: "2017-06-12"
+  years: 2017
+lastupdated: "2017-06-21"
 
 ---
 {:new_window: target="_blank"}
@@ -31,7 +31,7 @@ Before you begin, follow these steps to prepare for the tutorial:
 <ol><li><a href="https://console.ng.bluemix.net/registration/">Create a Bluemix account</a>.</li>
 <li>Log in to the <a href="https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db">Cloudant Dashboard</a>.</li>
 <li><a href="https://console.ng.bluemix.net/docs/services/Cloudant/tutorials/create_service.html#creating-a-cloudant-instance-on-bluemix">Create a Cloudant instance on Bluemix</a>.</li>
-<li>(Optional) <a href="https://console.ng.bluemix.net/docs/services/Cloudant/guides/acurl.html#authorized-curl-acurl-">Create an acurl alias</a> to make it easier and faster to run commands from the command line.</li>
+<li>(Optional) <a href="../guides/acurl.html#authorized-curl-acurl-">Create an acurl alias</a> to make it easier and faster to run commands from the command line.</li>
 <li>Replace the <code>$ACCOUNT</code> variable in the commands that are included in the exercises 
 with the user name you use to log in to Cloudant Dashboard. If you decide not to set up <code>acurl</code>, 
 use the following URL instead of the one provided in the exercises. 
@@ -63,7 +63,7 @@ is the database that we use in this tutorial.
 
 ## Creating documents in the database
 
-The [documents](href="https://console.ng.bluemix.net/docs/services/Cloudant/api/document.html#documents") 
+The [documents](../api/document.html#documents") 
 that you create in this exercise contain the data that you use to query the `query-demo` database in later exercises. 
 
 <img src="../images/CommandLineIcon.png" alt="Command Line icon"> Command line</img> 
@@ -127,7 +127,7 @@ is included in a file, is identified by the supplied name.</p></li>
 <ol>
 <li>Click <b>+</b> and select <b>New Doc</b>.
 <p>The New Document window opens. </p></li>
-<li><a name="step3"></a> To create a document, copy the following sample text and replace the existing text in the new document.
+<li><a name="step2"></a> To create a document, copy the following sample text and replace the existing text in the new document.
 <p><i>First sample document</i>:</p>
 <p><pre>{ 
         "firstname": "Sally",
@@ -137,7 +137,7 @@ is included in a file, is identified by the supplied name.</p></li>
         "_id": "doc1"
      }</pre></p>
 </li>
-<li>Repeat <a href="#step3">step 3</a> to add the remaining documents to the database.
+<li>Repeat <a href="#step2">step 2</a> to add the remaining documents to the database.
 <p><i>Second sample document</i>:</p>
 <p><pre>{ 
         "firstname": "John",
@@ -189,10 +189,10 @@ You can use the primary index that comes with Cloudant, or secondary indexes lik
 in the following list: 
 
 *	Primary index – look up a document or list of documents by ID.  
-*	[View](https://console.ng.bluemix.net/docs/services/Cloudant/api/creating_views.html#views-mapreduce-) – search for information in the database that matches the search criteria that you specify, such as counts, sums, averages, and other mathematical functions. The criteria you can search is specified in the view's definition. Views use the MapReduce paradigm. 
+*	[View](../api/creating_views.html#views-mapreduce-) – search for information in the database that matches the search criteria that you specify, such as counts, sums, averages, and other mathematical functions. The criteria you can search is specified in the view's definition. Views use the MapReduce paradigm. 
 *	[Search index](../api/search.html#search) – search one or more fields, large amounts of text, or use wildcards, fuzzy search, or facets with [Lucene Query Parser Syntax](http://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#Overview). 
-*	[Cloudant Geospatial](https://console.ng.bluemix.net/docs/services/Cloudant/api/cloudant-geo.html#cloudant-geospatial) – search for documents based on a spatial relationship. 
-*	[Cloudant Query](https://console.ng.bluemix.net/docs/services/Cloudant/api/cloudant_query.html#query) – use Mongo-style query syntax to search for documents by using logical operators. Cloudant Query is a combination of a view and a search index. We use Cloudant Query in this tutorial. 
+*	[Cloudant Geospatial](../api/cloudant-geo.html#cloudant-geospatial) – search for documents based on a spatial relationship. 
+*	[Cloudant Query](../api/cloudant_query.html#query) – use Mongo-style query syntax to search for documents by using logical operators. Cloudant Query is a combination of a view and a search index. We use Cloudant Query in this tutorial. 
 
 Since the queries you create in this tutorial search for both `lastname` and `firstname`, you must
 create two indexes. The field you search for must be the first field listed in the index. If an 
@@ -487,7 +487,7 @@ for documents that contain the last name `Greene` and an age that is greater tha
 <p>The query results appear in the right pane.</p>
 <p><img src="../images/dashboard_query3_results.png" alt="Query 3 results"></img></p></li></ol>
 
-For more information about Cloudant, see the [Cloudant Documentation](https://console.ng.bluemix.net/docs/services/Cloudant/cloudant.html#overview).
+For more information about Cloudant, see the [Cloudant Documentation](https://console.bluemix.net/docs/services/Cloudant/cloudant.html#overview).
 
 
 
