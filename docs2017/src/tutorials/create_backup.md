@@ -2,7 +2,7 @@
 
 copyright:
   years: 2017
-lastupdated: "2017-01-06"
+lastupdated: "2017-06-21"
 
 ---
 
@@ -15,9 +15,10 @@ lastupdated: "2017-01-06"
 # Creating a backup
 
 This tutorial demonstrates how to use the 
-(CouchBackup)[https://www.npmjs.com/package/couchbackup] command-line 
-utility to back up and restore a CouchDB database. CouchBackup backs up 
-the database to a file that you can use later to restore the database. 
+[CouchBackup](https://www.npmjs.com/package/couchbackup) command-line 
+utility to back up and restore a CouchDB or Cloudant instance. CouchBackup backs up 
+the database to a file. If the database fails, you can use the backup file to 
+restore the information to an existing database. 
 {:shortdesc}
 
 ## Before you begin
@@ -29,12 +30,12 @@ Install CouchBackup by running the `install` command.
 
 ## Creating a database
 
-Create the sample `couchbackup-demo` database that 
-is the database that we use in this tutorial.
+Create the sample `couchbackup-demo` database. This database is the one
+we use in this tutorial.
  
 <ol><li>Create a database by running this command.
 <p><code>curl https://username:password@myhost.cloudant.com/couchbackup-demo -X PUT</code></p></li>
-<li>See the results. 
+<li>Review the results. 
 <p><code>{"ok":true}</code></p></li></ol>
 
 ## Creating documents in the database
@@ -86,7 +87,7 @@ back up and restore in later exercises.
 <li>Run this command to create the documents. 
 <p><code>curl https://username:password@myhost.cloudant.com/couchbackup-demo/_bulk_docs -X POST -H "Content-Type: application/json" -d \@bulkcreate.dat</code></p>
 </li>
-<li>See the results. 
+<li>Review the results. 
 <p><pre>[{"ok":true,
 "id":"doc1","rev":"1-57a08e644ca8c1bb8d8931240427162e"},
 {"ok":true,"id":"doc2","rev":"1-bf51eef712165a9999a52a97e2209ac0"},
@@ -101,9 +102,12 @@ You can use environment variables or command-line options to specify the
 URL and database for the CouchDB or Cloudant instance that you want to work 
 with CouchBackup. 
 
-1.  Set the `COUCH_URL` environment variable to specify the URL for the CouchDB or Cloudant instance. 
+1.  Set the `COUCH_URL` environment variable to specify the URL for the CouchDB or Cloudant instance.
+  
     `export COUCH_URL=https://username:password@myhost.cloudant.com`
-2.  Set the `COUCH_DATABASE` environment variable to specify the name of the database to back up or restore. 
+    
+2.  Set the `COUCH_DATABASE` environment variable to specify the name of the database to back up and restore. 
+ 
     `export COUCH_DATABASE=couchbackup-demo`
 
 
@@ -116,7 +120,7 @@ your data and make it easier to restore.
  
     `couchbackup > couchbackup-demo-backup.txt`
 
-2.  See the results. 
+2.  Review the results. 
 
     <pre>================================================================================
     Performing backup on https://****:****@myhost.cloudant.com/couchbackup-demo using configuration:
@@ -133,17 +137,17 @@ your data and make it easier to restore.
         couchbackup:backup finished { total: 5 } +4ms
     </pre>
     
-3.  Check the directory to see that the `couchbackup-demo-backup.txt` file was created. 
-4.  Open the file and see the list of the five documents from the database.  
+3.  Check the directory to verify that the `couchbackup-demo-backup.txt` file was created. 
+4.  Open the file and review the list of documents from the database.  
 
 ## Creating a log file
 
 A log file records the progress of your backup. With CouchBackup, you use the `--log` parameter 
-to create a log file. You can also use it to start a backup from where it stopped 
+to create the log file. You can also use it to restart a backup from where it stopped 
 and specify the output file name. 
 
-The `couchbackup` command uses the following parameters to specify the database, 
-log file, and resume. See the following examples that we use in this tutorial. 
+The `couchbackup` command uses these parameters to specify the database, 
+log file, and resume option. 
 
 *   `--db` = `couchbackup-demo`
 *   `--log` = `couchbackup-demo.log`
@@ -154,7 +158,10 @@ log file, and resume. See the following examples that we use in this tutorial.
  
     `couchbackup --db couchbackup-demo --log couchbackup-demo-backup.log`
     
-2.  See the results or open the log file.
+2.  Review the results.
+
+    You can also open the log file, `couchbackup-demo-backup.log`, and review the actions taken
+    during a backup or restore.
     
     <pre>================================================================================
     Performing backup on https://****:****@myhost.cloudant.com/couchbackup-demo using configuration:
@@ -196,8 +203,11 @@ log file, and resume. See the following examples that we use in this tutorial.
 From the `couchbackup-demo-backup.txt` file, you can restore your data to an 
 existing database using the `couchrestore` command. 
 
-1.  Run the `cat couchbackup-demo-backup.txt | couchrestore` command.
-2.  See the results. 
+1.  Run the `couchrestore` command.
+
+    `cat couchbackup-demo-backup.txt | couchrestore --db couchbackup-demo`
+    
+2.  Review the results. 
 
     <pre>================================================================================
     Performing restore on https://****:****@myhost.cloudant.com/couchbackup-demo using configuration:
@@ -210,5 +220,5 @@ existing database using the `couchrestore` command.
       couchbackup:restore finished { total: 5 } +1ms
       </pre>
 
-You can see more information about [disaster recovery and backup](../guides/disaster-recovery-and-backup.html#disaster-recovery-and-backup), [configuring Cloudant for cross region disaster recovery](../guides/active-active.html#configuring-cloudant-for-cross-region-disaster-recovery), and [Cloudant backup and recovery](../guides/backup-cookbook.html#cloudant-backup-and-recovery) in the Cloudant Documentation.  
+You can find more information about [disaster recovery and backup](../guides/disaster-recovery-and-backup.html#disaster-recovery-and-backup), [configuring Cloudant for cross region disaster recovery](../guides/active-active.html#configuring-cloudant-for-cross-region-disaster-recovery), and [Cloudant backup and recovery](../guides/backup-cookbook.html#cloudant-backup-and-recovery) in the Cloudant Documentation.  
 
