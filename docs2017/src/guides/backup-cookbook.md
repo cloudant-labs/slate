@@ -299,5 +299,5 @@ to find out about the other features {{site.data.keyword.cloudant_short_notm}}
 offers for a full disaster recovery setup.
 
 [npmpackage]: https://www.npmjs.com/package/@cloudant/couchbackup
-[npmreadme]:  https://github.com/cloudant/couchbackup/README.md
+[npmreadme]:  https://www.npmjs.com/package/@cloudant/couchbackup
 [cosclient]: https://developer.ibm.com/recipes/tutorials/cloud-object-storage-s3-api-intro/
