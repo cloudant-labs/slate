@@ -31,7 +31,7 @@ Install CouchBackup by running the `install` command.
 ## Creating a database
 
 Create the sample `couchbackup-demo` database. This database is the one
-we use in this tutorial.
+that we use in this tutorial.
  
 <ol><li>Create a database by running this command.
 <p><code>curl https://username:password@myhost.cloudant.com/couchbackup-demo -X PUT</code></p></li>
@@ -138,7 +138,30 @@ your data and make it easier to restore.
     </pre>
     
 3.  Check the directory to verify that the `couchbackup-demo-backup.txt` file was created. 
-4.  Open the file and review the list of documents from the database.  
+4.  Open the file and review the list of documents backed up from the database.  
+    
+    <pre>[   {"_id":"doc2","_rev":"1-2c5ee70689bb75af6f65b0335d1c92f4",
+            "firstname":"John","lastname":"Brown","age":21,
+            "location":"New York City, NY",
+            "_revisions":{"start":1,"ids":["2c5ee70689bb75af6f65b0335d1c92f4"]}},
+        {"_id":"doc3","_rev":"1-f6055e3e09f215c522d45189208a1bdf",
+            "firstname":"Greg","lastname":"Greene","age":35,
+            "location":"San Diego, CA",
+            "_revisions":{"start":1,"ids":["f6055e3e09f215c522d45189208a1bdf"]}},
+        {"_id":"doc1","_rev":"1-cce7796c7113c5498b07d8e11d7e0c12",
+            "firstname":"Sally","lastname":"Brown","age":16,
+            "location":"New York City, NY",
+            "_revisions":{"start":1,"ids":["cce7796c7113c5498b07d8e11d7e0c12"]}},
+        {"_id":"doc4","_rev":"1-0923b723c62fe5c15531e0c33e015148",
+            "firstname":"Anna","lastname":"Greene","age":44,
+            "location":"Baton Rouge, LA",
+            "_revisions":{"start":1,"ids":["0923b723c62fe5c15531e0c33e015148"]}},
+        {"_id":"doc5","_rev":"1-19f7ecbc68090bc7b3aa4e289e363576",
+            "firstname":"Lois","lastname":"Brown","age":33,
+            "location":"Syracuse, NY",
+            "_revisions":{"start":1,"ids":["19f7ecbc68090bc7b3aa4e289e363576"]}
+     }   ]
+       </pre>
 
 ## Creating a log file
 
@@ -159,9 +182,6 @@ log file, and resume option.
     `couchbackup --db couchbackup-demo --log couchbackup-demo-backup.log`
     
 2.  Review the results.
-
-    You can also open the log file, `couchbackup-demo-backup.log`, and review the actions taken
-    during a backup or restore.
     
     <pre>================================================================================
     Performing backup on https://****:****@myhost.cloudant.com/couchbackup-demo using configuration:
@@ -197,6 +217,30 @@ log file, and resume option.
                 couchbackup:backup written 0  docs:  5 Time 0.621 +0ms
                 couchbackup:backup finished { total: 5 } +4ms
     </pre>
+
+3.  Open the log file, `couchbackup-demo-backup.log`, and review the actions taken
+    during the backup or restore.  
+    
+    <pre>:t batch0 [
+        {"id":"doc1"},
+        {"id":"doc5"},
+        {"id":"doc3"},
+        {"id":"doc4"},
+        {"id":"doc2"}  ]
+    :changes_complete 5-g1AAAAXkeJyl1MFNwzAUBmBDk
+        RAnugEc4Nji2ImTnOgGsAH4-dkqVZoi1J5hA9gANoA
+        NYAPYADaADUqMEYlBIWl7caTI-l7e_-xkhJDusINkD
+        0FNLvQAIenDuKdUD2XWo7yvsskMZT7t53qaFbvXJYH
+        t-Xw-GnYkGRcvNsM0lRwAydYsR23Oco2-GDWI0C1W2
+        PFQFCYwKf2N7v-gAWtSd6168K2ufaksoQwD3dbx2wi
+        aClJb8NBvQyVIk6Q-m6a0YWDRIw8NKA85M_Vo2IQe
+        W_TEi0YIGiETLZlFZ3FqC068LqgBpHFQ30Vj3ucWv
+        fRQYTAGwZbPO98oVnJVPAr3uoSTIGYcw3qYt4JvHHx
+        b-WIpIqpwhYPu5Dsn35eyxNRI-c-9bArYwQ8OfqwcFY
+        ghEdCSWib_J1fz2dZcdxcpAh2lpiW1zGheXM3XMsBY
+        CcHonxO68GjenPxeyopyrXW86mg-HFz9NZiQh1FUhUefOhzMIg
+    :d batch0
+    </pre>
     
 ##  Restoring from a backup text file
 
@@ -218,7 +262,8 @@ existing database using the `couchrestore` command.
     ================================================================================
       couchbackup:restore restored 5 +0ms
       couchbackup:restore finished { total: 5 } +1ms
-      </pre>
+    </pre>
 
-You can find more information about [disaster recovery and backup](../guides/disaster-recovery-and-backup.html#disaster-recovery-and-backup), [configuring Cloudant for cross region disaster recovery](../guides/active-active.html#configuring-cloudant-for-cross-region-disaster-recovery), and [Cloudant backup and recovery](../guides/backup-cookbook.html#cloudant-backup-and-recovery) in the Cloudant Documentation.  
+    Now, you have backed up and restored a database and created a log file. See the Cloudant Documentation 
+    for more information about [disaster recovery and backup](../guides/disaster-recovery-and-backup.html#disaster-recovery-and-backup), [configuring Cloudant for cross region disaster recovery](../guides/active-active.html#configuring-cloudant-for-cross-region-disaster-recovery), and [Cloudant backup and recovery](../guides/backup-cookbook.html#cloudant-backup-and-recovery).  
 
