@@ -214,7 +214,7 @@ Example scenarios include:
 *	Migrating older data to cheaper storage, for more cost-effective retention.
 
 The backup tools consist of an open source node.js command line application and library.
-It is available [on NPM ![External link icon](../images/launch-glyph.svg "External link icon")](https://www.npmjs.com/package/couchbackup){:new_window}.
+It is available [on npm ![External link icon](../images/launch-glyph.svg "External link icon")](https://www.npmjs.com/package/@cloudant/couchbackup){:new_window}.
 
 For ideas and examples that show how to integrate the tools into your data protection strategy,
 see the [Backup Cookbook guide](backup-cookbook.html).
