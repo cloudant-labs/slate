@@ -53,7 +53,7 @@ couchbackup --url https://examples.cloudant.com --db animaldb > backup.txt
 ```
 {:codeblock}
 
-The [npm readme ![External link icon](../images/launch-glyph.svg "External link icon")][npmreadme]{:new_window} details other options,
+The [npm page ![External link icon](../images/launch-glyph.svg "External link icon")][npmpackage]{:new_window} details other options,
 including:
 
 * Environment variables to set the names of the database and URL.
@@ -82,7 +82,7 @@ couchrestore --url https://myaccount.cloudant.com --db newanimaldb < backup.txt
 ```
 {:codeblock}
 
-The [npm readme ![External link icon](../images/launch-glyph.svg "External link icon")][npmreadme]{:new_window} provides details of other restore options.
+The [npm page ![External link icon](../images/launch-glyph.svg "External link icon")][npmpackage]{:new_window} provides details of other restore options.
 
 <strong style="color:red;">Warning!</strong> The CouchBackup tools have [limitations](#limitations).
 
@@ -299,5 +299,4 @@ to find out about the other features {{site.data.keyword.cloudant_short_notm}}
 offers for a full disaster recovery setup.
 
 [npmpackage]: https://www.npmjs.com/package/@cloudant/couchbackup
-[npmreadme]:  https://www.npmjs.com/package/@cloudant/couchbackup
 [cosclient]: https://developer.ibm.com/recipes/tutorials/cloud-object-storage-s3-api-intro/
