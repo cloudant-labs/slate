@@ -70,6 +70,12 @@ Cloudant NoSQL DB
 		tutorials/create_bmxapp_maintain.md
 
 	{: .topicgroup}
+	Recovery and backup
+		guides/disaster-recovery-and-backup.md
+    guides/active-active.md
+    guides/backup-cookbook.md
+
+	{: .topicgroup}
 	Guides
 		guides/acurl.md
 		guides/backup-guide.md

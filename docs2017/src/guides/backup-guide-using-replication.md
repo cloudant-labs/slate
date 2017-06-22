@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-04-25"
+lastupdated: "2017-05-04"
 
 ---
 
@@ -17,6 +17,10 @@ lastupdated: "2017-04-25"
 <div id="back-up-your-data-using-replication"></div>
 
 # Back up your data by using replication
+
+>	**Note**: This guide contains older or 'deprecated' guidance on Cloudant backup.
+	For current backup guidance,
+    see the [Disaster Recovery and Backup](disaster-recovery-and-backup.html) guide.
 
 Database backups protect your data against potential loss or corruption.
 {:shortdesc}
@@ -40,7 +44,7 @@ a backup can preserve the state of your database at a selected time.
 ## Incremental backups
 
 If you are an Enterprise customer,
-a daily incremental backup capability is [available](backup-guide.html).
+a daily incremental backup capability is [available](disaster-recovery-and-backup.html).
 
 If you are not an Enterprise customer,
 or you prefer to create your own backups,
