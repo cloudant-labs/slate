@@ -252,7 +252,7 @@ To create the second index:
 
 To create the first index:
 
-<ol><li>Click <b>+</b> > <b>Query Indexes</b>.</li>
+<ol><li>Click <b>+</b> > <b>Query Indexes</b> on either the All Documents or Design Documents tab.</li>
 <li>Paste the sample JSON into the Index field.
 <p><pre>
 {
@@ -291,6 +291,11 @@ To create the second index:
 <p>The index was created. You can see the it in the right pane. </p>
 <p><img src="../images/query-index2.png" alt="Query index 2"></img></p>
 </li></ol>
+
+Notice that the first entry in the first index is `lastname`, and the first entry 
+in the second index is `firstname`. When you create a query, the field you search 
+for must be listed first in the index. In the following three queries we run, one 
+query searches for first name and two queries search for last name.
 
 ## Creating a query
 
