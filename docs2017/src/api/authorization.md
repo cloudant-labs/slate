@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-05-24"
+lastupdated: "2017-06-16"
 
 ---
 
@@ -477,11 +477,14 @@ The updated list _must omit_ the API key.
 
 <div id="enabling-the-_users-database-with-cloudant"></div>
 
-## Using the _users database with Cloudant
+## Using the `_users` database with Cloudant
 
 You can use the
-[_users database ![External link icon](../images/launch-glyph.svg "External link icon")](http://docs.couchdb.org/en/1.6.1/intro/security.html#authentication-database){:new_window}
+[`_users` database ![External link icon](../images/launch-glyph.svg "External link icon")](http://docs.couchdb.org/en/2.0.0/intro/security.html#authentication-database){:new_window}
 to manage roles in {{site.data.keyword.cloudant_short_notm}}.
+
+User documents stored in the `_users` database should be structured and populated to comply with
+[Apache Software Foundation CouchDB requirements ![External link icon](../images/launch-glyph.svg "External link icon")](http://docs.couchdb.org/en/2.0.0/intro/security.html#users-documents){:new_window}.
 
 In addition, you can disable the Cloudant authorization checks by setting the `couchdb_auth_only:true` parameter. 
 To disable {{site.data.keyword.cloudant_short_notm}} security,

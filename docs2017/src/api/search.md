@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-05-25"
+lastupdated: "2017-06-16"
 
 ---
 
@@ -46,7 +46,8 @@ _Example design document that defines a search index:_
 To avoid this problem,
 use an appropriate [guard clause](#index-guard-clauses).
 
-The function that is contained in the index field is a JavaScript function that is called for each document in the database.
+The function that is contained in the index field is a JavaScript function
+that is called for each document in the database.
 The function takes the document as a parameter,
 extracts some data from it,
 and then calls the function that is defined in the `index` field to index that data.
@@ -518,7 +519,7 @@ Fields containing other data such as numbers, objects, or arrays cannot be used.
 <tr>
 <td><code>group_limit</code></td>
 <td>Maximum group count.
-This field can be used only if <code>group_field<code> is specified.</td>
+This field can be used only if <code>group_field</code> is specified.</td>
 <td>yes</td>
 <td>Numeric</td>
 <td></td>
