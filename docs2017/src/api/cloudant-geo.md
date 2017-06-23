@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-01-06"
+lastupdated: "2017-06-16"
 
 ---
 
@@ -257,6 +257,10 @@ _Example response in JSON format:_
 }
 ```
 {:codeblock}
+
+>	**Note:** If the design document that is intended to specify a geospatial index is invalid,
+	an attempt to retrieve information about the index by using the `_geo_info` endpoint
+	results in an [HTTP `404`](http.html#404) response.
 
 ## Querying a Cloudant Geo index
 

@@ -2,7 +2,7 @@
 
 copyright:
   years: 2017
-lastupdated: "2017-05-24"
+lastupdated: "2017-06-16"
 
 ---
 
@@ -17,7 +17,29 @@ lastupdated: "2017-05-24"
 # What's new in Cloudant
 
 Keep up to date with changes and updates for Cloudant.
-{:shortdesc} 
+{:shortdesc}
+
+## Build 6069
+
+- Previously, a replication job which crashed for some reason resulted in an update to the replication document,
+  followed by a fresh attempt to start a new replication.
+  Under some circumstances,
+  this behavior could continue indefinitely: many duplicates of the same error message.
+  A fix was introduced so that the replication document is not updated unless the reason for the error has changed.
+- If the design document that is intended to specify a geospatial index is invalid,
+  an attempt to retrieve information about the index by using
+  the [`_geo_info` endpoint](../api/cloudant-geo.html#obtaining-information-about-a-cloudant-geo-index)
+  results in an [HTTP `404`](http.html#404) response.
+
+## Build 5834
+
+- The maximum length of a document `id` is now 7168 characters (7k).
+
+## Build 5728
+
+- Cloudant is more tolerant of malformed user documents stored within the `_users` database.
+  User documents should be structured and populated to comply with
+  [Apache Software Foundation CouchDB requirements ![External link icon](../images/launch-glyph.svg "External link icon")](http://docs.couchdb.org/en/2.0.0/intro/security.html#users-documents){:new_window}.
 
 ## Build 5638
 
@@ -72,4 +94,10 @@ Replication
 Result set
 
 -   The `_db_updates` endpoint returns a result set containing a key that is named  `db_name`. Previously, it returned a result set with a key named `dbname`.
--   Set the maximum length of the document ID. Previously, it was not possibly to define a maximum document ID length. 
+-   Set the maximum length of the document ID. Previously, it was not possibly to define a maximum document ID length.
+
+`dbcopy`
+
+- The `dbcopy` feature can cause problems under some circumstances.
+  Information about the feature has been removed from the documentation.
+  Use of `dbcopy` is strongly discouraged.

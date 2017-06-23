@@ -2,7 +2,7 @@
 
 copyright:
   years: 2015, 2017
-lastupdated: "2017-03-16"
+lastupdated: "2017-06-16"
 
 ---
 
@@ -34,6 +34,9 @@ a unique `_id` field, and a `_rev` field.
 The `_id` field is either created by you,
 or generated automatically as a
 [UUID ![External link icon](../images/launch-glyph.svg "External link icon")](http://en.wikipedia.org/wiki/Universally_unique_identifier){:new_window} by Cloudant.
+
+>	**Note:** If you choose to specify the document `_id` field,
+	it must be limited to no more than 7168 characters (7k).
 
 The `_rev` field is a revision number,
 and is [essential to the Cloudant replication protocol](../guides/mvcc.html).
