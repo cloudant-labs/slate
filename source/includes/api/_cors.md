@@ -4,7 +4,7 @@
 <tr>
 <td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
 You can find the new content
-<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/getting-started.html">here</a>,
 and the CORS topic in particular
 <a href="https://console.ng.bluemix.net/docs/services/Cloudant/api/cors.html">here</a>.
 <br/><br/>
@@ -97,12 +97,12 @@ To reduce the risk:
 
 ```http
 PUT /_api/v2/user/config/cors HTTP/1.1
-Host: $USERNAME.cloudant.com
+Host: <account>.cloudant.com
 Content-Type: application/json
 ```
 
 ```shell
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/_api/v2/user/config/cors -H 'Content-Type: application/json' -X PUT -T cors.json
+curl https://$ACCOUNT.cloudant.com/_api/v2/user/config/cors -H 'Content-Type: application/json' -X PUT -T cors.json
 # where cors.json is a file with the following JSON document:
 ```
 
@@ -135,11 +135,11 @@ The response tells you whether the configuration has been updated successfully.
 
 ```http
 GET /_api/v2/user/config/cors HTTP/1.1
-Host: username.cloudant.com
+Host: <account>.cloudant.com
 ```
 
 ```shell
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/_api/v2/user/config/cors
+curl https://$ACCOUNT.cloudant.com/_api/v2/user/config/cors
 ```
 
 `GET`ting `/_api/v2/user/config/cors` ...

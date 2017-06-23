@@ -4,7 +4,7 @@
 <tr>
 <td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
 You can find the new content
-<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/getting-started.html">here</a>,
 and the Query topic in particular
 <a href="https://console.ng.bluemix.net/docs/services/Cloudant/api/cloudant_query.html">here</a>.
 <br/><br/>
@@ -41,6 +41,9 @@ You can create an index with one of two types:
 
 #### Creating a "type=json" index
 
+<<<<<<< HEAD
+To create a JSON index in the database $DATABASE, make a `POST` request to `/$DATABASE/_index` with a JSON object describing the index in the request body. The `type` field of the JSON object has to be set to `"json"`.
+=======
 > Example of creating a new index for the field called `foo`:
 
 ```shell
@@ -67,6 +70,7 @@ Content-Type: application/json
 ```
 
 To create a JSON index in the database $DB, make a `POST` request to `/$DB/_index` with a JSON object describing the index in the request body. The `type` field of the JSON object has to be set to `"json"`.
+>>>>>>> master
 
 ##### Request Body format
 
@@ -354,7 +358,7 @@ When you make a `GET` request to `/db/_index`, you get a list of all indexes use
 ### Deleting an index
 
 -   **Method**: `DELETE`
--   **URL Path**: `/$db/_index/$designdoc/$type/$name` where $db is the name of the database, $designdoc is the ID of the design document, $type is the type of the index (for example "json"),
+-   **URL Path**: `/$database/_index/$designdoc/$type/$name` where $database is the name of the database, $designdoc is the ID of the design document, $type is the type of the index (for example "json"),
 and $name is the name of the index.
 -   **Response Body**: JSON object indicating successful deletion of the index, or describing any error encountered.
 -   **Request Body**: None
@@ -2021,24 +2025,24 @@ The sample database contains approximately 3,000 documents, and is just under 1 
 
 ```http
 POST /_replicator HTTP/1.1
-Host: user.cloudant.com
+Host: <account>.cloudant.com
 Content-Type: application/json
 
 {
   "source": "https://examples.cloudant.com/query-movies",
-  "target": "https://<user:password>@<user>.cloudant.com/my-movies",
+  "target": "https://<account>.cloudant.com/my-movies",
   "create_target": true,
   "use_checkpoints": false
 }
 ```
 
 ```shell
-curl 'https://<user:password>@<user>.cloudant.com/_replicator' \
+curl 'https://<account>.cloudant.com/_replicator' \
   -X POST \
   -H 'Content-Type: application/json' \
   -d '{
     "source": "https://examples.cloudant.com/query-movies",
-    "target": "https://<user:password>@<user>.cloudant.com/my-movies",
+    "target": "https://<account>.cloudant.com/my-movies",
     "create_target": true,
     "use_checkpoints": false
 }'
@@ -2061,7 +2065,7 @@ Before we can search the content, we must index it. We do this by creating a tex
 
 ```http
 POST /my-movies/_index HTTP/1.1
-Host: user.cloudant.com
+Host: <account>.cloudant.com
 Content-Type: application/json
 
 {
@@ -2071,7 +2075,7 @@ Content-Type: application/json
 ```
 
 ```shell
-curl 'https://<user:password>@<user>.cloudant.com/my-movies/_index' \
+curl 'https://<account>.cloudant.com/my-movies/_index' \
   -X POST \
   -H 'Content-Type: application/json' \
   -d '{"index": {}, "type": "text"}'
@@ -2098,7 +2102,7 @@ Using the `bookmark` enables you to specify which page of results you require.
 
 ```http
 POST /my-movies/_find HTTP/1.1
-Host: user.cloudant.com
+Host: <account>.cloudant.com
 Content-Type: application/json
 
 {
@@ -2110,7 +2114,7 @@ Content-Type: application/json
 
 ```shell
 curl -X POST -H "Content-Type: application/json" \
-        https://<user:password>@<user>.cloudant.com/my-movies/_find \
+        https://<account>.cloudant.com/my-movies/_find \
         -d '{"selector": {"Person_name":"Zoe Saldana"}}'
 ```
 
@@ -2143,7 +2147,7 @@ curl -X POST -H "Content-Type: application/json" \
 
 ```http
 POST /my-movies/_find HTTP/1.1
-Host: user.cloudant.com
+Host: <account>.cloudant.com
 Content-Type: application/json
 
 {
@@ -2156,7 +2160,7 @@ Content-Type: application/json
 
 ```shell
 curl -X POST -H "Content-Type: application/json" \
-        https://<user:password>@<user>.cloudant.com/my-movies/_find \
+        https://<account>.cloudant.com/my-movies/_find \
         -d '{"selector": {"Person_name":"Robert De Niro", "Movie_year": 1978}}'
 ```
 
@@ -2186,7 +2190,7 @@ curl -X POST -H "Content-Type: application/json" \
 
 ```http
 POST /my-movies/_find HTTP/1.1
-Host: user.cloudant.com
+Host: <account>.cloudant.com
 Content-Type: application/json
 
 {
@@ -2201,7 +2205,7 @@ Content-Type: application/json
 
 ```shell
 curl -X POST -H "Content-Type: application/json" \
-        https://<user:password>@<user>.cloudant.com/my-movies/_find \
+        https://<account>.cloudant.com/my-movies/_find \
         -d '{"selector": {"Person_name":"Robert De Niro", "Movie_year": { "$in": [1974, 2009]}}}'
 ```
 

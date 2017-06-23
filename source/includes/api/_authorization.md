@@ -4,7 +4,7 @@
 <tr>
 <td><b>Important:</b> All Cloudant documentation has moved to the IBM Bluemix platform.
 You can find the new content
-<a href="https://console.ng.bluemix.net/docs/services/Cloudant/index.html">here</a>,
+<a href="https://console.ng.bluemix.net/docs/services/Cloudant/getting-started.html">here</a>,
 and the Authorization topic in particular
 <a href="https://console.ng.bluemix.net/docs/services/Cloudant/api/authorization.html">here</a>.
 <br/><br/>
@@ -26,8 +26,8 @@ Role&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs
 `_replicator`      | Gives the user permission to replicate a database, including creating checkpoints.
 `_db_updates`      | Gives the user permission to use the global changes feed.
 `_design`          | Gives the user permission to read design documents.
-`_shards`          | Gives the user access to the `/$DB/_shards` endpoint.
-`_security`        | Gives the user permission to read from the `/_api/v2/db/$DB/_security` endpoint
+`_shards`          | Gives the user access to the `/$DATABASE/_shards` endpoint.
+`_security`        | Gives the user permission to read from the `/_api/v2/db/$DATABASE/_security` endpoint
 
 The credentials you use to log in to the dashboard automatically have `_admin` permissions to all databases you create. Everyone and everything else, from users you share databases with to API keys you create, must be given a permission level explicitly.
 
@@ -40,13 +40,12 @@ GET /_api/v2/db/$DATABASE/_security HTTP/1.1
 ```
 
 ```shell
-curl https://$USERNAME.cloudant.com/_api/v2/db/$DATABASE/_security \
-     -u $USERNAME
+curl https://$ACCOUNT.cloudant.com/_api/v2/db/$DATABASE/_security \
 ```
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+".cloudant.com");
 
 account.request({
   db: $DATABASE,
@@ -58,7 +57,7 @@ account.request({
 });
 ```
 
-To see who has permissions to read, write, and manage the database, make a GET request against `https://$USERNAME.cloudant.com/_api/v2/db/$DATABASE/_security`.
+To see who has permissions to read, write, and manage the database, make a GET request against `https://$ACCOUNT.cloudant.com/_api/v2/db/$DATABASE/_security`.
 
 <div></div>
 
@@ -99,7 +98,7 @@ Content-Type: application/json
 ```
 
 ```shell
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/_api/v2/db/$DATABASE/_security \
+curl https://$ACCOUNT.cloudant.com/_api/v2/db/$DATABASE/_security \
      -X PUT \
      -H "Content-Type: application/json" \
      -d "$JSON"
@@ -107,7 +106,7 @@ curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/_api/v2/db/$DATABASE/_se
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://"+$USERNAME+":"+$PASSWORD+"@"+$USERNAME+".cloudant.com");
+var account = nano("https://"+$ACCOUNT+".cloudant.com");
 
 account.request({
   db: $DATABASE,
@@ -141,7 +140,7 @@ account.request({
 }
 ```
 
-To modify who has permissions to read, write, and manage a database, make a PUT request against `https://$USERNAME.cloudant.com/_api/v2/db/$DB/_security`. To see what roles you can assign, see [Roles](#roles).
+To modify who has permissions to read, write, and manage a database, make a PUT request against `https://<account>.cloudant.com/_api/v2/db/$DATABASE/_security`. To see what roles you can assign, see [Roles](#roles).
 
 The request object's `cloudant` field contains an object whose keys are usernames with permissions to interact with the database. The `nobody` username indicates what rights are available to unauthenticated users -- that is, anybody. In the example request, for instance, `nobody` has `_reader` permissions, making the database publicly readable.
 
@@ -247,16 +246,16 @@ as described in the [IBM Knowledge Center](http://www-01.ibm.com/support/knowled
 > Example request to create an API key:
 
 ```http
-POST https://<username>.cloudant.com/_api/v2/api_keys HTTP/1.1
+POST https://<account>.cloudant.com/_api/v2/api_keys HTTP/1.1
 ```
 
 ```shell
-curl -X POST https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/_api/v2/api_keys
+curl -X POST https://$ACCOUNT.cloudant.com/_api/v2/api_keys
 ```
 
 ```javascript
 var nano = require('nano');
-var account = nano("https://$USERNAME:$PASSWORD@cloudant.com");
+var account = nano("https://$ACCOUNT.cloudant.com");
 
 account.request({
   db: '_api',
@@ -280,9 +279,9 @@ account.request({
 ```
 
 To generate an API key,
-use `https://<username>.cloudant.com/_api/v2/api_keys`.
+use `https://<account>.cloudant.com/_api/v2/api_keys`.
 Next,
-assign the API key to a database by using a `PUT` request to `https://<username>.cloudant.com/_api/v2/db/<database>/_security`.
+assign the API key to a database by using a `PUT` request to `https://<account>.cloudant.com/_api/v2/db/$DATABASE/_security`.
 Once assigned to a database,
 the key can be granted access permissions.
 By default,
@@ -334,7 +333,7 @@ Content-Type: application/json
 ```
 
 ```shell
-curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/_security \
+curl https://$ACCOUNT.cloudant.com/$DATABASE/_security \
 -X PUT \
 -H "Content-Type: application/json" \
 -d '{
@@ -348,7 +347,7 @@ curl https://$USERNAME:$PASSWORD@$USERNAME.cloudant.com/$DATABASE/_security \
  }'
 ```
 
-You can use the [_users database](http://docs.couchdb.org/en/1.6.1/intro/security.html#authentication-database) to manage roles in Cloudant. However, you must turn off Cloudant security for those roles first. To do this, `PUT` a JSON document to the `_security` endpoint of the database. For example, `https://<username>.cloudant.com/<database>/_security`.
+You can use the [_users database](http://docs.couchdb.org/en/1.6.1/intro/security.html#authentication-database) to manage roles in Cloudant. However, you must turn off Cloudant security for those roles first. To do this, `PUT` a JSON document to the `_security` endpoint of the database. For example, `https://$ACCOUNT.cloudant.com/$DATABASE/_security`.
 
 <div></div>
 
