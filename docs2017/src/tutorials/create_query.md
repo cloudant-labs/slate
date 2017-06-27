@@ -193,64 +193,34 @@ in the following list:
 *	[Search index](../api/search.html#search) – search one or more fields, large amounts of text, or use wildcards, fuzzy search, or facets with [Lucene Query Parser Syntax](http://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#Overview). 
 *	[Cloudant Geospatial](../api/cloudant-geo.html#cloudant-geospatial) – search for documents based on a spatial relationship. 
 *	[Cloudant Query](../api/cloudant_query.html#query) – use Mongo-style query syntax to search for documents by using logical operators. Cloudant Query is a combination of a view and a search index. We use Cloudant Query in this tutorial. 
-
-Since the queries you create in this tutorial search for both `lastname` and `firstname`, you must
-create two indexes. The field you search for must be the first field listed in the index. If an 
-index is not specified in the query, Cloudant chooses the best index to use. 
+ 
+If there is no available defined index that matches the specified query, then Cloudant 
+uses the `_all_docs` index.
 
 <img src="../images/CommandLineIcon.png" alt="Command Line icon"> Command line</img> 
 
-To create the first index: 
-
-<ol><li>Copy the sample JSON into a data file named <code>query-index1.dat</code>.
+<ol><li>Copy the sample JSON into a data file named <code>query-index.dat</code>.
 <p>
 <pre>{
   "index": {
     "fields": [
-         "lastname",
-         "firstname",  
-         "location", 
-         "age"
-    ]
-  },
-  "name": "query-index1",
-  "type": "json"
-}</pre></p></li>
-<li>Run this command to create an index.
-<p><code>acurl https://$ACCOUNT.cloudant.com/query-demo/_index -X POST -H "Content-Type: application/json" -d \@query-index1.dat</code></p></li>
-<li>See the results. 
-<p><pre>{"result":"created",
-"id":"_design/752c7031f3eaee0f907d18e1424ad387459bfc1d",
-"name":"query-index1"}</pre></p>
-</li></ol>
-
-To create the second index: 
-
-<ol><li>Copy the sample JSON into a data file named <code>query-index2.dat</code>.
-<p>
-<pre>{
-  "index": {
-    "fields": [
-         "firstname",
          "lastname",  
          "location", 
          "age"
     ]
   },
-  "name": "query-index2",
+  "name": "query-index",
   "type": "json"
 }</pre></p></li>
 <li>Run this command to create an index.
-<p><code>acurl https://$ACCOUNT.cloudant.com/query-demo/_index -X POST -H "Content-Type: application/json" -d \@query-index2.dat</code></p></li>
+<p><code>acurl https://$ACCOUNT.cloudant.com/query-demo/_index -X POST -H "Content-Type: application/json" -d \@query-index.dat</code></p></li>
 <li>See the results. 
 <p><pre>{"result":"created",
 "id":"_design/752c7031f3eaee0f907d18e1424ad387459bfc1d",
-"name":"query-index2"}</pre></p>
+"name":"query-index"}</pre></p>
 </li></ol>
 
 <img src="../images/DashboardIcon.png" alt="Dashboard icon"> Cloudant Dashboard</img> 
-
-To create the first index:
 
 <ol><li>Click <b>+</b> > <b>Query Indexes</b> on either the All Documents or Design Documents tab.</li>
 <li>Paste the sample JSON into the Index field.
@@ -258,44 +228,19 @@ To create the first index:
 {
   "index": {
     "fields": [
-         "lastname",
-         "firstname",  
+         "lastname",  
          "location", 
          "age"
     ]
   },
-  "name": "query-index1",
+  "name": "query-index",
   "type": "json"
 }</pre></p>
 <p>The index was created. You can see the it in the right pane. </p>
 <p><img src="../images/query-index1.png" alt="Query index 1"></img></p>
 </li></ol>
 
-To create the second index:
 
-<ol><li>Click <b>+</b> > <b>Query Indexes</b>.</li>
-<li>Paste the sample JSON into the Index field.
-<p><pre>
-{
-  "index": {
-    "fields": [
-         "firstname",
-         "lastname",  
-         "location", 
-         "age"
-    ]
-  },
-  "name": "query-index2",
-  "type": "json"
-}</pre></p>
-<p>The index was created. You can see the it in the right pane. </p>
-<p><img src="../images/query-index2.png" alt="Query index 2"></img></p>
-</li></ol>
-
-Notice that the first entry in the first index is `lastname`, and the first entry 
-in the second index is `firstname`. When you create a query, the field you search 
-for must be listed first in the index. In the following three queries we run, one 
-query searches for first name and two queries search for last name.
 
 ## Creating a query
 
@@ -312,7 +257,8 @@ For anything but the most simple query, add the JSON to a data file and run it f
 
 ### Running a simple query
 
-This query searches for any documents whose `firstname` field contains the value `Sally`. 
+This example demonstrates how Cloudant Query uses the `query-index` to find the 
+`lastname` and filters the results in memory to find the `firstaname`.  
 
 <img src="../images/CommandLineIcon.png" alt="Command Line icon"> Command line</img> 
 
@@ -320,7 +266,8 @@ This query searches for any documents whose `firstname` field contains the value
     ```json
     {
       "selector": {
-            "firstname" : "Sally"            
+            "lastname" : "Greene",
+            "firstname" : "Anna"            
          }        
     }        
     ```    
@@ -336,10 +283,10 @@ This query searches for any documents whose `firstname` field contains the value
        [
             {"_id":"doc1",
             "_rev":"3-751ab049e8b5dd1ba045cea010a33a72",
-            "firstname":"Sally",
-            "lastname":"Brown",
-            "age":16,
-            "location":"New York City, NY"}
+            "firstname":"Anna",
+            "lastname":"Greene",
+            "age":44,
+            "location":"Baton Rouge, LA"}
         ]
     }
     ```
@@ -349,10 +296,11 @@ This query searches for any documents whose `firstname` field contains the value
 <ol><li>Click the <b>Query</b> tab.</li>
 <li>Copy and paste the sample JSON into the Cloudant Query window. 
 <p><pre>{
-  "selector": {
-     "firstname" : "Sally"            
-   }        
-}   </pre></p></li>
+      "selector": {
+            "lastname" : "Greene",
+            "firstname" : "Anna"            
+         }        
+} </pre></p></li>
 <li>Click <b>Run Query</b>.
 <p>The query results appear in the right pane.</p>
 <p><img src="../images/dashboard_query1_results.png" alt="Query 1 results"></img></p>
