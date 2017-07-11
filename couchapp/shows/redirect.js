@@ -1,3 +1,3 @@
 function(doc, req) {
-    return { code : 301, headers: { "Location": 'https://docs.cloudant.com/' + req.query.target } };
+    return { code : 301, headers: { "Location": 'https://console.bluemix.net/docs/services/Cloudant/' + req.query.target } };
 }
