@@ -40,9 +40,3 @@ Remember to exclude the control file from backups,
 as it contains the password in clear text.
 
 3.	**[Caution: This option is not secure]** For an `https` cURL request, you can supply the username and password as part of the URL:<br/>`... https://<account>.cloudant.com ...`<br/>However, a plain text copy of your password appears in the terminal log.
-
-An alternative approach is to use a hashed version of your username and password combination and supply that data in your cURL command.
-The Cloudant Blog article [Authorized curl, a.k.a acurl](https://cloudant.com/blog/authorized-curl-a-k-a-acurl) explains how to create a more complex`acurl` command that makes use of this technique,
-enabling you to enter commands such as:<br/>
-	`acurl https://<account>.cloudant.com`
-
