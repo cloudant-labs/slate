@@ -48,9 +48,3 @@ There are three ways you can supply the username and password data for a request
 	`... https://$ACCOUNT:$PASSWORD@$ACCOUNT.cloudant.com ...`<br/>
 	However, a plain text copy of your password appears in the terminal log.
 
-An alternative approach is to use a hashed version of your username and password combination,
-and supply that data in your cURL command.
-The guide on [Authorized curl](../guides/acurl.html)
-explains how to create a more complex`acurl` command that makes use of this technique,
-enabling you to enter commands such as:<br/>
-`acurl https://$ACCOUNT.cloudant.com`

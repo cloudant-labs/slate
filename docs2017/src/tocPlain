@@ -40,7 +40,6 @@ index.md
         api/monitoring.md
         api/backup.md
     guides/index.md
-        guides/acurl.md
         guides/backup-guide.md
         guides/backup-guide-using-replication.md
         guides/cap_theorem.md
